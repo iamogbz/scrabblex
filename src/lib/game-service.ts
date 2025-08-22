@@ -43,6 +43,13 @@ const shuffle = <T,>(array: T[]): T[] => {
     return newArray;
   };
 
+  const countTiles = (tiles: Tile[]) => {
+    return tiles.reduce((acc, tile) => {
+      acc[tile.letter] = (acc[tile.letter] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+  };
+
 export async function getGame(
   gameId: string
 ): Promise<{ gameState: GameState; sha: string } | null> {
@@ -65,7 +72,40 @@ export async function getGame(
     let sha: string = data.sha;
     let stateWasModified = false;
 
-    // Check all players and replenish their racks if needed.
+    // --- Tile Bag Verification ---
+    const initialTileCounts = countTiles(TILE_BAG);
+    
+    const tilesInRacks = gameState.players.flatMap(p => p.rack);
+    const tilesOnBoard = gameState.history.flatMap(h => h.tiles);
+
+    const tilesInPlay = [...tilesInRacks, ...tilesOnBoard];
+    const tilesInPlayCounts = countTiles(tilesInPlay);
+    
+    const expectedTileBag: Tile[] = [];
+    for (const letter in initialTileCounts) {
+      const initialCount = initialTileCounts[letter];
+      const inPlayCount = tilesInPlayCounts[letter] || 0;
+      const expectedCountInBag = initialCount - inPlayCount;
+      const tileInfo = TILE_BAG.find(t => t.letter === letter)!;
+      for (let i = 0; i < expectedCountInBag; i++) {
+        expectedTileBag.push(tileInfo);
+      }
+    }
+    
+    const currentBagCounts = countTiles(gameState.tileBag);
+    const expectedBagCounts = countTiles(expectedTileBag);
+
+    const isBagCorrect = 
+      Object.keys(expectedBagCounts).length === Object.keys(currentBagCounts).length &&
+      Object.keys(expectedBagCounts).every(letter => expectedBagCounts[letter] === currentBagCounts[letter]);
+
+    if (!isBagCorrect) {
+        console.warn(`Correcting tile bag for game ${gameId}`);
+        gameState.tileBag = shuffle(expectedTileBag);
+        stateWasModified = true;
+    }
+    
+    // --- Rack Replenishment ---
     const newTileBag = [...gameState.tileBag];
     const updatedPlayers = gameState.players.map(player => {
         const tilesNeeded = 7 - player.rack.length;
