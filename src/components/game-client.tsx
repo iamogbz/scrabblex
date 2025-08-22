@@ -316,7 +316,16 @@ export default function GameClient({ gameId }: { gameId: string }) {
     return gameState.players[playerIndex];
   }, [gameState]);
 
-
+  const canJoinGame = useMemo(() => {
+    if (!gameState) return false;
+    if (gameState.players.length >= 4) return false;
+    if (gameState.gamePhase === 'lobby') return true;
+    if (gameState.gamePhase === 'playing') {
+      return gameState.turnsPlayed < gameState.players.length;
+    }
+    return false;
+  }, [gameState]);
+  
   if (isLoading) {
     return <div className="text-center p-10 flex items-center justify-center gap-2"><RefreshCw className="animate-spin h-5 w-5"/> Loading Game...</div>;
   }
@@ -351,16 +360,6 @@ export default function GameClient({ gameId }: { gameId: string }) {
     return <div className="text-center p-10">Game not found.</div>;
   }
   
-  const canJoinGame = useMemo(() => {
-    if (!gameState) return false;
-    if (gameState.players.length >= 4) return false;
-    if (gameState.gamePhase === 'lobby') return true;
-    if (gameState.gamePhase === 'playing') {
-      return gameState.turnsPlayed < gameState.players.length;
-    }
-    return false;
-  }, [gameState]);
-
   if (gameState.gamePhase === 'lobby' || (gameState.gamePhase === 'playing' && canJoinGame)) {
     return (
       <div className="container mx-auto max-w-2xl">
@@ -483,3 +482,5 @@ export default function GameClient({ gameId }: { gameId: string }) {
     </div>
   );
 }
+
+    
