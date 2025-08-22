@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { BoardSquare, PlacedTile, Tile } from "@/types";
@@ -10,9 +11,10 @@ interface GameBoardProps {
   tempPlacedTiles: PlacedTile[];
   onSquareClick: (x: number, y: number) => void;
   selectedTile: { tile: Tile; index: number } | null;
+  validPlacementSquares: { x: number; y: number }[];
 }
 
-export default function GameBoard({ board, tempPlacedTiles, onSquareClick, selectedTile }: GameBoardProps) {
+export default function GameBoard({ board, tempPlacedTiles, onSquareClick, selectedTile, validPlacementSquares }: GameBoardProps) {
   const getSquareContent = (square: BoardSquare, x: number, y: number) => {
     const tempTile = tempPlacedTiles.find(t => t.x === x && t.y === y);
     if (tempTile) {
@@ -37,6 +39,7 @@ export default function GameBoard({ board, tempPlacedTiles, onSquareClick, selec
         {board.map((row, x) =>
           row.map((square, y) => {
             const content = getSquareContent(square, x, y);
+            const isValidPlacement = validPlacementSquares.some(s => s.x === x && s.y === y);
             return (
               <div
                 key={`${x}-${y}`}
@@ -49,7 +52,8 @@ export default function GameBoard({ board, tempPlacedTiles, onSquareClick, selec
                   square.multiplierType === 'letter' && square.multiplier === 2 && 'bg-green-200/50 text-green-800',
                   !square.tile && !content && 'bg-muted/30',
                   square.isCenter && 'bg-purple-200/50 text-purple-800',
-                  !!selectedTile && !content && 'hover:bg-accent/20 cursor-pointer',
+                  !!selectedTile && !content && 'cursor-pointer',
+                  isValidPlacement && !content && 'bg-accent/20 hover:bg-accent/40',
                 )}
               >
                 {content || <span className="text-[8px] md:text-xs font-bold opacity-70 select-none">{getMultiplierText(square)}</span>}

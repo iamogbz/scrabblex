@@ -60,6 +60,16 @@ export default function GameClient({ gameId }: { gameId: string }) {
         setAuthenticatedPlayerId(storedPlayerId);
     }
   }, [gameId]);
+  
+  useEffect(() => {
+    if (gameState && authenticatedPlayerId) {
+      // If a stored player ID is not actually in the game, clear it.
+      if (!gameState.players.some(p => p.id === authenticatedPlayerId)) {
+        setAuthenticatedPlayerId(null);
+        localStorage.removeItem(`scrabblex_player_id_${gameId}`);
+      }
+    }
+  }, [gameState, authenticatedPlayerId, gameId]);
 
   const turnsPlayed = useMemo(() => gameState?.history?.length ?? 0, [gameState]);
   
@@ -94,16 +104,43 @@ export default function GameClient({ gameId }: { gameId: string }) {
   const isMyTurn = useMemo(() => {
       return authenticatedPlayerId === currentPlayer?.id;
   }, [authenticatedPlayerId, currentPlayer]);
-  
-  useEffect(() => {
-    if (gameState && authenticatedPlayerId) {
-      // If a stored player ID is not actually in the game, clear it.
-      if (!gameState.players.some(p => p.id === authenticatedPlayerId)) {
-        setAuthenticatedPlayerId(null);
-        localStorage.removeItem(`scrabblex_player_id_${gameId}`);
-      }
+
+  const getValidPlacementSquares = useCallback((): { x: number, y: number }[] => {
+    if (!gameState) return [];
+
+    const allPlacedTiles = [
+        ...gameState.board.flatMap((row, x) => row.map((square, y) => ({ ...square.tile, x, y }))).filter(t => t.letter),
+        ...tempPlacedTiles
+    ];
+
+    if (allPlacedTiles.length === 0) {
+        return [{ x: 7, y: 7 }]; // Center square
     }
-  }, [gameState, authenticatedPlayerId, gameId]);
+
+    const validSquares = new Set<string>();
+    allPlacedTiles.forEach(tile => {
+        const { x, y } = tile;
+        const neighbors = [{x: x-1, y}, {x: x+1, y}, {x, y: y-1}, {x, y: y+1}];
+        neighbors.forEach(n => {
+            if (n.x >= 0 && n.x < 15 && n.y >= 0 && n.y < 15) {
+                const isOccupied = gameState.board[n.x][n.y].tile || tempPlacedTiles.some(t => t.x === n.x && t.y === n.y);
+                if (!isOccupied) {
+                    validSquares.add(`${n.x},${n.y}`);
+                }
+            }
+        });
+    });
+
+    return Array.from(validSquares).map(s => {
+        const [x, y] = s.split(',').map(Number);
+        return { x, y };
+    });
+}, [gameState, tempPlacedTiles]);
+
+  const validPlacementSquares = useMemo(() => {
+      if (!isMyTurn || !selectedTile) return [];
+      return getValidPlacementSquares();
+  }, [isMyTurn, selectedTile, getValidPlacementSquares]);
   
   const performGameAction = async (action: (currentState: GameState) => GameState | Promise<GameState | null> | null): Promise<GameState | null> => {
     setIsLoading(true);
@@ -224,22 +261,36 @@ export default function GameClient({ gameId }: { gameId: string }) {
   };
 
   const handleSquareClick = (x: number, y: number) => {
-    if (!selectedTile || !gameState || !authenticatedPlayer) return;
+    if (!selectedTile || !gameState || !authenticatedPlayer || !isMyTurn) return;
 
+    // Check if square is occupied
     if (gameState.board[x][y].tile || tempPlacedTiles.some(t => t.x === x && t.y === y)) {
       return;
     }
+
+    // Check if placement is valid
+    const validSquares = getValidPlacementSquares();
+    if (!validSquares.some(s => s.x === x && s.y === y)) {
+        toast({ title: "Invalid Placement", description: "You must place tiles adjacent to existing tiles.", variant: "destructive"});
+        return;
+    }
     
     const newRack = [...authenticatedPlayer.rack];
-    const tileToRemove = newRack.splice(selectedTile.index, 1)[0];
+    newRack.splice(selectedTile.index, 1);
     
-    const newPlacedTile: PlacedTile = { ...tileToRemove, x, y };
+    const newPlacedTile: PlacedTile = { ...selectedTile.tile, x, y };
     setTempPlacedTiles([...tempPlacedTiles, newPlacedTile]);
 
+    // This state update is temporary for the client-side, it will be properly updated on play
     setGameState(prev => {
-      if (!prev) return null;
-      const newPlayers = prev.players.map(p => p.id === authenticatedPlayerId ? {...p, rack: newRack} : p);
-      return {...prev, players: newPlayers};
+        if (!prev) return null;
+        const newPlayers = prev.players.map(p => {
+            if (p.id === authenticatedPlayerId) {
+                return { ...p, rack: newRack };
+            }
+            return p;
+        });
+        return { ...prev, players: newPlayers };
     });
     
     setSelectedTile(null);
@@ -282,7 +333,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
             
             // Remove played tiles from rack definition before adding new ones
             const playedLetters = tempPlacedTiles.map(t => t.letter);
-            const rackAfterPlay = currentRack.filter((t: Tile, i: number) => {
+            const rackAfterPlay = currentRack.filter((t: Tile) => {
                 const pIndex = playedLetters.indexOf(t.letter);
                 if (pIndex > -1) {
                     playedLetters.splice(pIndex, 1);
@@ -445,7 +496,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
                     <CardDescription>The game will begin when the first player makes a move.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <GameBoard board={gameState.board} tempPlacedTiles={[]} onSquareClick={()=>{}} selectedTile={null} />
+                    <GameBoard board={gameState.board} tempPlacedTiles={[]} onSquareClick={()=>{}} selectedTile={null} validPlacementSquares={[]} />
                     <div className="mt-4">
                         {authenticatedPlayer && (
                             <PlayerRack 
@@ -466,7 +517,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
     <div className="container mx-auto">
       <div className="flex flex-col lg:flex-row gap-4">
         <div className="flex-grow">
-          <GameBoard board={gameState.board} tempPlacedTiles={tempPlacedTiles} onSquareClick={handleSquareClick} selectedTile={selectedTile} />
+          <GameBoard board={gameState.board} tempPlacedTiles={tempPlacedTiles} onSquareClick={handleSquareClick} selectedTile={selectedTile} validPlacementSquares={validPlacementSquares}/>
         </div>
         <div className="w-full lg:w-80 flex flex-col gap-4">
           {authenticatedPlayer && (
