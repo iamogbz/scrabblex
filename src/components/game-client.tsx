@@ -108,17 +108,20 @@ export default function GameClient({ gameId }: { gameId: string }) {
   const getValidPlacementSquares = useCallback((): { x: number, y: number }[] => {
     if (!gameState) return [];
 
-    const allPlacedTiles = [
-        ...gameState.board.flatMap((row, x) => row.map((square, y) => ({ ...square.tile, x, y }))).filter(t => t.letter),
-        ...tempPlacedTiles
-    ];
+    const permanentTiles = gameState.board.flatMap((row, x) => 
+        row.map((square, y) => (square.tile ? { ...square.tile, x, y } : null))
+    ).filter((t): t is PlacedTile => t !== null);
 
+    const allPlacedTiles = [...permanentTiles, ...tempPlacedTiles];
+    
     if (allPlacedTiles.length === 0) {
-        return [{ x: 7, y: 7 }]; // Center square
+        return [{ x: 7, y: 7 }]; // Center square for the first move
     }
 
     const validSquares = new Set<string>();
+
     allPlacedTiles.forEach(tile => {
+        // Add adjacent squares
         const { x, y } = tile;
         const neighbors = [{x: x-1, y}, {x: x+1, y}, {x, y: y-1}, {x, y: y+1}];
         neighbors.forEach(n => {
@@ -129,6 +132,22 @@ export default function GameClient({ gameId }: { gameId: string }) {
                 }
             }
         });
+
+        // Add squares within 7 Manhattan distance
+        for (let dx = -7; dx <= 7; dx++) {
+            for (let dy = -7; dy <= 7; dy++) {
+                if (Math.abs(dx) + Math.abs(dy) <= 7) {
+                    const newX = x + dx;
+                    const newY = y + dy;
+                    if (newX >= 0 && newX < 15 && newY >= 0 && newY < 15) {
+                        const isOccupied = gameState.board[newX][newY].tile || tempPlacedTiles.some(t => t.x === newX && t.y === newY);
+                        if (!isOccupied) {
+                            validSquares.add(`${newX},${newY}`);
+                        }
+                    }
+                }
+            }
+        }
     });
 
     return Array.from(validSquares).map(s => {
