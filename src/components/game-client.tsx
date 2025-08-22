@@ -61,7 +61,6 @@ export default function GameClient({ gameId }: { gameId: string }) {
     }
   }, [gameId]);
 
-
   const turnsPlayed = useMemo(() => gameState?.history?.length ?? 0, [gameState]);
   
   const currentPlayer = useMemo(() => {
@@ -92,12 +91,10 @@ export default function GameClient({ gameId }: { gameId: string }) {
     return false;
   }, [gameState, existingPlayer]);
 
-  
   const isMyTurn = useMemo(() => {
       return authenticatedPlayerId === currentPlayer?.id;
   }, [authenticatedPlayerId, currentPlayer]);
   
-
   useEffect(() => {
     if (gameState && authenticatedPlayerId) {
       // If a stored player ID is not actually in the game, clear it.
@@ -155,12 +152,12 @@ export default function GameClient({ gameId }: { gameId: string }) {
     const currentGameData = await getGameState(gameId);
     if (!currentGameData) return;
 
-    const existingPlayer = currentGameData.gameState.players.find(p => p.name.toLowerCase() === trimmedName.toLowerCase());
+    const existingPlayerInGame = currentGameData.gameState.players.find(p => p.name.toLowerCase() === trimmedName.toLowerCase());
 
-    if (existingPlayer) {
-      if (existingPlayer.code === trimmedCode) {
-        handleAuth(existingPlayer.id);
-        toast({ title: "Welcome back!", description: `You have rejoined the game as ${existingPlayer.name}.` });
+    if (existingPlayerInGame) {
+      if (existingPlayerInGame.code === trimmedCode) {
+        handleAuth(existingPlayerInGame.id);
+        toast({ title: "Welcome back!", description: `You have rejoined the game as ${existingPlayerInGame.name}.` });
         return;
       } else {
         toast({ title: "Cannot Join", description: "A player with that name already exists, but the code is incorrect.", variant: "destructive"});
@@ -472,6 +469,16 @@ export default function GameClient({ gameId }: { gameId: string }) {
           <GameBoard board={gameState.board} tempPlacedTiles={tempPlacedTiles} onSquareClick={handleSquareClick} selectedTile={selectedTile} />
         </div>
         <div className="w-full lg:w-80 flex flex-col gap-4">
+          {authenticatedPlayer && (
+            <div className="lg:sticky lg:top-4">
+              <PlayerRack 
+                  rack={authenticatedPlayer.rack}
+                  onTileSelect={isMyTurn ? handleTileSelect : ()=>{}}
+                  selectedTileIndex={selectedTile?.index ?? null}
+                  isMyTurn={isMyTurn}
+              />
+            </div>
+          )}
           <Scoreboard players={gameState.players} currentPlayerId={currentPlayer.id} />
           <Card>
             <CardHeader>
@@ -488,16 +495,6 @@ export default function GameClient({ gameId }: { gameId: string }) {
             </CardContent>
           </Card>
         </div>
-      </div>
-      <div className="mt-4">
-        {authenticatedPlayer && (
-            <PlayerRack 
-                rack={authenticatedPlayer.rack}
-                onTileSelect={isMyTurn ? handleTileSelect : ()=>{}}
-                selectedTileIndex={selectedTile?.index ?? null}
-                isMyTurn={isMyTurn}
-            />
-        )}
       </div>
     </div>
   );
