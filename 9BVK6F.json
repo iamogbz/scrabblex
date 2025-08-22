@@ -1,35 +1,44 @@
 {
   "gameId": "9BVK6F",
-  "players": [],
+  "players": [
+    {
+      "id": "p1755904209190",
+      "name": "Q",
+      "score": 0,
+      "rack": [
+        {
+          "letter": "U",
+          "points": 1
+        },
+        {
+          "letter": "X",
+          "points": 8
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "S",
+          "points": 1
+        },
+        {
+          "letter": "U",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "A",
+          "points": 1
+        }
+      ],
+      "code": "q"
+    }
+  ],
   "tileBag": [
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "X",
-      "points": 8
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
     {
       "letter": "A",
       "points": 1
