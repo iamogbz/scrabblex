@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import type { GameState, Player, Tile, PlacedTile } from '@/types';
+import type { GameState, Player, Tile, PlacedTile, PlayedWord } from '@/types';
 import { TILE_BAG } from '@/lib/game-data';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -64,21 +64,23 @@ export default function GameClient({ gameId }: { gameId: string }) {
     fetchGame();
   }, [fetchGame]);
 
+  const turnsPlayed = useMemo(() => gameState?.history?.length ?? 0, [gameState]);
+
   const currentPlayer = useMemo(() => {
     if (!gameState || gameState.players.length === 0) return null;
-    const playerIndex = gameState.turnsPlayed % gameState.players.length;
+    const playerIndex = turnsPlayed % gameState.players.length;
     return gameState.players[playerIndex];
-  }, [gameState]);
+  }, [gameState, turnsPlayed]);
 
   const canJoinGame = useMemo(() => {
     if (!gameState) return false;
     if (gameState.players.length >= 4) return false;
     if (gameState.gamePhase === 'lobby') return true;
     if (gameState.gamePhase === 'playing') {
-      return gameState.turnsPlayed < gameState.players.length;
+      return turnsPlayed < gameState.players.length;
     }
     return false;
-  }, [gameState]);
+  }, [gameState, turnsPlayed]);
 
   useEffect(() => {
     if (gameState?.gamePhase !== 'lobby') {
@@ -140,7 +142,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
         return null;
       }
       
-      if (currentState.gamePhase === 'playing' && currentState.turnsPlayed >= currentState.players.length) {
+      if (currentState.gamePhase === 'playing' && (currentState.history.length >= currentState.players.length)) {
         toast({
             title: "Cannot Join Game",
             description: "The game is too far along to join.",
@@ -281,7 +283,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
       if(result.isValid) {
         
         await performGameAction((currentState) => {
-            const currentTurnPlayerIndex = currentState.turnsPlayed % currentState.players.length;
+            const currentTurnPlayerIndex = currentState.history.length % currentState.players.length;
             const currentTurnPlayer = currentState.players[currentTurnPlayerIndex];
 
             if (currentTurnPlayer.id !== authenticatedPlayerId) {
@@ -311,7 +313,12 @@ export default function GameClient({ gameId }: { gameId: string }) {
                 newGameState.board[tile.x][tile.y].tile = {letter: tile.letter, points: tile.points, x: tile.x, y: tile.y};
             });
 
-            newGameState.turnsPlayed += 1;
+            const playedWord: PlayedWord = {
+              playerId: currentPlayer.id,
+              word: word,
+              tiles: tempPlacedTiles,
+            }
+            newGameState.history.push(playedWord);
             
             setTempPlacedTiles([]);
             toast({ title: "Valid Word!", description: `"${word}" is a valid word.` });

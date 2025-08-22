@@ -1,3 +1,4 @@
+
 export interface Tile {
   letter: string;
   points: number;
@@ -27,11 +28,17 @@ export type BoardSquare = {
 
 export type Board = BoardSquare[][];
 
+export interface PlayedWord {
+  playerId: string;
+  word: string;
+  tiles: PlacedTile[];
+}
+
 export interface GameState {
   gameId: string;
   players: Player[];
   tileBag: Tile[];
   board: Board;
-  turnsPlayed: number;
+  history: PlayedWord[];
   gamePhase: GamePhase;
 }

@@ -1,3 +1,4 @@
+
 /**
  * @fileoverview Service for interacting with GitHub to store and retrieve game state.
  */
@@ -66,7 +67,7 @@ export async function createNewGame(gameId: string): Promise<GameState> {
     players: [],
     tileBag: [], // Will be populated when game starts
     board: createInitialBoard(),
-    turnsPlayed: 0,
+    history: [],
     gamePhase: "lobby",
   };
 
