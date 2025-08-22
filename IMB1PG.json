@@ -6,6 +6,12 @@
       "name": "Q",
       "score": 0,
       "rack": []
+    },
+    {
+      "id": "p2",
+      "name": "W",
+      "score": 0,
+      "rack": []
     }
   ],
   "tileBag": [],
