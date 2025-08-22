@@ -1,6 +1,14 @@
 {
   "gameId": "EWLBMI",
-  "players": [],
+  "players": [
+    {
+      "id": "p1755901944430",
+      "name": "Q",
+      "score": 0,
+      "rack": [],
+      "code": "q"
+    }
+  ],
   "tileBag": [],
   "board": [
     [
