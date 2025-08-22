@@ -1,5 +1,3 @@
-# Firebase Studio
+# Lexicle
 
-This is a NextJS starter in Firebase Studio.
-
-To get started, take a look at src/app/page.tsx.
+Combining the best parts of Scrabble and Crossword
