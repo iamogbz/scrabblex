@@ -13,6 +13,7 @@ export interface Player {
   name: string;
   score: number;
   rack: Tile[];
+  code: string;
 }
 
 export type GamePhase = "lobby" | "playing" | "ended";

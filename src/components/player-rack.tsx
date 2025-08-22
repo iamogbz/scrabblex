@@ -1,22 +1,25 @@
 import type { Tile } from "@/types";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
 import SingleTile from "./tile";
 import { Hand } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface PlayerRackProps {
   rack: Tile[];
   onTileSelect: (tile: Tile, index: number) => void;
   selectedTileIndex: number | null;
+  isMyTurn: boolean;
 }
 
-export default function PlayerRack({ rack, onTileSelect, selectedTileIndex }: PlayerRackProps) {
+export default function PlayerRack({ rack, onTileSelect, selectedTileIndex, isMyTurn }: PlayerRackProps) {
   return (
-    <Card className="shadow-lg">
+    <Card className={cn("shadow-lg transition-all duration-300", !isMyTurn && "opacity-60")}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
             <Hand className="h-5 w-5"/>
             Your Tiles
         </CardTitle>
+        {!isMyTurn && <CardDescription>Wait for your turn to play.</CardDescription>}
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-7 gap-1 md:gap-2">
@@ -26,6 +29,7 @@ export default function PlayerRack({ rack, onTileSelect, selectedTileIndex }: Pl
               tile={tile}
               onSelect={() => onTileSelect(tile, index)}
               isSelected={selectedTileIndex === index}
+              isDraggable={isMyTurn}
             />
           ))}
           {Array.from({ length: 7 - rack.length }).map((_, index) => (

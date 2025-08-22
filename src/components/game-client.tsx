@@ -7,13 +7,14 @@ import { TILE_BAG } from '@/lib/game-data';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { UserPlus, Play, Copy, Check, Users, RefreshCw, AlertTriangle, KeyRound } from 'lucide-react';
+import { UserPlus, Play, Copy, Check, Users, RefreshCw, AlertTriangle, KeyRound, EyeOff, Eye } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import GameBoard from './game-board';
 import PlayerRack from './player-rack';
 import Scoreboard from './scoreboard';
 import { getGameState, updateGameState, verifyWordAction } from '@/app/actions';
 import Link from 'next/link';
+import { PlayerAuthDialog } from './player-auth-dialog';
 
 // Utility to shuffle an array
 const shuffle = <T,>(array: T[]): T[] => {
@@ -31,9 +32,12 @@ export default function GameClient({ gameId }: { gameId: string }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [newPlayerName, setNewPlayerName] = useState('');
+  const [newPlayerCode, setNewPlayerCode] = useState('');
+  const [showCode, setShowCode] = useState(false);
   const [copied, setCopied] = useState(false);
   const [selectedTile, setSelectedTile] = useState<{ tile: Tile; index: number } | null>(null);
   const [tempPlacedTiles, setTempPlacedTiles] = useState<PlacedTile[]>([]);
+  const [authenticatedPlayerId, setAuthenticatedPlayerId] = useState<string | null>(null);
   
   const { toast } = useToast();
 
@@ -59,6 +63,15 @@ export default function GameClient({ gameId }: { gameId: string }) {
   useEffect(() => {
     fetchGame();
   }, [fetchGame]);
+
+  useEffect(() => {
+    if (gameState?.gamePhase === 'playing') {
+      const storedPlayerId = localStorage.getItem(`scrabblex_player_id_${gameId}`);
+      if (storedPlayerId && gameState.players.some(p => p.id === storedPlayerId)) {
+        setAuthenticatedPlayerId(storedPlayerId);
+      }
+    }
+  }, [gameState, gameId]);
   
   const performGameAction = async (action: (currentState: GameState) => GameState | Promise<GameState | null> | null) => {
     setIsLoading(true);
@@ -89,10 +102,10 @@ export default function GameClient({ gameId }: { gameId: string }) {
 
 
   const addPlayer = async () => {
-    if (!newPlayerName.trim()) {
+    if (!newPlayerName.trim() || !newPlayerCode.trim()) {
       toast({
         title: "Cannot Add Player",
-        description: "Player name cannot be empty.",
+        description: "Player name and code cannot be empty.",
         variant: 'destructive',
       })
       return;
@@ -107,14 +120,25 @@ export default function GameClient({ gameId }: { gameId: string }) {
         });
         return null;
       }
+      
+      if (currentState.players.some(p => p.name.toLowerCase() === newPlayerName.trim().toLowerCase())) {
+        toast({
+            title: "Cannot Add Player",
+            description: "A player with that name already exists.",
+            variant: 'destructive',
+        });
+        return null;
+      }
 
       const newPlayer: Player = {
         id: `p${currentState.players.length + 1}`,
         name: newPlayerName.trim(),
         score: 0,
         rack: [],
+        code: newPlayerCode.trim(),
       };
       setNewPlayerName('');
+      setNewPlayerCode('');
       return { ...currentState, players: [...currentState.players, newPlayer] };
     });
   };
@@ -152,11 +176,6 @@ export default function GameClient({ gameId }: { gameId: string }) {
   }
 
   const handleTileSelect = (tile: Tile, index: number) => {
-    if (!gameState || gameState.players[gameState.currentPlayerIndex].id !== `p${gameState.players.findIndex(p => p.id === `p${gameState.currentPlayerIndex + 1}`) + 1}`) {
-      // Logic to prevent interaction if not current player could be better
-      // This is a placeholder for proper multi-user sync
-    }
-
     if (selectedTile && selectedTile.index === index) {
       setSelectedTile(null);
     } else {
@@ -171,34 +190,31 @@ export default function GameClient({ gameId }: { gameId: string }) {
       return;
     }
     
-    const newPlacedTile: PlacedTile = { ...selectedTile.tile, x, y };
+    // Remove tile from rack visually
+    const currentPlayer = gameState.players.find(p => p.id === authenticatedPlayerId);
+    if (!currentPlayer) return;
+
+    const newRack = [...currentPlayer.rack];
+    const tileToRemove = newRack.splice(selectedTile.index, 1)[0];
+    
+    const newPlacedTile: PlacedTile = { ...tileToRemove, x, y };
     setTempPlacedTiles([...tempPlacedTiles, newPlacedTile]);
 
-    // Visually remove from rack, but the real state update happens on play
-    const currentPlayer = gameState.players[gameState.currentPlayerIndex];
-    const newRack = currentPlayer.rack.filter((_, i) => i !== selectedTile.index);
+    // Update game state locally for immediate feedback
+    setGameState(prev => {
+      if (!prev) return null;
+      const newPlayers = prev.players.map(p => p.id === authenticatedPlayerId ? {...p, rack: newRack} : p);
+      return {...prev, players: newPlayers};
+    });
     
-    const updatedPlayers = [...gameState.players];
-    updatedPlayers[gameState.currentPlayerIndex] = { ...currentPlayer, rack: newRack };
-
-    setGameState({ ...gameState, players: updatedPlayers });
     setSelectedTile(null);
   };
   
-  const resetTurn = useCallback(() => {
-    if (!gameState) return;
-    const originalRack = gameState.players[gameState.currentPlayerIndex].rack;
-    
-    const currentRack = [...originalRack];
-    const returnedTiles = tempPlacedTiles.map(({letter, points}) => ({letter, points}));
-    currentRack.push(...returnedTiles);
-    
-    const updatedPlayers = [...gameState.players];
-    updatedPlayers[gameState.currentPlayerIndex] = { ...gameState.players[gameState.currentPlayerIndex], rack: currentRack };
-  
-    setGameState({...gameState, players: updatedPlayers});
+  const resetTurn = useCallback(async () => {
+    await fetchGame(); // Refetch the original state from server to discard local changes
     setTempPlacedTiles([]);
-  }, [gameState, tempPlacedTiles]);
+    setSelectedTile(null);
+  }, [fetchGame]);
 
   const handlePlayWord = async () => {
     if (tempPlacedTiles.length === 0) return;
@@ -221,7 +237,10 @@ export default function GameClient({ gameId }: { gameId: string }) {
 
             const tilesToDraw = tempPlacedTiles.length;
             const newTiles = newGameState.tileBag.slice(0, tilesToDraw);
-            currentPlayer.rack.push(...newTiles);
+            const currentRack = newGameState.players.find(p => p.id === authenticatedPlayerId)!.rack;
+            
+            currentRack.push(...newTiles);
+
             newGameState.tileBag.splice(0, tilesToDraw);
             
             tempPlacedTiles.forEach(tile => {
@@ -245,6 +264,11 @@ export default function GameClient({ gameId }: { gameId: string }) {
         setIsLoading(false);
     }
   };
+
+  const handleAuth = (playerId: string) => {
+    setAuthenticatedPlayerId(playerId);
+    localStorage.setItem(`scrabblex_player_id_${gameId}`, playerId);
+  }
 
   if (isLoading) {
     return <div className="text-center p-10 flex items-center justify-center gap-2"><RefreshCw className="animate-spin h-5 w-5"/> Loading Game...</div>;
@@ -299,15 +323,26 @@ export default function GameClient({ gameId }: { gameId: string }) {
           </CardHeader>
           <CardContent>
              <div className="space-y-4">
-               <div className="flex space-x-2">
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                  <Input 
                     placeholder="Enter your name" 
                     value={newPlayerName}
                     onChange={(e) => setNewPlayerName(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && addPlayer()}
                  />
-                 <Button onClick={addPlayer} disabled={!newPlayerName.trim() || gameState.players.length >= 4}><UserPlus className="h-4 w-4 mr-2"/> Add Player</Button>
+                 <div className='relative'>
+                    <Input 
+                      type={showCode ? 'text' : 'password'}
+                      placeholder="Enter a secret code" 
+                      value={newPlayerCode}
+                      onChange={(e) => setNewPlayerCode(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && addPlayer()}
+                    />
+                    <Button variant="ghost" size="icon" className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8" onClick={() => setShowCode(s => !s)}>
+                      {showCode ? <EyeOff className="h-4 w-4"/> : <Eye className="h-4 w-4"/>}
+                    </Button>
+                 </div>
                </div>
+                <Button onClick={addPlayer} disabled={!newPlayerName.trim() || !newPlayerCode.trim() || gameState.players.length >= 4}><UserPlus className="h-4 w-4 mr-2"/> Add Player</Button>
                
                <div className="space-y-2">
                   <h3 className="text-lg font-medium flex items-center"><Users className="mr-2 h-5 w-5"/> Players ({gameState.players.length}/4)</h3>
@@ -331,7 +366,13 @@ export default function GameClient({ gameId }: { gameId: string }) {
     )
   }
 
+  if (gameState.gamePhase === 'playing' && !authenticatedPlayerId) {
+    return <PlayerAuthDialog players={gameState.players} onAuth={handleAuth} />
+  }
+
   const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+  const authenticatedPlayer = gameState.players.find(p => p.id === authenticatedPlayerId);
+  const isMyTurn = authenticatedPlayerId === currentPlayer.id;
 
   return (
     <div className="container mx-auto">
@@ -344,25 +385,27 @@ export default function GameClient({ gameId }: { gameId: string }) {
           <Card>
             <CardHeader>
               <CardTitle>Controls</CardTitle>
+              {!isMyTurn && <CardDescription>It's {currentPlayer.name}'s turn.</CardDescription>}
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
-              <Button onClick={handlePlayWord} disabled={tempPlacedTiles.length === 0} className="bg-accent hover:bg-accent/80 text-accent-foreground">Play Word</Button>
-              <Button variant="outline">Swap Tiles</Button>
-              <Button variant="outline">Pass Turn</Button>
-              <Button variant="secondary" onClick={resetTurn}>Reset Turn</Button>
+              <Button onClick={handlePlayWord} disabled={tempPlacedTiles.length === 0 || !isMyTurn} className="bg-accent hover:bg-accent/80 text-accent-foreground">Play Word</Button>
+              <Button variant="outline" disabled={!isMyTurn}>Swap Tiles</Button>
+              <Button variant="outline" disabled={!isMyTurn}>Pass Turn</Button>
+              <Button variant="secondary" onClick={resetTurn} disabled={tempPlacedTiles.length === 0 || !isMyTurn}>Reset Turn</Button>
             </CardContent>
           </Card>
         </div>
       </div>
       <div className="mt-4">
-        <PlayerRack 
-          rack={currentPlayer.rack}
-          onTileSelect={handleTileSelect}
-          selectedTileIndex={selectedTile?.index ?? null}
-        />
+        {authenticatedPlayer && (
+            <PlayerRack 
+                rack={authenticatedPlayer.rack}
+                onTileSelect={isMyTurn ? handleTileSelect : ()=>{}}
+                selectedTileIndex={selectedTile?.index ?? null}
+                isMyTurn={isMyTurn}
+            />
+        )}
       </div>
     </div>
   );
 }
-
-    
