@@ -10,8 +10,8 @@ export default function Home() {
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
       <Card className="w-full max-w-md text-center shadow-2xl z-10 border-primary/20">
         <CardHeader>
-          <div className="mx-auto bg-primary text-primary-foreground rounded-full p-4 w-24 h-24 flex items-center justify-center mb-4 border-4 border-background shadow-inner">
-            <Logo className="w-16 h-16" />
+          <div className="mx-auto flex items-center justify-center ">
+            <Logo className="w-16 h-16 bg-primary text-primary-foreground rounded-full mb-4 border-4 border-background shadow-inner" />
           </div>
           <CardTitle className="text-5xl font-headline tracking-wider">Lexicle</CardTitle>
           <CardDescription className="text-lg pt-2">
