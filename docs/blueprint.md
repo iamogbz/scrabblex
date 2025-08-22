@@ -1,4 +1,4 @@
-# **App Name**: Lexicle
+# **App Name**: Scrabblex
 
 ## Core Features:
 

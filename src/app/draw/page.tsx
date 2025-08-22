@@ -12,7 +12,7 @@ export default function DrawPage() {
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
        <Link href="/" className="absolute top-4 left-4 flex items-center gap-2 text-primary hover:text-primary/80 transition-colors z-20">
           <Logo className="w-8 h-8"/>
-          <span className="font-headline text-2xl tracking-wider">Lexicle</span>
+          <span className="font-headline text-2xl tracking-wider">Scrabblex</span>
         </Link>
       <Card className="w-full max-w-md text-center shadow-2xl z-10 border-primary/20">
         <CardContent className="pt-6">

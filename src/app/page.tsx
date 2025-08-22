@@ -13,7 +13,7 @@ export default function Home() {
           <div className="mx-auto flex items-center justify-center ">
             <Logo className="w-16 h-16 bg-primary text-primary-foreground rounded-full mb-4 border-4 border-background shadow-inner" />
           </div>
-          <CardTitle className="text-5xl font-headline tracking-wider">Lexicle</CardTitle>
+          <CardTitle className="text-5xl font-headline tracking-wider">Scrabblex</CardTitle>
           <CardDescription className="text-lg pt-2">
             The classic word game, reimagined.
           </CardDescription>
