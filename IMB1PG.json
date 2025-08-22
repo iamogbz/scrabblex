@@ -1,6 +1,13 @@
 {
   "gameId": "IMB1PG",
-  "players": [],
+  "players": [
+    {
+      "id": "p1",
+      "name": "Q",
+      "score": 0,
+      "rack": []
+    }
+  ],
   "tileBag": [],
   "board": [
     [
