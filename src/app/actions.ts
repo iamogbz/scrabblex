@@ -2,6 +2,8 @@
 "use server";
 
 import { verifyWord } from "@/ai/flows/verify-word";
+import { createNewGame, getGame, updateGame } from "@/lib/game-service";
+import { GameState } from "@/types";
 import { redirect } from "next/navigation";
 import type { z } from "zod";
 
@@ -16,7 +18,16 @@ function generateGameId(length = 6) {
 
 export async function createGame() {
   const gameId = generateGameId();
+  await createNewGame(gameId);
   redirect(`/game/${gameId}`);
+}
+
+export async function getGameState(gameId: string) {
+    return await getGame(gameId);
+}
+
+export async function updateGameState(gameId: string, gameState: GameState, sha: string) {
+    await updateGame(gameId, gameState, sha);
 }
 
 export async function verifyWordAction(
