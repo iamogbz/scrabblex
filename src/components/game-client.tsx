@@ -60,65 +60,89 @@ export default function GameClient({ gameId }: { gameId: string }) {
     fetchGame();
   }, [fetchGame]);
   
-  const handleUpdateGameState = async (newGameState: GameState) => {
-    if (!sha) {
-        toast({ title: "Error", description: "Cannot update game state, SHA is missing.", variant: 'destructive'});
-        return;
-    }
+  const performGameAction = async (action: (currentState: GameState) => GameState | Promise<GameState | null> | null) => {
+    setIsLoading(true);
     try {
-        await updateGameState(gameId, newGameState, sha);
-        // After successful update, refetch to get new SHA and confirm state
-        await fetchGame();
+        const gameData = await getGameState(gameId);
+        if (!gameData) {
+            toast({ title: "Error", description: "Game not found. It might have been deleted.", variant: "destructive" });
+            setError(`Game with ID "${gameId}" not found.`);
+            return;
+        }
+
+        const newGameState = await action(gameData.gameState);
+        
+        if (newGameState) {
+             await updateGameState(gameId, newGameState, gameData.sha);
+             // After successful update, refetch to get new SHA and confirm state
+            await fetchGame();
+        }
     } catch (e) {
         console.error(e);
-        toast({ title: "Update Failed", description: "Could not save game state. Please refresh.", variant: 'destructive'});
+        toast({ title: "Action Failed", description: "Could not perform the action. The game state may have changed. Please try again.", variant: 'destructive'});
+        // Refetch to get latest state in case of conflict
+        await fetchGame();
+    } finally {
+        setIsLoading(false);
     }
   }
 
+
   const addPlayer = async () => {
-    if (!gameState || gameState.players.length >= 4 || !newPlayerName.trim()) {
+    if (!newPlayerName.trim()) {
       toast({
         title: "Cannot Add Player",
-        description: !newPlayerName.trim() ? "Player name cannot be empty." : "Lobby is full (max 4 players).",
+        description: "Player name cannot be empty.",
         variant: 'destructive',
       })
       return;
     }
-    const newPlayer: Player = {
-      id: `p${gameState.players.length + 1}`,
-      name: newPlayerName.trim(),
-      score: 0,
-      rack: [],
-    };
 
-    const newGameState = { ...gameState, players: [...gameState.players, newPlayer] };
-    setNewPlayerName('');
-    await handleUpdateGameState(newGameState);
+    await performGameAction((currentState) => {
+      if (currentState.players.length >= 4) {
+        toast({
+            title: "Cannot Add Player",
+            description: "Lobby is full (max 4 players).",
+            variant: 'destructive',
+        });
+        return null;
+      }
+
+      const newPlayer: Player = {
+        id: `p${currentState.players.length + 1}`,
+        name: newPlayerName.trim(),
+        score: 0,
+        rack: [],
+      };
+      setNewPlayerName('');
+      return { ...currentState, players: [...currentState.players, newPlayer] };
+    });
   };
 
   const startGame = async () => {
-    if (!gameState || gameState.players.length < 1) {
-       toast({
-        title: "Cannot Start Game",
-        description: "You need at least 1 player to start the game.",
-        variant: 'destructive',
-      })
-      return;
-    }
+     await performGameAction((currentState) => {
+        if (currentState.players.length < 1) {
+            toast({
+                title: "Cannot Start Game",
+                description: "You need at least 1 player to start the game.",
+                variant: 'destructive',
+            })
+            return null;
+        }
 
-    let currentTileBag = shuffle(TILE_BAG);
-    const updatedPlayers = gameState.players.map(player => {
-      const newTiles = currentTileBag.splice(0, 7);
-      return { ...player, rack: newTiles };
+        let currentTileBag = shuffle(TILE_BAG);
+        const updatedPlayers = currentState.players.map(player => {
+            const newTiles = currentTileBag.splice(0, 7);
+            return { ...player, rack: newTiles };
+        });
+
+        return {
+            ...currentState,
+            players: updatedPlayers,
+            tileBag: currentTileBag,
+            gamePhase: 'playing' as const,
+        };
     });
-
-    const newGameState = {
-      ...gameState,
-      players: updatedPlayers,
-      tileBag: currentTileBag,
-      gamePhase: 'playing' as const,
-    };
-    await handleUpdateGameState(newGameState);
   };
   
   const handleCopyLink = () => {
@@ -161,52 +185,54 @@ export default function GameClient({ gameId }: { gameId: string }) {
     setSelectedTile(null);
   };
   
-  const resetTurn = () => {
+  const resetTurn = useCallback(() => {
     if (!gameState) return;
-    const currentPlayer = gameState.players[gameState.currentPlayerIndex];
-    const returnedTiles = tempPlacedTiles.map(({letter, points}) => ({letter, points}));
+    const originalRack = gameState.players[gameState.currentPlayerIndex].rack;
     
-    // Create a mutable copy of the rack
-    const currentRack = [...currentPlayer.rack];
+    const currentRack = [...originalRack];
+    const returnedTiles = tempPlacedTiles.map(({letter, points}) => ({letter, points}));
     currentRack.push(...returnedTiles);
     
     const updatedPlayers = [...gameState.players];
-    updatedPlayers[gameState.currentPlayerIndex] = { ...currentPlayer, rack: currentRack };
+    updatedPlayers[gameState.currentPlayerIndex] = { ...gameState.players[gameState.currentPlayerIndex], rack: currentRack };
   
     setGameState({...gameState, players: updatedPlayers});
     setTempPlacedTiles([]);
-  };
+  }, [gameState, tempPlacedTiles]);
 
   const handlePlayWord = async () => {
-    if (tempPlacedTiles.length === 0 || !gameState) return;
+    if (tempPlacedTiles.length === 0) return;
   
     const word = tempPlacedTiles.sort((a,b) => a.x === b.x ? a.y - b.y : a.x - b.x).map(t => t.letter).join('');
     
+    setIsLoading(true);
     try {
       const result = await verifyWordAction({ word });
 
       if(result.isValid) {
         toast({ title: "Valid Word!", description: `"${word}" is a valid word.` });
-        const points = tempPlacedTiles.reduce((sum, tile) => sum + tile.points, 0);
         
-        const newGameState = JSON.parse(JSON.stringify(gameState)); // Deep copy
-        
-        const currentPlayer = newGameState.players[newGameState.currentPlayerIndex];
-        currentPlayer.score += points;
+        await performGameAction((currentState) => {
+            const newGameState = JSON.parse(JSON.stringify(currentState)); // Deep copy
+            
+            const currentPlayer = newGameState.players[newGameState.currentPlayerIndex];
+            const points = tempPlacedTiles.reduce((sum, tile) => sum + tile.points, 0); // Recalculate points based on final tile placement
+            currentPlayer.score += points;
 
-        const tilesToDraw = 7 - currentPlayer.rack.length;
-        const newTiles = newGameState.tileBag.slice(0, tilesToDraw);
-        currentPlayer.rack.push(...newTiles);
-        newGameState.tileBag.splice(0, tilesToDraw);
-        
-        tempPlacedTiles.forEach(tile => {
-            newGameState.board[tile.x][tile.y].tile = tile;
+            const tilesToDraw = tempPlacedTiles.length;
+            const newTiles = newGameState.tileBag.slice(0, tilesToDraw);
+            currentPlayer.rack.push(...newTiles);
+            newGameState.tileBag.splice(0, tilesToDraw);
+            
+            tempPlacedTiles.forEach(tile => {
+                newGameState.board[tile.x][tile.y].tile = {letter: tile.letter, points: tile.points, x: tile.x, y: tile.y};
+            });
+
+            newGameState.currentPlayerIndex = (newGameState.currentPlayerIndex + 1) % newGameState.players.length;
+            
+            setTempPlacedTiles([]);
+            return newGameState;
         });
-
-        newGameState.currentPlayerIndex = (newGameState.currentPlayerIndex + 1) % newGameState.players.length;
-
-        setTempPlacedTiles([]);
-        await handleUpdateGameState(newGameState);
 
       } else {
         toast({ title: "Invalid Word", description: `"${word}" is not a valid word.`, variant: 'destructive' });
@@ -215,6 +241,8 @@ export default function GameClient({ gameId }: { gameId: string }) {
     } catch(e) {
         toast({ title: "Error", description: `Could not verify word.`, variant: 'destructive' });
         resetTurn();
+    } finally {
+        setIsLoading(false);
     }
   };
 
@@ -336,3 +364,5 @@ export default function GameClient({ gameId }: { gameId: string }) {
     </div>
   );
 }
+
+    
