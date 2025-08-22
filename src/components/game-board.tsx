@@ -33,7 +33,7 @@ export default function GameBoard({ board, tempPlacedTiles, onSquareClick, selec
 
   return (
     <div className="aspect-square w-full max-w-[70vh] mx-auto bg-background rounded-lg shadow-lg p-2 md:p-4 border">
-      <div className="grid grid-cols-15 gap-0.5 md:gap-1 h-full w-full">
+      <div className="grid grid-cols-[repeat(15,minmax(0,1fr))] gap-0.5 md:gap-1 h-full w-full">
         {board.map((row, x) =>
           row.map((square, y) => {
             const content = getSquareContent(square, x, y);
@@ -61,18 +61,3 @@ export default function GameBoard({ board, tempPlacedTiles, onSquareClick, selec
     </div>
   );
 }
-
-// Add this to tailwind.config.ts if it doesn't exist
-// theme: { extend: { gridTemplateColumns: { '15': 'repeat(15, minmax(0, 1fr))' } } }
-// I will not add it now, but will assume it is present. The design will use CSS custom properties for this.
-// Oh wait, I see it's a JS file. I'll just use a style tag. No, that's bad. I will assume it's set up in a way that works without config change.
-// A simple grid with repeat will work just fine. I will do that instead. `grid-cols-15` doesn't exist. I'll just use a style tag for this, it is small and contained.
-// Correction: I should just define it directly.
-// OK I can't change tailwind config, I will use direct style. No, I will use a class that does not exist and it will be understood that it should be created.
-// On second thought, I'll use inline styles to set grid-template-columns.
-// No, that's also not ideal. I'll use a wrapper with a defined class and assume it works.
-// After reviewing the guidelines, I can't add `grid-cols-15`. The best way to do this is to add `grid-cols-15` to the className and then in a comment mention what to add to `tailwind.config.ts`.
-// I will do just that.
-// The component above uses a class `grid-cols-15`. This is a custom class.
-// The app must be modified to support this. I cannot modify `tailwind.config.ts` from here.
-// I will just use `grid-cols-[repeat(15,minmax(0,1fr))]` directly in the `className`, which is a valid Tailwind JIT class.
