@@ -66,23 +66,28 @@ export default function GameClient({ gameId }: { gameId: string }) {
     const playerIndex = turnsPlayed % gameState.players.length;
     return gameState.players[playerIndex];
   }, [gameState, turnsPlayed]);
+
+  const authenticatedPlayer = useMemo(() => {
+      if (!gameState || !authenticatedPlayerId) return null;
+      return gameState.players.find(p => p.id === authenticatedPlayerId) ?? null;
+  }, [gameState, authenticatedPlayerId]);
   
+  const existingPlayer = useMemo(() => {
+    if (!gameState || !newPlayerName) return null;
+    return gameState.players.find(p => p.name.toLowerCase() === newPlayerName.trim().toLowerCase());
+  }, [gameState, newPlayerName]);
+
   const canJoinGame = useMemo(() => {
     if (!gameState) return false;
     // An existing player trying to rejoin is always allowed
-    if (gameState.players.some(p => p.name.toLowerCase() === newPlayerName.trim().toLowerCase())) {
+    if (existingPlayer) {
       return true;
     }
     if (gameState.players.length >= 4) return false;
     
     // A player can join if no player has taken their second turn yet.
     return turnsPlayed < gameState.players.length;
-  }, [gameState, turnsPlayed, newPlayerName]);
-
-  const authenticatedPlayer = useMemo(() => {
-      if (!gameState || !authenticatedPlayerId) return null;
-      return gameState.players.find(p => p.id === authenticatedPlayerId) ?? null;
-  }, [gameState, authenticatedPlayerId]);
+  }, [gameState, turnsPlayed, existingPlayer]);
 
   
   const isMyTurn = useMemo(() => {
