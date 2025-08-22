@@ -64,6 +64,22 @@ export default function GameClient({ gameId }: { gameId: string }) {
     fetchGame();
   }, [fetchGame]);
 
+  const currentPlayer = useMemo(() => {
+    if (!gameState || gameState.players.length === 0) return null;
+    const playerIndex = gameState.turnsPlayed % gameState.players.length;
+    return gameState.players[playerIndex];
+  }, [gameState]);
+
+  const canJoinGame = useMemo(() => {
+    if (!gameState) return false;
+    if (gameState.players.length >= 4) return false;
+    if (gameState.gamePhase === 'lobby') return true;
+    if (gameState.gamePhase === 'playing') {
+      return gameState.turnsPlayed < gameState.players.length;
+    }
+    return false;
+  }, [gameState]);
+
   useEffect(() => {
     if (gameState?.gamePhase !== 'lobby') {
       const storedPlayerId = localStorage.getItem(`scrabblex_player_id_${gameId}`);
@@ -73,14 +89,14 @@ export default function GameClient({ gameId }: { gameId: string }) {
     }
   }, [gameState, gameId]);
   
-  const performGameAction = async (action: (currentState: GameState) => GameState | Promise<GameState | null> | null) => {
+  const performGameAction = async (action: (currentState: GameState) => GameState | Promise<GameState | null> | null): Promise<GameState | null> => {
     setIsLoading(true);
     try {
         const gameData = await getGameState(gameId);
         if (!gameData) {
             toast({ title: "Error", description: "Game not found. It might have been deleted.", variant: "destructive" });
             setError(`Game with ID "${gameId}" not found.`);
-            return;
+            return null;
         }
 
         const newGameState = await action(gameData.gameState);
@@ -89,39 +105,41 @@ export default function GameClient({ gameId }: { gameId: string }) {
              await updateGameState(gameId, newGameState, gameData.sha);
              // After successful update, refetch to get new SHA and confirm state
             await fetchGame();
+            return newGameState;
         }
+        return null;
     } catch (e: any) {
         console.error(e);
         toast({ title: "Action Failed", description: e.message || "Could not perform the action. The game state may have changed. Please try again.", variant: 'destructive'});
         // Refetch to get latest state in case of conflict
         await fetchGame();
+        return null;
     } finally {
         setIsLoading(false);
     }
   }
 
 
-  const addPlayer = async () => {
+  const joinGame = async () => {
     if (!newPlayerName.trim() || !newPlayerCode.trim()) {
       toast({
-        title: "Cannot Add Player",
+        title: "Cannot Join Game",
         description: "Player name and code cannot be empty.",
         variant: 'destructive',
       })
       return;
     }
 
-    await performGameAction((currentState) => {
+    const updatedGameState = await performGameAction((currentState) => {
       if (currentState.players.length >= 4) {
         toast({
-            title: "Cannot Add Player",
+            title: "Cannot Join Game",
             description: "Lobby is full (max 4 players).",
             variant: 'destructive',
         });
         return null;
       }
       
-      // Allow joining mid-game if no player has played twice
       if (currentState.gamePhase === 'playing' && currentState.turnsPlayed >= currentState.players.length) {
         toast({
             title: "Cannot Join Game",
@@ -133,7 +151,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
 
       if (currentState.players.some(p => p.name.toLowerCase() === newPlayerName.trim().toLowerCase())) {
         toast({
-            title: "Cannot Add Player",
+            title: "Cannot Join Game",
             description: "A player with that name already exists.",
             variant: 'destructive',
         });
@@ -141,7 +159,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
       }
       
       const newPlayer: Player = {
-        id: `p${Date.now()}`, // Use a more unique ID
+        id: `p${Date.now()}`,
         name: newPlayerName.trim(),
         score: 0,
         rack: [],
@@ -152,18 +170,25 @@ export default function GameClient({ gameId }: { gameId: string }) {
         const tilesToDraw = 7;
         const currentTileBag = [...currentState.tileBag];
         if(currentTileBag.length < tilesToDraw) {
-            toast({ title: "Cannot Add Player", description: "Not enough tiles left in the bag.", variant: 'destructive' });
+            toast({ title: "Cannot Join Game", description: "Not enough tiles left in the bag.", variant: 'destructive' });
             return null;
         }
         const newTiles = currentTileBag.splice(0, tilesToDraw);
         newPlayer.rack = newTiles;
         currentState.tileBag = currentTileBag;
       }
-
-      setNewPlayerName('');
-      setNewPlayerCode('');
+      
       return { ...currentState, players: [...currentState.players, newPlayer] };
     });
+
+    if (updatedGameState) {
+        const newPlayer = updatedGameState.players.find(p => p.name === newPlayerName.trim());
+        if (newPlayer) {
+          handleAuth(newPlayer.id);
+        }
+        setNewPlayerName('');
+        setNewPlayerCode('');
+    }
   };
 
   const startGame = async () => {
@@ -310,22 +335,6 @@ export default function GameClient({ gameId }: { gameId: string }) {
     localStorage.setItem(`scrabblex_player_id_${gameId}`, playerId);
   }
 
-  const currentPlayer = useMemo(() => {
-    if (!gameState || gameState.players.length === 0) return null;
-    const playerIndex = gameState.turnsPlayed % gameState.players.length;
-    return gameState.players[playerIndex];
-  }, [gameState]);
-
-  const canJoinGame = useMemo(() => {
-    if (!gameState) return false;
-    if (gameState.players.length >= 4) return false;
-    if (gameState.gamePhase === 'lobby') return true;
-    if (gameState.gamePhase === 'playing') {
-      return gameState.turnsPlayed < gameState.players.length;
-    }
-    return false;
-  }, [gameState]);
-  
   if (isLoading) {
     return <div className="text-center p-10 flex items-center justify-center gap-2"><RefreshCw className="animate-spin h-5 w-5"/> Loading Game...</div>;
   }
@@ -361,14 +370,48 @@ export default function GameClient({ gameId }: { gameId: string }) {
   }
   
   if (gameState.gamePhase === 'lobby' || (gameState.gamePhase === 'playing' && canJoinGame)) {
+    // If the user is already a player, they should not see the join screen again.
+    const isAlreadyPlayer = authenticatedPlayerId && gameState.players.some(p => p.id === authenticatedPlayerId);
+
+    if (isAlreadyPlayer) {
+      return (
+        <div className="container mx-auto max-w-2xl">
+          <Card className="shadow-xl">
+            <CardHeader>
+              <CardTitle className="text-3xl text-center">Game Lobby</CardTitle>
+              <CardDescription className="text-center">Waiting for the game to start...</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <h3 className="text-lg font-medium flex items-center"><Users className="mr-2 h-5 w-5"/> Players ({gameState.players.length}/4)</h3>
+                <div className="bg-muted/50 rounded-lg p-4 min-h-[100px] space-y-2">
+                  {gameState.players.map((p, i) => (
+                    <div key={p.id} className="flex items-center bg-background p-2 rounded-md shadow-sm">
+                      <span className="font-bold text-primary">{i+1}.</span>
+                      <span className="ml-2">{p.name} {p.id === authenticatedPlayerId && "(You)"}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {gameState.gamePhase === 'lobby' && (
+                  <Button size="lg" className="w-full text-lg py-7 bg-accent hover:bg-accent/90 mt-4" onClick={startGame} disabled={gameState.players.length < 1}>
+                      <Play className="h-6 w-6 mr-2" /> Start Game
+                  </Button>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      );
+    }
+    
     return (
       <div className="container mx-auto max-w-2xl">
         <Card className="shadow-xl">
           <CardHeader>
-            <CardTitle className="text-3xl text-center">Game Lobby</CardTitle>
+            <CardTitle className="text-3xl text-center">Join Game</CardTitle>
             <CardDescription className="text-center">
                 {gameState.gamePhase === 'lobby'
-                ? "Share this page with your friends to let them join."
+                ? "Create your player to join the lobby."
                 : "A game is in progress, but you can still join!"}
             </CardDescription>
             <div className='text-center pt-4'>
@@ -383,52 +426,42 @@ export default function GameClient({ gameId }: { gameId: string }) {
           </CardHeader>
           <CardContent>
              <div className="space-y-4">
-               {canJoinGame ? (
-                <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <Input 
-                        placeholder="Enter your name" 
-                        value={newPlayerName}
-                        onChange={(e) => setNewPlayerName(e.target.value)}
-                    />
-                    <div className='relative'>
-                        <Input 
-                          type={showCode ? 'text' : 'password'}
-                          placeholder="Enter a secret code" 
-                          value={newPlayerCode}
-                          onChange={(e) => setNewPlayerCode(e.target.value)}
-                          onKeyDown={(e) => e.key === 'Enter' && addPlayer()}
-                        />
-                        <Button variant="ghost" size="icon" className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8" onClick={() => setShowCode(s => !s)}>
-                          {showCode ? <EyeOff className="h-4 w-4"/> : <Eye className="h-4 w-4"/>}
-                        </Button>
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <Input 
+                      placeholder="Enter your name" 
+                      value={newPlayerName}
+                      onChange={(e) => setNewPlayerName(e.target.value)}
+                  />
+                  <div className='relative'>
+                      <Input 
+                        type={showCode ? 'text' : 'password'}
+                        placeholder="Enter a secret code" 
+                        value={newPlayerCode}
+                        onChange={(e) => setNewPlayerCode(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && joinGame()}
+                      />
+                      <Button variant="ghost" size="icon" className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8" onClick={() => setShowCode(s => !s)}>
+                        {showCode ? <EyeOff className="h-4 w-4"/> : <Eye className="h-4 w-4"/>}
+                      </Button>
                   </div>
-                  <Button onClick={addPlayer} disabled={!newPlayerName.trim() || !newPlayerCode.trim()}>
-                    <UserPlus className="h-4 w-4 mr-2"/> {gameState.gamePhase === 'lobby' ? 'Add Player' : 'Join Game'}
-                  </Button>
-                </>
-               ) : (
-                <p className="text-center text-muted-foreground">The game is full or too far along to join.</p>
-               )}
-               
-               <div className="space-y-2">
-                  <h3 className="text-lg font-medium flex items-center"><Users className="mr-2 h-5 w-5"/> Players ({gameState.players.length}/4)</h3>
-                  <div className="bg-muted/50 rounded-lg p-4 min-h-[100px] space-y-2">
-                    {gameState.players.length > 0 ? gameState.players.map((p, i) => (
-                      <div key={p.id} className="flex items-center bg-background p-2 rounded-md shadow-sm">
-                        <span className="font-bold text-primary">{i+1}.</span>
-                        <span className="ml-2">{p.name}</span>
-                      </div>
-                    )) : <p className="text-muted-foreground text-center pt-5">Waiting for players to join...</p>}
-                  </div>
-               </div>
+                </div>
+                <Button onClick={joinGame} className="w-full" disabled={!newPlayerName.trim() || !newPlayerCode.trim() || !canJoinGame}>
+                  <UserPlus className="h-4 w-4 mr-2"/> Join Game
+                </Button>
 
-                {gameState.gamePhase === 'lobby' && (
-                    <Button size="lg" className="w-full text-lg py-7 bg-accent hover:bg-accent/90" onClick={startGame} disabled={gameState.players.length < 1}>
-                        <Play className="h-6 w-6 mr-2" /> Start Game
-                    </Button>
-                )}
+                {!canJoinGame && <p className="text-center text-sm text-destructive">The game is full or too far along to join.</p>}
+               
+                <div className="space-y-2 pt-4">
+                    <h3 className="text-lg font-medium flex items-center"><Users className="mr-2 h-5 w-5"/> Players Already Joined ({gameState.players.length}/4)</h3>
+                    <div className="bg-muted/50 rounded-lg p-4 min-h-[50px] space-y-2">
+                        {gameState.players.length > 0 ? gameState.players.map((p, i) => (
+                        <div key={p.id} className="flex items-center bg-background p-2 rounded-md shadow-sm">
+                            <span className="font-bold text-primary">{i+1}.</span>
+                            <span className="ml-2">{p.name}</span>
+                        </div>
+                        )) : <p className="text-muted-foreground text-center pt-2">No players have joined yet.</p>}
+                    </div>
+                </div>
              </div>
           </CardContent>
         </Card>
@@ -482,5 +515,3 @@ export default function GameClient({ gameId }: { gameId: string }) {
     </div>
   );
 }
-
-    
