@@ -19,7 +19,7 @@ function generateGameId(length = 6) {
 export async function createGame() {
   const gameId = generateGameId();
   await createNewGame(gameId);
-  redirect(`/game/${gameId}`);
+  redirect(`/draw/${gameId}`);
 }
 
 export async function getGameState(gameId: string) {

@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Home } from "lucide-react";
 
-export default function GamePage({ params }: { params: { gameId: string } }) {
+export default async function GamePage({ params }: { params: { gameId: string } }) {
+  const { gameId } = params;
   return (
     <div className="relative min-h-screen bg-muted/40">
        <header className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-20">
@@ -20,7 +21,7 @@ export default function GamePage({ params }: { params: { gameId: string } }) {
         </Button>
       </header>
       <main className="pt-20 pb-4">
-        <GameClient gameId={params.gameId} />
+        <GameClient gameId={gameId} />
       </main>
     </div>
   );

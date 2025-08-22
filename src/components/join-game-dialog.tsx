@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -23,7 +24,7 @@ export function JoinGameDialog({ children }: { children: ReactNode }) {
 
   const handleJoinGame = () => {
     if (gameKey.trim().length === 6) {
-      router.push(`/game/${gameKey.trim().toUpperCase()}`);
+      router.push(`/draw/${gameKey.trim().toUpperCase()}`);
     }
   };
 
