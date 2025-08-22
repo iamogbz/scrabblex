@@ -27,7 +27,7 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
         fontSize="18"
         fontFamily="Literata, serif"
         fontWeight="bold"
-t        textAnchor="middle"
+        textAnchor="middle"
         fill="currentColor"
       >
         x
