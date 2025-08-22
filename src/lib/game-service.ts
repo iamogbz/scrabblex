@@ -61,9 +61,41 @@ export async function getGame(
     }
 
     const data = await response.json();
-    const gameState: GameState = JSON.parse(fromBase64(data.content));
+    let gameState: GameState = JSON.parse(fromBase64(data.content));
+    let sha: string = data.sha;
+    let stateWasModified = false;
 
-    return { gameState, sha: data.sha };
+    // Check all players and replenish their racks if needed.
+    const newTileBag = [...gameState.tileBag];
+    const updatedPlayers = gameState.players.map(player => {
+        const tilesNeeded = 7 - player.rack.length;
+        if (tilesNeeded > 0 && newTileBag.length > 0) {
+            const tilesToDraw = Math.min(tilesNeeded, newTileBag.length);
+            const newTiles = newTileBag.splice(0, tilesToDraw);
+            stateWasModified = true;
+            return {
+                ...player,
+                rack: [...player.rack, ...newTiles],
+            };
+        }
+        return player;
+    });
+
+    if (stateWasModified) {
+        const updatedGameState: GameState = {
+            ...gameState,
+            players: updatedPlayers,
+            tileBag: newTileBag,
+        };
+
+        // The state was changed, so we must commit it back to GitHub.
+        const updatedData = await updateGame(gameId, updatedGameState, sha);
+        
+        // Return the fresh state and the new SHA.
+        return { gameState: updatedGameState, sha: updatedData.content.sha };
+    }
+
+    return { gameState, sha };
   } catch (error) {
     console.error("Error getting game:", error);
     return null;
@@ -113,7 +145,7 @@ export async function updateGame(
   gameId: string,
   gameState: GameState,
   sha: string
-): Promise<void> {
+): Promise<any> {
   if (!GITHUB_TOKEN) return;
   try {
     const content = toBase64(JSON.stringify(gameState, null, 2));
@@ -133,6 +165,7 @@ export async function updateGame(
         const error = await response.json();
         throw new Error(`Failed to update game: ${error.message}`);
     }
+    return await response.json();
   } catch (error) {
     console.error("Error updating game:", error);
     throw error;
