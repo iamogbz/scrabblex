@@ -50,13 +50,16 @@ export default function GameClient({ gameId }: { gameId: string }) {
   }, [gameId]);
 
   useEffect(() => {
+    fetchGame();
+  }, [fetchGame]);
+
+  useEffect(() => {
     const storedPlayerId = localStorage.getItem(`scrabblex_player_id_${gameId}`);
     if (storedPlayerId) {
         // We will validate this against the game state once it loads.
         setAuthenticatedPlayerId(storedPlayerId);
     }
-    fetchGame();
-  }, [fetchGame, gameId]);
+  }, [gameId]);
 
 
   const turnsPlayed = useMemo(() => gameState?.history?.length ?? 0, [gameState]);
@@ -83,11 +86,11 @@ export default function GameClient({ gameId }: { gameId: string }) {
     if (existingPlayer) {
       return true;
     }
-    if (gameState.players.length >= 4) return false;
-    
-    // A player can join if no player has taken their second turn yet.
-    return turnsPlayed < gameState.players.length;
-  }, [gameState, turnsPlayed, existingPlayer]);
+    // New players can join if the lobby is not full.
+    if (gameState.players.length < 4) return true;
+
+    return false;
+  }, [gameState, existingPlayer]);
 
   
   const isMyTurn = useMemo(() => {
@@ -410,7 +413,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
                     {existingPlayer ? "Rejoin Game" : "Join Game"}
                 </Button>
 
-                {!canJoinGame && gameState.players.length > 0 && <p className="text-center text-sm text-destructive">The game is full or too far along to join.</p>}
+                {!canJoinGame && !existingPlayer && <p className="text-center text-sm text-destructive">The game is full or too far along to join.</p>}
                
                 <div className="space-y-2 pt-4">
                     <h3 className="text-lg font-medium flex items-center"><Users className="mr-2 h-5 w-5"/> Players Already Joined ({gameState.players.length}/4)</h3>
