@@ -7,12 +7,13 @@ import { TILE_BAG } from '@/lib/game-data';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { UserPlus, Play, Copy, Check, Users, RefreshCw, AlertTriangle } from 'lucide-react';
+import { UserPlus, Play, Copy, Check, Users, RefreshCw, AlertTriangle, KeyRound } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import GameBoard from './game-board';
 import PlayerRack from './player-rack';
 import Scoreboard from './scoreboard';
 import { getGameState, updateGameState, verifyWordAction } from '@/app/actions';
+import Link from 'next/link';
 
 // Utility to shuffle an array
 const shuffle = <T,>(array: T[]): T[] => {
@@ -233,7 +234,14 @@ export default function GameClient({ gameId }: { gameId: string }) {
             </CardHeader>
             <CardContent>
                 <p className="text-muted-foreground">{error}</p>
-                <Button onClick={fetchGame} className="mt-4"><RefreshCw className="mr-2 h-4 w-4"/> Try Again</Button>
+                <div className="flex gap-2 justify-center mt-4">
+                    <Button onClick={fetchGame}><RefreshCw className="mr-2 h-4 w-4"/> Try Again</Button>
+                    <Button variant="secondary" asChild>
+                        <Link href="/draw">
+                            <KeyRound className="mr-2 h-4 w-4"/> Join Different Game
+                        </Link>
+                    </Button>
+                </div>
             </CardContent>
           </Card>
         </div>
