@@ -74,13 +74,18 @@ export default function GameClient({ gameId }: { gameId: string }) {
 
   const canJoinGame = useMemo(() => {
     if (!gameState) return false;
+    // An existing player trying to rejoin is always allowed
+    if (gameState.players.some(p => p.name.toLowerCase() === newPlayerName.trim().toLowerCase())) {
+        return true;
+    }
     if (gameState.players.length >= 4) return false;
     if (gameState.gamePhase === 'lobby') return true;
     if (gameState.gamePhase === 'playing') {
       return turnsPlayed < gameState.players.length;
     }
     return false;
-  }, [gameState, turnsPlayed]);
+  }, [gameState, turnsPlayed, newPlayerName]);
+
 
   useEffect(() => {
     if (gameState?.gamePhase !== 'lobby') {
@@ -132,7 +137,31 @@ export default function GameClient({ gameId }: { gameId: string }) {
       return;
     }
 
+    const trimmedName = newPlayerName.trim();
+    const trimmedCode = newPlayerCode.trim();
+
+    // Do a read-only fetch first to check for existing player without locking
+    const currentGameData = await getGameState(gameId);
+    if (!currentGameData) return;
+
+    const existingPlayer = currentGameData.gameState.players.find(p => p.name.toLowerCase() === trimmedName.toLowerCase());
+
+    if (existingPlayer) {
+      if (existingPlayer.code === trimmedCode) {
+        // Correct name and code, just authenticate
+        handleAuth(existingPlayer.id);
+        toast({ title: "Welcome back!", description: `You have rejoined the game as ${existingPlayer.name}.` });
+        return;
+      } else {
+        // Name exists but code is wrong
+        toast({ title: "Cannot Join", description: "A player with that name already exists, but the code is incorrect.", variant: "destructive"});
+        return;
+      }
+    }
+
+    // If no existing player, proceed to add a new one via performGameAction
     const updatedGameState = await performGameAction((currentState) => {
+      // Re-check conditions inside the action to be safe
       if (currentState.players.length >= 4) {
         toast({
             title: "Cannot Join Game",
@@ -150,22 +179,13 @@ export default function GameClient({ gameId }: { gameId: string }) {
         });
         return null;
       }
-
-      if (currentState.players.some(p => p.name.toLowerCase() === newPlayerName.trim().toLowerCase())) {
-        toast({
-            title: "Cannot Join Game",
-            description: "A player with that name already exists.",
-            variant: 'destructive',
-        });
-        return null;
-      }
       
       const newPlayer: Player = {
         id: `p${Date.now()}`,
-        name: newPlayerName.trim(),
+        name: trimmedName,
         score: 0,
         rack: [],
-        code: newPlayerCode.trim(),
+        code: trimmedCode,
       };
       
       if(currentState.gamePhase === 'playing') {
@@ -184,7 +204,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
     });
 
     if (updatedGameState) {
-        const newPlayer = updatedGameState.players.find(p => p.name === newPlayerName.trim());
+        const newPlayer = updatedGameState.players.find(p => p.name === trimmedName);
         if (newPlayer) {
           handleAuth(newPlayer.id);
         }
@@ -522,3 +542,5 @@ export default function GameClient({ gameId }: { gameId: string }) {
     </div>
   );
 }
+
+    
