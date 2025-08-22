@@ -2,8 +2,8 @@
 /**
  * @fileoverview Service for interacting with GitHub to store and retrieve game state.
  */
-import type { GameState } from "@/types";
-import { createInitialBoard } from "./game-data";
+import type { GameState, Tile } from "@/types";
+import { createInitialBoard, TILE_BAG } from "./game-data";
 
 const GITHUB_REPO = "iamogbz/scrabblex";
 const GITHUB_BRANCH = "games";
@@ -33,6 +33,15 @@ function toBase64(str: string): string {
 function fromBase64(str: string): string {
   return Buffer.from(str, "base64").toString("utf8");
 }
+
+const shuffle = <T,>(array: T[]): T[] => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
 
 export async function getGame(
   gameId: string
@@ -65,10 +74,10 @@ export async function createNewGame(gameId: string): Promise<GameState> {
   const initialGameState: GameState = {
     gameId,
     players: [],
-    tileBag: [], // Will be populated when game starts
+    tileBag: shuffle(TILE_BAG),
     board: createInitialBoard(),
     history: [],
-    gamePhase: "lobby",
+    gamePhase: "playing",
   };
 
   if (!GITHUB_TOKEN) {

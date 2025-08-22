@@ -17,7 +17,7 @@ export interface Player {
   code: string;
 }
 
-export type GamePhase = "lobby" | "playing" | "ended";
+export type GamePhase = "playing" | "ended";
 
 export type BoardSquare = {
   tile: PlacedTile | null;
