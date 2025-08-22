@@ -32,6 +32,6 @@ export interface GameState {
   players: Player[];
   tileBag: Tile[];
   board: Board;
-  currentPlayerIndex: number;
+  turnsPlayed: number;
   gamePhase: GamePhase;
 }

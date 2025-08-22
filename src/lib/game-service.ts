@@ -66,7 +66,7 @@ export async function createNewGame(gameId: string): Promise<GameState> {
     players: [],
     tileBag: [], // Will be populated when game starts
     board: createInitialBoard(),
-    currentPlayerIndex: 0,
+    turnsPlayed: 0,
     gamePhase: "lobby",
   };
 

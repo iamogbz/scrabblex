@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { GameState, Player, Tile, PlacedTile } from '@/types';
 import { TILE_BAG } from '@/lib/game-data';
 import { Button } from './ui/button';
@@ -65,7 +65,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
   }, [fetchGame]);
 
   useEffect(() => {
-    if (gameState?.gamePhase === 'playing') {
+    if (gameState?.gamePhase !== 'lobby') {
       const storedPlayerId = localStorage.getItem(`scrabblex_player_id_${gameId}`);
       if (storedPlayerId && gameState.players.some(p => p.id === storedPlayerId)) {
         setAuthenticatedPlayerId(storedPlayerId);
@@ -90,9 +90,9 @@ export default function GameClient({ gameId }: { gameId: string }) {
              // After successful update, refetch to get new SHA and confirm state
             await fetchGame();
         }
-    } catch (e) {
+    } catch (e: any) {
         console.error(e);
-        toast({ title: "Action Failed", description: "Could not perform the action. The game state may have changed. Please try again.", variant: 'destructive'});
+        toast({ title: "Action Failed", description: e.message || "Could not perform the action. The game state may have changed. Please try again.", variant: 'destructive'});
         // Refetch to get latest state in case of conflict
         await fetchGame();
     } finally {
@@ -121,6 +121,16 @@ export default function GameClient({ gameId }: { gameId: string }) {
         return null;
       }
       
+      // Allow joining mid-game if no player has played twice
+      if (currentState.gamePhase === 'playing' && currentState.turnsPlayed >= currentState.players.length) {
+        toast({
+            title: "Cannot Join Game",
+            description: "The game is too far along to join.",
+            variant: 'destructive',
+        });
+        return null;
+      }
+
       if (currentState.players.some(p => p.name.toLowerCase() === newPlayerName.trim().toLowerCase())) {
         toast({
             title: "Cannot Add Player",
@@ -129,14 +139,27 @@ export default function GameClient({ gameId }: { gameId: string }) {
         });
         return null;
       }
-
+      
       const newPlayer: Player = {
-        id: `p${currentState.players.length + 1}`,
+        id: `p${Date.now()}`, // Use a more unique ID
         name: newPlayerName.trim(),
         score: 0,
         rack: [],
         code: newPlayerCode.trim(),
       };
+      
+      if(currentState.gamePhase === 'playing') {
+        const tilesToDraw = 7;
+        const currentTileBag = [...currentState.tileBag];
+        if(currentTileBag.length < tilesToDraw) {
+            toast({ title: "Cannot Add Player", description: "Not enough tiles left in the bag.", variant: 'destructive' });
+            return null;
+        }
+        const newTiles = currentTileBag.splice(0, tilesToDraw);
+        newPlayer.rack = newTiles;
+        currentState.tileBag = currentTileBag;
+      }
+
       setNewPlayerName('');
       setNewPlayerCode('');
       return { ...currentState, players: [...currentState.players, newPlayer] };
@@ -151,6 +174,11 @@ export default function GameClient({ gameId }: { gameId: string }) {
                 description: "You need at least 1 player to start the game.",
                 variant: 'destructive',
             })
+            return null;
+        }
+        
+        if (currentState.gamePhase === 'playing') {
+            toast({ title: "Game Already Started", description: "The game is already in progress.", variant: 'destructive'});
             return null;
         }
 
@@ -226,12 +254,18 @@ export default function GameClient({ gameId }: { gameId: string }) {
       const result = await verifyWordAction({ word });
 
       if(result.isValid) {
-        toast({ title: "Valid Word!", description: `"${word}" is a valid word.` });
         
         await performGameAction((currentState) => {
+            const currentTurnPlayerIndex = currentState.turnsPlayed % currentState.players.length;
+            const currentTurnPlayer = currentState.players[currentTurnPlayerIndex];
+
+            if (currentTurnPlayer.id !== authenticatedPlayerId) {
+                throw new Error(`It's not your turn. It's ${currentTurnPlayer.name}'s turn.`);
+            }
+
             const newGameState = JSON.parse(JSON.stringify(currentState)); // Deep copy
             
-            const currentPlayer = newGameState.players[newGameState.currentPlayerIndex];
+            const currentPlayer = newGameState.players[currentTurnPlayerIndex];
             const points = tempPlacedTiles.reduce((sum, tile) => sum + tile.points, 0); // Recalculate points based on final tile placement
             currentPlayer.score += points;
 
@@ -239,7 +273,12 @@ export default function GameClient({ gameId }: { gameId: string }) {
             const newTiles = newGameState.tileBag.slice(0, tilesToDraw);
             const currentRack = newGameState.players.find(p => p.id === authenticatedPlayerId)!.rack;
             
-            currentRack.push(...newTiles);
+            // Remove played tiles from rack definition before adding new ones
+            const playedLetters = tempPlacedTiles.map(t => t.letter);
+            const rackAfterPlay = currentRack.filter(t => !playedLetters.includes(t.letter));
+
+            rackAfterPlay.push(...newTiles);
+            currentPlayer.rack = rackAfterPlay;
 
             newGameState.tileBag.splice(0, tilesToDraw);
             
@@ -247,9 +286,10 @@ export default function GameClient({ gameId }: { gameId: string }) {
                 newGameState.board[tile.x][tile.y].tile = {letter: tile.letter, points: tile.points, x: tile.x, y: tile.y};
             });
 
-            newGameState.currentPlayerIndex = (newGameState.currentPlayerIndex + 1) % newGameState.players.length;
+            newGameState.turnsPlayed += 1;
             
             setTempPlacedTiles([]);
+            toast({ title: "Valid Word!", description: `"${word}" is a valid word.` });
             return newGameState;
         });
 
@@ -269,6 +309,13 @@ export default function GameClient({ gameId }: { gameId: string }) {
     setAuthenticatedPlayerId(playerId);
     localStorage.setItem(`scrabblex_player_id_${gameId}`, playerId);
   }
+
+  const currentPlayer = useMemo(() => {
+    if (!gameState || gameState.players.length === 0) return null;
+    const playerIndex = gameState.turnsPlayed % gameState.players.length;
+    return gameState.players[playerIndex];
+  }, [gameState]);
+
 
   if (isLoading) {
     return <div className="text-center p-10 flex items-center justify-center gap-2"><RefreshCw className="animate-spin h-5 w-5"/> Loading Game...</div>;
@@ -304,13 +351,27 @@ export default function GameClient({ gameId }: { gameId: string }) {
     return <div className="text-center p-10">Game not found.</div>;
   }
   
-  if (gameState.gamePhase === 'lobby') {
+  const canJoinGame = useMemo(() => {
+    if (!gameState) return false;
+    if (gameState.players.length >= 4) return false;
+    if (gameState.gamePhase === 'lobby') return true;
+    if (gameState.gamePhase === 'playing') {
+      return gameState.turnsPlayed < gameState.players.length;
+    }
+    return false;
+  }, [gameState]);
+
+  if (gameState.gamePhase === 'lobby' || (gameState.gamePhase === 'playing' && canJoinGame)) {
     return (
       <div className="container mx-auto max-w-2xl">
         <Card className="shadow-xl">
           <CardHeader>
             <CardTitle className="text-3xl text-center">Game Lobby</CardTitle>
-            <CardDescription className="text-center">Share this page with your friends to let them join.</CardDescription>
+            <CardDescription className="text-center">
+                {gameState.gamePhase === 'lobby'
+                ? "Share this page with your friends to let them join."
+                : "A game is in progress, but you can still join!"}
+            </CardDescription>
             <div className='text-center pt-4'>
                 <p className="text-sm text-muted-foreground">Game Key</p>
                 <div className="flex items-center justify-center gap-2 mt-1">
@@ -323,26 +384,34 @@ export default function GameClient({ gameId }: { gameId: string }) {
           </CardHeader>
           <CardContent>
              <div className="space-y-4">
-               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                 <Input 
-                    placeholder="Enter your name" 
-                    value={newPlayerName}
-                    onChange={(e) => setNewPlayerName(e.target.value)}
-                 />
-                 <div className='relative'>
+               {canJoinGame ? (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <Input 
-                      type={showCode ? 'text' : 'password'}
-                      placeholder="Enter a secret code" 
-                      value={newPlayerCode}
-                      onChange={(e) => setNewPlayerCode(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && addPlayer()}
+                        placeholder="Enter your name" 
+                        value={newPlayerName}
+                        onChange={(e) => setNewPlayerName(e.target.value)}
                     />
-                    <Button variant="ghost" size="icon" className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8" onClick={() => setShowCode(s => !s)}>
-                      {showCode ? <EyeOff className="h-4 w-4"/> : <Eye className="h-4 w-4"/>}
-                    </Button>
-                 </div>
-               </div>
-                <Button onClick={addPlayer} disabled={!newPlayerName.trim() || !newPlayerCode.trim() || gameState.players.length >= 4}><UserPlus className="h-4 w-4 mr-2"/> Add Player</Button>
+                    <div className='relative'>
+                        <Input 
+                          type={showCode ? 'text' : 'password'}
+                          placeholder="Enter a secret code" 
+                          value={newPlayerCode}
+                          onChange={(e) => setNewPlayerCode(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && addPlayer()}
+                        />
+                        <Button variant="ghost" size="icon" className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8" onClick={() => setShowCode(s => !s)}>
+                          {showCode ? <EyeOff className="h-4 w-4"/> : <Eye className="h-4 w-4"/>}
+                        </Button>
+                    </div>
+                  </div>
+                  <Button onClick={addPlayer} disabled={!newPlayerName.trim() || !newPlayerCode.trim()}>
+                    <UserPlus className="h-4 w-4 mr-2"/> {gameState.gamePhase === 'lobby' ? 'Add Player' : 'Join Game'}
+                  </Button>
+                </>
+               ) : (
+                <p className="text-center text-muted-foreground">The game is full or too far along to join.</p>
+               )}
                
                <div className="space-y-2">
                   <h3 className="text-lg font-medium flex items-center"><Users className="mr-2 h-5 w-5"/> Players ({gameState.players.length}/4)</h3>
@@ -356,9 +425,11 @@ export default function GameClient({ gameId }: { gameId: string }) {
                   </div>
                </div>
 
-               <Button size="lg" className="w-full text-lg py-7 bg-accent hover:bg-accent/90" onClick={startGame} disabled={gameState.players.length < 1}>
-                 <Play className="h-6 w-6 mr-2" /> Start Game
-               </Button>
+                {gameState.gamePhase === 'lobby' && (
+                    <Button size="lg" className="w-full text-lg py-7 bg-accent hover:bg-accent/90" onClick={startGame} disabled={gameState.players.length < 1}>
+                        <Play className="h-6 w-6 mr-2" /> Start Game
+                    </Button>
+                )}
              </div>
           </CardContent>
         </Card>
@@ -366,13 +437,16 @@ export default function GameClient({ gameId }: { gameId: string }) {
     )
   }
 
-  if (gameState.gamePhase === 'playing' && !authenticatedPlayerId) {
+  if ((gameState.gamePhase === 'playing' || gameState.gamePhase === 'ended') && !authenticatedPlayerId) {
     return <PlayerAuthDialog players={gameState.players} onAuth={handleAuth} />
   }
 
-  const currentPlayer = gameState.players[gameState.currentPlayerIndex];
   const authenticatedPlayer = gameState.players.find(p => p.id === authenticatedPlayerId);
-  const isMyTurn = authenticatedPlayerId === currentPlayer.id;
+  const isMyTurn = authenticatedPlayerId === currentPlayer?.id;
+
+  if (!currentPlayer) {
+     return <div className="text-center p-10">Error: Could not determine the current player.</div>;
+  }
 
   return (
     <div className="container mx-auto">
