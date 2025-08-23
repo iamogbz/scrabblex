@@ -133,7 +133,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
   }, [authenticatedPlayer, stagedTiles]);
 
   const wordBuilderSlots = useMemo((): (PlacedTile | null)[] => {
-    if (!selectedBoardPos || !playDirection || !gameState || !authenticatedPlayer) return [];
+    if (!selectedBoardPos || !playDirection || !gameState) return [];
     
     const slots: (PlacedTile | null)[] = [];
     let { x: currentX, y: currentY } = selectedBoardPos;
@@ -150,19 +150,19 @@ export default function GameClient({ gameId }: { gameId: string }) {
     }
     
     let emptySlotsCount = 0;
-    const availableTilesCount = rackTiles.length;
+    const MAX_EMPTY_SLOTS = 7;
 
     // Now build forward to create the slots
-    while (currentX < 15 && currentY < 15) {
+    while ((playDirection === 'horizontal' && currentY < 15) || (playDirection === 'vertical' && currentX < 15)) {
         const boardSquare = gameState.board[currentX][currentY];
         if (boardSquare.tile) {
             slots.push(boardSquare.tile);
         } else {
-            if (emptySlotsCount < availableTilesCount) {
+            if (emptySlotsCount < MAX_EMPTY_SLOTS) {
                 slots.push(null); // Empty, fillable slot
                 emptySlotsCount++;
             } else {
-                break; // Stop adding slots if we have no more tiles to place
+                break; // Stop adding slots if we have added the max number of empty slots
             }
         }
         
@@ -171,7 +171,8 @@ export default function GameClient({ gameId }: { gameId: string }) {
     }
 
     return slots;
-}, [selectedBoardPos, playDirection, gameState, authenticatedPlayer, rackTiles.length]);
+  }, [selectedBoardPos, playDirection, gameState]);
+
   
   const tempPlacedTiles = useMemo((): PlacedTile[] => {
       if (!selectedBoardPos || !playDirection || !wordBuilderSlots.length) return [];
