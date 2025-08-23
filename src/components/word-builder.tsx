@@ -19,7 +19,7 @@ interface WordBuilderProps {
 }
 
 export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, board, tempPlacedTiles, playDirection }: WordBuilderProps) {
-  
+
   const { word, score } = useMemo(() => {
     if (tempPlacedTiles.length === 0) return { word: "", score: 0 };
     const { score: calculatedScore, words } = calculateMoveScore(tempPlacedTiles, board);
@@ -42,9 +42,9 @@ export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, boa
                 const tile = stagedTiles[stagedIndex];
                 const currentIndex = stagedIndex;
                 rendered.push(
-                    <SingleTile 
-                        key={`staged-${currentIndex}`} 
-                        tile={tile} 
+                    <SingleTile
+                        key={`staged-${currentIndex}`}
+                        tile={tile}
                         isDraggable={true}
                         isTemp={true}
                         onSelect={() => onStagedTileClick(currentIndex)}

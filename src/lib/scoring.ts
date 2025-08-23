@@ -16,25 +16,26 @@ const calculateWordScore = (wordTiles: (BoardSquare | PlacedTile)[], board: Boar
     let wordMultiplier = 1;
     let newTilesCount = 0;
 
-    wordTiles.forEach(tile => {
+    wordTiles.forEach(boardSquareOrPlacedTile => {
         let letterScore = 0;
-        
-        const placedTile = 'letter' in tile && 'points' in tile ? tile : null;
+
+        const isPreviousTile = "tile" in boardSquareOrPlacedTile
+        const tile = isPreviousTile
+            ? boardSquareOrPlacedTile.tile
+            : boardSquareOrPlacedTile;
+        if (!tile) return;
+
         if (tile.x === undefined || tile.y === undefined || tile.x < 0 || tile.x >= 15 || tile.y < 0 || tile.y >= 15) return;
-        
+
         const boardRow = board[tile.x];
         if (!boardRow) return;
 
         const boardSquare = boardRow[tile.y];
         if (!boardSquare) return;
 
-        const tileData = placedTile || boardSquare.tile;
+        letterScore = tile.points;
 
-        if (!tileData) return;
-        
-        letterScore = tileData.points;
-        
-        if (placedTile) {
+        if (!isPreviousTile) {
             newTilesCount++;
             if (boardSquare.multiplierType === 'letter') {
                 letterScore *= boardSquare.multiplier;
@@ -53,13 +54,13 @@ const calculateWordScore = (wordTiles: (BoardSquare | PlacedTile)[], board: Boar
 export const calculateMoveScore = (
   placedTiles: PlacedTile[],
   board: Board
-): { score: number; words: WordInfo[]; } => {
-  if (placedTiles.length === 0) return { score: 0, words: [] };
+): { score: number; words: WordInfo[]; isBingo: boolean } => {
+  if (placedTiles.length === 0) return { score: 0, words: [], isBingo: false };
 
   let totalScore = 0;
   const allWordsInfo: WordInfo[] = [];
   const uniqueWords = new Set<string>();
-  
+
   // If there's only one tile, we need to check both directions.
   // If there are multiple, we can infer the main direction.
   const directionsToCheck: ('horizontal' | 'vertical')[] = [];
@@ -90,14 +91,14 @@ export const calculateMoveScore = (
               currentX--;
           }
       }
-      
+
       // Build the word forward from the starting point
       while (currentX < 15 && currentY < 15) {
           const boardSquare = board[currentX]?.[currentY];
           if (!boardSquare) break;
 
           const newTile = placedTiles.find(t => t.x === currentX && t.y === currentY);
-          
+
           if (newTile) {
             line.push(newTile);
           } else if (boardSquare.tile) {
@@ -115,7 +116,7 @@ export const calculateMoveScore = (
   // --- Main Word(s) and Secondary words (cross-words) ---
   const mainDirection = directionsToCheck[0];
   const secondaryDirection = mainDirection === 'horizontal' ? 'vertical' : 'horizontal';
-  
+
   // Check main word
   const mainWordTiles = getWordAt(placedTiles[0].x, placedTiles[0].y, mainDirection);
   if (mainWordTiles.length > 1) {
@@ -159,11 +160,12 @@ export const calculateMoveScore = (
         totalScore += score;
       }
   });
-  
+
   // Bingo bonus
-  if (placedTiles.length === 7) {
+  const isBingo = placedTiles.length >= 7;
+  if (isBingo) {
       totalScore += 50;
   }
-  
-  return { score: totalScore, words: allWordsInfo };
+
+  return { score: totalScore, words: allWordsInfo, isBingo };
 };
