@@ -4,18 +4,10 @@
     {
       "id": "p1755904209190",
       "name": "Q",
-      "score": 0,
+      "score": 20,
       "rack": [
         {
           "letter": "U",
-          "points": 1
-        },
-        {
-          "letter": "X",
-          "points": 8
-        },
-        {
-          "letter": "E",
           "points": 1
         },
         {
@@ -31,8 +23,16 @@
           "points": 1
         },
         {
-          "letter": "A",
+          "letter": "N",
           "points": 1
+        },
+        {
+          "letter": "F",
+          "points": 4
+        },
+        {
+          "letter": "C",
+          "points": 3
         }
       ],
       "code": "q"
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "C",
-      "points": 3
-    },
     {
       "letter": "A",
       "points": 1
@@ -1101,19 +1089,34 @@
         "isCenter": false
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 7,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": true
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "X",
+          "points": 8,
+          "x": 7,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false
@@ -1794,6 +1797,32 @@
       }
     ]
   ],
-  "history": [],
+  "history": [
+    {
+      "word": "AXE",
+      "score": 20,
+      "playerId": "p1755904209190",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 7,
+          "y": 7
+        },
+        {
+          "letter": "X",
+          "points": 8,
+          "x": 7,
+          "y": 8
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 9
+        }
+      ]
+    }
+  ],
   "gamePhase": "playing"
 }
