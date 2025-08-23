@@ -503,7 +503,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
         await performGameAction(action, message);
 
       } else {
-        toast({ title: "Invalid Word", description: `${mainWord} is not a valid word.`, variant: 'destructive' });
+        toast({ title: "Invalid Word", description: `The word "${mainWord}" is not valid.`, variant: 'destructive' });
       }
     } catch(e) {
         console.error(e);
@@ -694,5 +694,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
     </div>
   );
 }
+
+    
 
     
