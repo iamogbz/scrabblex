@@ -1,7 +1,7 @@
 
 import { Logo } from "@/components/logo";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Gamepad2 } from "lucide-react";
+import { Cross, Gamepad2, Grid2X2 } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -19,17 +19,30 @@ export default function Home() {
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center">
+          <div className="flex flex-row justify-center gap-4">
             <Link href="/draw" className="z-10 my-4">
                 <div className="group relative">
                 <div className="absolute -inset-0.5 animate-tilt rounded-lg bg-gradient-to-r from-primary to-accent opacity-75 blur transition duration-1000 group-hover:opacity-100 group-hover:duration-200"></div>
                 <div className="relative flex h-32 w-32 items-center justify-center rounded-lg bg-card text-card-foreground shadow-inner">
                     <div className="flex flex-col items-center gap-2">
-                    <Gamepad2 className="h-12 w-12 text-primary" />
-                    <span className="text-xl font-bold tracking-widest">DRAW</span>
+                        <Grid2X2 className="h-12 w-12 text-primary" />
+                        <span className="text-xl font-bold tracking-widest">DRAW</span>
                     </div>
                 </div>
                 </div>
             </Link>
+            <Link href="/solve" className="z-10 my-4">
+                <div className="group relative">
+                <div className="absolute -inset-0.5 animate-tilt rounded-lg bg-gradient-to-r from-primary to-accent opacity-75 blur transition duration-1000 group-hover:opacity-100 group-hover:duration-200"></div>
+                <div className="relative flex h-32 w-32 items-center justify-center rounded-lg bg-card text-card-foreground shadow-inner">
+                    <div className="flex flex-col items-center gap-2">
+                        <Cross className="h-12 w-12 text-primary" />
+                        <span className="text-xl font-bold tracking-widest">SOLVE</span>
+                    </div>
+                </div>
+                </div>
+            </Link>
+          </div>
           <p className="text-sm text-muted-foreground mt-2">
             <Gamepad2 className="inline-block h-4 w-4 mr-1" />
             Challenge your friends and expand your vocabulary.
