@@ -20,7 +20,10 @@ const calculateWordScore = (wordTiles: (BoardSquare | PlacedTile)[], board: Boar
         let letterScore = 0;
         
         const placedTile = 'letter' in tile && 'points' in tile ? tile : null;
+        if (tile.x < 0 || tile.x >= 15 || tile.y < 0 || tile.y >= 15) return;
         const boardSquare = board[tile.x][tile.y];
+        if (!boardSquare) return;
+
         const tileData = placedTile || boardSquare.tile;
 
         if (!tileData) return;
@@ -53,17 +56,29 @@ export const calculateMoveScore = (
   const allWordsInfo: WordInfo[] = [];
   const uniqueWords = new Set<string>();
   
-  const mainDirection = placedTiles.length > 1 
-    ? (placedTiles[0].x === placedTiles[1].x ? 'horizontal' : 'vertical') 
-    : 'horizontal';
+  // If there's only one tile, we need to check both directions.
+  // If there are multiple, we can infer the main direction.
+  const directionsToCheck: ('horizontal' | 'vertical')[] = [];
+  if (placedTiles.length > 1) {
+    if (placedTiles[0].x === placedTiles[1].x) {
+        directionsToCheck.push('horizontal');
+    } else {
+        directionsToCheck.push('vertical');
+    }
+  } else {
+    // For a single tile, it could form a word in either or both directions
+    directionsToCheck.push('horizontal', 'vertical');
+  }
+
 
   const getWordAt = (x: number, y: number, direction: 'horizontal' | 'vertical'): (BoardSquare | PlacedTile)[] => {
       const line: (BoardSquare | PlacedTile)[] = [];
       let currentX = x;
       let currentY = y;
 
+      // Backtrack to the start of the potential word
       if (direction === 'horizontal') {
-          while (currentY > 0 && (board[currentX][currentY-1]?.tile || placedTiles.some(t => t.x === currentX && t.y === currentY -1))) {
+          while (currentY > 0 && (board[currentX]?.[currentY-1]?.tile || placedTiles.some(t => t.x === currentX && t.y === currentY -1))) {
               currentY--;
           }
       } else {
@@ -72,6 +87,7 @@ export const calculateMoveScore = (
           }
       }
       
+      // Build the word forward from the starting point
       while (currentX < 15 && currentY < 15) {
           const boardSquare = board[currentX]?.[currentY];
           if (!boardSquare) break;
@@ -83,7 +99,7 @@ export const calculateMoveScore = (
           } else if (boardSquare.tile) {
             line.push(boardSquare);
           } else {
-            break;
+            break; // Stop if we hit an empty square
           }
 
           if (direction === 'horizontal') currentY++;
@@ -92,19 +108,21 @@ export const calculateMoveScore = (
       return line;
   }
 
-  // --- Main Word ---
+  // --- Main Word(s) and Secondary words (cross-words) ---
+  const mainDirection = directionsToCheck[0];
+  const secondaryDirection = mainDirection === 'horizontal' ? 'vertical' : 'horizontal';
+  
+  // Check main word
   const mainWordTiles = getWordAt(placedTiles[0].x, placedTiles[0].y, mainDirection);
   if (mainWordTiles.length > 1) {
-    const mainWordString = getWordFromTiles(mainWordTiles);
-    if (!uniqueWords.has(mainWordString)) {
-        allWordsInfo.push({ word: mainWordString, tiles: mainWordTiles, direction: mainDirection });
-        uniqueWords.add(mainWordString);
-    }
+      const mainWordString = getWordFromTiles(mainWordTiles);
+      if (!uniqueWords.has(mainWordString)) {
+          allWordsInfo.push({ word: mainWordString, tiles: mainWordTiles, direction: mainDirection });
+          uniqueWords.add(mainWordString);
+      }
   }
 
-
-  // --- Secondary words (cross-words) ---
-  const secondaryDirection = mainDirection === 'horizontal' ? 'vertical' : 'horizontal';
+  // Check for secondary (cross) words for each placed tile
   placedTiles.forEach(tile => {
     const crossWordTiles = getWordAt(tile.x, tile.y, secondaryDirection);
     if (crossWordTiles.length > 1) {
@@ -116,9 +134,23 @@ export const calculateMoveScore = (
     }
   });
 
+  // If only one tile was placed, the cross-word might have been the "main" word, so check the other direction too.
+  if (placedTiles.length === 1) {
+    const otherDirectionTiles = getWordAt(placedTiles[0].x, placedTiles[0].y, secondaryDirection);
+     if (otherDirectionTiles.length > 1) {
+        const otherWordString = getWordFromTiles(otherDirectionTiles);
+        if (!uniqueWords.has(otherWordString)) {
+            allWordsInfo.push({ word: otherWordString, tiles: otherDirectionTiles, direction: secondaryDirection });
+            uniqueWords.add(otherWordString);
+        }
+    }
+  }
+
+
   // --- Calculate total score from all found words ---
   allWordsInfo.forEach(wordInfo => {
       const { score, newTilesCount } = calculateWordScore(wordInfo.tiles, board);
+      // Only add to score if the word includes at least one newly placed tile
       if(newTilesCount > 0){
         totalScore += score;
       }
