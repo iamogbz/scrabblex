@@ -76,7 +76,7 @@ export async function getGame(
     const initialTileCounts = countTiles(TILE_BAG);
     
     const tilesInRacks = gameState.players.flatMap(p => p.rack);
-    const tilesOnBoard = gameState.history.flatMap(h => h.tiles);
+    const tilesOnBoard = gameState.history.flatMap(h => h.tiles.map(t => ({letter: t.letter, points: t.points})));
 
     const tilesInPlay = [...tilesInRacks, ...tilesOnBoard];
     const tilesInPlayCounts = countTiles(tilesInPlay);

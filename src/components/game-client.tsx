@@ -392,7 +392,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
         return;
     }
 
-    const { score, mainWord, allWords } = calculateMoveScore(tempPlacedTiles, gameState.board);
+    const { score, mainWord } = calculateMoveScore(tempPlacedTiles, gameState.board);
 
     if (!mainWord || mainWord.length < 2) {
         toast({ title: "Cannot Play", description: "A word must be at least 2 letters long.", variant: 'destructive'});
@@ -443,13 +443,10 @@ export default function GameClient({ gameId }: { gameId: string }) {
     setIsLoading(true);
     try {
       // In a real game, you might want to verify all created words, not just the main one.
-      const wordsToVerify = allWords.map(w => w.word);
-      const verificationPromises = wordsToVerify.map(word => verifyWordAction({ word }));
-      const results = await Promise.all(verificationPromises);
-      
-      const invalidWords = results.map((r, i) => ({...r, word: wordsToVerify[i]})).filter(r => !r.isValid);
+      // For this implementation, just verifying the main word is enough.
+      const verificationResult = await verifyWordAction({ word: mainWord });
 
-      if(invalidWords.length === 0) {
+      if(verificationResult.isValid) {
         
         const action = (currentState: GameState) => {
             const currentTurnPlayerIndex = currentState.history.length % currentState.players.length;
@@ -487,13 +484,15 @@ export default function GameClient({ gameId }: { gameId: string }) {
                 newGameState.board[tile.x][tile.y].tile = {letter: tile.letter, points: tile.points, x: tile.x, y: tile.y};
             });
 
-            // Add all played words to history
-            const playedWordHistory: PlayedWord[] = allWords.map(w => ({
-              ...w,
+            // Add the played word to history
+            const playedWord: PlayedWord = {
               playerId: playerToUpdate.id,
-            }))
+              word: mainWord,
+              tiles: tempPlacedTiles, // Only store the tiles placed by the user this turn
+              score: score,
+            };
             
-            newGameState.history.push(...playedWordHistory);
+            newGameState.history.push(playedWord);
             
             resetTurn();
             toast({ title: "Valid Word!", description: `Scored ${score} points.` });
@@ -504,7 +503,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
         await performGameAction(action, message);
 
       } else {
-        toast({ title: "Invalid Word(s)", description: `${invalidWords.map(w=>w.word).join(', ')} not valid.`, variant: 'destructive' });
+        toast({ title: "Invalid Word", description: `${mainWord} is not a valid word.`, variant: 'destructive' });
       }
     } catch(e) {
         console.error(e);

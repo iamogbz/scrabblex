@@ -1,8 +1,8 @@
 
 import type { Board, BoardSquare, PlacedTile, PlayedWord, Tile } from "@/types";
 
-const getWordFromTiles = (tiles: (PlacedTile | Tile | null)[]) => {
-    return tiles.map(t => t?.letter || '').join('');
+const getWordFromTiles = (tiles: (BoardSquare | PlacedTile)[]) => {
+    return tiles.map(t => 'letter' in t ? t.letter : t.tile?.letter || '').join('');
 }
 
 const calculateWordScore = (wordTiles: (BoardSquare | PlacedTile)[], board: Board) => {
@@ -13,7 +13,7 @@ const calculateWordScore = (wordTiles: (BoardSquare | PlacedTile)[], board: Boar
     wordTiles.forEach(tile => {
         let letterScore = 0;
         
-        const placedTile = 'letter' in tile ? tile : null; // It's a PlacedTile from the current move
+        const placedTile = 'letter' in tile && 'points' in tile ? tile : null; // It's a PlacedTile from the current move
         const boardSquare = 'multiplier' in tile ? tile as BoardSquare : board[tile.x][tile.y];
         const tileData = placedTile || boardSquare.tile;
 
@@ -40,10 +40,9 @@ const calculateWordScore = (wordTiles: (BoardSquare | PlacedTile)[], board: Boar
 export const calculateMoveScore = (
   placedTiles: PlacedTile[],
   board: Board
-): { score: number; mainWord: string; allWords: PlayedWord[] } => {
-  if (placedTiles.length === 0) return { score: 0, mainWord: '', allWords: [] };
+): { score: number; mainWord: string; } => {
+  if (placedTiles.length === 0) return { score: 0, mainWord: '' };
 
-  const allPlayedWords: PlayedWord[] = [];
   let totalScore = 0;
   
   // This is a simplification. A real Scrabble game needs to check both directions if tiles are placed in a line.
@@ -91,17 +90,12 @@ export const calculateMoveScore = (
 
   // --- Main Word ---
   const mainWordTiles = getWordAt(placedTiles[0].x, placedTiles[0].y, mainDirection);
+  let mainWordString = '';
   if (mainWordTiles.length > 1) {
-    const mainWordString = getWordFromTiles(mainWordTiles);
+    mainWordString = getWordFromTiles(mainWordTiles);
     const {score: mainScore, newTilesCount} = calculateWordScore(mainWordTiles, board);
     if(newTilesCount > 0){ // only score words that include new tiles
         totalScore += mainScore;
-        allPlayedWords.push({
-            word: mainWordString,
-            score: mainScore,
-            playerId: '', // to be filled in later
-            tiles: placedTiles,
-        });
         // Bingo bonus for using all 7 tiles
         if (placedTiles.length === 7) {
             totalScore += 50;
@@ -112,26 +106,27 @@ export const calculateMoveScore = (
 
   // --- Secondary words (cross-words) ---
   const secondaryDirection = mainDirection === 'horizontal' ? 'vertical' : 'horizontal';
+  const checkedCrossWords = new Set<string>();
+
   placedTiles.forEach(tile => {
     const crossWordTiles = getWordAt(tile.x, tile.y, secondaryDirection);
     if (crossWordTiles.length > 1) {
         const crossWordString = getWordFromTiles(crossWordTiles);
-        const {score: crossScore, newTilesCount} = calculateWordScore(crossWordTiles, board);
-
-        // only score words that include new tiles (should always be true here)
-        if(newTilesCount > 0){ 
-            totalScore += crossScore;
-            allPlayedWords.push({
-                word: crossWordString,
-                score: crossScore,
-                playerId: '',
-                tiles: placedTiles,
-            });
+        // Only calculate score for a cross-word once
+        if (!checkedCrossWords.has(crossWordString)) {
+            const {score: crossScore, newTilesCount} = calculateWordScore(crossWordTiles, board);
+            // only score words that include new tiles (should always be true here)
+            if(newTilesCount > 0){ 
+                totalScore += crossScore;
+            }
+            checkedCrossWords.add(crossWordString);
         }
     }
   })
   
-  const mainWordString = getWordFromTiles(mainWordTiles);
+  if (!mainWordString && mainWordTiles.length > 0) {
+      mainWordString = getWordFromTiles(mainWordTiles);
+  }
   
-  return { score: totalScore, mainWord: mainWordString, allWords: allPlayedWords };
+  return { score: totalScore, mainWord: mainWordString };
 };
