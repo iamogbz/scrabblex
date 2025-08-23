@@ -7,6 +7,13 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Home, LogOut, ChevronLeft } from "lucide-react";
 import { useState, use } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
 
 export default function GamePage({ params }: { params: Promise<{ gameId: string }> }) {
   const { gameId } = use(params);
@@ -25,22 +32,49 @@ export default function GamePage({ params }: { params: Promise<{ gameId: string 
           <Logo className="w-8 h-8"/>
           <span className="font-headline text-2xl tracking-wider">Scrabblex</span>
         </Link>
-        <div className="flex items-center gap-2">
-           <Button variant="ghost" onClick={handleLeave} disabled={!leaveGameHandler}>
-              <LogOut className="mr-2 h-4 w-4" /> Back to Lobby
-            </Button>
-            <Button variant="ghost" asChild>
-              <Link href="/draw">
-                <ChevronLeft className="mr-2 h-4 w-4" /> Back to Draw
-              </Link>
-            </Button>
-          <Button variant="ghost" asChild>
-            <Link href="/">
-              <Home className="mr-2 h-4 w-4" />
-              Back to Home
-            </Link>
-          </Button>
-        </div>
+        <TooltipProvider>
+          <div className="flex items-center gap-1 md:gap-2">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" onClick={handleLeave} disabled={!leaveGameHandler} size="icon" className="md:w-auto md:px-4">
+                  <LogOut className="h-4 w-4" /> 
+                  <span className="hidden md:inline ml-2">Back to Lobby</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="md:hidden">
+                <p>Back to Lobby</p>
+              </TooltipContent>
+            </Tooltip>
+            
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" asChild size="icon" className="md:w-auto md:px-4">
+                  <Link href="/draw">
+                    <ChevronLeft className="h-4 w-4" /> 
+                    <span className="hidden md:inline ml-2">Back to Draw</span>
+                  </Link>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="md:hidden">
+                <p>Back to Draw</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" asChild size="icon" className="md:w-auto md:px-4">
+                  <Link href="/">
+                    <Home className="h-4 w-4" />
+                    <span className="hidden md:inline ml-2">Back to Home</span>
+                  </Link>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="md:hidden">
+                <p>Back to Home</p>
+              </TooltipContent>
+            </Tooltip>
+          </div>
+        </TooltipProvider>
       </header>
       <main className="pt-20 pb-4">
         <GameClient gameId={gameId} setLeaveGameHandler={setLeaveGameHandler}/>
