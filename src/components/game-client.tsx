@@ -133,35 +133,35 @@ export default function GameClient({ gameId }: { gameId: string }) {
 
     const slots: (PlacedTile | null)[] = [];
     const { x: startX, y: startY } = selectedBoardPos;
+    
     let currentX = startX;
     let currentY = startY;
 
-    // Go backwards to find the true start of the potential word
-    while (currentX >= 0 && currentY >= 0 && gameState.board[currentX][currentY].tile) {
-      if (playDirection === 'horizontal') currentY--;
-      else currentX--;
+    // Based on direction, find the start of the word (including existing tiles)
+    if (playDirection === 'horizontal') {
+        while(currentY > 0 && gameState.board[currentX][currentY-1].tile) {
+            currentY--;
+        }
+    } else { // vertical
+        while(currentX > 0 && gameState.board[currentX-1][currentY].tile) {
+            currentX--;
+        }
     }
-    if (playDirection === 'horizontal') currentY++;
-    else currentX++;
 
     const startOfWordX = currentX;
     const startOfWordY = currentY;
-
-    let tilesToPlaceCount = authenticatedPlayer.rack.length;
+    
     let currentSlotX = startOfWordX;
     let currentSlotY = startOfWordY;
+    
+    const maxWordLength = 7; 
 
-    while (slots.length < 7 && currentSlotX < 15 && currentSlotY < 15) {
+    while (slots.length < maxWordLength && currentSlotX < 15 && currentSlotY < 15) {
         const boardSquare = gameState.board[currentSlotX][currentSlotY];
         if (boardSquare.tile) {
             slots.push(boardSquare.tile);
         } else {
-            if (tilesToPlaceCount > 0) {
-                slots.push(null); // Empty, fillable slot
-                tilesToPlaceCount--;
-            } else {
-                break; // No more tiles to place
-            }
+            slots.push(null); // Empty, fillable slot
         }
         
         if (playDirection === 'horizontal') currentSlotY++;
@@ -170,42 +170,38 @@ export default function GameClient({ gameId }: { gameId: string }) {
 
     return slots;
   }, [selectedBoardPos, playDirection, gameState, authenticatedPlayer]);
-
+  
   const tempPlacedTiles = useMemo((): PlacedTile[] => {
-    if (!selectedBoardPos || !playDirection || !wordBuilderSlots.length) return [];
-    
-    // Convert staged tiles to board-relative temporary tiles
-    const placed: PlacedTile[] = [];
-    let rackTileIndex = 0;
+      if (!selectedBoardPos || !playDirection || !wordBuilderSlots.length) return [];
+      
+      const placed: PlacedTile[] = [];
+      let tileIndex = 0;
+      
+      // Determine the start coordinates from wordBuilderSlots
+      const firstSlot = wordBuilderSlots.find(s => s !== null);
+      let startX = selectedBoardPos.x;
+      let startY = selectedBoardPos.y;
 
-    wordBuilderSlots.forEach((slot, index) => {
-        if (slot === null && rackTileIndex < stagedTiles.length) {
-            const tile = stagedTiles[rackTileIndex];
-            const { x: startX, y: startY } = selectedBoardPos;
-            
-            let currentX = startX;
-            let currentY = startY;
-             // This logic needs to find the actual coordinates of the slot
-            if (playDirection === 'horizontal') currentY = startY + index;
-            else currentX = startX + index;
-            
-            // This is still not quite right. We need to map builder slot index to board coordinates
-            let wordX = wordBuilderSlots[0]?.x ?? startX;
-            let wordY = wordBuilderSlots[0]?.y ?? startY;
+      if (playDirection === 'horizontal') {
+          while(startY > 0 && gameState?.board[startX][startY-1].tile) {
+              startY--;
+          }
+      } else {
+          while(startX > 0 && gameState?.board[startX-1][startY].tile) {
+              startX--;
+          }
+      }
 
-            if (playDirection === 'horizontal') {
-                wordY += index;
-            } else {
-                wordX += index;
-            }
-
-            placed.push({ ...tile, x: wordX, y: wordY });
-            rackTileIndex++;
-        }
-    });
-
-    return placed;
-  }, [stagedTiles, wordBuilderSlots, playDirection, selectedBoardPos]);
+      for (let i = 0; i < wordBuilderSlots.length; i++) {
+          if (wordBuilderSlots[i] === null && tileIndex < stagedTiles.length) {
+              const currentX = playDirection === 'vertical' ? startX + i : startX;
+              const currentY = playDirection === 'horizontal' ? startY + i : startY;
+              placed.push({ ...stagedTiles[tileIndex], x: currentX, y: currentY });
+              tileIndex++;
+          }
+      }
+      return placed;
+  }, [stagedTiles, wordBuilderSlots, playDirection, selectedBoardPos, gameState]);
 
   const performGameAction = async (action: (currentState: GameState) => GameState | Promise<GameState | null> | null): Promise<GameState | null> => {
     setIsLoading(true);
@@ -273,8 +269,8 @@ export default function GameClient({ gameId }: { gameId: string }) {
         toast({ title: "Cannot Join Game", description: "Lobby is full (max 4 players).", variant: 'destructive' });
         return null;
       }
-      if (currentState.players.length > 0 && currentTurnsPlayed >= currentState.players.length) {
-        toast({ title: "Cannot Join Game", description: "The game is too far along to join.", variant: 'destructive' });
+      if (currentState.players.length > 0 && currentTurnsPlayed > 0) {
+        toast({ title: "Cannot Join Game", description: "The game has already started.", variant: 'destructive' });
         return null;
       }
       
@@ -338,52 +334,91 @@ export default function GameClient({ gameId }: { gameId: string }) {
   };
   
   const handleRackTileClick = (tile: Tile) => {
-    if (!isMyTurn || !selectedBoardPos || stagedTiles.length >= 7) return;
+    if (!isMyTurn || !selectedBoardPos || !playDirection) return;
 
     const emptySlots = wordBuilderSlots.filter(s => s === null).length;
-    if (stagedTiles.length < emptySlots) {
-        setStagedTiles(prev => [...prev, { ...tile, x: 0, y: 0 }]); // x,y are placeholders
-    } else {
+    if (stagedTiles.length >= emptySlots) {
         toast({ title: "Word Builder Full", description: "No more space to add tiles for this word.", variant: 'destructive' });
+        return;
     }
+    
+    // Placeholder coordinates, will be updated by tempPlacedTiles memo
+    setStagedTiles(prev => [...prev, { ...tile, x: 0, y: 0 }]);
   };
+
 
   const handleStagedTileClick = (index: number) => {
     setStagedTiles(prev => prev.filter((_, i) => i !== index));
   };
   
-  const resetTurn = useCallback(async () => {
-    await fetchGame(); 
+  const resetTurn = useCallback(() => {
     setStagedTiles([]);
     setSelectedBoardPos(null);
     setPlayDirection(null);
-  }, [fetchGame]);
+  }, []);
 
   const handlePlayWord = async () => {
-    if (stagedTiles.length === 0) return;
-  
-    // Construct word from the builder slots, not just staged tiles
+    if (stagedTiles.length === 0) {
+        toast({ title: "Cannot Play", description: "You haven't placed any tiles.", variant: 'destructive'});
+        return;
+    }
+
     const word = wordBuilderSlots
-      .map((slot, index) => {
+      .map((slot) => {
         if (slot) return slot.letter;
-        const stagedTile = stagedTiles.find((_, i) => {
-            // This is tricky - need to map builder slot to staged tile
-            // Assuming stagedTiles are in order of placement
-            let placedCount = 0;
-            for(let j = 0; j < index; j++) {
-                if(wordBuilderSlots[j] === null) placedCount++;
-            }
-            return i === placedCount;
-        });
+        // This is a bit simplistic, assumes staged tiles are in order
+        const stagedTile = stagedTiles.shift();
         return stagedTile?.letter;
       })
       .join('');
-
+      
     if (!word) {
         toast({ title: "Cannot Play", description: "The word is empty.", variant: 'destructive'});
         return;
     }
     
+    // --- Validation for placement ---
+    const isFirstMove = gameState.history.length === 0;
+    if (isFirstMove) {
+        const coversCenter = tempPlacedTiles.some(t => t.x === 7 && t.y === 7);
+        if (!coversCenter) {
+            toast({
+                title: "Invalid Placement",
+                description: "The first word must cover the center star.",
+                variant: "destructive",
+            });
+            return;
+        }
+    } else {
+        const isConnected = tempPlacedTiles.some(tile => {
+            const { x, y } = tile;
+            const neighbors = [
+              { dx: 0, dy: 1 }, { dx: 0, dy: -1 },
+              { dx: 1, dy: 0 }, { dx: -1, dy: 0 },
+            ];
+            return neighbors.some(n => {
+                const checkX = x + n.dx;
+                const checkY = y + n.dy;
+                if (checkX >= 0 && checkX < 15 && checkY >= 0 && checkY < 15) {
+                    // Check if there is a tile on the board that is NOT part of the current play
+                    const isAlsoTempTile = tempPlacedTiles.some(temp => temp.x === checkX && temp.y === checkY);
+                    return gameState.board[checkX][checkY].tile && !isAlsoTempTile;
+                }
+                return false;
+            });
+        });
+
+        if (!isConnected) {
+            toast({
+                title: "Invalid Placement",
+                description: "New words must connect to existing tiles on the board.",
+                variant: "destructive",
+            });
+            return;
+        }
+    }
+    // --- End Validation ---
+
     setIsLoading(true);
     try {
       const result = await verifyWordAction({ word });
@@ -407,7 +442,6 @@ export default function GameClient({ gameId }: { gameId: string }) {
             const tilesToDraw = tempPlacedTiles.length;
             const newTiles = newGameState.tileBag.slice(0, tilesToDraw);
             
-            // This needs to correctly remove tiles from the rack
             let rackAfterPlay = [...currentPlayer.rack];
             const stagedLetters = stagedTiles.map(t => t.letter);
 
@@ -434,9 +468,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
             }
             newGameState.history.push(playedWord);
             
-            setStagedTiles([]);
-            setSelectedBoardPos(null);
-            setPlayDirection(null);
+            resetTurn();
             toast({ title: "Valid Word!", description: `"${word}" is a valid word.` });
             return newGameState;
         });
