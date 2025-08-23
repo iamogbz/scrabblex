@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { PLAYER_COLORS } from '@/lib/constants';
 import type { GameState, Player, Tile, PlacedTile, PlayedWord, BoardSquare, Board } from '@/types';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -28,13 +29,13 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
   const [newPlayerCode, setNewPlayerCode] = useState('');
   const [showCode, setShowCode] = useState(false);
   const [copied, setCopied] = useState(false);
-  
+
   const [stagedTiles, setStagedTiles] = useState<PlacedTile[]>([]);
-  const [selectedBoardPos, setSelectedBoardPos] = useState<{x: number, y: number} | null>(null);
+  const [selectedBoardPos, setSelectedBoardPos] = useState<{ x: number, y: number } | null>(null);
   const [playDirection, setPlayDirection] = useState<'horizontal' | 'vertical' | null>(null);
 
   const [authenticatedPlayerId, setAuthenticatedPlayerId] = useState<string | null>(null);
-  
+
   const { toast } = useToast();
 
   const fetchGame = useCallback(async (isPoll = false) => {
@@ -72,19 +73,19 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
   const handleLeaveGame = useCallback(() => {
     localStorage.removeItem(`scrabblex_player_id_${gameId}`);
     setAuthenticatedPlayerId(null);
-    toast({ title: "Left Game", description: "You have returned to the lobby."});
+    toast({ title: "Left Game", description: "You have returned to the lobby." });
   }, [gameId, toast]);
 
   useEffect(() => {
     const storedPlayerId = localStorage.getItem(`scrabblex_player_id_${gameId}`);
     if (storedPlayerId) {
-        // We will validate this against the game state once it loads.
-        setAuthenticatedPlayerId(storedPlayerId);
+      // We will validate this against the game state once it loads.
+      setAuthenticatedPlayerId(storedPlayerId);
     }
     // Pass the leave handler up to the parent page component
     setLeaveGameHandler(() => handleLeaveGame);
   }, [gameId, setLeaveGameHandler, handleLeaveGame]);
-  
+
   useEffect(() => {
     if (gameState && authenticatedPlayerId) {
       // If a stored player ID is not actually in the game, clear it.
@@ -96,30 +97,30 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
   }, [gameState, authenticatedPlayerId, gameId]);
 
   const turnsPlayed = useMemo(() => gameState?.history?.length ?? 0, [gameState]);
-  
+
   const currentPlayer = useMemo(() => {
     if (!gameState || gameState.players.length === 0) return null;
-    
+
     // Before first player has played twice, turn order is by newest player who hasn't played
     if (turnsPlayed < gameState.players.length) {
-        const playedPlayerIds = new Set(gameState.history.map(h => h.playerId));
-        const waitingPlayers = gameState.players.filter(p => !playedPlayerIds.has(p.id));
-        // The next player is the one who joined earliest among those who haven't played
-        if (waitingPlayers.length > 0) {
-            return waitingPlayers[0];
-        }
+      const playedPlayerIds = new Set(gameState.history.map(h => h.playerId));
+      const waitingPlayers = gameState.players.filter(p => !playedPlayerIds.has(p.id));
+      // The next player is the one who joined earliest among those who haven't played
+      if (waitingPlayers.length > 0) {
+        return waitingPlayers[0];
+      }
     }
 
     // After that, it's just based on join order.
     const playerIndex = turnsPlayed % gameState.players.length;
     return gameState.players[playerIndex];
-}, [gameState, turnsPlayed]);
+  }, [gameState, turnsPlayed]);
 
   const authenticatedPlayer = useMemo(() => {
-      if (!gameState || !authenticatedPlayerId) return null;
-      return gameState.players.find(p => p.id === authenticatedPlayerId) ?? null;
+    if (!gameState || !authenticatedPlayerId) return null;
+    return gameState.players.find(p => p.id === authenticatedPlayerId) ?? null;
   }, [gameState, authenticatedPlayerId]);
-  
+
   const existingPlayer = useMemo(() => {
     if (!gameState || !newPlayerName) return null;
     return gameState.players.find(p => p.name.toLowerCase() === newPlayerName.trim().toLowerCase());
@@ -138,12 +139,12 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
   }, [gameState, existingPlayer]);
 
   const isMyTurn = useMemo(() => {
-      return authenticatedPlayerId === currentPlayer?.id;
+    return authenticatedPlayerId === currentPlayer?.id;
   }, [authenticatedPlayerId, currentPlayer]);
 
   const rackTiles = useMemo(() => {
     if (!authenticatedPlayer) return [];
-    
+
     // Create a mutable copy of the staged tile letters to track usage
     const stagedLettersCopy = stagedTiles.map(t => t.letter);
     const rackCopy = [...authenticatedPlayer.rack];
@@ -164,78 +165,78 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
 
   const wordBuilderSlots = useMemo((): (PlacedTile | null)[] => {
     if (!selectedBoardPos || !playDirection || !gameState) return [];
-    
+
     const slots: (PlacedTile | null)[] = [];
     let { x: currentX, y: currentY } = selectedBoardPos;
 
     // Based on direction, find the start of the word by backtracking over existing tiles
     if (playDirection === 'horizontal') {
-        while(currentY > 0 && gameState.board[currentX][currentY-1].tile) {
-            currentY--;
-        }
+      while (currentY > 0 && gameState.board[currentX][currentY - 1].tile) {
+        currentY--;
+      }
     } else { // vertical
-        while(currentX > 0 && gameState.board[currentX-1][currentY].tile) {
-            currentX--;
-        }
+      while (currentX > 0 && gameState.board[currentX - 1][currentY].tile) {
+        currentX--;
+      }
     }
-    
+
     let emptySlotsCount = 0;
     const MAX_EMPTY_SLOTS = 7;
 
     // Now build forward to create the slots
     while (((playDirection === 'horizontal' && currentY < 15) || (playDirection === 'vertical' && currentX < 15)) && emptySlotsCount < MAX_EMPTY_SLOTS) {
-        const boardSquare = gameState.board[currentX][currentY];
-        if (boardSquare.tile) {
-            slots.push(boardSquare.tile);
-        } else {
-            slots.push(null); // Empty, fillable slot
-            emptySlotsCount++;
-        }
-        
-        if (playDirection === 'horizontal') currentY++;
-        else currentX++;
+      const boardSquare = gameState.board[currentX][currentY];
+      if (boardSquare.tile) {
+        slots.push(boardSquare.tile);
+      } else {
+        slots.push(null); // Empty, fillable slot
+        emptySlotsCount++;
+      }
+
+      if (playDirection === 'horizontal') currentY++;
+      else currentX++;
     }
 
     return slots;
   }, [selectedBoardPos, playDirection, gameState]);
 
-  
+
   const tempPlacedTiles = useMemo((): PlacedTile[] => {
-      if (!selectedBoardPos || !playDirection || !wordBuilderSlots.length) return [];
-      
-      const placed: PlacedTile[] = [];
-      let tileIndex = 0;
-      
-      let { x: startX, y: startY } = selectedBoardPos;
+    if (!selectedBoardPos || !playDirection || !wordBuilderSlots.length) return [];
 
-      // Backtrack to the start of the word on the board
-      if (playDirection === 'horizontal') {
-          while(startY > 0 && gameState?.board[startX][startY-1].tile) {
-              startY--;
-          }
-      } else {
-          while(startX > 0 && gameState?.board[startX-1][startY].tile) {
-              startX--;
-          }
+    const placed: PlacedTile[] = [];
+    let tileIndex = 0;
+
+    let { x: startX, y: startY } = selectedBoardPos;
+
+    // Backtrack to the start of the word on the board
+    if (playDirection === 'horizontal') {
+      while (startY > 0 && gameState?.board[startX][startY - 1].tile) {
+        startY--;
       }
-
-      // Iterate through the slots and fill in the staged tiles at the correct coordinates
-      for (let i = 0; i < wordBuilderSlots.length; i++) {
-          const currentSlot = wordBuilderSlots[i];
-          const currentX = playDirection === 'vertical' ? startX + i : startX;
-          const currentY = playDirection === 'horizontal' ? startY + i : startY;
-
-          if (currentX >= 15 || currentY >= 15) break;
-
-          if (currentSlot === null) {
-            // This is an empty slot to be filled
-            if(tileIndex < stagedTiles.length) {
-              placed.push({ ...stagedTiles[tileIndex], x: currentX, y: currentY });
-              tileIndex++;
-            }
-          }
+    } else {
+      while (startX > 0 && gameState?.board[startX - 1][startY].tile) {
+        startX--;
       }
-      return placed;
+    }
+
+    // Iterate through the slots and fill in the staged tiles at the correct coordinates
+    for (let i = 0; i < wordBuilderSlots.length; i++) {
+      const currentSlot = wordBuilderSlots[i];
+      const currentX = playDirection === 'vertical' ? startX + i : startX;
+      const currentY = playDirection === 'horizontal' ? startY + i : startY;
+
+      if (currentX >= 15 || currentY >= 15) break;
+
+      if (currentSlot === null) {
+        // This is an empty slot to be filled
+        if (tileIndex < stagedTiles.length) {
+          placed.push({ ...stagedTiles[tileIndex], x: currentX, y: currentY });
+          tileIndex++;
+        }
+      }
+    }
+    return placed;
   }, [stagedTiles, wordBuilderSlots, playDirection, selectedBoardPos, gameState]);
 
   const performGameAction = async (
@@ -244,30 +245,30 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
   ): Promise<GameState | null> => {
     setIsLoading(true);
     try {
-        const gameData = await getGameState(gameId);
-        if (!gameData) {
-            toast({ title: "Error", description: "Game not found. It might have been deleted.", variant: "destructive" });
-            setError(`Game with ID "${gameId}" not found.`);
-            return null;
-        }
+      const gameData = await getGameState(gameId);
+      if (!gameData) {
+        toast({ title: "Error", description: "Game not found. It might have been deleted.", variant: "destructive" });
+        setError(`Game with ID "${gameId}" not found.`);
+        return null;
+      }
 
-        const newGameState = await action(gameData.gameState);
-        
-        if (newGameState) {
-             await updateGameState(gameId, newGameState, gameData.sha, message);
-             // After successful update, refetch to get new SHA and confirm state
-            await fetchGame();
-            return newGameState;
-        }
-        return null;
-    } catch (e: any) {
-        console.error(e);
-        toast({ title: "Action Failed", description: e.message || "Could not perform the action. The game state may have changed. Please try again.", variant: 'destructive'});
-        // Refetch to get latest state in case of conflict
+      const newGameState = await action(gameData.gameState);
+
+      if (newGameState) {
+        await updateGameState(gameId, newGameState, gameData.sha, message);
+        // After successful update, refetch to get new SHA and confirm state
         await fetchGame();
-        return null;
+        return newGameState;
+      }
+      return null;
+    } catch (e: any) {
+      console.error(e);
+      toast({ title: "Action Failed", description: e.message || "Could not perform the action. The game state may have changed. Please try again.", variant: 'destructive' });
+      // Refetch to get latest state in case of conflict
+      await fetchGame();
+      return null;
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   }
 
@@ -296,11 +297,11 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
         toast({ title: "Welcome back!", description: `You have rejoined the game as ${existingPlayerInGame.name}.` });
         return;
       } else {
-        toast({ title: "Cannot Join", description: "A player with that name already exists, but the code is incorrect.", variant: "destructive"});
+        toast({ title: "Cannot Join", description: "A player with that name already exists, but the code is incorrect.", variant: "destructive" });
         return;
       }
     }
-    
+
     const action = (currentState: GameState) => {
       const currentTurnsPlayed = currentState.history.length;
       if (currentState.players.length >= 4) {
@@ -311,7 +312,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
         toast({ title: "Cannot Join Game", description: "The game has already started.", variant: 'destructive' });
         return null;
       }
-      
+
       const currentTileBag = [...currentState.tileBag];
       const tilesToDraw = Math.min(7, currentTileBag.length);
       if (tilesToDraw < 7) {
@@ -328,27 +329,27 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
         code: trimmedCode,
       };
 
-      return { 
-        ...currentState, 
+      return {
+        ...currentState,
         players: [...currentState.players, newPlayer],
         tileBag: currentTileBag,
-       };
+      };
     };
-    
+
     const message = `feat: Player ${trimmedName} joined game ${gameId}`;
 
     const updatedGameState = await performGameAction(action, message);
 
     if (updatedGameState) {
-        const newPlayer = updatedGameState.players.find(p => p.name === trimmedName);
-        if (newPlayer) {
-          handleAuth(newPlayer.id);
-        }
-        setNewPlayerName('');
-        setNewPlayerCode('');
+      const newPlayer = updatedGameState.players.find(p => p.name === trimmedName);
+      if (newPlayer) {
+        handleAuth(newPlayer.id);
+      }
+      setNewPlayerName('');
+      setNewPlayerCode('');
     }
   };
-  
+
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
     setCopied(true);
@@ -359,32 +360,32 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
     if (!isMyTurn) return;
 
     if (selectedBoardPos?.x === x && selectedBoardPos?.y === y) {
-        // Cycle through directions or deselect
-        if (playDirection === 'horizontal') {
-            setPlayDirection('vertical');
-        } else if (playDirection === 'vertical') {
-            setSelectedBoardPos(null);
-            setPlayDirection(null);
-            setStagedTiles([]); // Clear staged tiles on deselect
-        }
+      // Cycle through directions or deselect
+      if (playDirection === 'horizontal') {
+        setPlayDirection('vertical');
+      } else if (playDirection === 'vertical') {
+        setSelectedBoardPos(null);
+        setPlayDirection(null);
+        setStagedTiles([]); // Clear staged tiles on deselect
+      }
     } else {
-        // New selection
-        setSelectedBoardPos({ x, y });
-        setPlayDirection('horizontal');
-        setStagedTiles([]); // Clear staged tiles on new selection
+      // New selection
+      setSelectedBoardPos({ x, y });
+      setPlayDirection('horizontal');
+      setStagedTiles([]); // Clear staged tiles on new selection
     }
   };
-  
+
   const handleRackTileClick = (tile: Tile) => {
     if (!isMyTurn || !selectedBoardPos || !playDirection || !gameState) return;
 
     // Determine how many tiles can still be placed
     const emptySlots = wordBuilderSlots.filter(s => s === null).length;
     if (stagedTiles.length >= emptySlots || stagedTiles.length >= 7) {
-        toast({ title: "Word Builder Full", description: "No more space to add tiles for this word.", variant: 'destructive' });
-        return;
+      toast({ title: "Word Builder Full", description: "No more space to add tiles for this word.", variant: 'destructive' });
+      return;
     }
-    
+
     // Add the new tile to the staging area.
     // The `tempPlacedTiles` memo will calculate its correct (x, y) coordinates.
     setStagedTiles(prev => [...prev, { ...tile, x: -1, y: -1 }]); // Use placeholder coords
@@ -394,7 +395,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
   const handleStagedTileClick = (index: number) => {
     setStagedTiles(prev => prev.filter((_, i) => i !== index));
   };
-  
+
   const resetTurn = useCallback(() => {
     setStagedTiles([]);
     setSelectedBoardPos(null);
@@ -404,134 +405,134 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
   const handlePlayWord = async () => {
     if (!gameState || !authenticatedPlayer) return;
     if (stagedTiles.length === 0) {
-        toast({ title: "Cannot Play", description: "You haven't placed any tiles.", variant: 'destructive'});
-        return;
+      toast({ title: "Cannot Play", description: "You haven't placed any tiles.", variant: 'destructive' });
+      return;
     }
 
     // --- Placement and Word Calculation ---
     const { score, words: allWords } = calculateMoveScore(tempPlacedTiles, gameState.board);
     const mainWordInfo = allWords.find(w => w.direction === (playDirection || 'horizontal')) || allWords[0];
-    
+
     if (!mainWordInfo || mainWordInfo.word.length < 2) {
-        toast({ title: "Cannot Play", description: "A word must be at least 2 letters long.", variant: 'destructive'});
-        return;
+      toast({ title: "Cannot Play", description: "A word must be at least 2 letters long.", variant: 'destructive' });
+      return;
     }
-    
+
     // --- Validation for placement ---
     const isFirstMove = gameState.history.length === 0;
     if (isFirstMove) {
-        const coversCenter = tempPlacedTiles.some(t => t.x === 7 && t.y === 7);
-        if (!coversCenter) {
-            toast({
-                title: "Invalid Placement",
-                description: "The first word must cover the center star.",
-                variant: "destructive",
-            });
-            return;
-        }
-    } else {
-        const isConnected = tempPlacedTiles.some(tile => {
-            const { x, y } = tile;
-            const neighbors = [
-              { dx: 0, dy: 1 }, { dx: 0, dy: -1 },
-              { dx: 1, dy: 0 }, { dx: -1, dy: 0 },
-            ];
-            return neighbors.some(n => {
-                const checkX = x + n.dx;
-                const checkY = y + n.dy;
-                if (checkX >= 0 && checkX < 15 && checkY >= 0 && checkY < 15) {
-                    return !!gameState.board[checkX][checkY].tile;
-                }
-                return false;
-            });
+      const coversCenter = tempPlacedTiles.some(t => t.x === 7 && t.y === 7);
+      if (!coversCenter) {
+        toast({
+          title: "Invalid Placement",
+          description: "The first word must cover the center star.",
+          variant: "destructive",
         });
+        return;
+      }
+    } else {
+      const isConnected = tempPlacedTiles.some(tile => {
+        const { x, y } = tile;
+        const neighbors = [
+          { dx: 0, dy: 1 }, { dx: 0, dy: -1 },
+          { dx: 1, dy: 0 }, { dx: -1, dy: 0 },
+        ];
+        return neighbors.some(n => {
+          const checkX = x + n.dx;
+          const checkY = y + n.dy;
+          if (checkX >= 0 && checkX < 15 && checkY >= 0 && checkY < 15) {
+            return !!gameState.board[checkX][checkY].tile;
+          }
+          return false;
+        });
+      });
 
-        if (!isConnected) {
-            toast({
-                title: "Invalid Placement",
-                description: "New words must connect to existing tiles on the board.",
-                variant: "destructive",
-            });
-            return;
-        }
+      if (!isConnected) {
+        toast({
+          title: "Invalid Placement",
+          description: "New words must connect to existing tiles on the board.",
+          variant: "destructive",
+        });
+        return;
+      }
     }
     // --- End Validation ---
 
     setIsLoading(true);
     try {
-        // --- Word Verification ---
-        const validationPromises = allWords.map(wordInfo => verifyWordAction(wordInfo.word));
-        const validationResults = await Promise.all(validationPromises);
-        
-        const invalidWordIndex = validationResults.findIndex(result => !result.isValid);
+      // --- Word Verification ---
+      const validationPromises = allWords.map(wordInfo => verifyWordAction(wordInfo.word));
+      const validationResults = await Promise.all(validationPromises);
 
-        if (invalidWordIndex > -1) {
-            const invalidWord = allWords[invalidWordIndex].word;
-            toast({ title: "Invalid Word", description: `The word "${invalidWord}" is not valid.`, variant: 'destructive' });
-            setIsLoading(false);
-            return;
+      const invalidWordIndex = validationResults.findIndex(result => !result.isValid);
+
+      if (invalidWordIndex > -1) {
+        const invalidWord = allWords[invalidWordIndex].word;
+        toast({ title: "Invalid Word", description: `The word "${invalidWord}" is not valid.`, variant: 'destructive' });
+        setIsLoading(false);
+        return;
+      }
+
+      // --- All words are valid, proceed with action ---
+      const action = (currentState: GameState) => {
+        const currentTurnPlayerIndex = currentState.history.length % currentState.players.length;
+        const currentTurnPlayer = currentState.players[currentTurnPlayerIndex];
+
+        if (currentTurnPlayer.id !== authenticatedPlayerId) {
+          throw new Error(`It's not your turn. It's ${currentTurnPlayer.name}'s turn.`);
         }
 
-        // --- All words are valid, proceed with action ---
-        const action = (currentState: GameState) => {
-            const currentTurnPlayerIndex = currentState.history.length % currentState.players.length;
-            const currentTurnPlayer = currentState.players[currentTurnPlayerIndex];
+        const newGameState = JSON.parse(JSON.stringify(currentState)); // Deep copy
 
-            if (currentTurnPlayer.id !== authenticatedPlayerId) {
-                throw new Error(`It's not your turn. It's ${currentTurnPlayer.name}'s turn.`);
-            }
+        const playerToUpdate = newGameState.players.find((p: Player) => p.id === authenticatedPlayerId)!;
+        playerToUpdate.score += score;
 
-            const newGameState = JSON.parse(JSON.stringify(currentState)); // Deep copy
-            
-            const playerToUpdate = newGameState.players.find((p: Player) => p.id === authenticatedPlayerId)!;
-            playerToUpdate.score += score;
+        // Remove played tiles from rack and replenish from bag
+        const tilesToDraw = tempPlacedTiles.length;
+        const newTiles = newGameState.tileBag.slice(0, tilesToDraw);
 
-            // Remove played tiles from rack and replenish from bag
-            const tilesToDraw = tempPlacedTiles.length;
-            const newTiles = newGameState.tileBag.slice(0, tilesToDraw);
-            
-            let rackAfterPlay = [...playerToUpdate.rack];
-            const stagedLetters = stagedTiles.map(t => t.letter);
+        let rackAfterPlay = [...playerToUpdate.rack];
+        const stagedLetters = stagedTiles.map(t => t.letter);
 
-            stagedLetters.forEach(letter => {
-                const indexToRemove = rackAfterPlay.findIndex(t => t.letter === letter);
-                if (indexToRemove > -1) {
-                    rackAfterPlay.splice(indexToRemove, 1);
-                }
-            });
+        stagedLetters.forEach(letter => {
+          const indexToRemove = rackAfterPlay.findIndex(t => t.letter === letter);
+          if (indexToRemove > -1) {
+            rackAfterPlay.splice(indexToRemove, 1);
+          }
+        });
 
-            rackAfterPlay.push(...newTiles);
-            playerToUpdate.rack = rackAfterPlay;
-            newGameState.tileBag.splice(0, tilesToDraw);
-            
-            // Add played tiles to the board state
-            tempPlacedTiles.forEach(tile => {
-                newGameState.board[tile.x][tile.y].tile = {letter: tile.letter, points: tile.points, x: tile.x, y: tile.y};
-            });
+        rackAfterPlay.push(...newTiles);
+        playerToUpdate.rack = rackAfterPlay;
+        newGameState.tileBag.splice(0, tilesToDraw);
 
-            // Add the played word to history
-            const playedWord: PlayedWord = {
-              playerId: playerToUpdate.id,
-              word: mainWordInfo.word,
-              tiles: tempPlacedTiles, // Only store the tiles placed by the user this turn
-              score: score,
-            };
-            
-            newGameState.history.push(playedWord);
-            
-            resetTurn();
-            toast({ title: "Valid Word!", description: `Scored ${score} points.` });
-            return newGameState;
+        // Add played tiles to the board state
+        tempPlacedTiles.forEach(tile => {
+          newGameState.board[tile.x][tile.y].tile = { letter: tile.letter, points: tile.points, x: tile.x, y: tile.y };
+        });
+
+        // Add the played word to history
+        const playedWord: PlayedWord = {
+          playerId: playerToUpdate.id,
+          word: mainWordInfo.word,
+          tiles: tempPlacedTiles, // Only store the tiles placed by the user this turn
+          score: score,
         };
 
-        const message = `feat: ${authenticatedPlayer.name} played ${mainWordInfo.word} for ${score} points in game ${gameId}`;
-        await performGameAction(action, message);
+        newGameState.history.push(playedWord);
 
-    } catch(e) {
-        console.error(e);
-        toast({ title: "Error", description: `Could not verify word.`, variant: 'destructive' });
+        resetTurn();
+        toast({ title: "Valid Word!", description: `Scored ${score} points.` });
+        return newGameState;
+      };
+
+      const message = `feat: ${authenticatedPlayer.name} played ${mainWordInfo.word} for ${score} points in game ${gameId}`;
+      await performGameAction(action, message);
+
+    } catch (e) {
+      console.error(e);
+      toast({ title: "Error", description: `Could not verify word.`, variant: 'destructive' });
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -541,39 +542,39 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
   }
 
   if (isLoading && !gameState) {
-    return <div className="text-center p-10 flex items-center justify-center gap-2"><RefreshCw className="animate-spin h-5 w-5"/> Loading Game...</div>;
+    return <div className="text-center p-10 flex items-center justify-center gap-2"><RefreshCw className="animate-spin h-5 w-5" /> Loading Game...</div>;
   }
 
   if (error) {
-     return (
-        <div className="container mx-auto max-w-2xl text-center p-10">
-          <Card className="shadow-xl border-destructive">
-            <CardHeader>
-                <div className="mx-auto bg-destructive text-destructive-foreground rounded-full p-3 w-16 h-16 flex items-center justify-center mb-4">
-                    <AlertTriangle className="w-8 h-8" />
-                </div>
-                <CardTitle className="text-2xl text-destructive">Error Loading Game</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <p className="text-muted-foreground">{error}</p>
-                <div className="flex gap-2 justify-center mt-4">
-                    <Button onClick={() => fetchGame()}><RefreshCw className="mr-2 h-4 w-4"/> Try Again</Button>
-                    <Button variant="secondary" asChild>
-                        <Link href="/draw">
-                            <KeyRound className="mr-2 h-4 w-4"/> Join Different Game
-                        </Link>
-                    </Button>
-                </div>
-            </CardContent>
-          </Card>
-        </div>
+    return (
+      <div className="container mx-auto max-w-2xl text-center p-10">
+        <Card className="shadow-xl border-destructive">
+          <CardHeader>
+            <div className="mx-auto bg-destructive text-destructive-foreground rounded-full p-3 w-16 h-16 flex items-center justify-center mb-4">
+              <AlertTriangle className="w-8 h-8" />
+            </div>
+            <CardTitle className="text-2xl text-destructive">Error Loading Game</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">{error}</p>
+            <div className="flex gap-2 justify-center mt-4">
+              <Button onClick={() => fetchGame()}><RefreshCw className="mr-2 h-4 w-4" /> Try Again</Button>
+              <Button variant="secondary" asChild>
+                <Link href="/draw">
+                  <KeyRound className="mr-2 h-4 w-4" /> Join Different Game
+                </Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     )
   }
-  
+
   if (!gameState) {
     return <div className="text-center p-10">Game not found.</div>;
   }
-  
+
   // Show join screen if not authenticated
   if (!authenticatedPlayer) {
     return (
@@ -582,58 +583,58 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
           <CardHeader>
             <CardTitle className="text-3xl text-center">Join Game</CardTitle>
             <CardDescription className="text-center">
-                A game is in progress. Create your player to join.
+              A game is in progress. Create your player to join.
             </CardDescription>
             <div className='text-center pt-4'>
-                <p className="text-sm text-muted-foreground">Game Key</p>
-                <div className="flex items-center justify-center gap-2 mt-1">
-                    <p className="text-4xl font-bold tracking-[0.3em] text-primary bg-muted px-4 py-2 rounded-lg">{gameId}</p>
-                    <Button variant="ghost" size="icon" onClick={handleCopyLink}>
-                        {copied ? <Check className="h-5 w-5 text-green-500" /> : <Copy className="h-5 w-5" />}
-                    </Button>
-                </div>
+              <p className="text-sm text-muted-foreground">Game Key</p>
+              <div className="flex items-center justify-center gap-2 mt-1">
+                <p className="text-4xl font-bold tracking-[0.3em] text-primary bg-muted px-4 py-2 rounded-lg">{gameId}</p>
+                <Button variant="ghost" size="icon" onClick={handleCopyLink}>
+                  {copied ? <Check className="h-5 w-5 text-green-500" /> : <Copy className="h-5 w-5" />}
+                </Button>
+              </div>
             </div>
           </CardHeader>
           <CardContent>
-             <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <Input 
-                      placeholder="Enter your name" 
-                      value={newPlayerName}
-                      onChange={(e) => setNewPlayerName(e.target.value)}
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <Input
+                  placeholder="Enter your name"
+                  value={newPlayerName}
+                  onChange={(e) => setNewPlayerName(e.target.value)}
+                />
+                <div className='relative'>
+                  <Input
+                    type={showCode ? 'text' : 'password'}
+                    placeholder="Enter a secret code"
+                    value={newPlayerCode}
+                    onChange={(e) => setNewPlayerCode(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && joinGame()}
                   />
-                  <div className='relative'>
-                      <Input 
-                        type={showCode ? 'text' : 'password'}
-                        placeholder="Enter a secret code" 
-                        value={newPlayerCode}
-                        onChange={(e) => setNewPlayerCode(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && joinGame()}
-                      />
-                      <Button variant="ghost" size="icon" className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8" onClick={() => setShowCode(s => !s)}>
-                        {showCode ? <EyeOff className="h-4 w-4"/> : <Eye className="h-4 w-4"/>}
-                      </Button>
-                  </div>
+                  <Button variant="ghost" size="icon" className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8" onClick={() => setShowCode(s => !s)}>
+                    {showCode ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </Button>
                 </div>
-                <Button onClick={joinGame} className="w-full" disabled={!newPlayerName.trim() || !newPlayerCode.trim() || !canJoinGame || isLoading}>
-                    {isLoading ? <RefreshCw className="animate-spin" /> : <UserPlus className="h-4 w-4 mr-2"/>}
-                    {existingPlayer ? "Rejoin Game" : "Join Game"}
-                </Button>
+              </div>
+              <Button onClick={joinGame} className="w-full" disabled={!newPlayerName.trim() || !newPlayerCode.trim() || !canJoinGame || isLoading}>
+                {isLoading ? <RefreshCw className="animate-spin" /> : <UserPlus className="h-4 w-4 mr-2" />}
+                {existingPlayer ? "Rejoin Game" : "Join Game"}
+              </Button>
 
-                {!canJoinGame && !existingPlayer && <p className="text-center text-sm text-destructive">The game is full or too far along to join.</p>}
-               
-                <div className="space-y-2 pt-4">
-                    <h3 className="text-lg font-medium flex items-center"><Users className="mr-2 h-5 w-5"/> Players Already Joined ({gameState.players.length}/4)</h3>
-                    <div className="bg-muted/50 rounded-lg p-4 min-h-[50px] space-y-2">
-                        {gameState.players.length > 0 ? gameState.players.map((p, i) => (
-                        <div key={p.id} className="flex items-center bg-background p-2 rounded-md shadow-sm">
-                            <span className="font-bold text-primary">{i+1}.</span>
-                            <span className="ml-2">{p.name}</span>
-                        </div>
-                        )) : <p className="text-muted-foreground text-center pt-2">No players have joined yet.</p>}
+              {!canJoinGame && !existingPlayer && <p className="text-center text-sm text-destructive">The game is full or too far along to join.</p>}
+
+              <div className="space-y-2 pt-4">
+                <h3 className="text-lg font-medium flex items-center"><Users className="mr-2 h-5 w-5" /> Players Already Joined ({gameState.players.length}/4)</h3>
+                <div className="bg-muted/50 rounded-lg p-4 min-h-[50px] space-y-2">
+                  {gameState.players.length > 0 ? gameState.players.map((p, i) => (
+                    <div key={p.id} className="flex items-center bg-background p-2 rounded-md shadow-sm">
+                      <span className="font-bold text-primary">{i + 1}.</span>
+                      <span className="ml-2">{p.name}</span>
                     </div>
+                  )) : <p className="text-muted-foreground text-center pt-2">No players have joined yet.</p>}
                 </div>
-             </div>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -642,65 +643,73 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
 
   // Show auth dialog if we have a player ID but they need to enter a code (e.g. new device)
   if (!authenticatedPlayer && authenticatedPlayerId) {
-     return <PlayerAuthDialog players={gameState.players.filter(p => p.id === authenticatedPlayerId)} onAuth={handleAuth} />
+    return <PlayerAuthDialog players={gameState.players.filter(p => p.id === authenticatedPlayerId)} onAuth={handleAuth} />
   }
-  
+
 
   if (!currentPlayer) {
-     return (
-        <div className="container mx-auto max-w-2xl text-center p-10">
-             <Card>
-                <CardHeader>
-                    <CardTitle>Waiting for players...</CardTitle>
-                    <CardDescription>The game will begin when the first player makes a move.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <GameBoard board={gameState.board} tempPlacedTiles={[]} onSquareClick={()=>{}} selectedBoardPos={null} playDirection={null}/>
-                    <div className="mt-4">
-                        {authenticatedPlayer && (
-                            <PlayerRack 
-                                rack={authenticatedPlayer.rack}
-                                onTileSelect={()=>{}}
-                                isMyTurn={false}
-                            />
-                        )}
-                    </div>
-                </CardContent>
-            </Card>
-        </div>
-     );
+    return (
+      <div className="container mx-auto max-w-2xl text-center p-10">
+        <Card>
+          <CardHeader>
+            <CardTitle>Waiting for players...</CardTitle>
+            <CardDescription>The game will begin when the first player makes a move.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <GameBoard board={gameState.board} tempPlacedTiles={[]} onSquareClick={() => { }} selectedBoardPos={null} playDirection={null} />
+            <div className="mt-4">
+              {authenticatedPlayer && (
+                <PlayerRack
+                  rack={authenticatedPlayer.rack}
+                  onTileSelect={() => { }}
+                  isMyTurn={false}
+                />
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   return (
     <div className="container mx-auto">
       <div className="flex flex-col lg:flex-row gap-4">
         <div className="flex-grow">
-          <GameBoard board={gameState.board} tempPlacedTiles={tempPlacedTiles} onSquareClick={handleSquareClick} selectedBoardPos={selectedBoardPos} playDirection={playDirection}/>
+          <GameBoard board={gameState.board} tempPlacedTiles={tempPlacedTiles} onSquareClick={handleSquareClick} selectedBoardPos={selectedBoardPos} playDirection={playDirection} />
         </div>
         <div className="w-full lg:w-80 flex flex-col gap-4">
           {authenticatedPlayer && (
-            <div className="lg:sticky lg:top-4 space-y-4">
-              <PlayerRack 
-                  rack={rackTiles}
-                  onTileSelect={isMyTurn ? handleRackTileClick : ()=>{}}
-                  isMyTurn={isMyTurn}
-              />
-              {selectedBoardPos && isMyTurn && gameState && (
-                <WordBuilder
-                    slots={wordBuilderSlots}
-                    stagedTiles={stagedTiles}
-                    onStagedTileClick={handleStagedTileClick}
-                    board={gameState.board}
-                    tempPlacedTiles={tempPlacedTiles}
-                    playDirection={playDirection}
-                />
-              )}
-            </div>
+            (() => {
+              const authenticatedPlayerIndex = gameState!.players.findIndex(p => p.id === authenticatedPlayerId);
+              const playerColor = PLAYER_COLORS[authenticatedPlayerIndex % PLAYER_COLORS.length];
+              return (
+                <div className="lg:sticky lg:top-4 space-y-4">
+                  <PlayerRack
+                    rack={rackTiles}
+                    onTileSelect={isMyTurn ? handleRackTileClick : () => { }}
+                    isMyTurn={isMyTurn}
+                    playerColor={playerColor}
+                  />
+                  {selectedBoardPos && isMyTurn && gameState && (
+                    <WordBuilder
+                      slots={wordBuilderSlots}
+                      stagedTiles={stagedTiles}
+                      onStagedTileClick={handleStagedTileClick}
+                      board={gameState.board}
+                      tempPlacedTiles={tempPlacedTiles}
+                      playerColor={playerColor}  
+                      playDirection={playDirection}
+                    />
+                  )}
+                </div>
+              );
+            })()
           )}
           <Card>
             <CardHeader>
               <CardTitle>Controls</CardTitle>
-              {!isMyTurn && <CardDescription>It's {currentPlayer.name}'s turn. {isPolling && <RefreshCw className="inline-block animate-spin h-4 w-4 ml-2"/>}</CardDescription>}
+              {!isMyTurn && <CardDescription>It's {currentPlayer.name}'s turn. {isPolling && <RefreshCw className="inline-block animate-spin h-4 w-4 ml-2" />}</CardDescription>}
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
               <Button onClick={handlePlayWord} disabled={stagedTiles.length === 0 || !isMyTurn || isLoading} className="bg-accent hover:bg-accent/80 text-accent-foreground">
@@ -711,16 +720,16 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
               <Button variant="secondary" onClick={resetTurn} disabled={stagedTiles.length === 0 || !isMyTurn || isLoading}>Reset Turn</Button>
             </CardContent>
           </Card>
-           <Scoreboard players={gameState.players} currentPlayerId={currentPlayer.id} />
+          <Scoreboard players={gameState.players} currentPlayerId={currentPlayer.id} />
         </div>
       </div>
     </div>
   );
 }
 
-    
 
-    
+
+
 
 
 

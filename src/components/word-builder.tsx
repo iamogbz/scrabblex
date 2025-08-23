@@ -1,7 +1,7 @@
 
 "use client"
 
-import type { PlacedTile, Tile, Board, BoardSquare } from "@/types";
+import type { PlacedTile, Board } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
 import SingleTile from "./tile";
 import { Pencil } from "lucide-react";
@@ -16,10 +16,10 @@ interface WordBuilderProps {
   board: Board;
   tempPlacedTiles: PlacedTile[];
   playDirection: 'horizontal' | 'vertical' | null;
+  playerColor?: string;
 }
 
-export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, board, tempPlacedTiles, playDirection }: WordBuilderProps) {
-
+export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, board, tempPlacedTiles, playDirection, playerColor }: WordBuilderProps) {
   const { word, score } = useMemo(() => {
     if (tempPlacedTiles.length === 0) return { word: "", score: 0 };
     const { score: calculatedScore, words } = calculateMoveScore(tempPlacedTiles, board);
@@ -48,6 +48,7 @@ export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, boa
                         isDraggable={true}
                         isTemp={true}
                         onSelect={() => onStagedTileClick(currentIndex)}
+                        playerColor={playerColor}
                     />
                 );
                 stagedIndex++;

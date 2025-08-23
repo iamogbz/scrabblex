@@ -9,9 +9,10 @@ interface PlayerRackProps {
   rack: Tile[];
   onTileSelect: (tile: Tile) => void;
   isMyTurn: boolean;
+  playerColor?: string;
 }
 
-export default function PlayerRack({ rack, onTileSelect, isMyTurn }: PlayerRackProps) {
+export default function PlayerRack({ rack, onTileSelect, isMyTurn, playerColor }: PlayerRackProps) {
   return (
     <Card className={cn("shadow-lg transition-all duration-300", !isMyTurn && "opacity-60")}>
       <CardHeader>
@@ -29,6 +30,7 @@ export default function PlayerRack({ rack, onTileSelect, isMyTurn }: PlayerRackP
               tile={tile}
               onSelect={() => onTileSelect(tile)}
               isDraggable={isMyTurn}
+              playerColor={playerColor}
             />
           ))}
           {Array.from({ length: 7 - rack.length }).map((_, index) => (
