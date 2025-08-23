@@ -15,15 +15,17 @@ interface WordBuilderProps {
   onStagedTileClick: (index: number) => void;
   board: Board;
   tempPlacedTiles: PlacedTile[];
+  playDirection: 'horizontal' | 'vertical' | null;
 }
 
-export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, board, tempPlacedTiles }: WordBuilderProps) {
+export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, board, tempPlacedTiles, playDirection }: WordBuilderProps) {
   
   const { word, score } = useMemo(() => {
     if (tempPlacedTiles.length === 0) return { word: "", score: 0 };
-    const { score: calculatedScore, mainWord } = calculateMoveScore(tempPlacedTiles, board);
-    return { word: mainWord, score: calculatedScore };
-  }, [tempPlacedTiles, board]);
+    const { score: calculatedScore, words } = calculateMoveScore(tempPlacedTiles, board);
+    const mainWordInfo = words.find(w => w.direction === (playDirection || 'horizontal')) || words[0];
+    return { word: mainWordInfo?.word || "", score: calculatedScore };
+  }, [tempPlacedTiles, board, playDirection]);
 
 
   const renderSlots = () => {

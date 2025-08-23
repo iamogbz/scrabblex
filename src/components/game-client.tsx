@@ -392,9 +392,11 @@ export default function GameClient({ gameId }: { gameId: string }) {
         return;
     }
 
-    const { score, mainWord } = calculateMoveScore(tempPlacedTiles, gameState.board);
+    // --- Placement and Word Calculation ---
+    const { score, words: allWords } = calculateMoveScore(tempPlacedTiles, gameState.board);
+    const mainWordInfo = allWords.find(w => w.direction === (playDirection || 'horizontal'));
 
-    if (!mainWord || mainWord.length < 2) {
+    if (!mainWordInfo || mainWordInfo.word.length < 2) {
         toast({ title: "Cannot Play", description: "A word must be at least 2 letters long.", variant: 'destructive'});
         return;
     }
@@ -422,7 +424,6 @@ export default function GameClient({ gameId }: { gameId: string }) {
                 const checkX = x + n.dx;
                 const checkY = y + n.dy;
                 if (checkX >= 0 && checkX < 15 && checkY >= 0 && checkY < 15) {
-                    // Check if there is a tile on the board that is NOT part of the current play
                     return !!gameState.board[checkX][checkY].tile;
                 }
                 return false;
@@ -442,12 +443,20 @@ export default function GameClient({ gameId }: { gameId: string }) {
 
     setIsLoading(true);
     try {
-      // In a real game, you might want to verify all created words, not just the main one.
-      // For this implementation, just verifying the main word is enough.
-      const verificationResult = await verifyWordAction({ word: mainWord });
-
-      if(verificationResult.isValid) {
+        // --- Word Verification ---
+        const validationPromises = allWords.map(wordInfo => verifyWordAction({ word: wordInfo.word }));
+        const validationResults = await Promise.all(validationPromises);
         
+        const invalidWordIndex = validationResults.findIndex(result => !result.isValid);
+
+        if (invalidWordIndex > -1) {
+            const invalidWord = allWords[invalidWordIndex].word;
+            toast({ title: "Invalid Word", description: `The word "${invalidWord}" is not valid.`, variant: 'destructive' });
+            setIsLoading(false);
+            return;
+        }
+
+        // --- All words are valid, proceed with action ---
         const action = (currentState: GameState) => {
             const currentTurnPlayerIndex = currentState.history.length % currentState.players.length;
             const currentTurnPlayer = currentState.players[currentTurnPlayerIndex];
@@ -487,7 +496,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
             // Add the played word to history
             const playedWord: PlayedWord = {
               playerId: playerToUpdate.id,
-              word: mainWord,
+              word: mainWordInfo.word,
               tiles: tempPlacedTiles, // Only store the tiles placed by the user this turn
               score: score,
             };
@@ -499,12 +508,9 @@ export default function GameClient({ gameId }: { gameId: string }) {
             return newGameState;
         };
 
-        const message = `feat: ${authenticatedPlayer.name} played ${mainWord} for ${score} points in game ${gameId}`;
+        const message = `feat: ${authenticatedPlayer.name} played ${mainWordInfo.word} for ${score} points in game ${gameId}`;
         await performGameAction(action, message);
 
-      } else {
-        toast({ title: "Invalid Word", description: `The word "${mainWord}" is not valid.`, variant: 'destructive' });
-      }
     } catch(e) {
         console.error(e);
         toast({ title: "Error", description: `Could not verify word.`, variant: 'destructive' });
@@ -670,6 +676,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
                     onStagedTileClick={handleStagedTileClick}
                     board={gameState.board}
                     tempPlacedTiles={tempPlacedTiles}
+                    playDirection={playDirection}
                 />
               )}
             </div>
