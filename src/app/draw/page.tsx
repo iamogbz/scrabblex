@@ -1,12 +1,26 @@
+"use client";
 import { createGame } from "@/app/actions";
 import { JoinGameDialog } from "@/components/join-game-dialog";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Users } from "lucide-react";
-import Link from "next/link";
+import Link from 'next/link';
 import { Logo } from "@/components/logo";
+import { LocalStorageKey } from "@/lib/constants";
 
 export default function DrawPage() {
+  const [gameHistory, setGameHistory] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Ensure we are in a browser environment before accessing localStorage
+    if (typeof window !== 'undefined') {
+      const history = JSON.parse(localStorage.getItem(LocalStorageKey.GAMES) || '[]');
+      // Convert Set back to Array for rendering
+      setGameHistory(Array.from(new Set<string>(history)));
+    }
+  }, []); // Empty dependency array ensures this runs only once on mount
+
   return (
     <main className="flex min-h-screen w-full flex-col items-center justify-center bg-grid-gray-100/[0.1] p-4">
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
@@ -28,6 +42,19 @@ export default function DrawPage() {
               </Button>
             </JoinGameDialog>
           </div>
+
+          {gameHistory.length > 0 && (
+            <div className="mt-8 space-y-2">
+              <h3 className="text-lg font-semibold">Previous Games</h3>
+              <div className="flex flex-col items-center space-y-2">
+                {gameHistory.map((gameId) => (
+                  <Link key={gameId} href={`/draw/${gameId}`} className="w-full text-primary hover:underline text-sm">
+                    <Button variant="outline" size="lg" className="w-full text-lg py-7">{gameId}</Button>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </main>

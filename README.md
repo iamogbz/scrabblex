@@ -4,7 +4,6 @@ Combining the best parts of Scrabble and Crossword
 
 ## TODO
 
-- Show list of games the user accessed on the /draw join page
 - Limit how far from the center or existing placed board tiles the user can select to play
 - Allow user to still plan words with the word builder when it is not their turn
 - The world builder should always be visible and should only be cleared by the reset turn button
