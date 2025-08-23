@@ -40,12 +40,8 @@
     {
       "id": "p1755904225638",
       "name": "W",
-      "score": 0,
+      "score": 22,
       "rack": [
-        {
-          "letter": "A",
-          "points": 1
-        },
         {
           "letter": "O",
           "points": 1
@@ -55,7 +51,7 @@
           "points": 1
         },
         {
-          "letter": "I",
+          "letter": "A",
           "points": 1
         },
         {
@@ -63,34 +59,22 @@
           "points": 1
         },
         {
-          "letter": "L",
-          "points": 1
+          "letter": "G",
+          "points": 2
         },
         {
-          "letter": "D",
-          "points": 2
+          "letter": "F",
+          "points": 4
+        },
+        {
+          "letter": "L",
+          "points": 1
         }
       ],
       "code": "w"
     }
   ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "G",
-      "points": 2
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
     {
       "letter": "I",
       "points": 1
@@ -1190,25 +1174,45 @@
         "isCenter": false
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 8,
+          "y": 6
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 8,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 8,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 8,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false
@@ -1822,6 +1826,37 @@
           "y": 9
         }
       ]
+    },
+    {
+      "playerId": "p1755904225638",
+      "word": "LAID",
+      "tiles": [
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 8,
+          "y": 6
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 8,
+          "y": 7
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 8,
+          "y": 8
+        },
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 8,
+          "y": 9
+        }
+      ],
+      "score": 22
     }
   ],
   "gamePhase": "playing"
