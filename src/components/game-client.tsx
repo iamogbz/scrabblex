@@ -106,7 +106,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
   }, [authenticatedPlayerId, currentPlayer]);
 
   const getValidPlacementSquares = useCallback((): { x: number, y: number }[] => {
-    if (!gameState) return [];
+    if (!gameState || !authenticatedPlayer) return [];
 
     const permanentTiles = gameState.board.flatMap((row, x) => 
         row.map((square, y) => (square.tile ? { ...square.tile, x, y } : null))
@@ -117,11 +117,49 @@ export default function GameClient({ gameId }: { gameId: string }) {
     if (allPlacedTiles.length === 0) {
         return [{ x: 7, y: 7 }]; // Center square for the first move
     }
+    
+    const remainingTiles = authenticatedPlayer.rack.length;
+    if (remainingTiles === 0) return [];
 
     const validSquares = new Set<string>();
 
     allPlacedTiles.forEach(tile => {
-        // Add adjacent squares
+        const { x, y } = tile;
+        // Check horizontally
+        for (let i = 1; i <= remainingTiles; i++) {
+            const newX = x;
+            const newY = y + i;
+            if (newY >= 15) break; // Past board edge
+            if (gameState.board[newX][newY].tile || tempPlacedTiles.some(t => t.x === newX && t.y === newY)) break; // Blocked
+            validSquares.add(`${newX},${newY}`);
+        }
+        for (let i = 1; i <= remainingTiles; i++) {
+            const newX = x;
+            const newY = y - i;
+            if (newY < 0) break; // Past board edge
+            if (gameState.board[newX][newY].tile || tempPlacedTiles.some(t => t.x === newX && t.y === newY)) break; // Blocked
+            validSquares.add(`${newX},${newY}`);
+        }
+
+        // Check vertically
+        for (let i = 1; i <= remainingTiles; i++) {
+            const newX = x + i;
+            const newY = y;
+            if (newX >= 15) break; // Past board edge
+            if (gameState.board[newX][newY].tile || tempPlacedTiles.some(t => t.x === newX && t.y === newY)) break; // Blocked
+            validSquares.add(`${newX},${newY}`);
+        }
+        for (let i = 1; i <= remainingTiles; i++) {
+            const newX = x - i;
+            const newY = y;
+            if (newX < 0) break; // Past board edge
+            if (gameState.board[newX][newY].tile || tempPlacedTiles.some(t => t.x === newX && t.y === newY)) break; // Blocked
+            validSquares.add(`${newX},${newY}`);
+        }
+    });
+
+    // Add immediate neighbors if they weren't caught by the line logic (e.g., forming a T-shape)
+    allPlacedTiles.forEach(tile => {
         const { x, y } = tile;
         const neighbors = [{x: x-1, y}, {x: x+1, y}, {x, y: y-1}, {x, y: y+1}];
         neighbors.forEach(n => {
@@ -132,29 +170,13 @@ export default function GameClient({ gameId }: { gameId: string }) {
                 }
             }
         });
-
-        // Add squares within 7 Manhattan distance
-        for (let dx = -7; dx <= 7; dx++) {
-            for (let dy = -7; dy <= 7; dy++) {
-                if (Math.abs(dx) + Math.abs(dy) <= 7) {
-                    const newX = x + dx;
-                    const newY = y + dy;
-                    if (newX >= 0 && newX < 15 && newY >= 0 && newY < 15) {
-                        const isOccupied = gameState.board[newX][newY].tile || tempPlacedTiles.some(t => t.x === newX && t.y === newY);
-                        if (!isOccupied) {
-                            validSquares.add(`${newX},${newY}`);
-                        }
-                    }
-                }
-            }
-        }
     });
 
     return Array.from(validSquares).map(s => {
         const [x, y] = s.split(',').map(Number);
         return { x, y };
     });
-}, [gameState, tempPlacedTiles]);
+}, [gameState, tempPlacedTiles, authenticatedPlayer]);
 
   const validPlacementSquares = useMemo(() => {
       if (!isMyTurn || !selectedTile) return [];
@@ -569,3 +591,5 @@ export default function GameClient({ gameId }: { gameId: string }) {
     </div>
   );
 }
+
+    
