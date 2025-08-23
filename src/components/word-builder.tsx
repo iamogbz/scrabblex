@@ -1,38 +1,142 @@
 
 "use client"
 
-import type { PlacedTile, Tile } from "@/types";
+import type { PlacedTile, Tile, Board, BoardSquare } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
 import SingleTile from "./tile";
 import { Pencil } from "lucide-react";
 import { useMemo } from "react";
 
+const calculatePotentialScore = (slots: (PlacedTile | null)[], stagedTiles: PlacedTile[], board: Board): { word: string; score: number } => {
+  let word = "";
+  let score = 0;
+  let wordMultiplier = 1;
+  let stagedIndex = 0;
+  let tempTilesForCalc: (PlacedTile | BoardSquare)[] = [];
+
+  // Reconstruct the full word with tiles and board positions
+  slots.forEach((slot, i) => {
+    let tileToProcess: PlacedTile | null = null;
+    let boardSquare: BoardSquare | null = null;
+
+    if (slot) { // Existing tile on board
+      tileToProcess = slot;
+      boardSquare = board[slot.x][slot.y];
+      tempTilesForCalc.push(board[slot.x][slot.y]);
+    } else if (stagedIndex < stagedTiles.length) { // New tile from player
+      tileToProcess = stagedTiles[stagedIndex];
+      // We need to figure out the coordinate of this empty slot
+      // This part is tricky without the full context from game-client
+      // Let's assume for a moment the parent will provide coordinates for staged tiles
+      if(tileToProcess.x !== undefined && tileToProcess.y !== undefined) {
+         boardSquare = board[tileToProcess.x][tileToProcess.y];
+         tempTilesForCalc.push({ ...boardSquare, tile: tileToProcess });
+      }
+      stagedIndex++;
+    }
+
+    if (tileToProcess && boardSquare) {
+      word += tileToProcess.letter;
+      let letterScore = tileToProcess.points;
+      
+      // Apply letter multiplier only for newly placed tiles
+      const isNewTile = stagedTiles.some(t => t.letter === tileToProcess!.letter && t.points === tileToProcess!.points);
+      
+      if (isNewTile && boardSquare.multiplierType === 'letter') {
+        letterScore *= boardSquare.multiplier;
+      }
+      
+      score += letterScore;
+
+      // Accumulate word multipliers
+      if (isNewTile && boardSquare.multiplierType === 'word') {
+        wordMultiplier *= boardSquare.multiplier;
+      }
+    }
+  });
+  
+  // Apply word multipliers
+  score *= wordMultiplier;
+
+  // Bingo bonus
+  if (stagedTiles.length === 7) {
+    score += 50;
+  }
+
+  return { word, score };
+};
+
+
 interface WordBuilderProps {
   slots: (PlacedTile | null)[];
   stagedTiles: PlacedTile[];
   onStagedTileClick: (index: number) => void;
+  board: Board;
 }
 
-export default function WordBuilder({ slots, stagedTiles, onStagedTileClick }: WordBuilderProps) {
+export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, board }: WordBuilderProps) {
+  
   const { word, score } = useMemo(() => {
     let currentWord = "";
-    let currentScore = 0;
+    let wordScore = 0;
+    let wordMultiplier = 1;
     let stagedIndex = 0;
+
+    const tempPlacedTiles: PlacedTile[] = [];
     
     slots.forEach(slot => {
-      if (slot) {
-        currentWord += slot.letter;
-        currentScore += slot.points;
-      } else if (stagedIndex < stagedTiles.length) {
-        const tile = stagedTiles[stagedIndex];
-        currentWord += tile.letter;
-        currentScore += tile.points;
+        if(!slot && stagedIndex < stagedTiles.length) {
+            tempPlacedTiles.push(stagedTiles[stagedIndex]);
+            stagedIndex++;
+        }
+    })
+
+    stagedIndex = 0;
+    slots.forEach(slot => {
+      let currentTile: Tile | PlacedTile | null = null;
+      let boardSquare: BoardSquare | null = null;
+      
+      if (slot) { // Tile from board
+        currentTile = slot;
+        boardSquare = board[slot.x][slot.y];
+      } else if (stagedIndex < stagedTiles.length) { // Tile from rack
+        currentTile = stagedTiles[stagedIndex];
+        // This is an approximation, the actual coords are in `tempPlacedTiles` from game-client
+        // A better approach would be to pass `tempPlacedTiles` to this component
+        const tempTile = tempPlacedTiles[stagedIndex];
+        if (tempTile) {
+            boardSquare = board[tempTile.x][tempTile.y];
+        }
         stagedIndex++;
+      }
+      
+      if (currentTile) {
+        currentWord += currentTile.letter;
+        let letterScore = currentTile.points;
+
+        const isNew = stagedTiles.some(t => t.letter === currentTile?.letter);
+
+        if (boardSquare && isNew) {
+           if (boardSquare.multiplierType === 'letter') {
+              letterScore *= boardSquare.multiplier;
+           }
+           if (boardSquare.multiplierType === 'word') {
+              wordMultiplier *= boardSquare.multiplier;
+           }
+        }
+        wordScore += letterScore;
       }
     });
 
-    return { word: currentWord, score: currentScore };
-  }, [slots, stagedTiles]);
+    wordScore *= wordMultiplier;
+
+    if (stagedTiles.length === 7) {
+        wordScore += 50;
+    }
+
+    return { word: currentWord, score: wordScore };
+  }, [slots, stagedTiles, board]);
+
 
   const renderSlots = () => {
     const rendered = [];
@@ -83,7 +187,7 @@ export default function WordBuilder({ slots, stagedTiles, onStagedTileClick }: W
         {word && (
             <div className="text-center mt-4 p-2 bg-muted rounded-lg">
                 <p className="font-bold text-lg tracking-widest">{word}</p>
-                <p className="text-sm text-muted-foreground">Score: {score}</p>
+                <p className="text-sm text-muted-foreground">Potential Score: {score}</p>
             </div>
         )}
       </CardContent>

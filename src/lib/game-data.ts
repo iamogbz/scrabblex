@@ -41,12 +41,14 @@ const premiumSquares = {
 };
 
 export const createInitialBoard = (): BoardSquare[][] => {
-  const board = Array.from({ length: BOARD_SIZE }, () =>
-    Array.from({ length: BOARD_SIZE }, (): BoardSquare => ({
+  const board = Array.from({ length: BOARD_SIZE }, (_, r) =>
+    Array.from({ length: BOARD_SIZE }, (_, c): BoardSquare => ({
       tile: null,
       multiplier: 1,
       multiplierType: null,
-      isCenter: false
+      isCenter: false,
+      x: r,
+      y: c
     }))
   );
 

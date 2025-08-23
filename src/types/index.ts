@@ -24,6 +24,8 @@ export type BoardSquare = {
   multiplierType: "letter" | "word" | null;
   multiplier: number;
   isCenter: boolean;
+  x: number;
+  y: number;
 };
 
 export type Board = BoardSquare[][];
@@ -32,6 +34,7 @@ export interface PlayedWord {
   playerId: string;
   word: string;
   tiles: PlacedTile[];
+  score: number;
 }
 
 export interface GameState {
