@@ -655,8 +655,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
               )}
             </div>
           )}
-          <Scoreboard players={gameState.players} currentPlayerId={currentPlayer.id} />
-          <Card>
+           <Card>
             <CardHeader>
               <CardTitle>Controls</CardTitle>
               {!isMyTurn && <CardDescription>It's {currentPlayer.name}'s turn.</CardDescription>}
@@ -670,6 +669,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
               <Button variant="secondary" onClick={resetTurn} disabled={stagedTiles.length === 0 || !isMyTurn || isLoading}>Reset Turn</Button>
             </CardContent>
           </Card>
+          <Scoreboard players={gameState.players} currentPlayerId={currentPlayer.id} />
         </div>
       </div>
     </div>
