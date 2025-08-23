@@ -303,12 +303,14 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
     }
 
     const action = (currentState: GameState) => {
-      const currentTurnsPlayed = currentState.history.length;
-      if (currentState.players.length >= 4) {
+      const numPlayers = currentState.players.length;
+      if (numPlayers >= 4) {
         toast({ title: "Cannot Join Game", description: "Lobby is full (max 4 players).", variant: 'destructive' });
         return null;
       }
-      if (currentState.players.length > 0 && currentTurnsPlayed > 0) {
+      const currentTurnsPlayed = currentState.history.length;
+      const currentRoundsPlayed = Math.floor(currentTurnsPlayed / numPlayers);
+      if (numPlayers > 1 && currentRoundsPlayed > 0 || numPlayers < 2 && currentTurnsPlayed > 1) {
         toast({ title: "Cannot Join Game", description: "The game has already started.", variant: 'destructive' });
         return null;
       }
