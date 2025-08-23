@@ -6,10 +6,10 @@ import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Home, LogOut, ChevronLeft } from "lucide-react";
-import { useState } from "react";
+import { useState, use } from "react";
 
-export default function GamePage({ params }: { params: { gameId: string } }) {
-  const { gameId } = params;
+export default function GamePage({ params }: { params: Promise<{ gameId: string }> }) {
+  const { gameId } = use(params);
   const [leaveGameHandler, setLeaveGameHandler] = useState<(() => void) | null>(null);
 
   const handleLeave = () => {
