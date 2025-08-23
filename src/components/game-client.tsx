@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { PLAYER_COLORS } from '@/lib/constants';
+import { LocalStorageKey, PLAYER_COLORS } from '@/lib/constants';
 import type { GameState, Player, Tile, PlacedTile, PlayedWord, BoardSquare, Board } from '@/types';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -71,13 +71,20 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
   }, [fetchGame]);
 
   const handleLeaveGame = useCallback(() => {
-    localStorage.removeItem(`scrabblex_player_id_${gameId}`);
+    localStorage.removeItem(`${LocalStorageKey.PLAYER_ID_}${gameId}`);
     setAuthenticatedPlayerId(null);
     toast({ title: "Left Game", description: "You have returned to the lobby." });
   }, [gameId, toast]);
 
   useEffect(() => {
-    const storedPlayerId = localStorage.getItem(`scrabblex_player_id_${gameId}`);
+    // Add gameId to local storage history
+    const gameHistory = new Set(JSON.parse(localStorage.getItem(LocalStorageKey.GAMES) || '[]'));
+    if (!gameHistory.has(gameId)) {
+      gameHistory.add(gameId);
+      localStorage.setItem(LocalStorageKey.GAMES, JSON.stringify(Array.from(gameHistory).sort()));
+    }
+    // Check for stored player ID
+    const storedPlayerId = localStorage.getItem(`${LocalStorageKey.PLAYER_ID_}${gameId}`);
     if (storedPlayerId) {
       // We will validate this against the game state once it loads.
       setAuthenticatedPlayerId(storedPlayerId);
@@ -91,7 +98,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
       // If a stored player ID is not actually in the game, clear it.
       if (!gameState.players.some(p => p.id === authenticatedPlayerId)) {
         setAuthenticatedPlayerId(null);
-        localStorage.removeItem(`scrabblex_player_id_${gameId}`);
+        localStorage.removeItem(`${LocalStorageKey.PLAYER_ID_}${gameId}`);
       }
     }
   }, [gameState, authenticatedPlayerId, gameId]);
@@ -346,6 +353,13 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
       const newPlayer = updatedGameState.players.find(p => p.name === trimmedName);
       if (newPlayer) {
         handleAuth(newPlayer.id);
+        // Add gameId to local storage history after successful join
+        const gameHistory = new Set(JSON.parse(localStorage.getItem(LocalStorageKey.GAMES) || '[]'));
+        if (!gameHistory.has(gameId)) {
+          gameHistory.add(gameId);
+          localStorage.setItem(LocalStorageKey.GAMES, JSON.stringify(Array.from(gameHistory).sort()));
+        }
+
       }
       setNewPlayerName('');
       setNewPlayerCode('');
@@ -540,7 +554,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
 
   const handleAuth = (playerId: string) => {
     setAuthenticatedPlayerId(playerId);
-    localStorage.setItem(`scrabblex_player_id_${gameId}`, playerId);
+    localStorage.setItem(`${LocalStorageKey.PLAYER_ID_}${gameId}`, playerId);
   }
 
   if (isLoading && !gameState) {

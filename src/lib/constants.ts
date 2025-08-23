@@ -8,3 +8,8 @@ export const PLAYER_COLORS = [
   "#00CED1", // DarkTurquoise
   "#FF69B4", // HotPink
 ];
+
+export const LocalStorageKey = {
+  GAMES: 'scrabblex_game_history',
+  PLAYER_ID_: 'scrabblex_player_id_',
+}
