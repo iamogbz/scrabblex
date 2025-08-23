@@ -18,7 +18,7 @@ import WordBuilder from './word-builder';
 import { calculateMoveScore } from '@/lib/scoring';
 
 
-export default function GameClient({ gameId }: { gameId: string }) {
+export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: string, setLeaveGameHandler: (handler: () => void) => void }) {
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [sha, setSha] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -69,13 +69,21 @@ export default function GameClient({ gameId }: { gameId: string }) {
     return () => clearInterval(intervalId);
   }, [fetchGame]);
 
+  const handleLeaveGame = useCallback(() => {
+    localStorage.removeItem(`scrabblex_player_id_${gameId}`);
+    setAuthenticatedPlayerId(null);
+    toast({ title: "Left Game", description: "You have returned to the lobby."});
+  }, [gameId, toast]);
+
   useEffect(() => {
     const storedPlayerId = localStorage.getItem(`scrabblex_player_id_${gameId}`);
     if (storedPlayerId) {
         // We will validate this against the game state once it loads.
         setAuthenticatedPlayerId(storedPlayerId);
     }
-  }, [gameId]);
+    // Pass the leave handler up to the parent page component
+    setLeaveGameHandler(() => handleLeaveGame);
+  }, [gameId, setLeaveGameHandler, handleLeaveGame]);
   
   useEffect(() => {
     if (gameState && authenticatedPlayerId) {
@@ -532,12 +540,6 @@ export default function GameClient({ gameId }: { gameId: string }) {
     localStorage.setItem(`scrabblex_player_id_${gameId}`, playerId);
   }
 
-  const handleLeaveGame = () => {
-    localStorage.removeItem(`scrabblex_player_id_${gameId}`);
-    setAuthenticatedPlayerId(null);
-    toast({ title: "Left Game", description: "You have returned to the lobby."});
-  }
-
   if (isLoading && !gameState) {
     return <div className="text-center p-10 flex items-center justify-center gap-2"><RefreshCw className="animate-spin h-5 w-5"/> Loading Game...</div>;
   }
@@ -695,7 +697,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
               )}
             </div>
           )}
-           <Card>
+          <Card>
             <CardHeader>
               <CardTitle>Controls</CardTitle>
               {!isMyTurn && <CardDescription>It's {currentPlayer.name}'s turn. {isPolling && <RefreshCw className="inline-block animate-spin h-4 w-4 ml-2"/>}</CardDescription>}
@@ -707,19 +709,9 @@ export default function GameClient({ gameId }: { gameId: string }) {
               <Button variant="outline" disabled={!isMyTurn || isLoading}>Swap Tiles</Button>
               <Button variant="outline" disabled={!isMyTurn || isLoading}>Pass Turn</Button>
               <Button variant="secondary" onClick={resetTurn} disabled={stagedTiles.length === 0 || !isMyTurn || isLoading}>Reset Turn</Button>
-              <div className="flex gap-2 pt-2">
-                  <Button variant="ghost" onClick={handleLeaveGame} className="w-full text-muted-foreground">
-                     <LogOut className="mr-2 h-4 w-4" /> Back to Lobby
-                  </Button>
-                  <Button variant="ghost" asChild className="w-full text-muted-foreground">
-                    <Link href="/draw">
-                      <ChevronLeft className="mr-2 h-4 w-4" /> Back to Draw
-                    </Link>
-                  </Button>
-              </div>
             </CardContent>
           </Card>
-          <Scoreboard players={gameState.players} currentPlayerId={currentPlayer.id} />
+           <Scoreboard players={gameState.players} currentPlayerId={currentPlayer.id} />
         </div>
       </div>
     </div>
@@ -729,4 +721,5 @@ export default function GameClient({ gameId }: { gameId: string }) {
     
 
     
+
 
