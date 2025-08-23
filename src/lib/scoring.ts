@@ -20,8 +20,12 @@ const calculateWordScore = (wordTiles: (BoardSquare | PlacedTile)[], board: Boar
         let letterScore = 0;
         
         const placedTile = 'letter' in tile && 'points' in tile ? tile : null;
-        if (tile.x < 0 || tile.x >= 15 || tile.y < 0 || tile.y >= 15) return;
-        const boardSquare = board[tile.x][tile.y];
+        if (tile.x === undefined || tile.y === undefined || tile.x < 0 || tile.x >= 15 || tile.y < 0 || tile.y >= 15) return;
+        
+        const boardRow = board[tile.x];
+        if (!boardRow) return;
+
+        const boardSquare = boardRow[tile.y];
         if (!boardSquare) return;
 
         const tileData = placedTile || boardSquare.tile;
