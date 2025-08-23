@@ -1,20 +1,20 @@
 
 "use client";
 
-import type { BoardSquare, PlacedTile, Tile } from "@/types";
+import type { BoardSquare, PlacedTile } from "@/types";
 import { cn } from "@/lib/utils";
 import SingleTile from "./tile";
-import { Star } from "lucide-react";
+import { Star, ArrowRight, ArrowDown } from "lucide-react";
 
 interface GameBoardProps {
   board: BoardSquare[][];
   tempPlacedTiles: PlacedTile[];
   onSquareClick: (x: number, y: number) => void;
-  selectedTile: { tile: Tile; index: number } | null;
-  validPlacementSquares: { x: number; y: number }[];
+  selectedBoardPos: { x: number; y: number } | null;
+  playDirection: 'horizontal' | 'vertical' | null;
 }
 
-export default function GameBoard({ board, tempPlacedTiles, onSquareClick, selectedTile, validPlacementSquares }: GameBoardProps) {
+export default function GameBoard({ board, tempPlacedTiles, onSquareClick, selectedBoardPos, playDirection }: GameBoardProps) {
   const getSquareContent = (square: BoardSquare, x: number, y: number) => {
     const tempTile = tempPlacedTiles.find(t => t.x === x && t.y === y);
     if (tempTile) {
@@ -32,6 +32,10 @@ export default function GameBoard({ board, tempPlacedTiles, onSquareClick, selec
     if (square.multiplierType === 'letter') return `${square.multiplier}L`;
     return '';
   };
+  
+  const isSelectedSquare = (x: number, y: number) => {
+    return selectedBoardPos?.x === x && selectedBoardPos?.y === y;
+  }
 
   return (
     <div className="aspect-square w-full max-w-[70vh] mx-auto bg-background rounded-lg shadow-lg p-2 md:p-4 border">
@@ -39,24 +43,27 @@ export default function GameBoard({ board, tempPlacedTiles, onSquareClick, selec
         {board.map((row, x) =>
           row.map((square, y) => {
             const content = getSquareContent(square, x, y);
-            const isValidPlacement = validPlacementSquares.some(s => s.x === x && s.y === y);
+            const isSelected = isSelectedSquare(x, y);
+
             return (
               <div
                 key={`${x}-${y}`}
                 onClick={() => onSquareClick(x, y)}
                 className={cn(
-                  "aspect-square flex items-center justify-center rounded-[2px] md:rounded-md transition-colors",
+                  "aspect-square flex items-center justify-center rounded-[2px] md:rounded-md transition-colors relative",
+                  "cursor-pointer",
                   square.multiplierType === 'word' && square.multiplier === 3 && 'bg-red-200/50 text-red-800',
                   square.multiplierType === 'word' && square.multiplier === 2 && 'bg-purple-200/50 text-purple-800',
                   square.multiplierType === 'letter' && square.multiplier === 3 && 'bg-blue-200/50 text-blue-800',
                   square.multiplierType === 'letter' && square.multiplier === 2 && 'bg-green-200/50 text-green-800',
                   !square.tile && !content && 'bg-muted/30',
                   square.isCenter && 'bg-purple-200/50 text-purple-800',
-                  !!selectedTile && !content && 'cursor-pointer',
-                  isValidPlacement && !content && 'bg-accent/20 hover:bg-accent/40',
+                  isSelected && "ring-2 ring-accent ring-offset-2 z-10"
                 )}
               >
                 {content || <span className="text-[8px] md:text-xs font-bold opacity-70 select-none">{getMultiplierText(square)}</span>}
+                {isSelected && playDirection === 'horizontal' && <ArrowRight className="absolute -right-2 top-1/2 -translate-y-1/2 h-4 w-4 text-accent z-20 bg-background/80 rounded-full" />}
+                {isSelected && playDirection === 'vertical' && <ArrowDown className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-4 w-4 text-accent z-20 bg-background/80 rounded-full" />}
               </div>
             );
           })

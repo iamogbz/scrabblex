@@ -1,3 +1,4 @@
+
 import type { Tile } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
 import SingleTile from "./tile";
@@ -6,12 +7,11 @@ import { cn } from "@/lib/utils";
 
 interface PlayerRackProps {
   rack: Tile[];
-  onTileSelect: (tile: Tile, index: number) => void;
-  selectedTileIndex: number | null;
+  onTileSelect: (tile: Tile) => void;
   isMyTurn: boolean;
 }
 
-export default function PlayerRack({ rack, onTileSelect, selectedTileIndex, isMyTurn }: PlayerRackProps) {
+export default function PlayerRack({ rack, onTileSelect, isMyTurn }: PlayerRackProps) {
   return (
     <Card className={cn("shadow-lg transition-all duration-300", !isMyTurn && "opacity-60")}>
       <CardHeader>
@@ -27,8 +27,7 @@ export default function PlayerRack({ rack, onTileSelect, selectedTileIndex, isMy
             <SingleTile
               key={index}
               tile={tile}
-              onSelect={() => onTileSelect(tile, index)}
-              isSelected={selectedTileIndex === index}
+              onSelect={() => onTileSelect(tile)}
               isDraggable={isMyTurn}
             />
           ))}
