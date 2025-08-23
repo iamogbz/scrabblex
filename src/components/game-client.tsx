@@ -22,6 +22,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [sha, setSha] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPolling, setIsPolling] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [newPlayerName, setNewPlayerName] = useState('');
   const [newPlayerCode, setNewPlayerCode] = useState('');
@@ -36,14 +37,18 @@ export default function GameClient({ gameId }: { gameId: string }) {
   
   const { toast } = useToast();
 
-  const fetchGame = useCallback(async () => {
-    setIsLoading(true);
+  const fetchGame = useCallback(async (isPoll = false) => {
+    if (!isPoll) setIsLoading(true);
+    else setIsPolling(true);
     setError(null);
     try {
       const gameData = await getGameState(gameId);
       if (gameData) {
-        setGameState(gameData.gameState);
-        setSha(gameData.sha);
+        // Only update state if the SHA has changed, to avoid re-renders
+        if (gameData.sha !== sha) {
+          setGameState(gameData.gameState);
+          setSha(gameData.sha);
+        }
       } else {
         setError(`Game with ID "${gameId}" not found. Check the key or create a new game.`);
       }
@@ -51,12 +56,17 @@ export default function GameClient({ gameId }: { gameId: string }) {
       console.error(e);
       setError("Failed to load game data. Please try again.");
     } finally {
-      setIsLoading(false);
+      if (!isPoll) setIsLoading(false);
+      else setIsPolling(false);
     }
-  }, [gameId]);
+  }, [gameId, sha]);
 
   useEffect(() => {
     fetchGame();
+    // Set up polling every 5 seconds
+    const intervalId = setInterval(() => fetchGame(true), 5000);
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalId);
   }, [fetchGame]);
 
   useEffect(() => {
@@ -526,7 +536,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
             <CardContent>
                 <p className="text-muted-foreground">{error}</p>
                 <div className="flex gap-2 justify-center mt-4">
-                    <Button onClick={fetchGame}><RefreshCw className="mr-2 h-4 w-4"/> Try Again</Button>
+                    <Button onClick={() => fetchGame()}><RefreshCw className="mr-2 h-4 w-4"/> Try Again</Button>
                     <Button variant="secondary" asChild>
                         <Link href="/draw">
                             <KeyRound className="mr-2 h-4 w-4"/> Join Different Game
@@ -668,11 +678,11 @@ export default function GameClient({ gameId }: { gameId: string }) {
            <Card>
             <CardHeader>
               <CardTitle>Controls</CardTitle>
-              {!isMyTurn && <CardDescription>It's {currentPlayer.name}'s turn.</CardDescription>}
+              {!isMyTurn && <CardDescription>It's {currentPlayer.name}'s turn. {isPolling && <RefreshCw className="inline-block animate-spin h-4 w-4 ml-2"/>}</CardDescription>}
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
               <Button onClick={handlePlayWord} disabled={stagedTiles.length === 0 || !isMyTurn || isLoading} className="bg-accent hover:bg-accent/80 text-accent-foreground">
-                {isLoading ? <RefreshCw className="animate-spin" /> : "Play Word"}
+                {isLoading && !isPolling ? <RefreshCw className="animate-spin" /> : "Play Word"}
               </Button>
               <Button variant="outline" disabled={!isMyTurn || isLoading}>Swap Tiles</Button>
               <Button variant="outline" disabled={!isMyTurn || isLoading}>Pass Turn</Button>
@@ -685,3 +695,5 @@ export default function GameClient({ gameId }: { gameId: string }) {
     </div>
   );
 }
+
+    
