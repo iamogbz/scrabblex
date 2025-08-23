@@ -460,7 +460,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
     setIsLoading(true);
     try {
         // --- Word Verification ---
-        const validationPromises = allWords.map(wordInfo => verifyWordAction({ word: wordInfo.word }));
+        const validationPromises = allWords.map(wordInfo => verifyWordAction(wordInfo.word));
         const validationResults = await Promise.all(validationPromises);
         
         const invalidWordIndex = validationResults.findIndex(result => !result.isValid);
@@ -721,5 +721,6 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
     
 
     
+
 
 

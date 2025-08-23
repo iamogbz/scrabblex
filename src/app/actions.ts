@@ -1,11 +1,30 @@
 
 "use server";
 
-import { verifyWord } from "@/ai/flows/verify-word";
 import { createNewGame, getGame, updateGame } from "@/lib/game-service";
 import { GameState } from "@/types";
 import { redirect } from "next/navigation";
-import type { z } from "zod";
+import fs from 'fs/promises';
+import path from 'path';
+
+let wordSet: Set<string>;
+
+async function getWordSet() {
+    if (wordSet) {
+        return wordSet;
+    }
+    const filePath = path.join(process.cwd(), 'src', 'lib', 'valid-words.txt');
+    const fileContent = await fs.readFile(filePath, 'utf-8');
+    const words = fileContent.split('\n').map(word => word.trim().toUpperCase());
+    wordSet = new Set(words);
+    return wordSet;
+}
+
+export async function verifyWordAction(word: string): Promise<{ isValid: boolean }> {
+    const validWords = await getWordSet();
+    return { isValid: validWords.has(word.toUpperCase()) };
+}
+
 
 function generateGameId(length = 6) {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -28,11 +47,4 @@ export async function getGameState(gameId: string) {
 
 export async function updateGameState(gameId: string, gameState: GameState, sha: string, message?: string) {
     await updateGame(gameId, gameState, sha, message);
-}
-
-export async function verifyWordAction(
-  input: z.infer<typeof verifyWord.inputSchema>
-): Promise<z.infer<typeof verifyWord.outputSchema>> {
-    const result = await verifyWord(input);
-    return result;
 }
