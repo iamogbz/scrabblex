@@ -1,35 +1,44 @@
 {
   "gameId": "LV1DED",
-  "players": [],
+  "players": [
+    {
+      "id": "p1755966105135",
+      "name": "Q",
+      "score": 0,
+      "rack": [
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "D",
+          "points": 2
+        },
+        {
+          "letter": "C",
+          "points": 3
+        },
+        {
+          "letter": "S",
+          "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        }
+      ],
+      "code": "q"
+    }
+  ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "C",
-      "points": 3
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
     {
       "letter": "P",
       "points": 3
