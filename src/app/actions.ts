@@ -26,8 +26,8 @@ export async function getGameState(gameId: string) {
     return await getGame(gameId);
 }
 
-export async function updateGameState(gameId: string, gameState: GameState, sha: string) {
-    await updateGame(gameId, gameState, sha);
+export async function updateGameState(gameId: string, gameState: GameState, sha: string, message?: string) {
+    await updateGame(gameId, gameState, sha, message);
 }
 
 export async function verifyWordAction(

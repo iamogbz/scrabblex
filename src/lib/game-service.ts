@@ -129,7 +129,7 @@ export async function getGame(
         };
 
         // The state was changed, so we must commit it back to GitHub.
-        const updatedData = await updateGame(gameId, updatedGameState, sha);
+        const updatedData = await updateGame(gameId, updatedGameState, sha, `SYSTEM: Corrected tile bag and player racks for game ${gameId}`);
         
         // Return the fresh state and the new SHA.
         return { gameState: updatedGameState, sha: updatedData.content.sha };
@@ -163,7 +163,7 @@ export async function createNewGame(gameId: string): Promise<GameState> {
       method: "PUT",
       headers: { ...githubHeaders, "Content-Type": "application/json" },
       body: JSON.stringify({
-        message: `Create game ${gameId}`,
+        message: `feat: Create game ${gameId}`,
         content,
         branch: GITHUB_BRANCH,
       }),
@@ -184,7 +184,8 @@ export async function createNewGame(gameId: string): Promise<GameState> {
 export async function updateGame(
   gameId: string,
   gameState: GameState,
-  sha: string
+  sha: string,
+  message?: string
 ): Promise<any> {
   if (!GITHUB_TOKEN) return;
   try {
@@ -194,7 +195,7 @@ export async function updateGame(
       method: "PUT",
       headers: { ...githubHeaders, "Content-Type": "application/json" },
       body: JSON.stringify({
-        message: `Update game ${gameId}`,
+        message: message || `feat: Update game ${gameId}`,
         content,
         sha,
         branch: GITHUB_BRANCH,

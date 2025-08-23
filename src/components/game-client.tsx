@@ -212,7 +212,10 @@ export default function GameClient({ gameId }: { gameId: string }) {
       return placed;
   }, [stagedTiles, wordBuilderSlots, playDirection, selectedBoardPos, gameState]);
 
-  const performGameAction = async (action: (currentState: GameState) => GameState | Promise<GameState | null> | null): Promise<GameState | null> => {
+  const performGameAction = async (
+    action: (currentState: GameState) => GameState | Promise<GameState | null> | null,
+    message?: string
+  ): Promise<GameState | null> => {
     setIsLoading(true);
     try {
         const gameData = await getGameState(gameId);
@@ -225,7 +228,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
         const newGameState = await action(gameData.gameState);
         
         if (newGameState) {
-             await updateGameState(gameId, newGameState, gameData.sha);
+             await updateGameState(gameId, newGameState, gameData.sha, message);
              // After successful update, refetch to get new SHA and confirm state
             await fetchGame();
             return newGameState;
@@ -271,8 +274,8 @@ export default function GameClient({ gameId }: { gameId: string }) {
         return;
       }
     }
-
-    const updatedGameState = await performGameAction((currentState) => {
+    
+    const action = (currentState: GameState) => {
       const currentTurnsPlayed = currentState.history.length;
       if (currentState.players.length >= 4) {
         toast({ title: "Cannot Join Game", description: "Lobby is full (max 4 players).", variant: 'destructive' });
@@ -304,7 +307,11 @@ export default function GameClient({ gameId }: { gameId: string }) {
         players: [...currentState.players, newPlayer],
         tileBag: currentTileBag,
        };
-    });
+    };
+    
+    const message = `feat: Player ${trimmedName} joined game ${gameId}`;
+
+    const updatedGameState = await performGameAction(action, message);
 
     if (updatedGameState) {
         const newPlayer = updatedGameState.players.find(p => p.name === trimmedName);
@@ -369,7 +376,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
   }, []);
 
   const handlePlayWord = async () => {
-    if (!gameState) return;
+    if (!gameState || !authenticatedPlayer) return;
     if (stagedTiles.length === 0) {
         toast({ title: "Cannot Play", description: "You haven't placed any tiles.", variant: 'destructive'});
         return;
@@ -434,7 +441,7 @@ export default function GameClient({ gameId }: { gameId: string }) {
 
       if(invalidWords.length === 0) {
         
-        await performGameAction((currentState) => {
+        const action = (currentState: GameState) => {
             const currentTurnPlayerIndex = currentState.history.length % currentState.players.length;
             const currentTurnPlayer = currentState.players[currentTurnPlayerIndex];
 
@@ -481,7 +488,10 @@ export default function GameClient({ gameId }: { gameId: string }) {
             resetTurn();
             toast({ title: "Valid Word!", description: `Scored ${score} points.` });
             return newGameState;
-        });
+        };
+
+        const message = `feat: ${authenticatedPlayer.name} played ${mainWord} for ${score} points in game ${gameId}`;
+        await performGameAction(action, message);
 
       } else {
         toast({ title: "Invalid Word(s)", description: `${invalidWords.map(w=>w.word).join(', ')} not valid.`, variant: 'destructive' });
