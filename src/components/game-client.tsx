@@ -6,7 +6,7 @@ import type { GameState, Player, Tile, PlacedTile, PlayedWord, BoardSquare, Boar
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { UserPlus, Play, Copy, Check, Users, RefreshCw, AlertTriangle, KeyRound, EyeOff, Eye, ArrowDown, ArrowRight } from 'lucide-react';
+import { UserPlus, Play, Copy, Check, Users, RefreshCw, AlertTriangle, KeyRound, EyeOff, Eye, ArrowDown, ArrowRight, LogOut, ChevronLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import GameBoard from './game-board';
 import PlayerRack from './player-rack';
@@ -91,9 +91,21 @@ export default function GameClient({ gameId }: { gameId: string }) {
   
   const currentPlayer = useMemo(() => {
     if (!gameState || gameState.players.length === 0) return null;
+    
+    // Before first player has played twice, turn order is by newest player who hasn't played
+    if (turnsPlayed < gameState.players.length) {
+        const playedPlayerIds = new Set(gameState.history.map(h => h.playerId));
+        const waitingPlayers = gameState.players.filter(p => !playedPlayerIds.has(p.id));
+        // The next player is the one who joined earliest among those who haven't played
+        if (waitingPlayers.length > 0) {
+            return waitingPlayers[0];
+        }
+    }
+
+    // After that, it's just based on join order.
     const playerIndex = turnsPlayed % gameState.players.length;
     return gameState.players[playerIndex];
-  }, [gameState, turnsPlayed]);
+}, [gameState, turnsPlayed]);
 
   const authenticatedPlayer = useMemo(() => {
       if (!gameState || !authenticatedPlayerId) return null;
@@ -163,17 +175,13 @@ export default function GameClient({ gameId }: { gameId: string }) {
     const MAX_EMPTY_SLOTS = 7;
 
     // Now build forward to create the slots
-    while ((playDirection === 'horizontal' && currentY < 15) || (playDirection === 'vertical' && currentX < 15)) {
+    while (((playDirection === 'horizontal' && currentY < 15) || (playDirection === 'vertical' && currentX < 15)) && emptySlotsCount < MAX_EMPTY_SLOTS) {
         const boardSquare = gameState.board[currentX][currentY];
         if (boardSquare.tile) {
             slots.push(boardSquare.tile);
         } else {
-            if (emptySlotsCount < MAX_EMPTY_SLOTS) {
-                slots.push(null); // Empty, fillable slot
-                emptySlotsCount++;
-            } else {
-                break; // Stop adding slots if we have added the max number of empty slots
-            }
+            slots.push(null); // Empty, fillable slot
+            emptySlotsCount++;
         }
         
         if (playDirection === 'horizontal') currentY++;
@@ -394,8 +402,8 @@ export default function GameClient({ gameId }: { gameId: string }) {
 
     // --- Placement and Word Calculation ---
     const { score, words: allWords } = calculateMoveScore(tempPlacedTiles, gameState.board);
-    const mainWordInfo = allWords.find(w => w.direction === (playDirection || 'horizontal'));
-
+    const mainWordInfo = allWords.find(w => w.direction === (playDirection || 'horizontal')) || allWords[0];
+    
     if (!mainWordInfo || mainWordInfo.word.length < 2) {
         toast({ title: "Cannot Play", description: "A word must be at least 2 letters long.", variant: 'destructive'});
         return;
@@ -522,6 +530,12 @@ export default function GameClient({ gameId }: { gameId: string }) {
   const handleAuth = (playerId: string) => {
     setAuthenticatedPlayerId(playerId);
     localStorage.setItem(`scrabblex_player_id_${gameId}`, playerId);
+  }
+
+  const handleLeaveGame = () => {
+    localStorage.removeItem(`scrabblex_player_id_${gameId}`);
+    setAuthenticatedPlayerId(null);
+    toast({ title: "Left Game", description: "You have returned to the lobby."});
   }
 
   if (isLoading && !gameState) {
@@ -693,6 +707,16 @@ export default function GameClient({ gameId }: { gameId: string }) {
               <Button variant="outline" disabled={!isMyTurn || isLoading}>Swap Tiles</Button>
               <Button variant="outline" disabled={!isMyTurn || isLoading}>Pass Turn</Button>
               <Button variant="secondary" onClick={resetTurn} disabled={stagedTiles.length === 0 || !isMyTurn || isLoading}>Reset Turn</Button>
+              <div className="flex gap-2 pt-2">
+                  <Button variant="ghost" onClick={handleLeaveGame} className="w-full text-muted-foreground">
+                     <LogOut className="mr-2 h-4 w-4" /> Back to Lobby
+                  </Button>
+                  <Button variant="ghost" asChild className="w-full text-muted-foreground">
+                    <Link href="/draw">
+                      <ChevronLeft className="mr-2 h-4 w-4" /> Back to Draw
+                    </Link>
+                  </Button>
+              </div>
             </CardContent>
           </Card>
           <Scoreboard players={gameState.players} currentPlayerId={currentPlayer.id} />
@@ -705,3 +729,4 @@ export default function GameClient({ gameId }: { gameId: string }) {
     
 
     
+
