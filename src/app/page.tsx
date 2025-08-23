@@ -36,8 +36,8 @@ export default function Home() {
                 <div className="absolute -inset-0.5 animate-tilt rounded-lg bg-gradient-to-r from-primary to-accent opacity-75 blur transition duration-1000 group-hover:opacity-100 group-hover:duration-200"></div>
                 <div className="relative flex h-32 w-32 items-center justify-center rounded-lg bg-card text-card-foreground shadow-inner">
                     <div className="flex flex-col items-center gap-2">
-                        <Cross className="h-12 w-12 text-primary" />
-                        <span className="text-xl font-bold tracking-widest">SOLVE</span>
+                        <Cross className="h-12 w-12 text-muted" />
+                        <span className="text-xl text-muted font-bold tracking-widest">SOLVE</span>
                     </div>
                 </div>
                 </div>
