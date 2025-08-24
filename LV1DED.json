@@ -40,22 +40,10 @@
     {
       "id": "p1755975122320",
       "name": "W",
-      "score": 24,
+      "score": 46,
       "rack": [
         {
           "letter": "U",
-          "points": 1
-        },
-        {
-          "letter": "T",
-          "points": 1
-        },
-        {
-          "letter": "T",
-          "points": 1
-        },
-        {
-          "letter": "S",
           "points": 1
         },
         {
@@ -67,7 +55,19 @@
           "points": 1
         },
         {
-          "letter": "E",
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "L",
+          "points": 1
+        },
+        {
+          "letter": "N",
+          "points": 1
+        },
+        {
+          "letter": "A",
           "points": 1
         }
       ],
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
     {
       "letter": "K",
       "points": 5
@@ -448,6 +432,37 @@
       "word": "",
       "tiles": [],
       "score": 0
+    },
+    {
+      "playerId": "p1755975122320",
+      "word": "TEST",
+      "tiles": [
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 8,
+          "y": 4
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 8,
+          "y": 5
+        },
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 8,
+          "y": 6
+        },
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 8,
+          "y": 7
+        }
+      ],
+      "score": 22
     }
   ],
   "gamePhase": "playing",
