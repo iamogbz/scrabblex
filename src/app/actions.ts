@@ -6,6 +6,7 @@ import { GameState } from "@/types";
 import { redirect } from "next/navigation";
 import fs from 'fs/promises';
 import path from 'path';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 let wordSet: Set<string>;
 
@@ -47,4 +48,27 @@ export async function getGameState(gameId: string) {
 
 export async function updateGameState(gameId: string, gameState: GameState, sha: string, message?: string) {
     await updateGame(gameId, gameState, sha, message);
+}
+
+const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null;
+
+export async function getWordDefinition(word: string): Promise<string | null> {
+  if (!genAI) {
+    console.log("GEMINI_API_KEY not set, skipping definition lookup.");
+    return "GEMINI_API_KEY not set.";
+  }
+  if (word.length < 2) {
+    return null;
+  }
+
+  const invalidWord = "Not a valid Scrabble word."
+  const { isValid } = await verifyWordAction(word);
+  if (!isValid) return invalidWord;
+
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+  const prompt = `Provide a concise, one-line definition for the Scrabble word "${word.toUpperCase()}". If it's not a valid word, say "${invalidWord}". Example: "LIT: past tense of light."`;
+
+  const result = await model.generateContent(prompt);
+  const response = await result.response;
+  return response.text();
 }

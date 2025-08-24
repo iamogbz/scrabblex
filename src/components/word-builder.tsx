@@ -5,8 +5,9 @@ import type { PlacedTile, Board, BoardSquare } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
 import SingleTile from "./tile";
 import { Pencil } from "lucide-react";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { calculateMoveScore } from "@/lib/scoring";
+import { getWordDefinition } from "@/app/actions";
 
 
 interface WordBuilderProps {
@@ -20,6 +21,9 @@ interface WordBuilderProps {
 }
 
 export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, board, tempPlacedTiles, playDirection, playerColor }: WordBuilderProps) {
+  const [definition, setDefinition] = useState<string | null>(null);
+  const [isFetchingDefinition, setIsFetchingDefinition] = useState(false);
+
   const { word, score } = useMemo(() => {
     if (tempPlacedTiles.length === 0) return { word: "", score: 0 };
     const { score: calculatedScore, words } = calculateMoveScore(tempPlacedTiles, board);
@@ -27,11 +31,58 @@ export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, boa
     return { word: mainWordInfo?.word || "", score: calculatedScore };
   }, [tempPlacedTiles, board, playDirection]);
 
+  useEffect(() => {
+    const stagedWordLetters = [];
+    let stagedIndex = 0;
+    for (let i = 0; i < slots.length; i++) {
+        const slot = slots[i];
+        if (slot.tile) {
+            // Existing tile from the board
+            stagedWordLetters.push(slot.tile.letter);
+        } else {
+            if (stagedIndex < stagedTiles.length) {
+                // A tile placed by the player in this turn
+                stagedWordLetters.push(stagedTiles[stagedIndex].letter);
+                stagedIndex++;
+            } else {
+                // An empty, fillable slot
+                break
+            }
+        }
+    }
+    const stagedWord = stagedWordLetters.join('').toUpperCase();
+    console.log("Staged word:", stagedWord);
+    // Only fetch definition if the staged word is at least 2 characters long
+    if (stagedWord && stagedWord.length >= 2) {
+      setIsFetchingDefinition(true);
+      const timer = setTimeout(() => {
+        getWordDefinition(stagedWord).then(def => {
+          setDefinition(def);
+          setIsFetchingDefinition(false);
+        });
+      }, 500); // Debounce to avoid too many API calls
+
+      return () => clearTimeout(timer);
+    } else {
+      setDefinition(null);
+    }
+  }, [slots, tempPlacedTiles]);
+
   const getMultiplierText = (square: BoardSquare) => {
     if (square.isCenter) return "★";
     if (square.multiplierType === 'word') return `${square.multiplier}W`;
     if (square.multiplierType === 'letter') return `${square.multiplier}L`;
     return '';
+  };
+
+  const renderDescription = () => {
+    if (isFetchingDefinition) {
+      return "Looking up word...";
+    }
+    if (definition) {
+      return definition;
+    }
+    return "Click tiles from your rack to form a word.";
   };
 
   const renderSlots = () => {
@@ -84,7 +135,7 @@ export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, boa
           <Pencil className="h-5 w-5" />
           Word Builder
         </CardTitle>
-        <CardDescription>Click tiles from your rack to form a word.</CardDescription>
+        <CardDescription>{renderDescription()}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-7 gap-1 md:gap-2">
