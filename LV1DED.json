@@ -40,10 +40,22 @@
     {
       "id": "p1755975122320",
       "name": "W",
-      "score": 46,
+      "score": 72,
       "rack": [
         {
-          "letter": "E",
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "H",
+          "points": 4
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "O",
           "points": 1
         },
         {
@@ -51,23 +63,11 @@
           "points": 1
         },
         {
-          "letter": "N",
-          "points": 1
+          "letter": "V",
+          "points": 4
         },
         {
-          "letter": "T",
-          "points": 1
-        },
-        {
-          "letter": "P",
-          "points": 3
-        },
-        {
-          "letter": "U",
-          "points": 1
-        },
-        {
-          "letter": "R",
+          "letter": "I",
           "points": 1
         }
       ],
@@ -75,30 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "H",
-      "points": 4
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "V",
-      "points": 4
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
     {
       "letter": "I",
       "points": 1
@@ -490,6 +466,49 @@
       "word": "SWAP",
       "tiles": [],
       "score": 0
+    },
+    {
+      "playerId": "p1755975122320",
+      "word": "PUNTER",
+      "tiles": [
+        {
+          "letter": "P",
+          "points": 3,
+          "x": 5,
+          "y": 0
+        },
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 5,
+          "y": 1
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 5,
+          "y": 2
+        },
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 5,
+          "y": 3
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 5,
+          "y": 4
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 5,
+          "y": 5
+        }
+      ],
+      "score": 26
     }
   ],
   "gamePhase": "playing",
