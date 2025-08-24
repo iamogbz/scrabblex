@@ -10,7 +10,7 @@ import { calculateMoveScore } from "@/lib/scoring";
 
 
 interface WordBuilderProps {
-  slots: (PlacedTile | null)[];
+  slots: readonly(PlacedTile | null)[];
   stagedTiles: PlacedTile[];
   onStagedTileClick: (index: number) => void;
   board: Board;

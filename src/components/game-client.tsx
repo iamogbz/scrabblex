@@ -170,8 +170,11 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
     return availableTiles;
   }, [authenticatedPlayer, stagedTiles]);
 
-  const wordBuilderSlots = useMemo((): (PlacedTile | null)[] => {
-    if (!selectedBoardPos || !playDirection || !gameState) return [];
+  const wordBuilderSlots = useMemo((): readonly (PlacedTile | null)[] => {
+    const MAX_EMPTY_SLOTS = 7;
+    const defaultEmptySlots = Object.freeze(Array<null>(MAX_EMPTY_SLOTS).fill(null));
+
+    if (!selectedBoardPos || !playDirection || !gameState) return defaultEmptySlots;
 
     const slots: (PlacedTile | null)[] = [];
     let { x: currentX, y: currentY } = selectedBoardPos;
@@ -188,7 +191,6 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
     }
 
     let emptySlotsCount = 0;
-    const MAX_EMPTY_SLOTS = 7;
 
     // Now build forward to create the slots
     while (((playDirection === 'horizontal' && currentY < 15) || (playDirection === 'vertical' && currentX < 15)) && emptySlotsCount < MAX_EMPTY_SLOTS) {
@@ -395,7 +397,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
   };
 
   const handleRackTileClick = (tile: Tile) => {
-    if (!isMyTurn || !selectedBoardPos || !playDirection || !gameState) return;
+    if (!gameState) return;
 
     // Determine how many tiles can still be placed
     const emptySlots = wordBuilderSlots.filter(s => s === null).length;
@@ -709,7 +711,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
                     isMyTurn={isMyTurn}
                     playerColor={playerColor}
                   />
-                  {selectedBoardPos && isMyTurn && gameState && (
+                  {gameState && (
                     <WordBuilder
                       slots={wordBuilderSlots}
                       stagedTiles={stagedTiles}
