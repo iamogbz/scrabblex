@@ -4,7 +4,7 @@
     {
       "id": "p1755966105135",
       "name": "Q",
-      "score": 22,
+      "score": 36,
       "rack": [
         {
           "letter": "E",
@@ -15,24 +15,24 @@
           "points": 1
         },
         {
-          "letter": "P",
-          "points": 3
+          "letter": "I",
+          "points": 1
         },
         {
-          "letter": "E",
-          "points": 1
+          "letter": "K",
+          "points": 5
         },
         {
           "letter": "A",
           "points": 1
         },
         {
-          "letter": "N",
+          "letter": "S",
           "points": 1
         },
         {
-          "letter": "I",
-          "points": 1
+          "letter": "F",
+          "points": 4
         }
       ],
       "code": "q"
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "K",
-      "points": 5
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
     {
       "letter": "T",
       "points": 1
@@ -463,6 +447,37 @@
         }
       ],
       "score": 22
+    },
+    {
+      "playerId": "p1755966105135",
+      "word": "NAPE",
+      "tiles": [
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 9,
+          "y": 1
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 9,
+          "y": 2
+        },
+        {
+          "letter": "P",
+          "points": 3,
+          "x": 9,
+          "y": 3
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 9,
+          "y": 4
+        }
+      ],
+      "score": 14
     }
   ],
   "gamePhase": "playing",
@@ -1517,7 +1532,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 8,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1525,7 +1545,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 8,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1533,7 +1558,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 8,
+          "y": 6
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1541,7 +1571,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 8,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
