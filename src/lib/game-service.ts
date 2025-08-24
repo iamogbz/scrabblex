@@ -71,16 +71,28 @@ export async function getGame(
     let gameState: GameState = JSON.parse(fromBase64(data.content));
     let sha: string = data.sha;
     let stateWasModified = false;
+    // --- Board Reconstruction from History ---
+    const reconstructedBoard =  createInitialBoard();
+    if (gameState.history) {
+        gameState.history.forEach((playedWord)=>{
+            playedWord.tiles.forEach((tile)=>{
+                if (reconstructedBoard[tile.x] && reconstructedBoard[tile.x][tile.y]) {
+                    reconstructedBoard[tile.x][tile.y].tile = tile;
+                }
+            });
+        });
+    }
+    gameState.board = reconstructedBoard;
 
     // --- Tile Bag Verification ---
     const initialTileCounts = countTiles(TILE_BAG);
-    
+
     const tilesInRacks = gameState.players.flatMap(p => p.rack);
     const tilesOnBoard = gameState.history.flatMap(h => h.tiles.map(t => ({letter: t.letter, points: t.points})));
 
     const tilesInPlay = [...tilesInRacks, ...tilesOnBoard];
     const tilesInPlayCounts = countTiles(tilesInPlay);
-    
+
     const expectedTileBag: Tile[] = [];
     for (const letter in initialTileCounts) {
       const initialCount = initialTileCounts[letter];
@@ -91,11 +103,11 @@ export async function getGame(
         expectedTileBag.push(tileInfo);
       }
     }
-    
+
     const currentBagCounts = countTiles(gameState.tileBag);
     const expectedBagCounts = countTiles(expectedTileBag);
 
-    const isBagCorrect = 
+    const isBagCorrect =
       Object.keys(expectedBagCounts).length === Object.keys(currentBagCounts).length &&
       Object.keys(expectedBagCounts).every(letter => expectedBagCounts[letter] === currentBagCounts[letter]);
 
@@ -104,7 +116,7 @@ export async function getGame(
         gameState.tileBag = shuffle(expectedTileBag);
         stateWasModified = true;
     }
-    
+
     // --- Rack Replenishment ---
     const newTileBag = [...gameState.tileBag];
     const updatedPlayers = gameState.players.map(player => {
@@ -130,7 +142,7 @@ export async function getGame(
 
         // The state was changed, so we must commit it back to GitHub.
         const updatedData = await updateGame(gameId, updatedGameState, sha, `SYSTEM: Corrected tile bag and player racks for game ${gameId}`);
-        
+
         // Return the fresh state and the new SHA.
         return { gameState: updatedGameState, sha: updatedData.content.sha };
     }
