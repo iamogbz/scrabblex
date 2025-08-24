@@ -382,8 +382,6 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
   }
 
   const handleSquareClick = (x: number, y: number) => {
-    if (!isMyTurn) return;
-
     if (selectedBoardPos?.x === x && selectedBoardPos?.y === y) {
       // Cycle through directions or deselect
       if (playDirection === 'horizontal') {
@@ -531,11 +529,6 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
         rackAfterPlay.push(...newTiles);
         playerToUpdate.rack = rackAfterPlay;
         newGameState.tileBag.splice(0, tilesToDraw);
-
-        // Add played tiles to the board state
-        tempPlacedTiles.forEach(tile => {
-          newGameState.board[tile.x][tile.y].tile = { letter: tile.letter, points: tile.points, x: tile.x, y: tile.y };
-        });
 
         // Add the played word to history
         const playedWord: PlayedWord = {
