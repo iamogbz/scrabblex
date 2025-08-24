@@ -5,6 +5,14 @@ import { LocalStorageKey, PLAYER_COLORS } from '@/lib/constants';
 import type { GameState, Player, Tile, PlacedTile, PlayedWord, BoardSquare, Board } from '@/types';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { UserPlus, Play, Copy, Check, Users, RefreshCw, AlertTriangle, KeyRound, EyeOff, Eye, ArrowDown, ArrowRight, LogOut, ChevronLeft, PencilRuler } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -32,6 +40,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
   const [stagedTiles, setStagedTiles] = useState<PlacedTile[]>([]);
   const [selectedBoardPos, setSelectedBoardPos] = useState<{ x: number, y: number } | null>(null);
   const [playDirection, setPlayDirection] = useState<'horizontal' | 'vertical' | null>(null);
+  const [isSwapConfirmOpen, setIsSwapConfirmOpen] = useState(false);
 
   const [authenticatedPlayerId, setAuthenticatedPlayerId] = useState<string | null>(null);
 
@@ -79,6 +88,9 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
   }, [fetchGame]);
 
   const handleLeaveGame = useCallback(() => {
+    // Reset turn on leave game
+    resetTurn();
+
     localStorage.removeItem(`${LocalStorageKey.PLAYER_ID_}${gameId}`);
     setAuthenticatedPlayerId(null);
     toast({ title: "Left Game", description: "You have returned to the lobby." });
@@ -298,6 +310,9 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
 
 
   const joinGame = async () => {
+    // Reset turn on join game
+    resetTurn();
+
     if (!newPlayerName.trim() || !newPlayerCode.trim()) {
       toast({
         title: "Cannot Join Game",
@@ -597,11 +612,22 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
     await performGameAction(action, message);
   };
 
-  const handleConfirmSwap = async () => {
-    const tilesToSwap = stagedTiles.filter(t => t.x === -1 && t.y === -1); // Only staged tiles without coordinates
-    if (!gameState || !authenticatedPlayer || tilesToSwap.length === 0) return;
+  // Only staged tiles without coordinates
+  const getTilesToSwap = () => stagedTiles.filter(t => t.x === -1 && t.y === -1)
 
-    if (gameState.tileBag.length < tilesToSwap.length) {
+  const handleRequestSwap = () => {
+    const tilesToSwap = getTilesToSwap()
+
+    if (tilesToSwap.length === 0) {
+      toast({
+        title: "No Tiles to Swap",
+        description: "Select tiles from your rack to stage them for swapping.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (gameState && gameState.tileBag.length < tilesToSwap.length) {
       toast({
         title: "Cannot Swap",
         description: "Not enough tiles left in the bag to swap.",
@@ -609,6 +635,15 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
       });
       return;
     }
+
+    setIsSwapConfirmOpen(true);
+  };
+
+  const handleConfirmSwap = async () => {
+    setIsSwapConfirmOpen(false);
+
+    const tilesToSwap = getTilesToSwap();
+    if (!gameState || !authenticatedPlayer || tilesToSwap.length === 0) return;
 
     const action = (currentState: GameState) => {
       const currentTurnPlayerIndex = currentState.history.length % currentState.players.length;
@@ -841,7 +876,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
               <Button onClick={handlePlayWord} disabled={stagedTiles.length === 0 || !isMyTurn || isLoading} className="bg-accent hover:bg-accent/80 text-accent-foreground">
                 {isLoading && !isPolling ? <RefreshCw className="animate-spin" /> : "Play Word"}
               </Button>
-              <Button variant="outline" disabled={!isMyTurn || isLoading} onClick={handleConfirmSwap}>Swap Tiles</Button>
+              <Button variant="outline" disabled={!isMyTurn || isLoading || !!selectedBoardPos} onClick={handleRequestSwap}>Swap Tiles</Button>
               <Button variant="outline" disabled={!isMyTurn || isLoading} onClick={handlePassTurn}>Pass Turn</Button>
               <Button variant="secondary" onClick={resetTurn} disabled={stagedTiles.length === 0 || !isMyTurn || isLoading}>Reset Turn</Button>
             </CardContent>
@@ -849,6 +884,22 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
           <Scoreboard players={gameState.players} currentPlayerId={currentPlayer.id} />
         </div>
       </div>
+      <Dialog open={isSwapConfirmOpen} onOpenChange={setIsSwapConfirmOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm Tile Swap</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to swap {stagedTiles.filter(t => t.x === -1 && t.y === -1).length} tile(s)? This will end your turn.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setIsSwapConfirmOpen(false)} disabled={isLoading}>Cancel</Button>
+            <Button onClick={handleConfirmSwap} disabled={isLoading}>
+              {isLoading ? <RefreshCw className="animate-spin" /> : "Confirm Swap"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
