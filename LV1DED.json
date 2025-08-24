@@ -4,16 +4,8 @@
     {
       "id": "p1755966105135",
       "name": "Q",
-      "score": 36,
+      "score": 63,
       "rack": [
-        {
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": "A",
-          "points": 1
-        },
         {
           "letter": "S",
           "points": 1
@@ -23,16 +15,24 @@
           "points": 4
         },
         {
-          "letter": "V",
-          "points": 4
-        },
-        {
           "letter": "G",
           "points": 2
         },
         {
           "letter": "D",
           "points": 2
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "M",
+          "points": 3
+        },
+        {
+          "letter": "O",
+          "points": 1
         }
       ],
       "code": "q"
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "M",
-      "points": 3
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
     {
       "letter": "I",
       "points": 1
@@ -509,6 +497,31 @@
         }
       ],
       "score": 26
+    },
+    {
+      "playerId": "p1755966105135",
+      "word": "PAVE",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 6,
+          "y": 0
+        },
+        {
+          "letter": "V",
+          "points": 4,
+          "x": 7,
+          "y": 0
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 8,
+          "y": 0
+        }
+      ],
+      "score": 27
     }
   ],
   "gamePhase": "playing",
@@ -1125,7 +1138,12 @@
     ],
     [
       {
-        "tile": null,
+        "tile": {
+          "letter": "P",
+          "points": 3,
+          "x": 5,
+          "y": 0
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1133,7 +1151,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "U",
+          "points": 1,
+          "x": 5,
+          "y": 1
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1141,7 +1164,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 5,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1149,7 +1177,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 5,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1157,7 +1190,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 5,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1165,7 +1203,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 5,
+          "y": 5
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
