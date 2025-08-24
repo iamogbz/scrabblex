@@ -4,7 +4,7 @@
 import type { PlacedTile, Board, BoardSquare } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
 import SingleTile from "./tile";
-import { Pencil } from "lucide-react";
+import { WholeWord } from "lucide-react";
 import { useMemo, useState, useEffect } from "react";
 import { calculateMoveScore } from "@/lib/scoring";
 import { getWordDefinition } from "@/app/actions";
@@ -51,7 +51,6 @@ export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, boa
         }
     }
     const stagedWord = stagedWordLetters.join('').toUpperCase();
-    console.log("Staged word:", stagedWord);
     // Only fetch definition if the staged word is at least 2 characters long
     if (stagedWord && stagedWord.length >= 2) {
       setIsFetchingDefinition(true);
@@ -82,7 +81,7 @@ export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, boa
     if (definition) {
       return definition;
     }
-    return "Click tiles from your rack to form a word.";
+    return "Select letters from your rack to swap or form a word to play.";
   };
 
   const renderSlots = () => {
@@ -132,8 +131,8 @@ export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, boa
     <Card className="shadow-lg animate-in fade-in-50">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Pencil className="h-5 w-5" />
-          Word Builder
+          <WholeWord className="h-5 w-5" />
+          Stage Word
         </CardTitle>
         <CardDescription>{renderDescription()}</CardDescription>
       </CardHeader>

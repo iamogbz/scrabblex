@@ -38,6 +38,7 @@ export default function SingleTile({ tile, isDraggable = true, onSelect, isSelec
     <div
       onClick={onSelect}
       className={cn(
+        "cursor-pointer",
         "aspect-square w-full h-full rounded-sm md:rounded-md flex items-center justify-center relative select-none shadow-sm",
         "bg-[#FBF8E8] border border-[#D5CFAF] text-[#5A4B40]",
         isDraggable && "cursor-pointer transition-transform duration-150 ease-in-out hover:scale-105 hover:-translate-y-1",

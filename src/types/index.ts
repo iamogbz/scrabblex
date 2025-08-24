@@ -35,6 +35,8 @@ export interface PlayedWord {
   word: string;
   tiles: PlacedTile[];
   score: number;
+  isPass?: boolean;
+  isSwap?: boolean;
 }
 
 export interface GameState {

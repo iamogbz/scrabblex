@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
@@ -7,7 +6,7 @@ import type { GameState, Player, Tile, PlacedTile, PlayedWord, BoardSquare, Boar
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { UserPlus, Play, Copy, Check, Users, RefreshCw, AlertTriangle, KeyRound, EyeOff, Eye, ArrowDown, ArrowRight, LogOut, ChevronLeft } from 'lucide-react';
+import { UserPlus, Play, Copy, Check, Users, RefreshCw, AlertTriangle, KeyRound, EyeOff, Eye, ArrowDown, ArrowRight, LogOut, ChevronLeft, PencilRuler } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import GameBoard from './game-board';
 import PlayerRack from './player-rack';
@@ -37,6 +36,15 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
   const [authenticatedPlayerId, setAuthenticatedPlayerId] = useState<string | null>(null);
 
   const { toast } = useToast();
+
+  const shuffle = <T,>(array: T[]): T[] => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
 
   const fetchGame = useCallback(async (isPoll = false) => {
     if (!isPoll) setIsLoading(true);
@@ -407,7 +415,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
     // Determine how many tiles can still be placed
     const emptySlots = wordBuilderSlots.filter(s => s.tile === null).length;
     if (stagedTiles.length >= emptySlots || stagedTiles.length >= 7) {
-      toast({ title: "Word Builder Full", description: "No more space to add tiles for this word.", variant: 'destructive' });
+      toast({ title: "Stage Full", description: "No more space to add tiles for this word.", variant: 'destructive' });
       return;
     }
 
@@ -575,6 +583,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
         word: '',
         tiles: [],
         score: 0,
+        isPass: true,
       };
 
       newGameState.history.push(passEvent);
@@ -586,6 +595,70 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
 
     const message = `feat: ${authenticatedPlayer.name} passed their turn in game ${gameId}`;
     await performGameAction(action, message);
+  };
+
+  const handleConfirmSwap = async () => {
+    const tilesToSwap = stagedTiles.filter(t => t.x === -1 && t.y === -1); // Only staged tiles without coordinates
+    if (!gameState || !authenticatedPlayer || tilesToSwap.length === 0) return;
+
+    if (gameState.tileBag.length < tilesToSwap.length) {
+      toast({
+        title: "Cannot Swap",
+        description: "Not enough tiles left in the bag to swap.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const action = (currentState: GameState) => {
+      const currentTurnPlayerIndex = currentState.history.length % currentState.players.length;
+      const currentTurnPlayer = currentState.players[currentTurnPlayerIndex];
+
+      if (currentTurnPlayer.id !== authenticatedPlayerId) {
+        throw new Error(`It's not your turn. It's ${currentTurnPlayer.name}'s turn.`);
+      }
+
+      const newGameState = JSON.parse(JSON.stringify(currentState)); // Deep copy
+      const playerToUpdate = newGameState.players.find((p: Player) => p.id === authenticatedPlayerId)!;
+      const tileBag = newGameState.tileBag;
+
+      const lettersToSwap = tilesToSwap.map(t => t.letter);
+      const rackAfterSwap = [...playerToUpdate.rack];
+      const swappedOutTiles: Tile[] = [];
+
+      lettersToSwap.forEach(letter => {
+        const indexToRemove = rackAfterSwap.findIndex(t => t.letter === letter);
+        if (indexToRemove > -1) {
+          swappedOutTiles.push(rackAfterSwap.splice(indexToRemove, 1)[0]);
+        }
+      });
+
+      const newTiles = tileBag.splice(0, swappedOutTiles.length);
+      rackAfterSwap.push(...newTiles);
+      playerToUpdate.rack = rackAfterSwap;
+
+      tileBag.push(...swappedOutTiles);
+      newGameState.tileBag = shuffle(tileBag);
+
+      const swapEvent: PlayedWord = {
+        playerId: authenticatedPlayer.id,
+        word: '',
+        tiles: [],
+        score: 0,
+        isSwap: true,
+      };
+      newGameState.history.push(swapEvent);
+
+      toast({ title: "Tiles Swapped", description: `You swapped ${tilesToSwap.length} tiles.` });
+      return newGameState;
+    };
+
+    const message = `feat: ${authenticatedPlayer.name} swapped ${tilesToSwap.length} tiles in game ${gameId}`;
+    const updatedState = await performGameAction(action, message);
+
+    if (updatedState) {
+      setStagedTiles([]);
+    }
   };
 
   const handleAuth = (playerId: string) => {
@@ -694,10 +767,13 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
   }
 
   // Show auth dialog if we have a player ID but they need to enter a code (e.g. new device)
+  // TODO: validate why this would ever happen
   if (!authenticatedPlayer && authenticatedPlayerId) {
     return <PlayerAuthDialog players={gameState.players.filter(p => p.id === authenticatedPlayerId)} onAuth={handleAuth} />
   }
 
+  const authenticatedPlayerIndex = gameState!.players.findIndex(p => p.id === authenticatedPlayerId);
+  const playerColor = PLAYER_COLORS[authenticatedPlayerIndex % PLAYER_COLORS.length];
 
   if (!currentPlayer) {
     return (
@@ -713,8 +789,9 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
               {authenticatedPlayer && (
                 <PlayerRack
                   rack={authenticatedPlayer.rack}
-                  onTileSelect={() => { }}
+                  onTileSelect={handleRackTileClick}
                   isMyTurn={false}
+                  playerColor={playerColor}
                 />
               )}
             </div>
@@ -732,42 +809,39 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
         </div>
         <div className="w-full lg:w-80 flex flex-col gap-4">
           {authenticatedPlayer && (
-            (() => {
-              const authenticatedPlayerIndex = gameState!.players.findIndex(p => p.id === authenticatedPlayerId);
-              const playerColor = PLAYER_COLORS[authenticatedPlayerIndex % PLAYER_COLORS.length];
-              return (
-                <div className="lg:sticky lg:top-4 space-y-4">
-                  <PlayerRack
-                    rack={rackTiles}
-                    onTileSelect={isMyTurn ? handleRackTileClick : () => { }}
-                    isMyTurn={isMyTurn}
+            <div className="lg:sticky lg:top-4 space-y-4">
+                <PlayerRack
+                rack={rackTiles}
+                onTileSelect={handleRackTileClick}
+                isMyTurn={isMyTurn}
+                playerColor={playerColor}
+                />
+                {gameState && (
+                <WordBuilder
+                    slots={wordBuilderSlots}
+                    stagedTiles={stagedTiles}
+                    onStagedTileClick={handleStagedTileClick}
+                    board={gameState.board}
+                    tempPlacedTiles={tempPlacedTiles}
                     playerColor={playerColor}
-                  />
-                  {gameState && (
-                    <WordBuilder
-                      slots={wordBuilderSlots}
-                      stagedTiles={stagedTiles}
-                      onStagedTileClick={handleStagedTileClick}
-                      board={gameState.board}
-                      tempPlacedTiles={tempPlacedTiles}
-                      playerColor={playerColor}
-                      playDirection={playDirection}
-                    />
-                  )}
-                </div>
-              );
-            })()
+                    playDirection={playDirection}
+                />
+                )}
+            </div>
           )}
           <Card>
             <CardHeader>
-              <CardTitle>Controls</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <PencilRuler  className="h-5 w-5"/>
+                Controls
+              </CardTitle>
               {!isMyTurn && <CardDescription>It's {currentPlayer.name}'s turn. {isPolling && <RefreshCw className="inline-block animate-spin h-4 w-4 ml-2" />}</CardDescription>}
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
               <Button onClick={handlePlayWord} disabled={stagedTiles.length === 0 || !isMyTurn || isLoading} className="bg-accent hover:bg-accent/80 text-accent-foreground">
                 {isLoading && !isPolling ? <RefreshCw className="animate-spin" /> : "Play Word"}
               </Button>
-              <Button variant="outline" disabled={!isMyTurn || isLoading}>Swap Tiles</Button>
+              <Button variant="outline" disabled={!isMyTurn || isLoading} onClick={handleConfirmSwap}>Swap Tiles</Button>
               <Button variant="outline" disabled={!isMyTurn || isLoading} onClick={handlePassTurn}>Pass Turn</Button>
               <Button variant="secondary" onClick={resetTurn} disabled={stagedTiles.length === 0 || !isMyTurn || isLoading}>Reset Turn</Button>
             </CardContent>
@@ -778,10 +852,3 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
     </div>
   );
 }
-
-
-
-
-
-
-

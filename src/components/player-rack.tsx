@@ -3,7 +3,6 @@ import type { Tile } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
 import SingleTile from "./tile";
 import { Hand } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface PlayerRackProps {
   rack: Tile[];
@@ -14,13 +13,13 @@ interface PlayerRackProps {
 
 export default function PlayerRack({ rack, onTileSelect, isMyTurn, playerColor }: PlayerRackProps) {
   return (
-    <Card className={cn("shadow-lg transition-all duration-300", !isMyTurn && "opacity-60")}>
-      <CardHeader>
+    <Card className="shadow-lg transition-all duration-300">
+      <CardHeader className={!isMyTurn ? "opacity-60" : ""}>
         <CardTitle className="flex items-center gap-2">
             <Hand className="h-5 w-5"/>
             Your Tiles
         </CardTitle>
-        {!isMyTurn && <CardDescription>Wait for your turn to play.</CardDescription>}
+        {!isMyTurn && <CardDescription>Not your turn but you can still stage your letters.</CardDescription>}
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-7 gap-1 md:gap-2">
