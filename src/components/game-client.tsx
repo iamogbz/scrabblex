@@ -382,13 +382,15 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
       } else if (playDirection === 'vertical') {
         setSelectedBoardPos(null);
         setPlayDirection(null);
-        setStagedTiles([]); // Clear staged tiles on deselect
+        // As per TODO only clear staged tiles on reset
+        // setStagedTiles([]); // Clear staged tiles on deselect
       }
     } else {
       // New selection
       setSelectedBoardPos({ x, y });
       setPlayDirection('horizontal');
-      setStagedTiles([]); // Clear staged tiles on new selection
+      // As per TODO only clear staged tiles on reset
+     //  setStagedTiles([]); // Clear staged tiles on new selection
     }
   };
 
@@ -714,7 +716,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
                       onStagedTileClick={handleStagedTileClick}
                       board={gameState.board}
                       tempPlacedTiles={tempPlacedTiles}
-                      playerColor={playerColor}  
+                      playerColor={playerColor}
                       playDirection={playDirection}
                     />
                   )}

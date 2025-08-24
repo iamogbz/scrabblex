@@ -4,12 +4,11 @@ Combining the best parts of Scrabble and Crossword
 
 ## TODO
 
-- Limit how far from the center or existing placed board tiles the user can select to play
+- Limit where on the board the user can select to play. Currently any tile can be clicked but it has to be at most the number of tiles the user has in their rack (7 max) including the center or distance from existing placed board tiles
 - Allow user to still plan words with the word builder when it is not their turn
-- The world builder should always be visible and should only be cleared by the reset turn button
-  - Clearing the arrows from the board should not reset the tiles in the word builder
+- The word builder should always be visible
 - Show the board multiplier in the word builder
-- The word builder should show the definition of the current word
+- The word builder should show the definition of the selected word
 - Words on the board should be colored by the user that played them
 - Allow using the keyboard (even on mobile) to enter word limiting it to what tiles the user has in their rack
 
