@@ -32,13 +32,13 @@ export default function GameBoard({ board, tempPlacedTiles, onSquareClick, selec
     if (square.multiplierType === 'letter') return `${square.multiplier}L`;
     return '';
   };
-  
+
   const isSelectedSquare = (x: number, y: number) => {
     return selectedBoardPos?.x === x && selectedBoardPos?.y === y;
   }
 
   return (
-    <div className="aspect-square w-full max-w-[70vh] mx-auto bg-background rounded-lg shadow-lg p-2 md:p-4 border">
+    <div className="aspect-square w-full max-w-[70vh] min-w-[432px] mx-auto bg-background rounded-lg shadow-lg p-2 md:p-4 border">
       <div className="grid grid-cols-[repeat(15,minmax(0,1fr))] gap-0.5 md:gap-1 h-full w-full">
         {board.map((row, x) =>
           row.map((square, y) => {
@@ -60,8 +60,11 @@ export default function GameBoard({ board, tempPlacedTiles, onSquareClick, selec
                   square.isCenter && 'bg-purple-200/50 text-purple-800',
                   isSelected && "ring-2 ring-accent ring-offset-2 z-10"
                 )}
+                style={{
+                  containerType: 'size'
+                }}
               >
-                {content || <span className="text-[8px] md:text-xs font-bold opacity-70 select-none">{getMultiplierText(square)}</span>}
+                {content || <span className="text-[40cqw] font-bold opacity-70 select-none">{getMultiplierText(square)}</span>}
                 {isSelected && playDirection === 'horizontal' && <ArrowRight className="absolute -right-2 top-1/2 -translate-y-1/2 h-4 w-4 text-accent z-20 bg-background/80 rounded-full" />}
                 {isSelected && playDirection === 'vertical' && <ArrowDown className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-4 w-4 text-accent z-20 bg-background/80 rounded-full" />}
               </div>
