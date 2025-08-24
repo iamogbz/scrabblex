@@ -222,10 +222,10 @@ export default function GameClient({
     );
   }, [gameState, newPlayerName]);
 
-  const numPlayers = gameState?.players.length || Number.POSITIVE_INFINITY;
+  const numPlayers = gameState?.players.length || 0;
   const lobbyFull = numPlayers >= MAX_PLAYER_COUNT;
   const currentTurnsPlayed = gameState?.history.length || 0;
-  const currentRoundsPlayed = Math.floor(currentTurnsPlayed / numPlayers);
+  const currentRoundsPlayed = numPlayers && Math.floor(currentTurnsPlayed / numPlayers);
   const gameStarted =
     (numPlayers > 1 && currentRoundsPlayed > 0) ||
     (numPlayers < 2 && currentTurnsPlayed > 1);
