@@ -369,7 +369,7 @@ export default function GameClient({
     action: (
       currentState: GameState
     ) => GameState | Promise<GameState | null> | null,
-    message?: string
+    message: string
   ): Promise<GameState | null> => {
     setIsLoading(true);
     try {
@@ -498,7 +498,6 @@ export default function GameClient({
     };
 
     const message = `feat: Player ${trimmedName} joined game ${gameId}`;
-
     const updatedGameState = await performGameAction(action, message);
 
     if (updatedGameState) {

@@ -1,16 +1,14 @@
-
 /**
  * @fileoverview Service for interacting with GitHub to store and retrieve game state.
  */
 import type { GameState, Tile } from "@/types";
 import { createInitialBoard, TILE_BAG } from "./game-data";
 
-const GITHUB_REPO = "iamogbz/scrabblex";
+export const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+export const GITHUB_REPO = "iamogbz/scrabblex";
 const GITHUB_BRANCH = "games";
 
 const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/`;
-
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
 if (!GITHUB_TOKEN) {
   console.warn(
@@ -34,31 +32,34 @@ function fromBase64(str: string): string {
   return Buffer.from(str, "base64").toString("utf8");
 }
 
-const shuffle = <T,>(array: T[]): T[] => {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
-  };
+const shuffle = <T>(array: T[]): T[] => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+};
 
-  const countTiles = (tiles: Tile[]) => {
-    return tiles.reduce((acc, tile) => {
-      acc[tile.letter] = (acc[tile.letter] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-  };
+const countTiles = (tiles: Tile[]) => {
+  return tiles.reduce((acc, tile) => {
+    acc[tile.letter] = (acc[tile.letter] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+};
 
 export async function getGame(
   gameId: string
 ): Promise<{ gameState: GameState; sha: string } | null> {
   if (!GITHUB_TOKEN) return null;
   try {
-    const response = await fetch(`${GITHUB_API_URL}${gameId}.json?ref=${GITHUB_BRANCH}`, {
-      headers: githubHeaders,
-      cache: "no-store",
-    });
+    const response = await fetch(
+      `${GITHUB_API_URL}${gameId}.json?ref=${GITHUB_BRANCH}`,
+      {
+        headers: githubHeaders,
+        cache: "no-store",
+      }
+    );
 
     if (!response.ok) {
       if (response.status === 404) {
@@ -72,23 +73,28 @@ export async function getGame(
     let sha: string = data.sha;
     let stateWasModified = false;
     // --- Board Reconstruction from History ---
-    const reconstructedBoard =  createInitialBoard();
+    const reconstructedBoard = createInitialBoard();
     if (gameState.history) {
-        gameState.history.forEach((playedWord)=>{
-            playedWord.tiles.forEach((tile)=>{
-                if (reconstructedBoard[tile.x] && reconstructedBoard[tile.x][tile.y]) {
-                    reconstructedBoard[tile.x][tile.y].tile = tile;
-                }
-            });
+      gameState.history.forEach((playedWord) => {
+        playedWord.tiles.forEach((tile) => {
+          if (
+            reconstructedBoard[tile.x] &&
+            reconstructedBoard[tile.x][tile.y]
+          ) {
+            reconstructedBoard[tile.x][tile.y].tile = tile;
+          }
         });
+      });
     }
     gameState.board = reconstructedBoard;
 
     // --- Tile Bag Verification ---
     const initialTileCounts = countTiles(TILE_BAG);
 
-    const tilesInRacks = gameState.players.flatMap(p => p.rack);
-    const tilesOnBoard = gameState.history.flatMap(h => h.tiles.map(t => ({letter: t.letter, points: t.points})));
+    const tilesInRacks = gameState.players.flatMap((p) => p.rack);
+    const tilesOnBoard = gameState.history.flatMap((h) =>
+      h.tiles.map((t) => ({ letter: t.letter, points: t.points }))
+    );
 
     const tilesInPlay = [...tilesInRacks, ...tilesOnBoard];
     const tilesInPlayCounts = countTiles(tilesInPlay);
@@ -98,7 +104,7 @@ export async function getGame(
       const initialCount = initialTileCounts[letter];
       const inPlayCount = tilesInPlayCounts[letter] || 0;
       const expectedCountInBag = initialCount - inPlayCount;
-      const tileInfo = TILE_BAG.find(t => t.letter === letter)!;
+      const tileInfo = TILE_BAG.find((t) => t.letter === letter)!;
       for (let i = 0; i < expectedCountInBag; i++) {
         expectedTileBag.push(tileInfo);
       }
@@ -108,43 +114,51 @@ export async function getGame(
     const expectedBagCounts = countTiles(expectedTileBag);
 
     const isBagCorrect =
-      Object.keys(expectedBagCounts).length === Object.keys(currentBagCounts).length &&
-      Object.keys(expectedBagCounts).every(letter => expectedBagCounts[letter] === currentBagCounts[letter]);
+      Object.keys(expectedBagCounts).length ===
+        Object.keys(currentBagCounts).length &&
+      Object.keys(expectedBagCounts).every(
+        (letter) => expectedBagCounts[letter] === currentBagCounts[letter]
+      );
 
     if (!isBagCorrect) {
-        console.warn(`Correcting tile bag for game ${gameId}`);
-        gameState.tileBag = shuffle(expectedTileBag);
-        stateWasModified = true;
+      console.warn(`Correcting tile bag for game ${gameId}`);
+      gameState.tileBag = shuffle(expectedTileBag);
+      stateWasModified = true;
     }
 
     // --- Rack Replenishment ---
     const newTileBag = [...gameState.tileBag];
-    const updatedPlayers = gameState.players.map(player => {
-        const tilesNeeded = 7 - player.rack.length;
-        if (tilesNeeded > 0 && newTileBag.length > 0) {
-            const tilesToDraw = Math.min(tilesNeeded, newTileBag.length);
-            const newTiles = newTileBag.splice(0, tilesToDraw);
-            stateWasModified = true;
-            return {
-                ...player,
-                rack: [...player.rack, ...newTiles],
-            };
-        }
-        return player;
+    const updatedPlayers = gameState.players.map((player) => {
+      const tilesNeeded = 7 - player.rack.length;
+      if (tilesNeeded > 0 && newTileBag.length > 0) {
+        const tilesToDraw = Math.min(tilesNeeded, newTileBag.length);
+        const newTiles = newTileBag.splice(0, tilesToDraw);
+        stateWasModified = true;
+        return {
+          ...player,
+          rack: [...player.rack, ...newTiles],
+        };
+      }
+      return player;
     });
 
     if (stateWasModified) {
-        const updatedGameState: GameState = {
-            ...gameState,
-            players: updatedPlayers,
-            tileBag: newTileBag,
-        };
+      const updatedGameState: GameState = {
+        ...gameState,
+        players: updatedPlayers,
+        tileBag: newTileBag,
+      };
 
-        // The state was changed, so we must commit it back to GitHub.
-        const updatedData = await updateGame(gameId, updatedGameState, sha, `SYSTEM: Corrected tile bag and player racks for game ${gameId}`);
+      // The state was changed, so we must commit it back to GitHub.
+      const updatedData = await updateGame(
+        gameId,
+        updatedGameState,
+        sha,
+        `SYSTEM: Corrected tile bag and player racks for game ${gameId}`
+      );
 
-        // Return the fresh state and the new SHA.
-        return { gameState: updatedGameState, sha: updatedData.content.sha };
+      // Return the fresh state and the new SHA.
+      return { gameState: updatedGameState, sha: updatedData.content.sha };
     }
 
     return { gameState, sha };
@@ -215,8 +229,8 @@ export async function updateGame(
     });
 
     if (!response.ok) {
-        const error = await response.json();
-        throw new Error(`Failed to update game: ${error.message}`);
+      const error = await response.json();
+      throw new Error(`Failed to update game: ${error.message}`);
     }
     return await response.json();
   } catch (error) {
