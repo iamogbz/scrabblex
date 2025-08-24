@@ -843,7 +843,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
         </div>
         <div className="w-full lg:w-80 flex flex-col gap-4">
           {authenticatedPlayer && (
-            <div className="lg:sticky lg:top-4 space-y-4">
+            <div className="lg:sticky lg:top-4 space-y-4 z-10">
                 <PlayerRack
                 rack={rackTiles}
                 onTileSelect={handleRackTileClick}
