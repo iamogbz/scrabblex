@@ -556,6 +556,38 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
     }
   };
 
+  const handlePassTurn = async () => {
+    if (!gameState || !authenticatedPlayer) return;
+
+    const action = (currentState: GameState) => {
+      const currentTurnPlayerIndex = currentState.history.length % currentState.players.length;
+      const currentTurnPlayer = currentState.players[currentTurnPlayerIndex];
+
+      if (currentTurnPlayer.id !== authenticatedPlayerId) {
+        throw new Error(`It's not your turn. It's ${currentTurnPlayer.name}'s turn.`);
+      }
+
+      const newGameState = JSON.parse(JSON.stringify(currentState)); // Deep copy
+
+      // Add a "pass" event to history to advance the turn
+      const passEvent: PlayedWord = {
+        playerId: authenticatedPlayer.id,
+        word: '',
+        tiles: [],
+        score: 0,
+      };
+
+      newGameState.history.push(passEvent);
+
+      resetTurn();
+      toast({ title: "Turn Passed" });
+      return newGameState;
+    };
+
+    const message = `feat: ${authenticatedPlayer.name} passed their turn in game ${gameId}`;
+    await performGameAction(action, message);
+  };
+
   const handleAuth = (playerId: string) => {
     setAuthenticatedPlayerId(playerId);
     localStorage.setItem(`${LocalStorageKey.PLAYER_ID_}${gameId}`, playerId);
@@ -736,7 +768,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
                 {isLoading && !isPolling ? <RefreshCw className="animate-spin" /> : "Play Word"}
               </Button>
               <Button variant="outline" disabled={!isMyTurn || isLoading}>Swap Tiles</Button>
-              <Button variant="outline" disabled={!isMyTurn || isLoading}>Pass Turn</Button>
+              <Button variant="outline" disabled={!isMyTurn || isLoading} onClick={handlePassTurn}>Pass Turn</Button>
               <Button variant="secondary" onClick={resetTurn} disabled={stagedTiles.length === 0 || !isMyTurn || isLoading}>Reset Turn</Button>
             </CardContent>
           </Card>
