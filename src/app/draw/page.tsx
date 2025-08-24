@@ -4,20 +4,26 @@ import { JoinGameDialog } from "@/components/join-game-dialog";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Users } from "lucide-react";
+import { Plus, Users, X } from "lucide-react";
 import Link from 'next/link';
 import { Logo } from "@/components/logo";
 import { LocalStorageKey } from "@/lib/constants";
 
 export default function DrawPage() {
-  const [gameHistory, setGameHistory] = useState<string[]>([]);
+  const [previousGames, setPreviousGames] = useState<string[]>([]);
+
+  const handleRemoveGame = (gameIdToRemove: string) => {
+    const updatedGames = previousGames.filter(id => id !== gameIdToRemove);
+    setPreviousGames(updatedGames);
+    localStorage.setItem(LocalStorageKey.GAMES, JSON.stringify(updatedGames));
+  };
 
   useEffect(() => {
     // Ensure we are in a browser environment before accessing localStorage
     if (typeof window !== 'undefined') {
       const history = JSON.parse(localStorage.getItem(LocalStorageKey.GAMES) || '[]');
       // Convert Set back to Array for rendering
-      setGameHistory(Array.from(new Set<string>(history)));
+      setPreviousGames(Array.from(new Set<string>(history)));
     }
   }, []); // Empty dependency array ensures this runs only once on mount
 
@@ -43,14 +49,25 @@ export default function DrawPage() {
             </JoinGameDialog>
           </div>
 
-          {gameHistory.length > 0 && (
+          {previousGames.length > 0 && (
             <div className="mt-8 space-y-2">
               <h3 className="text-lg font-semibold">Previous Games</h3>
               <div className="flex flex-col items-center space-y-2">
-                {gameHistory.map((gameId) => (
-                  <Link key={gameId} href={`/draw/${gameId}`} className="w-full text-primary hover:underline text-sm">
-                    <Button variant="outline" size="lg" className="w-full text-lg py-7">{gameId}</Button>
-                  </Link>
+                {previousGames.map((gameId) => (
+                  <div className="flex flex-row items-center justify-between w-full gap-2" key={gameId}>
+                    <Link key={gameId} href={`/draw/${gameId}`} className="w-full text-primary hover:underline text-sm">
+                      <Button variant="outline" size="lg" className="w-full text-lg py-7">{gameId}</Button>
+                    </Link>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-12 w-12"
+                        onClick={() => handleRemoveGame(gameId)}
+                        aria-label={`Remove game ${gameId} from history`}
+                    >
+                        <X className="h-8 w-8" />
+                    </Button>
+                  </div>
                 ))}
               </div>
             </div>
