@@ -570,9 +570,13 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
 
       const message = `feat: ${authenticatedPlayer.name} played ${mainWordInfo.word} for ${score} points in game ${gameId}`;
       await performGameAction(action, message);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
-      toast({ title: "Error", description: `Could not verify word.`, variant: 'destructive' });
+      toast({
+        title: "Error",
+        description: e.message || 'Could not verify word.',
+        variant: 'destructive'
+      });
     } finally {
       setIsLoading(false);
     }
