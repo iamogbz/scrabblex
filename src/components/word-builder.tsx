@@ -1,7 +1,7 @@
 
 "use client"
 
-import type { PlacedTile, Board } from "@/types";
+import type { PlacedTile, Board, BoardSquare } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
 import SingleTile from "./tile";
 import { Pencil } from "lucide-react";
@@ -10,7 +10,7 @@ import { calculateMoveScore } from "@/lib/scoring";
 
 
 interface WordBuilderProps {
-  slots: readonly(PlacedTile | null)[];
+  slots: readonly BoardSquare[];
   stagedTiles: PlacedTile[];
   onStagedTileClick: (index: number) => void;
   board: Board;
@@ -27,15 +27,21 @@ export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, boa
     return { word: mainWordInfo?.word || "", score: calculatedScore };
   }, [tempPlacedTiles, board, playDirection]);
 
+  const getMultiplierText = (square: BoardSquare) => {
+    if (square.isCenter) return "★";
+    if (square.multiplierType === 'word') return `${square.multiplier}W`;
+    if (square.multiplierType === 'letter') return `${square.multiplier}L`;
+    return '';
+  };
 
   const renderSlots = () => {
     const rendered = [];
     let stagedIndex = 0;
     for (let i = 0; i < slots.length; i++) {
         const slot = slots[i];
-        if (slot) {
+        if (slot.tile) {
             // Existing tile from the board
-            rendered.push(<SingleTile key={`board-${i}`} tile={slot} isDraggable={false} />);
+            rendered.push(<SingleTile key={`board-${i}`} tile={slot.tile} isDraggable={false} />);
         } else {
             if (stagedIndex < stagedTiles.length) {
                 // A tile placed by the player in this turn
@@ -54,7 +60,16 @@ export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, boa
                 stagedIndex++;
             } else {
                 // An empty, fillable slot
-                rendered.push(<div key={`empty-${i}`} className="aspect-square bg-muted/50 rounded-md border-2 border-dashed" />);
+                rendered.push(
+                  <div
+                    key={`empty-${i}`}
+                    className="aspect-square bg-muted/50 rounded-md border-2 border-dashed flex items-center justify-center text-muted-foreground"
+                  >
+                    <span className="text-xs font-bold opacity-70 select-none">
+                      {getMultiplierText(slot)}
+                    </span>
+                  </div>
+                );
             }
         }
     }

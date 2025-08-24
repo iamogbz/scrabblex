@@ -170,13 +170,22 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
     return availableTiles;
   }, [authenticatedPlayer, stagedTiles]);
 
-  const wordBuilderSlots = useMemo((): readonly (PlacedTile | null)[] => {
+  const wordBuilderSlots = useMemo((): readonly BoardSquare[] => {
     const MAX_EMPTY_SLOTS = 7;
-    const defaultEmptySlots = Object.freeze(Array<null>(MAX_EMPTY_SLOTS).fill(null));
+    const defaultEmptySlots = Object.freeze(
+      Array<BoardSquare>(MAX_EMPTY_SLOTS).fill({
+        tile: null,
+        x: -1,
+        y: -1,
+        isCenter: false,
+        multiplier: 0,
+        multiplierType: null,
+      })
+    );
 
     if (!selectedBoardPos || !playDirection || !gameState) return defaultEmptySlots;
 
-    const slots: (PlacedTile | null)[] = [];
+    const slots: BoardSquare[] = [];
     let { x: currentX, y: currentY } = selectedBoardPos;
 
     // Based on direction, find the start of the word by backtracking over existing tiles
@@ -195,10 +204,8 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
     // Now build forward to create the slots
     while (((playDirection === 'horizontal' && currentY < 15) || (playDirection === 'vertical' && currentX < 15)) && emptySlotsCount < MAX_EMPTY_SLOTS) {
       const boardSquare = gameState.board[currentX][currentY];
-      if (boardSquare.tile) {
-        slots.push(boardSquare.tile);
-      } else {
-        slots.push(null); // Empty, fillable slot
+      slots.push(boardSquare);
+      if (!boardSquare.tile) {
         emptySlotsCount++;
       }
 
@@ -237,7 +244,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
 
       if (currentX >= 15 || currentY >= 15) break;
 
-      if (currentSlot === null) {
+      if (currentSlot.tile === null) {
         // This is an empty slot to be filled
         if (tileIndex < stagedTiles.length) {
           placed.push({ ...stagedTiles[tileIndex], x: currentX, y: currentY });
@@ -400,7 +407,7 @@ export default function GameClient({ gameId, setLeaveGameHandler }: { gameId: st
     if (!gameState) return;
 
     // Determine how many tiles can still be placed
-    const emptySlots = wordBuilderSlots.filter(s => s === null).length;
+    const emptySlots = wordBuilderSlots.filter(s => s.tile === null).length;
     if (stagedTiles.length >= emptySlots || stagedTiles.length >= 7) {
       toast({ title: "Word Builder Full", description: "No more space to add tiles for this word.", variant: 'destructive' });
       return;
