@@ -4,15 +4,11 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 97,
+      "score": 109,
       "rack": [
         {
           "letter": "V",
           "points": 4
-        },
-        {
-          "letter": "D",
-          "points": 2
         },
         {
           "letter": "D",
@@ -33,6 +29,10 @@
         {
           "letter": "Q",
           "points": 10
+        },
+        {
+          "letter": "R",
+          "points": 1
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "R",
-      "points": 1
-    },
     {
       "letter": "U",
       "points": 1
@@ -631,7 +627,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 2,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2519,6 +2520,19 @@
         }
       ],
       "score": 4
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "DIS",
+      "tiles": [
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 3,
+          "y": 5
+        }
+      ],
+      "score": 12
     }
   ],
   "gamePhase": "playing"
