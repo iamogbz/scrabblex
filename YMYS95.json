@@ -45,28 +45,32 @@
       "points": 1
     },
     {
-      "letter": "W",
+      "letter": "F",
       "points": 4
+    },
+    {
+      "letter": "G",
+      "points": 2
+    },
+    {
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "letter": "C",
+      "points": 3
+    },
+    {
+      "letter": "B",
+      "points": 3
     },
     {
       "letter": "N",
       "points": 1
     },
     {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "O",
+      "letter": "N",
       "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "M",
-      "points": 3
     },
     {
       "letter": "L",
@@ -81,6 +85,10 @@
       "points": 4
     },
     {
+      "letter": "E",
+      "points": 1
+    },
+    {
       "letter": "U",
       "points": 1
     },
@@ -89,27 +97,7 @@
       "points": 1
     },
     {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "U",
+      "letter": "I",
       "points": 1
     },
     {
@@ -117,39 +105,11 @@
       "points": 5
     },
     {
-      "letter": "B",
-      "points": 3
-    },
-    {
-      "letter": "B",
-      "points": 3
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "I",
+      "letter": "O",
       "points": 1
     },
     {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "X",
-      "points": 8
-    },
-    {
-      "letter": "G",
-      "points": 2
-    },
-    {
-      "letter": "L",
+      "letter": "N",
       "points": 1
     },
     {
@@ -157,35 +117,31 @@
       "points": 1
     },
     {
-      "letter": "Y",
-      "points": 4
+      "letter": "A",
+      "points": 1
     },
     {
-      "letter": "C",
-      "points": 3
+      "letter": "U",
+      "points": 1
+    },
+    {
+      "letter": "X",
+      "points": 8
+    },
+    {
+      "letter": "A",
+      "points": 1
     },
     {
       "letter": "T",
       "points": 1
     },
     {
-      "letter": "N",
-      "points": 1
+      "letter": " ",
+      "points": 0
     },
     {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "E",
+      "letter": "T",
       "points": 1
     },
     {
@@ -193,15 +149,15 @@
       "points": 1
     },
     {
-      "letter": "I",
+      "letter": "U",
       "points": 1
     },
     {
-      "letter": "I",
+      "letter": "R",
       "points": 1
     },
     {
-      "letter": "I",
+      "letter": "O",
       "points": 1
     },
     {
@@ -217,7 +173,11 @@
       "points": 1
     },
     {
-      "letter": "E",
+      "letter": " ",
+      "points": 0
+    },
+    {
+      "letter": "L",
       "points": 1
     },
     {
@@ -225,11 +185,59 @@
       "points": 4
     },
     {
+      "letter": "D",
+      "points": 2
+    },
+    {
+      "letter": "B",
+      "points": 3
+    },
+    {
+      "letter": "W",
+      "points": 4
+    },
+    {
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "letter": "O",
+      "points": 1
+    },
+    {
       "letter": "E",
       "points": 1
     },
     {
-      "letter": "N",
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "letter": "Y",
+      "points": 4
+    },
+    {
+      "letter": "M",
+      "points": 3
+    },
+    {
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "letter": "I",
       "points": 1
     }
   ],
@@ -1372,7 +1380,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "V",
+          "points": 4,
+          "x": 7,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
