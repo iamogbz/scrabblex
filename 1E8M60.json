@@ -4,7 +4,7 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 129,
+      "score": 162,
       "rack": [
         {
           "letter": "R",
@@ -15,23 +15,23 @@
           "points": 1
         },
         {
-          "letter": "A",
+          "letter": "O",
           "points": 1
-        },
-        {
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": "M",
-          "points": 3
         },
         {
           "letter": "O",
           "points": 1
         },
         {
-          "letter": "L",
+          "letter": "U",
+          "points": 1
+        },
+        {
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "E",
           "points": 1
         }
       ],
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
     {
       "letter": "I",
       "points": 1
@@ -1788,7 +1772,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Q",
+          "points": 10,
+          "x": 11,
+          "y": 3
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -2631,6 +2620,37 @@
         }
       ],
       "score": 22
+    },
+    {
+      "playerId": "p1756080761026",
+      "word": "MALE",
+      "tiles": [
+        {
+          "letter": "M",
+          "points": 3,
+          "x": 14,
+          "y": 11
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 14,
+          "y": 12
+        },
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 14,
+          "y": 13
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 14,
+          "y": 14
+        }
+      ],
+      "score": 33
     }
   ],
   "gamePhase": "playing"
