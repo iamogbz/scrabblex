@@ -4,15 +4,11 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 9,
+      "score": 15,
       "rack": [
         {
           "letter": "I",
           "points": 1
-        },
-        {
-          "letter": "P",
-          "points": 3
         },
         {
           "letter": "Y",
@@ -33,6 +29,10 @@
         {
           "letter": "M",
           "points": 3
+        },
+        {
+          "letter": "G",
+          "points": 2
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "G",
-      "points": 2
-    },
     {
       "letter": "L",
       "points": 1
@@ -1058,7 +1054,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 5,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2281,6 +2282,19 @@
         }
       ],
       "score": 3
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "POOR",
+      "tiles": [
+        {
+          "letter": "P",
+          "points": 3,
+          "x": 4,
+          "y": 7
+        }
+      ],
+      "score": 6
     }
   ],
   "gamePhase": "playing"
