@@ -4,14 +4,10 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 4,
+      "score": 6,
       "rack": [
         {
           "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "O",
           "points": 1
         },
         {
@@ -33,6 +29,10 @@
         {
           "letter": "S",
           "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "I",
-      "points": 1
-    },
     {
       "letter": "M",
       "points": 3
@@ -1310,7 +1306,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 7,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": true,
@@ -1318,7 +1319,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2248,6 +2254,19 @@
         }
       ],
       "score": 4
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "OR",
+      "tiles": [
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 6,
+          "y": 7
+        }
+      ],
+      "score": 2
     }
   ],
   "gamePhase": "playing"
