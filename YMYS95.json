@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 147,
+      "score": 154,
       "rack": [
         {
           "letter": "V",
@@ -31,8 +31,8 @@
           "points": 1
         },
         {
-          "letter": "G",
-          "points": 2
+          "letter": "A",
+          "points": 1
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
     {
       "letter": "R",
       "points": 1
@@ -633,7 +629,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 2,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2603,6 +2604,19 @@
         }
       ],
       "score": 5
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "AGING",
+      "tiles": [
+        {
+          "letter": "G",
+          "points": 2,
+          "x": 0,
+          "y": 6
+        }
+      ],
+      "score": 7
     }
   ],
   "gamePhase": "playing"
