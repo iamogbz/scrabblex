@@ -40,19 +40,11 @@
     {
       "id": "p1756080770073",
       "name": "Miche",
-      "score": 61,
+      "score": 84,
       "rack": [
         {
           "letter": "Z",
           "points": 10
-        },
-        {
-          "letter": "P",
-          "points": 3
-        },
-        {
-          "letter": "S",
-          "points": 1
         },
         {
           "letter": "E",
@@ -63,34 +55,26 @@
           "points": 10
         },
         {
-          "letter": "I",
+          "letter": "F",
+          "points": 4
+        },
+        {
+          "letter": "Y",
+          "points": 4
+        },
+        {
+          "letter": "N",
           "points": 1
         },
         {
-          "letter": "H",
-          "points": 4
+          "letter": "I",
+          "points": 1
         }
       ],
       "code": "miche"
     }
   ],
   "tileBag": [
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "Y",
-      "points": 4
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
     {
       "letter": "E",
       "points": 1
@@ -1313,7 +1297,12 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 7,
+          "y": 11
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1321,7 +1310,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 7,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1329,7 +1323,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "U",
+          "points": 1,
+          "x": 7,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1337,7 +1336,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 7,
+          "y": 14
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -2420,6 +2424,37 @@
         }
       ],
       "score": 26
+    },
+    {
+      "playerId": "p1756080770073",
+      "word": "SHIP",
+      "tiles": [
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 9,
+          "y": 4
+        },
+        {
+          "letter": "H",
+          "points": 4,
+          "x": 10,
+          "y": 4
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 11,
+          "y": 4
+        },
+        {
+          "letter": "P",
+          "points": 3,
+          "x": 12,
+          "y": 4
+        }
+      ],
+      "score": 23
     }
   ],
   "gamePhase": "playing"
