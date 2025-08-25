@@ -4,14 +4,10 @@
     {
       "id": "p1755966105135",
       "name": "Q",
-      "score": 107,
+      "score": 146,
       "rack": [
         {
           "letter": "S",
-          "points": 1
-        },
-        {
-          "letter": "O",
           "points": 1
         },
         {
@@ -23,16 +19,20 @@
           "points": 1
         },
         {
-          "letter": "W",
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "F",
           "points": 4
-        },
-        {
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": "E",
-          "points": 1
         }
       ],
       "code": "q"
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
     {
       "letter": "N",
       "points": 1
@@ -587,6 +575,31 @@
         }
       ],
       "score": 18
+    },
+    {
+      "playerId": "p1755966105135",
+      "word": "WOVE",
+      "tiles": [
+        {
+          "letter": "W",
+          "points": 4,
+          "x": 13,
+          "y": 5
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 13,
+          "y": 6
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 13,
+          "y": 8
+        }
+      ],
+      "score": 39
     }
   ],
   "gamePhase": "playing",
@@ -2425,7 +2438,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "V",
+          "points": 4,
+          "x": 13,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2547,7 +2565,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 14,
+          "y": 7
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
