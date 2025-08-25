@@ -40,7 +40,7 @@
     {
       "id": "p1756094890756",
       "name": "Ifunanya",
-      "score": 41,
+      "score": 55,
       "rack": [
         {
           "letter": "O",
@@ -55,11 +55,11 @@
           "points": 10
         },
         {
-          "letter": "A",
+          "letter": "L",
           "points": 1
         },
         {
-          "letter": "L",
+          "letter": "S",
           "points": 1
         },
         {
@@ -67,26 +67,14 @@
           "points": 1
         },
         {
-          "letter": "N",
-          "points": 1
+          "letter": "M",
+          "points": 3
         }
       ],
       "code": "mimimi"
     }
   ],
   "tileBag": [
-    {
-      "letter": "S",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "M",
-      "points": 3
-    },
     {
       "letter": "M",
       "points": 3
@@ -1719,7 +1707,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 10,
+          "y": 10
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -1727,7 +1720,12 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 10,
+          "y": 11
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1735,7 +1733,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 10,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1743,7 +1746,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 10,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2490,6 +2498,31 @@
         }
       ],
       "score": 20
+    },
+    {
+      "playerId": "p1756094890756",
+      "word": "ANE",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 6,
+          "y": 11
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 6,
+          "y": 12
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 6,
+          "y": 13
+        }
+      ],
+      "score": 14
     }
   ],
   "gamePhase": "playing"
