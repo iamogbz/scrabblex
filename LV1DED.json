@@ -4,35 +4,35 @@
     {
       "id": "p1755966105135",
       "name": "Q",
-      "score": 160,
+      "score": 187,
       "rack": [
-        {
-          "letter": "Y",
-          "points": 4
-        },
         {
           "letter": "U",
           "points": 1
         },
         {
-          "letter": "I",
+          "letter": "R",
           "points": 1
         },
         {
-          "letter": "F",
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "Y",
           "points": 4
+        },
+        {
+          "letter": "T",
+          "points": 1
         },
         {
           "letter": "A",
           "points": 1
         },
         {
-          "letter": "R",
-          "points": 1
-        },
-        {
-          "letter": "R",
-          "points": 1
+          "letter": "Q",
+          "points": 10
         }
       ],
       "code": "q"
@@ -75,26 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "Y",
-      "points": 4
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "Q",
-      "points": 10
-    },
     {
       "letter": "B",
       "points": 3
@@ -635,6 +615,43 @@
         }
       ],
       "score": 13
+    },
+    {
+      "playerId": "p1755966105135",
+      "word": "FAIRY",
+      "tiles": [
+        {
+          "letter": "F",
+          "points": 4,
+          "x": 10,
+          "y": 10
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 11,
+          "y": 10
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 12,
+          "y": 10
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 13,
+          "y": 10
+        },
+        {
+          "letter": "Y",
+          "points": 4,
+          "x": 14,
+          "y": 10
+        }
+      ],
+      "score": 27
     }
   ],
   "gamePhase": "playing",
@@ -2214,7 +2231,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 11,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2235,7 +2257,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "G",
+          "points": 2,
+          "x": 11,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
