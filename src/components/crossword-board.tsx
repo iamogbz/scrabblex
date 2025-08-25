@@ -250,39 +250,63 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     ));
   };
 
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = 0;
+  let maxY = 0;
+
+  Array.from({ length: 15 * 15 }).forEach((_, index) => {
+    const x = Math.floor(index / 15);
+    const y = index % 15;
+    const coordString = `${x},${y}`;
+    if (playedTilesCoords.has(coordString)) {
+      if (x < minX) {
+        minX = x;
+      } else if (x > maxX) {
+        maxX = x;
+      }
+      if (y < minY) {
+        minY = y;
+      } else if (y > maxY) {
+        maxY = y;
+      }
+    }
+  });
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-start">
       <div className="w-full">
-        <div className="aspect-square w-full max-w-[70vh] min-w-[248px] mx-auto bg-background rounded-lg shadow-lg p-2 md:p-4 border">
-          <div className="grid grid-cols-[repeat(15,minmax(0,1fr))] gap-0.5 md:gap-1 h-full w-full">
+        <div className="w-full max-w-[70vh] min-w-[248px] mx-auto bg-gray-800 rounded-lg shadow-lg p-2 border">
+          <div className={`grid gap-0.5 md:gap-1 h-full w-full`} style={{gridTemplateColumns: `repeat(${maxY-minY+1}, minmax(0px, 1fr))`}}>
             {Array.from({ length: 15 * 15 }).map((_, index) => {
               const x = Math.floor(index / 15);
               const y = index % 15;
               const coordString = `${x},${y}`;
-
-              if (playedTilesCoords.has(coordString)) {
-                const tile = getTileFor(x, y);
-                const isRevealed = revealedCells.includes(coordString);
-                return (
-                  <CrosswordTile
-                    key={index}
-                    tile={tile}
-                    number={wordStartPositions[coordString]}
-                    isRevealed={isRevealed}
-                    value={userInputs[coordString] || ""}
-                    onChange={(val) => handleInputChange(x, y, val)}
-                    onFocus={() => setActiveCell({ x, y })}
-                  />
-                );
-              } else {
-                return (
-                  <div
-                    key={index}
-                    className="aspect-square bg-gray-800 rounded-sm md:rounded-md"
-                  />
-                );
+              if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
+                if (playedTilesCoords.has(coordString)) {
+                  const tile = getTileFor(x, y);
+                  const isRevealed = revealedCells.includes(coordString);
+                  return (
+                    <CrosswordTile
+                      key={index}
+                      tile={tile}
+                      number={wordStartPositions[coordString]}
+                      isRevealed={isRevealed}
+                      value={userInputs[coordString] || ""}
+                      onChange={(val) => handleInputChange(x, y, val)}
+                      onFocus={() => setActiveCell({ x, y })}
+                    />
+                  );
+                } else {
+                  return (
+                    <div
+                      key={index}
+                      className="aspect-square bg-gray-800 rounded-sm md:rounded-md"
+                    />
+                  );
+                }
               }
+              return null;
             })}
           </div>
         </div>

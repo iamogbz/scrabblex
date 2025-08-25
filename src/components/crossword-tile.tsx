@@ -36,17 +36,17 @@ export default function CrosswordTile({ tile, number, isRevealed, value, onChang
   return (
     <div
       className={cn(
-        "aspect-square w-full h-full rounded-sm md:rounded-md flex items-center justify-center relative select-none",
+        "aspect-square w-full h-full rounded-[0.1vmin] flex items-center justify-center relative select-none",
         "bg-[#FBF8E8] border border-[#D5CFAF] text-[#5A4B40]",
         isRevealed && 'bg-green-100 border-green-300'
       )}
       style={{
-        borderWidth: '0.3vmin',
+        borderWidth: '0.1vmin',
         containerType: 'size',
       }}
       onClick={() => inputRef.current?.focus()}
     >
-      {number && <span className="absolute top-0 left-0.5 text-[20cqw] font-bold">{number}</span>}
+      {number && <span className="absolute top-1 left-1 text-[24cqw] font-bold">{number}</span>}
 
       {isRevealed ? (
         <span className={cn("font-bold font-headline")} style={{ fontSize: '50cqw'}}>{tile.letter}</span>

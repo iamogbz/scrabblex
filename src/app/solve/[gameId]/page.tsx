@@ -10,7 +10,7 @@ import { Logo } from "@/components/logo";
 import { Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
@@ -106,7 +106,7 @@ export default function SolveGamePage({ params }: { params: Promise<{ gameId: st
             <>
                 <h1 className="text-3xl font-headline tracking-wider mb-2">Crossword #{gameId}</h1>
                 <p className="text-muted-foreground mb-4">
-                  {completionDate ? `Completed ${completionDate}` : "A generated puzzle."}
+                  {completionDate ? `Uploaded ${completionDate}` : "A generated puzzle."}
                 </p>
                 <CrosswordBoard gameState={gameState} />
             </>
