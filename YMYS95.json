@@ -4,12 +4,8 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 55,
+      "score": 57,
       "rack": [
-        {
-          "letter": "I",
-          "points": 1
-        },
         {
           "letter": "G",
           "points": 2
@@ -33,6 +29,10 @@
         {
           "letter": "A",
           "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
     {
       "letter": "D",
       "points": 2
@@ -404,7 +400,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 0,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2379,6 +2380,19 @@
         }
       ],
       "score": 6
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "IN",
+      "tiles": [
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 0,
+          "y": 4
+        }
+      ],
+      "score": 2
     }
   ],
   "gamePhase": "playing"
