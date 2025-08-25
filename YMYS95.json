@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 252,
+      "score": 254,
       "rack": [
         {
           "letter": "V",
@@ -13,10 +13,6 @@
         {
           "letter": "V",
           "points": 4
-        },
-        {
-          "letter": "R",
-          "points": 1
         },
         {
           "letter": "H",
@@ -33,6 +29,10 @@
         {
           "letter": "T",
           "points": 1
+        },
+        {
+          "letter": "N",
+          "points": 1
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "N",
-      "points": 1
-    },
     {
       "letter": "P",
       "points": 3
@@ -754,7 +750,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 3,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2771,6 +2772,19 @@
         }
       ],
       "score": 6
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "UR",
+      "tiles": [
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 6,
+          "y": 5
+        }
+      ],
+      "score": 2
     }
   ],
   "gamePhase": "playing"
