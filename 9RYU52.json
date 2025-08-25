@@ -4,12 +4,8 @@
     {
       "id": "p1756094880461",
       "name": "Emma",
-      "score": 26,
+      "score": 44,
       "rack": [
-        {
-          "letter": "G",
-          "points": 2
-        },
         {
           "letter": "R",
           "points": 1
@@ -23,16 +19,20 @@
           "points": 1
         },
         {
-          "letter": "I",
-          "points": 1
-        },
-        {
           "letter": "E",
           "points": 1
         },
         {
-          "letter": "N",
+          "letter": "D",
+          "points": 2
+        },
+        {
+          "letter": "R",
           "points": 1
+        },
+        {
+          "letter": "P",
+          "points": 3
         }
       ],
       "code": "emma"
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "P",
-      "points": 3
-    },
     {
       "letter": "L",
       "points": 1
@@ -951,7 +939,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "H",
+          "points": 4,
+          "x": 4,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1073,7 +1066,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 5,
+          "y": 9
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1195,7 +1193,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 6,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2299,6 +2302,31 @@
         }
       ],
       "score": 16
+    },
+    {
+      "playerId": "p1756094880461",
+      "word": "FAXING",
+      "tiles": [
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 7,
+          "y": 10
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 7,
+          "y": 11
+        },
+        {
+          "letter": "G",
+          "points": 2,
+          "x": 7,
+          "y": 12
+        }
+      ],
+      "score": 18
     }
   ],
   "gamePhase": "playing"
