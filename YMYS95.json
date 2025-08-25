@@ -4,14 +4,10 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 6,
+      "score": 9,
       "rack": [
         {
           "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "O",
           "points": 1
         },
         {
@@ -33,6 +29,10 @@
         {
           "letter": "I",
           "points": 1
+        },
+        {
+          "letter": "M",
+          "points": 3
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "M",
-      "points": 3
-    },
     {
       "letter": "G",
       "points": 2
@@ -1184,7 +1180,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 6,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2267,6 +2268,19 @@
         }
       ],
       "score": 2
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "OOR",
+      "tiles": [
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 5,
+          "y": 7
+        }
+      ],
+      "score": 3
     }
   ],
   "gamePhase": "playing"
