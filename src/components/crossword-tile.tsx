@@ -1,4 +1,3 @@
-
 import { cn } from '@/lib/utils';
 import type { PlacedTile } from '@/types';
 import { Input } from './ui/input';
@@ -12,9 +11,11 @@ interface CrosswordTileProps {
   value: string;
   onChange: (value: string) => void;
   onFocus: () => void;
+  isActive: boolean;
+  isPartiallyActive: boolean;
 }
 
-export default function CrosswordTile({ id, tile, number, isRevealed, value, onChange, onFocus }: CrosswordTileProps) {
+export default function CrosswordTile({ id, tile, number, isRevealed, value, onChange, onFocus, isActive, isPartiallyActive }: CrosswordTileProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   if (!tile) {
@@ -38,7 +39,7 @@ export default function CrosswordTile({ id, tile, number, isRevealed, value, onC
     <div
       id={id}
       className={cn(
-        "aspect-square w-full h-full rounded-[0.3vmin] flex items-center justify-center relative select-none",
+        "aspect-square w-full h-full rounded-[0.3vmin] flex items-center justify-center relative select-none transition-colors",
         "bg-[#FBF8E8] border border-[#D5CFAF] text-[#5A4B40]",
         isRevealed && 'bg-green-100 border-green-300'
       )}
@@ -64,7 +65,12 @@ export default function CrosswordTile({ id, tile, number, isRevealed, value, onC
             className={cn("w-full h-full bg-transparent border-0 text-center p-0 font-bold font-headline focus-visible:ring-primary focus-visible:ring-offset-0 rounded-0",
              isRevealed && value.toUpperCase() === tile.letter ? "text-green-700" : "text-blue-600"
             )}
-            style={{ borderRadius: "0.3vmin", fontSize: '50cqw', caretColor: 'transparent' }}
+            style={{
+              borderWidth: isActive || isPartiallyActive ? "0.3vmin" : 0,
+              borderRadius: "0.3vmin",
+              fontSize: '50cqw',
+              caretColor: 'transparent'
+            }}
         />
       )}
     </div>

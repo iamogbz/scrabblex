@@ -15,6 +15,7 @@ import { useLocalStorage } from "@/hooks/use-local-storage";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Check, RotateCcw, RefreshCw, Focus } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 interface CrosswordBoardProps {
   gameState: GameState;
@@ -49,7 +50,13 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
   const [activeCell, setActiveCell] = useState<{ x: number; y: number } | null>(
     null
   );
-
+  const [activeWords, setActiveWords] = useState<{
+    across: number | null;
+    down: number | null;
+  }>({ across: null, down: null });
+  const [activeDirection, setActiveDirection] = useState<"across" | "down">(
+    "across"
+  );
   const isMobile = useIsMobile();
 
   // dynamically calculate the height of the element with id board-container
@@ -57,89 +64,120 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     useState<HTMLDivElement | null>(null);
   const [boardContainerHeight, setBoardContainerHeight] = useState(400);
 
-  const { board, wordStartPositions, playedTilesCoords } = useMemo(() => {
-    const board = Array.from({ length: 15 }, () =>
-      Array(15).fill(null)
-    ) as (PlacedTile | null)[][];
-    const coords = new Set<string>();
+  const { board, wordStartPositions, playedTilesCoords, wordsByCell } =
+    useMemo(() => {
+      const board = Array.from({ length: 15 }, () =>
+        Array(15).fill(null)
+      ) as (PlacedTile | null)[][];
+      const coords = new Set<string>();
 
-    gameState.history.forEach((move) => {
-      if (move.tiles) {
-        move.tiles.forEach((tile: PlacedTile) => {
-          board[tile.x][tile.y] = tile;
-          coords.add(`${tile.x},${tile.y}`);
-        });
+      gameState.history.forEach((move) => {
+        if (move.tiles) {
+          move.tiles.forEach((tile: PlacedTile) => {
+            board[tile.x][tile.y] = tile;
+            coords.add(`${tile.x},${tile.y}`);
+          });
+        }
+      });
+
+      const wordStartPositions: { [key: string]: number } = {};
+      const wordsList: Omit<Word, "clue">[] = [];
+      let wordNumber = 1;
+      const wordsByCell = new Map<
+        string,
+        { across?: number; down?: number }
+      >();
+
+      for (let r = 0; r < 15; r++) {
+        for (let c = 0; c < 15; c++) {
+          if (!board[r][c]) continue;
+
+          const isAcrossStart =
+            (c === 0 || !board[r][c - 1]) && c < 14 && board[r][c + 1];
+          const isDownStart =
+            (r === 0 || !board[r - 1]?.[c]) && r < 14 && board[r + 1]?.[c];
+
+          if (isAcrossStart || isDownStart) {
+            const key = `${r},${c}`;
+            if (!wordStartPositions[key]) {
+              wordStartPositions[key] = wordNumber++;
+            }
+          }
+
+          if (isAcrossStart) {
+            let word = "";
+            let length = 0;
+            const currentWordNumber = wordStartPositions[`${r},${c}`];
+            for (let i = c; i < 15 && board[r][i]; i++) {
+              word += board[r][i]!.letter;
+              length++;
+              const cellKey = `${r},${i}`;
+              const existing = wordsByCell.get(cellKey) || {};
+              wordsByCell.set(cellKey, { ...existing, across: currentWordNumber });
+            }
+            if (length > 1) {
+              wordsList.push({
+                number: currentWordNumber,
+                word,
+                direction: "across",
+                x: r,
+                y: c,
+                length,
+              });
+            }
+          }
+
+          if (isDownStart) {
+            let word = "";
+            let length = 0;
+            const currentWordNumber = wordStartPositions[`${r},${c}`];
+            for (let i = r; i < 15 && board[i]?.[c]; i++) {
+              word += board[i][c]!.letter;
+              length++;
+              const cellKey = `${i},${c}`;
+              const existing = wordsByCell.get(cellKey) || {};
+              wordsByCell.set(cellKey, { ...existing, down: currentWordNumber });
+            }
+            if (length > 1) {
+              wordsList.push({
+                number: currentWordNumber,
+                word,
+                direction: "down",
+                x: r,
+                y: c,
+                length,
+              });
+            }
+          }
+        }
       }
-    });
+      // Remove duplicates that might arise from single-letter intersections
+      const uniqueWords = Array.from(
+        new Map(wordsList.map((w) => [`${w.word}-${w.x}-${w.y}`, w])).values()
+      );
+      uniqueWords.sort((a, b) => a.number - b.number);
+      setWords(uniqueWords);
 
-    const wordStartPositions: { [key: string]: number } = {};
-    const wordsList: Omit<Word, "clue">[] = [];
-    let wordNumber = 1;
+      return {
+        board,
+        wordStartPositions,
+        playedTilesCoords: coords,
+        wordsByCell,
+      };
+    }, [gameState.history]);
 
-    for (let r = 0; r < 15; r++) {
-      for (let c = 0; c < 15; c++) {
-        if (!board[r][c]) continue;
-
-        const isAcrossStart =
-          (c === 0 || !board[r][c - 1]) && c < 14 && board[r][c + 1];
-        const isDownStart =
-          (r === 0 || !board[r - 1]?.[c]) && r < 14 && board[r + 1]?.[c];
-
-        if (isAcrossStart || isDownStart) {
-          const key = `${r},${c}`;
-          if (!wordStartPositions[key]) {
-            wordStartPositions[key] = wordNumber++;
-          }
-        }
-
-        if (isAcrossStart) {
-          let word = "";
-          let length = 0;
-          for (let i = c; i < 15 && board[r][i]; i++) {
-            word += board[r][i]!.letter;
-            length++;
-          }
-          if (length > 1) {
-            wordsList.push({
-              number: wordStartPositions[`${r},${c}`],
-              word,
-              direction: "across",
-              x: r,
-              y: c,
-              length,
-            });
-          }
-        }
-
-        if (isDownStart) {
-          let word = "";
-          let length = 0;
-          for (let i = r; i < 15 && board[i][c]; i++) {
-            word += board[i][c]!.letter;
-            length++;
-          }
-          if (length > 1) {
-            wordsList.push({
-              number: wordStartPositions[`${r},${c}`],
-              word,
-              direction: "down",
-              x: r,
-              y: c,
-              length,
-            });
-          }
-        }
-      }
+  useEffect(() => {
+    if (activeCell) {
+      const cellKey = `${activeCell.x},${activeCell.y}`;
+      const wordNums = wordsByCell.get(cellKey);
+      setActiveWords({
+        across: wordNums?.across || null,
+        down: wordNums?.down || null,
+      });
+    } else {
+      setActiveWords({ across: null, down: null });
     }
-    // Remove duplicates that might arise from single-letter intersections
-    const uniqueWords = Array.from(
-      new Map(wordsList.map((w) => [`${w.word}-${w.x}-${w.y}`, w])).values()
-    );
-    uniqueWords.sort((a, b) => a.number - b.number);
-    setWords(uniqueWords);
-
-    return { board, wordStartPositions, playedTilesCoords: coords };
-  }, [gameState.history]);
+  }, [activeCell, wordsByCell]);
 
   const fetchClues = useCallback(async () => {
     if (words.length === 0) return;
@@ -208,7 +246,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     const tileElement = document.getElementById(`tile-${word.x}-${word.y}`);
     if (tileElement) {
       window.scrollTo({
-        top: boardContainerHeight - tileElement.offsetTop,
+        top: tileElement.offsetTop - window.innerHeight / 2, // Center in viewport
         behavior: "smooth",
       });
       // Find the input within the tile and focus it
@@ -237,7 +275,10 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
   const acrossClues = words.filter((w) => w.direction === "across");
   const downClues = words.filter((w) => w.direction === "down");
 
-  const renderClueList = (wordList: Omit<Word, "clue">[]) => {
+  const renderClueList = (
+    wordList: Omit<Word, "clue">[],
+    direction: "across" | "down"
+  ) => {
     if (isLoadingClues && Object.keys(clues).length === 0) {
       return (
         <div className="flex items-center justify-center p-4">
@@ -245,27 +286,36 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
         </div>
       );
     }
-    return wordList.map((word) => (
-      <div
-        key={word.number + word.direction}
-        className="text-sm mb-2 flex items-start text-left"
-      >
-        <span className="font-bold w-8">{word.number}.</span>
-        <span className="flex-1">
-          {clues[word.word] || (
-            <span className="text-muted-foreground italic">Fetching...</span>
+    return wordList.map((word) => {
+      const isActive =
+        (direction === "across" && activeWords.across === word.number) ||
+        (direction === "down" && activeWords.down === word.number);
+
+      return (
+        <div
+          key={word.number + word.direction}
+          className={cn(
+            "text-sm mb-2 flex items-start text-left p-2 rounded-md transition-colors",
+            isActive ? "bg-primary/10 text-primary" : ""
           )}
-        </span>
-        <Button
-          size="icon"
-          variant="ghost"
-          className="h-6 w-6 ml-2"
-          onClick={() => handleFocusWord(word)}
         >
-          <Focus className="h-4 w-4" />
-        </Button>
-      </div>
-    ));
+          <span className="font-bold w-8">{word.number}.</span>
+          <span className="flex-1">
+            {clues[word.word] || (
+              <span className="text-muted-foreground italic">Fetching...</span>
+            )}
+          </span>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="h-6 w-6 ml-2"
+            onClick={() => handleFocusWord(word)}
+          >
+            <Focus className="h-4 w-4" />
+          </Button>
+        </div>
+      );
+    });
   };
 
   let minX = Infinity;
@@ -278,16 +328,10 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     const y = index % 15;
     const coordString = `${x},${y}`;
     if (playedTilesCoords.has(coordString)) {
-      if (x < minX) {
-        minX = x;
-      } else if (x > maxX) {
-        maxX = x;
-      }
-      if (y < minY) {
-        minY = y;
-      } else if (y > maxY) {
-        maxY = y;
-      }
+      if (x < minX) minX = x;
+      if (x > maxX) maxX = x;
+      if (y < minY) minY = y;
+      if (y > maxY) maxY = y;
     }
   });
 
@@ -326,18 +370,27 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
               }, minmax(0px, 1fr))`,
             }}
           >
-            {Array.from({ length: 15 * 15 }).map((_, index) => {
-              const x = Math.floor(index / 15);
-              const y = index % 15;
-              const coordString = `${x},${y}`;
-              if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
+            {Array.from({ length: (maxX - minX + 1) * (maxY - minY + 1) }).map(
+              (_, index) => {
+                const colCount = maxY - minY + 1;
+                const x = minX + Math.floor(index / colCount);
+                const y = minY + (index % colCount);
+                const coordString = `${x},${y}`;
+
                 if (playedTilesCoords.has(coordString)) {
                   const tile = getTileFor(x, y);
                   // TODO: only set is revealed when user clicks check all
                   const isRevealed = false; // revealedCells.includes(coordString);
+                  const cellWords = wordsByCell.get(coordString);
+                  const isActive =
+                    (activeDirection === "across" &&
+                      cellWords?.across === activeWords.across) ||
+                    (activeDirection === "down" &&
+                      cellWords?.down === activeWords.down);
+
                   return (
                     <CrosswordTile
-                      key={index}
+                      key={coordString}
                       id={`tile-${x}-${y}`}
                       tile={tile}
                       number={wordStartPositions[coordString]}
@@ -345,16 +398,20 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
                       value={userInputs[coordString] || ""}
                       onChange={(val) => handleInputChange(x, y, val)}
                       onFocus={() => setActiveCell({ x, y })}
+                      isActive={isActive}
+                      isPartiallyActive={activeCell?.x === x && activeCell?.y === y}
                     />
                   );
                 } else {
                   return (
-                    <div key={index} className="aspect-square bg-gray-800" />
+                    <div
+                      key={coordString}
+                      className="aspect-square bg-gray-800"
+                    />
                   );
                 }
               }
-              return null;
-            })}
+            )}
           </div>
         </div>
         <div className="flex justify-center gap-2 mt-4">
@@ -379,22 +436,27 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
           marginTop: isMobile ? `${boardContainerHeight + 24}px` : 0,
         }}
       >
-        <Tabs defaultValue="across">
+        <Tabs
+          defaultValue="across"
+          onValueChange={(val) =>
+            setActiveDirection(val as "across" | "down")
+          }
+        >
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="across">Across</TabsTrigger>
             <TabsTrigger value="down">Down</TabsTrigger>
           </TabsList>
           <TabsContent
             value="across"
-            className="h-full w-full rounded-md border p-4 overflow-y-auto"
+            className="h-full w-full rounded-md border p-4 overflow-y-auto max-h-[50vh]"
           >
-            {renderClueList(acrossClues)}
+            {renderClueList(acrossClues, "across")}
           </TabsContent>
           <TabsContent
             value="down"
-            className="h-full w-full rounded-md border p-4 overflow-y-auto"
+            className="h-full w-full rounded-md border p-4 overflow-y-auto max-h-[50vh]"
           >
-            {renderClueList(downClues)}
+            {renderClueList(downClues, "down")}
           </TabsContent>
         </Tabs>
       </div>
