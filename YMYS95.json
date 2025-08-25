@@ -4,15 +4,11 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 165,
+      "score": 186,
       "rack": [
         {
           "letter": "V",
           "points": 4
-        },
-        {
-          "letter": "Z",
-          "points": 10
         },
         {
           "letter": "Q",
@@ -33,6 +29,10 @@
         {
           "letter": "H",
           "points": 4
+        },
+        {
+          "letter": "E",
+          "points": 1
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
     {
       "letter": "L",
       "points": 1
@@ -823,7 +819,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 3,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2645,6 +2646,19 @@
         }
       ],
       "score": 5
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "ZA",
+      "tiles": [
+        {
+          "letter": "Z",
+          "points": 10,
+          "x": 2,
+          "y": 8
+        }
+      ],
+      "score": 21
     }
   ],
   "gamePhase": "playing"
