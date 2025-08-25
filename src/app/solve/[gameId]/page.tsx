@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { use, useState, useEffect } from "react";
@@ -64,7 +65,7 @@ export default function SolveGamePage({ params }: { params: Promise<{ gameId: st
         </Button>
       </header>
 
-      <div className="w-full max-w-2xl text-center mt-20 z-10">
+      <div className="w-full max-w-5xl text-center mt-20 z-10">
         {loading && (
            <div className="text-center p-10 flex items-center justify-center gap-2">
            <RefreshCw className="animate-spin h-5 w-5" /> Loading Puzzle...
@@ -72,7 +73,7 @@ export default function SolveGamePage({ params }: { params: Promise<{ gameId: st
         )}
 
         {error && (
-            <Card className="shadow-xl border-destructive">
+            <Card className="shadow-xl border-destructive max-w-md mx-auto">
                 <CardHeader>
                     <div className="mx-auto bg-destructive text-destructive-foreground rounded-full p-3 w-16 h-16 flex items-center justify-center mb-4">
                     <AlertTriangle className="w-8 h-8" />

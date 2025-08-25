@@ -2,63 +2,257 @@
 "use client";
 
 import type { GameState, PlacedTile } from "@/types";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import CrosswordTile from "./crossword-tile";
+import { getWordDefinition } from "@/app/actions";
+import { Button } from "./ui/button";
+import { useLocalStorage } from "@/hooks/use-local-storage";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { ScrollArea } from "./ui/scroll-area";
+import { Check, Lightbulb, RotateCcw } from "lucide-react";
 
 interface CrosswordBoardProps {
   gameState: GameState;
 }
 
+interface Word {
+  number: number;
+  word: string;
+  clue: string;
+  direction: "across" | "down";
+  x: number;
+  y: number;
+  length: number;
+}
+
 export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
-  const playedTilesCoords = useMemo(() => {
+  const [words, setWords] = useState<Word[]>([]);
+  const [isLoadingClues, setIsLoadingClues] = useState(true);
+  const [revealedCells, setRevealedCells] = useLocalStorage<string[]>(
+    `crossword-${gameState.gameId}-revealed`,
+    []
+  );
+  const [userInputs, setUserInputs] = useLocalStorage<Record<string, string>>(
+    `crossword-${gameState.gameId}-inputs`,
+    {}
+  );
+  const [activeCell, setActiveCell] = useState<{ x: number; y: number } | null>(null);
+
+  const { board, wordStartPositions, playedTilesCoords } = useMemo(() => {
+    const board = Array.from({ length: 15 }, () =>
+      Array(15).fill(null)
+    ) as (PlacedTile | null)[][];
     const coords = new Set<string>();
+
     gameState.history.forEach((move) => {
       if (move.tiles) {
         move.tiles.forEach((tile: PlacedTile) => {
+          board[tile.x][tile.y] = tile;
           coords.add(`${tile.x},${tile.y}`);
         });
       }
     });
-    return coords;
+
+    const wordStartPositions: { [key: string]: number } = {};
+    const wordsList: Omit<Word, "clue">[] = [];
+    let wordNumber = 1;
+
+    for (let r = 0; r < 15; r++) {
+      for (let c = 0; c < 15; c++) {
+        if (!board[r][c]) continue;
+
+        const isAcrossStart = (c === 0 || !board[r][c - 1]) && c < 14 && board[r][c+1];
+        const isDownStart = (r === 0 || !board[r - 1]?.[c]) && r < 14 && board[r+1]?.[c];
+
+        if (isAcrossStart || isDownStart) {
+          const key = `${r},${c}`;
+          if (!wordStartPositions[key]) {
+            wordStartPositions[key] = wordNumber++;
+          }
+        }
+
+        if (isAcrossStart) {
+            let word = "";
+            let length = 0;
+            for (let i = c; i < 15 && board[r][i]; i++) {
+                word += board[r][i]!.letter;
+                length++;
+            }
+            if (length > 1) {
+                wordsList.push({ number: wordStartPositions[`${r},${c}`], word, direction: 'across', x: r, y: c, length });
+            }
+        }
+
+        if (isDownStart) {
+            let word = "";
+            let length = 0;
+            for (let i = r; i < 15 && board[i][c]; i++) {
+                word += board[i][c]!.letter;
+                length++;
+            }
+             if (length > 1) {
+                wordsList.push({ number: wordStartPositions[`${r},${c}`], word, direction: 'down', x: r, y: c, length });
+            }
+        }
+      }
+    }
+    // Remove duplicates that might arise from single-letter intersections
+    const uniqueWords = Array.from(new Map(wordsList.map(w => [`${w.word}-${w.x}-${w.y}`, w])).values());
+    uniqueWords.sort((a,b) => a.number - b.number);
+
+
+    return { board, wordStartPositions, playedTilesCoords: coords, words: uniqueWords };
   }, [gameState.history]);
 
 
-  const getTileFor = (x: number, y: number) => {
-    // Find the final tile placed at this position from the history
-    for(let i = gameState.history.length - 1; i >= 0; i--) {
-        const move = gameState.history[i];
-        if (move.tiles) {
-            const tile = move.tiles.find(t => t.x === x && t.y === y);
-            if (tile) return tile;
+  useEffect(() => {
+    const fetchClues = async () => {
+      setIsLoadingClues(true);
+      const cluesPromises = words.map(async (word) => {
+        try {
+          const definition = await getWordDefinition(word.word);
+          return { ...word, clue: definition || `A ${word.length}-letter word.` };
+        } catch {
+          return { ...word, clue: `A ${word.length}-letter word.` };
         }
+      });
+      const wordsWithClues = await Promise.all(cluesPromises);
+      setWords(wordsWithClues);
+      setIsLoadingClues(false);
+    };
+
+    if (words.length > 0) {
+      fetchClues();
     }
-    // Check the initial board state in case something was missed (shouldn't happen with full history)
-    const boardTile = gameState.board[x][y].tile;
-    if(boardTile) return boardTile;
-    
+  }, [words.length]); // Depends on the length to fire once
+
+  const getTileFor = (x: number, y: number): PlacedTile | null => {
+    for (let i = gameState.history.length - 1; i >= 0; i--) {
+      const move = gameState.history[i];
+      if (move.tiles) {
+        const tile = move.tiles.find((t) => t.x === x && t.y === y);
+        if (tile) return tile;
+      }
+    }
+    const boardTile = gameState.board[x]?.[y]?.tile;
+    if (boardTile) return boardTile;
     return null;
+  };
+
+  const handleInputChange = (x: number, y: number, value: string) => {
+    const key = `${x},${y}`;
+    const newInputs = { ...userInputs, [key]: value.toUpperCase() };
+    setUserInputs(newInputs);
+
+    const tile = getTileFor(x, y);
+    if(tile && value.toUpperCase() === tile.letter) {
+      setRevealedCells(prev => [...new Set([...prev, key])]);
+    }
+  };
+
+  const handleRevealWord = (word: Word) => {
+    const newRevealed: string[] = [];
+    const newInputsWithSolution: Record<string, string> = { ...userInputs };
+    for(let i = 0; i < word.length; i++) {
+        const key = word.direction === 'across' ? `${word.x},${word.y + i}` : `${word.x + i},${word.y}`;
+        newRevealed.push(key);
+        newInputsWithSolution[key] = word.word[i];
+    }
+    setRevealedCells(prev => [...new Set([...prev, ...newRevealed])]);
+    setUserInputs(newInputsWithSolution);
   }
 
-  return (
-    <div className="aspect-square w-full max-w-[70vh] min-w-[248px] mx-auto bg-background rounded-lg shadow-lg p-2 md:p-4 border">
-      <div className="grid grid-cols-[repeat(15,minmax(0,1fr))] gap-0.5 md:gap-1 h-full w-full">
-        {Array.from({ length: 15 * 15 }).map((_, index) => {
-          const x = Math.floor(index / 15);
-          const y = index % 15;
-          const coordString = `${x},${y}`;
+  const handleReset = () => {
+    setRevealedCells([]);
+    setUserInputs({});
+    setActiveCell(null);
+  }
+  
+  const handleCheck = () => {
+      const correctCells = Object.keys(userInputs).filter(key => {
+          const [x, y] = key.split(',').map(Number);
+          const tile = getTileFor(x, y);
+          return tile && userInputs[key] === tile.letter;
+      });
+      setRevealedCells(prev => [...new Set([...prev, ...correctCells])]);
+  }
 
-          if (playedTilesCoords.has(coordString)) {
-            const tile = getTileFor(x, y);
-            return <CrosswordTile key={index} tile={tile} />;
-          } else {
-            return (
-              <div
-                key={index}
-                className="aspect-square bg-gray-800 rounded-sm md:rounded-md"
-              />
-            );
-          }
-        })}
+  const acrossClues = words.filter(w => w.direction === 'across');
+  const downClues = words.filter(w => w.direction === 'down');
+
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-start">
+        <div className="w-full">
+            <div className="aspect-square w-full max-w-[70vh] min-w-[248px] mx-auto bg-background rounded-lg shadow-lg p-2 md:p-4 border">
+                <div className="grid grid-cols-[repeat(15,minmax(0,1fr))] gap-0.5 md:gap-1 h-full w-full">
+                {Array.from({ length: 15 * 15 }).map((_, index) => {
+                    const x = Math.floor(index / 15);
+                    const y = index % 15;
+                    const coordString = `${x},${y}`;
+
+                    if (playedTilesCoords.has(coordString)) {
+                        const tile = getTileFor(x, y);
+                        const isRevealed = revealedCells.includes(coordString);
+                        return (
+                        <CrosswordTile
+                            key={index}
+                            tile={tile}
+                            number={wordStartPositions[coordString]}
+                            isRevealed={isRevealed}
+                            value={userInputs[coordString] || ''}
+                            onChange={(val) => handleInputChange(x, y, val)}
+                            onFocus={() => setActiveCell({x, y})}
+                        />
+                        );
+                    } else {
+                        return (
+                        <div
+                            key={index}
+                            className="aspect-square bg-gray-800 rounded-sm md:rounded-md"
+                        />
+                        );
+                    }
+                })}
+                </div>
+            </div>
+             <div className="flex justify-center gap-2 mt-4">
+                <Button onClick={handleCheck}><Check className="mr-2 h-4 w-4" />Check All</Button>
+                <Button onClick={handleReset} variant="outline"><RotateCcw className="mr-2 h-4 w-4" />Reset</Button>
+            </div>
+        </div>
+
+      <div className="w-full">
+        <Tabs defaultValue="across">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="across">Across</TabsTrigger>
+            <TabsTrigger value="down">Down</TabsTrigger>
+          </TabsList>
+          <TabsContent value="across">
+             <ScrollArea className="h-96 w-full rounded-md border p-4">
+                {isLoadingClues ? <p>Loading clues...</p> : 
+                (acrossClues.map(word => (
+                    <div key={word.number + word.direction} className="text-sm mb-2 flex items-start">
+                       <span className="font-bold w-8">{word.number}.</span>
+                       <span className="flex-1">{word.clue}</span>
+                       <Button size="icon" variant="ghost" className="h-6 w-6 ml-2" onClick={() => handleRevealWord(word)}><Lightbulb className="h-4 w-4"/></Button>
+                    </div>
+                )))}
+             </ScrollArea>
+          </TabsContent>
+          <TabsContent value="down">
+              <ScrollArea className="h-96 w-full rounded-md border p-4">
+                {isLoadingClues ? <p>Loading clues...</p> : 
+                (downClues.map(word => (
+                    <div key={word.number + word.direction} className="text-sm mb-2 flex items-start">
+                       <span className="font-bold w-8">{word.number}.</span>
+                       <span className="flex-1">{word.clue}</span>
+                       <Button size="icon" variant="ghost" className="h-6 w-6 ml-2" onClick={() => handleRevealWord(word)}><Lightbulb className="h-4 w-4"/></Button>
+                    </div>
+                )))}
+              </ScrollArea>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
