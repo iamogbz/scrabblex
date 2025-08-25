@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 239,
+      "score": 246,
       "rack": [
         {
           "letter": "V",
@@ -23,15 +23,15 @@
           "points": 4
         },
         {
-          "letter": "H",
-          "points": 4
-        },
-        {
           "letter": "R",
           "points": 1
         },
         {
           "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "E",
           "points": 1
         }
       ],
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
     {
       "letter": "T",
       "points": 1
@@ -699,7 +695,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 2,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2743,6 +2744,19 @@
         }
       ],
       "score": 12
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "DAH",
+      "tiles": [
+        {
+          "letter": "H",
+          "points": 4,
+          "x": 4,
+          "y": 3
+        }
+      ],
+      "score": 7
     }
   ],
   "gamePhase": "playing"
