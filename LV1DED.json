@@ -4,19 +4,11 @@
     {
       "id": "p1755966105135",
       "name": "Q",
-      "score": 89,
+      "score": 107,
       "rack": [
         {
           "letter": "S",
           "points": 1
-        },
-        {
-          "letter": "D",
-          "points": 2
-        },
-        {
-          "letter": "M",
-          "points": 3
         },
         {
           "letter": "O",
@@ -27,11 +19,19 @@
           "points": 4
         },
         {
+          "letter": "U",
+          "points": 1
+        },
+        {
+          "letter": "W",
+          "points": 4
+        },
+        {
           "letter": "E",
           "points": 1
         },
         {
-          "letter": "A",
+          "letter": "E",
           "points": 1
         }
       ],
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "W",
-      "points": 4
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
     {
       "letter": "E",
       "points": 1
@@ -561,6 +545,37 @@
         }
       ],
       "score": 12
+    },
+    {
+      "playerId": "p1755966105135",
+      "word": "DAME",
+      "tiles": [
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 12,
+          "y": 4
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 12,
+          "y": 5
+        },
+        {
+          "letter": "M",
+          "points": 3,
+          "x": 12,
+          "y": 6
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 12,
+          "y": 7
+        }
+      ],
+      "score": 18
     }
   ],
   "gamePhase": "playing",
@@ -2054,7 +2069,12 @@
     ],
     [
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 11,
+          "y": 0
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2062,7 +2082,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 11,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
