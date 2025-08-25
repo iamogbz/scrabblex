@@ -4,22 +4,10 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 24,
+      "score": 42,
       "rack": [
         {
-          "letter": "G",
-          "points": 2
-        },
-        {
           "letter": "R",
-          "points": 1
-        },
-        {
-          "letter": "N",
-          "points": 1
-        },
-        {
-          "letter": "O",
           "points": 1
         },
         {
@@ -32,6 +20,18 @@
         },
         {
           "letter": "N",
+          "points": 1
+        },
+        {
+          "letter": "F",
+          "points": 4
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "R",
           "points": 1
         }
       ],
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
     {
       "letter": "P",
       "points": 3
@@ -1426,7 +1414,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "K",
+          "points": 5,
+          "x": 8,
+          "y": 6
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1434,7 +1427,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 8,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1442,7 +1440,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 8,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1450,7 +1453,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 8,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2287,6 +2295,31 @@
         }
       ],
       "score": 34
+    },
+    {
+      "playerId": "p1756080761026",
+      "word": "NOG",
+      "tiles": [
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 9,
+          "y": 5
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 9,
+          "y": 6
+        },
+        {
+          "letter": "G",
+          "points": 2,
+          "x": 9,
+          "y": 7
+        }
+      ],
+      "score": 18
     }
   ],
   "gamePhase": "playing"
