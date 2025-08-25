@@ -40,34 +40,34 @@
     {
       "id": "p1756094890756",
       "name": "Ifunanya",
-      "score": 16,
+      "score": 26,
       "rack": [
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "L",
+          "points": 1
+        },
         {
           "letter": "E",
           "points": 1
         },
         {
-          "letter": "C",
+          "letter": "P",
           "points": 3
         },
         {
-          "letter": "O",
-          "points": 1
+          "letter": "K",
+          "points": 5
         },
         {
-          "letter": "O",
-          "points": 1
-        },
-        {
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": "A",
-          "points": 1
-        },
-        {
-          "letter": "R",
+          "letter": "I",
           "points": 1
         }
       ],
@@ -75,26 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "P",
-      "points": 3
-    },
-    {
-      "letter": "K",
-      "points": 5
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
     {
       "letter": "E",
       "points": 1
@@ -1343,7 +1323,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 7,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1351,7 +1336,12 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 7,
+          "y": 11
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1359,7 +1349,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "G",
+          "points": 2,
+          "x": 7,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2327,6 +2322,43 @@
         }
       ],
       "score": 18
+    },
+    {
+      "playerId": "p1756094890756",
+      "word": "OCREAE",
+      "tiles": [
+        {
+          "letter": "C",
+          "points": 3,
+          "x": 5,
+          "y": 10
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 5,
+          "y": 11
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 5,
+          "y": 12
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 5,
+          "y": 13
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 5,
+          "y": 14
+        }
+      ],
+      "score": 10
     }
   ],
   "gamePhase": "playing"
