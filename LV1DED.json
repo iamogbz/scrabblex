@@ -660,9 +660,18 @@
         }
       ],
       "score": 27
+    },
+    {
+      "playerId": "p1755975122320",
+      "playerName": "W",
+      "word": "RESIGNED",
+      "tiles": [],
+      "score": 0,
+      "isResign": true,
+      "timestamp": "2025-08-25T13:53:32.089Z"
     }
   ],
-  "gamePhase": "playing",
+  "gamePhase": "ended",
   "board": [
     [
       {
@@ -2769,5 +2778,6 @@
         "y": 14
       }
     ]
-  ]
+  ],
+  "endStatus": "Q wins as W resigned."
 }
