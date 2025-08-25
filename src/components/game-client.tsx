@@ -1127,10 +1127,10 @@ export default function GameClient({
         );
 
         if (remainingPlayer) {
-          newGameState.endStatus = `${remainingPlayer.name} wins as ${playerToResign.name} resigned.`;
+          newGameState.endStatus = `${remainingPlayer.name} wins as ${playerToResign.name} resigned`;
         } else {
           // This case happens if a player resigns from a 1-player game.
-          newGameState.endStatus = `${playerToResign.name} resigned.`;
+          newGameState.endStatus = `${playerToResign.name} resigned`;
         }
 
         toast({
