@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 90,
+      "score": 93,
       "rack": [
         {
           "letter": "V",
@@ -13,10 +13,6 @@
         {
           "letter": "D",
           "points": 2
-        },
-        {
-          "letter": "T",
-          "points": 1
         },
         {
           "letter": "D",
@@ -33,6 +29,10 @@
         {
           "letter": "D",
           "points": 2
+        },
+        {
+          "letter": "J",
+          "points": 8
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "J",
-      "points": 8
-    },
     {
       "letter": "Q",
       "points": 10
@@ -526,7 +522,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 1,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2491,6 +2492,19 @@
         }
       ],
       "score": 7
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "EST",
+      "tiles": [
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 2,
+          "y": 0
+        }
+      ],
+      "score": 3
     }
   ],
   "gamePhase": "playing"
