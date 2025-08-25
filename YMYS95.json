@@ -1,35 +1,45 @@
 {
   "gameId": "YMYS95",
-  "players": [],
+  "players": [
+    {
+      "id": "p1756089969842",
+      "name": "ScrabbleBot 1",
+      "score": 0,
+      "rack": [
+        {
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "P",
+          "points": 3
+        },
+        {
+          "letter": "Y",
+          "points": 4
+        }
+      ],
+      "code": "ai-secret-1756089969842",
+      "isAi": true
+    }
+  ],
   "tileBag": [
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "P",
-      "points": 3
-    },
-    {
-      "letter": "Y",
-      "points": 4
-    },
     {
       "letter": "N",
       "points": 1
