@@ -233,7 +233,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
       );
     }
     return wordList.map((word) => (
-      <div key={word.number + word.direction} className="text-sm mb-2 flex items-start">
+      <div key={word.number + word.direction} className="text-sm mb-2 flex items-start text-left">
         <span className="font-bold w-8">{word.number}.</span>
         <span className="flex-1">
           {clues[word.word] || <span className="text-muted-foreground italic">Fetching...</span>}
