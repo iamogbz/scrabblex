@@ -1,35 +1,44 @@
 {
   "gameId": "1E8M60",
-  "players": [],
+  "players": [
+    {
+      "id": "p1756080761026",
+      "name": "M",
+      "score": 0,
+      "rack": [
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "G",
+          "points": 2
+        },
+        {
+          "letter": "M",
+          "points": 3
+        },
+        {
+          "letter": "X",
+          "points": 8
+        },
+        {
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "N",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        }
+      ],
+      "code": "m"
+    }
+  ],
   "tileBag": [
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "G",
-      "points": 2
-    },
-    {
-      "letter": "M",
-      "points": 3
-    },
-    {
-      "letter": "X",
-      "points": 8
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
     {
       "letter": "D",
       "points": 2
