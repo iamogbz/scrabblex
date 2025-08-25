@@ -4,12 +4,8 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 57,
+      "score": 63,
       "rack": [
-        {
-          "letter": "G",
-          "points": 2
-        },
         {
           "letter": "L",
           "points": 1
@@ -33,6 +29,10 @@
         {
           "letter": "E",
           "points": 1
+        },
+        {
+          "letter": "D",
+          "points": 2
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "D",
-      "points": 2
-    },
     {
       "letter": "T",
       "points": 1
@@ -392,7 +388,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 0,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2393,6 +2394,19 @@
         }
       ],
       "score": 2
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "GIN",
+      "tiles": [
+        {
+          "letter": "G",
+          "points": 2,
+          "x": 0,
+          "y": 3
+        }
+      ],
+      "score": 6
     }
   ],
   "gamePhase": "playing"
