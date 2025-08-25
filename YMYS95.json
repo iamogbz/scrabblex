@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 154,
+      "score": 160,
       "rack": [
         {
           "letter": "V",
@@ -31,7 +31,7 @@
           "points": 1
         },
         {
-          "letter": "A",
+          "letter": "R",
           "points": 1
         }
       ],
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "R",
-      "points": 1
-    },
     {
       "letter": "H",
       "points": 4
@@ -369,7 +365,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "G",
+          "points": 2,
+          "x": 0,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2617,6 +2618,19 @@
         }
       ],
       "score": 7
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "DA",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 3,
+          "y": 3
+        }
+      ],
+      "score": 6
     }
   ],
   "gamePhase": "playing"
