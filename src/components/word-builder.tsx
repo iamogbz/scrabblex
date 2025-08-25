@@ -1,4 +1,3 @@
-
 "use client"
 
 import type { PlacedTile, Board, BoardSquare } from "@/types";
@@ -8,21 +7,25 @@ import { WholeWord } from "lucide-react";
 import { useMemo, useState, useEffect } from "react";
 import { calculateMoveScore } from "@/lib/scoring";
 import { getWordDefinition } from "@/app/actions";
+import { cn } from "@/lib/utils";
 
 
 interface WordBuilderProps {
   slots: readonly BoardSquare[];
   stagedTiles: PlacedTile[];
   onStagedTileClick: (index: number) => void;
+  onReorderStagedTiles: (newOrder: PlacedTile[]) => void;
   board: Board;
   tempPlacedTiles: PlacedTile[];
   playDirection: 'horizontal' | 'vertical' | null;
   playerColor?: string;
 }
 
-export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, board, tempPlacedTiles, playDirection, playerColor }: WordBuilderProps) {
+export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, onReorderStagedTiles, board, tempPlacedTiles, playDirection, playerColor }: WordBuilderProps) {
   const [definition, setDefinition] = useState<string | null>(null);
   const [isFetchingDefinition, setIsFetchingDefinition] = useState(false);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   const { word, score } = useMemo(() => {
     if (tempPlacedTiles.length === 0) return { word: "", score: 0 };
@@ -65,7 +68,45 @@ export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, boa
     } else {
       setDefinition(null);
     }
-  }, [slots, tempPlacedTiles]);
+  }, [slots, tempPlacedTiles, stagedTiles]);
+
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, index: number) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>, index: number) => {
+    e.preventDefault();
+    if (index !== dragOverIndex) {
+        setDragOverIndex(index);
+    }
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDragOverIndex(null);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, dropIndex: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === dropIndex) {
+      setDraggedIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
+
+    const newStagedTiles = [...stagedTiles];
+    const [draggedItem] = newStagedTiles.splice(draggedIndex, 1);
+    newStagedTiles.splice(dropIndex, 0, draggedItem);
+
+    onReorderStagedTiles(newStagedTiles);
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
 
   const getMultiplierText = (square: BoardSquare) => {
     if (square.isCenter) return "★";
@@ -98,14 +139,28 @@ export default function WordBuilder({ slots, stagedTiles, onStagedTileClick, boa
                 const tile = stagedTiles[stagedIndex];
                 const currentIndex = stagedIndex;
                 rendered.push(
-                    <SingleTile
-                        key={`staged-${currentIndex}`}
-                        tile={tile}
-                        isDraggable={true}
-                        isTemp={true}
-                        onSelect={() => onStagedTileClick(currentIndex)}
-                        playerColor={playerColor}
-                    />
+                    <div
+                      key={`staged-${currentIndex}`}
+                      draggable
+                      onDragStart={(e) => handleDragStart(e, currentIndex)}
+                      onDragEnter={(e) => handleDragEnter(e, currentIndex)}
+                      onDragLeave={handleDragLeave}
+                      onDragOver={handleDragOver}
+                      onDrop={(e) => handleDrop(e, currentIndex)}
+                      className={cn(
+                          "transition-all duration-150 cursor-grab",
+                          draggedIndex === currentIndex ? "opacity-30" : "opacity-100",
+                          dragOverIndex === currentIndex && draggedIndex !== null && "ring-2 ring-accent ring-offset-2 rounded-md"
+                      )}
+                    >
+                      <SingleTile
+                          tile={tile}
+                          isDraggable={true}
+                          isTemp={true}
+                          onSelect={() => onStagedTileClick(currentIndex)}
+                          playerColor={playerColor}
+                      />
+                    </div>
                 );
                 stagedIndex++;
             } else {

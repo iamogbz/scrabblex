@@ -12,6 +12,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Octokit } from "@octokit/rest";
 
 let wordSet: Set<string>;
+const definitionCache = new Map<string, string | null>();
 
 async function getWordSet() {
   if (wordSet) {
@@ -93,6 +94,10 @@ const genAI = process.env.GEMINI_API_KEY
   : null;
 
 export async function getWordDefinition(word: string): Promise<string | null> {
+  const upperCaseWord = word.toUpperCase();
+  if (definitionCache.has(upperCaseWord)) {
+    return definitionCache.get(upperCaseWord)!;
+  }
   if (!genAI) {
     console.log("GEMINI_API_KEY not set, skipping definition lookup.");
     return "GEMINI_API_KEY not set.";
@@ -101,15 +106,20 @@ export async function getWordDefinition(word: string): Promise<string | null> {
     return null;
   }
   const invalidWord = "Not a valid Scrabble word.";
-  const { isValid } = await verifyWordAction(word);
-  if (!isValid) return invalidWord;
+  const { isValid } = await verifyWordAction(upperCaseWord);
+  if (!isValid) {
+    definitionCache.set(upperCaseWord, invalidWord);
+    return invalidWord;
+  }
 
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-  const prompt = `Provide a concise, one-line definition for the Scrabble word "${word.toUpperCase()}". If it's not a valid word, say "${invalidWord}". Example: "LIT: past tense of light."`;
+  const prompt = `Provide a concise, one-line definition for the Scrabble word "${upperCaseWord}". If it's not a valid word, say "${invalidWord}". Example: "LIT: past tense of light."`;
 
   const result = await model.generateContent(prompt);
   const response = await result.response;
-  return response.text();
+  const definition = response.text();
+  definitionCache.set(upperCaseWord, definition);
+  return definition;
 }
 
 const DICTIONARY_PATH = "public/valid-words.txt";

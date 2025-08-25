@@ -101,6 +101,10 @@ export default function GameClient({
     string | null
   >(null);
 
+  const handleReorderStagedTiles = (newOrder: PlacedTile[]) => {
+    setStagedTiles(newOrder);
+  };
+
   const { toast } = useToast();
 
   const shuffle = <T,>(array: T[]): T[] => {
@@ -1218,6 +1222,7 @@ export default function GameClient({
                   slots={wordBuilderSlots}
                   stagedTiles={stagedTiles}
                   onStagedTileClick={handleStagedTileClick}
+                  onReorderStagedTiles={handleReorderStagedTiles}
                   board={gameState.board}
                   tempPlacedTiles={tempPlacedTiles}
                   playerColor={playerColor}
