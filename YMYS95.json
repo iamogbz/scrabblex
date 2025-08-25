@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 112,
+      "score": 118,
       "rack": [
         {
           "letter": "V",
@@ -31,8 +31,8 @@
           "points": 1
         },
         {
-          "letter": "U",
-          "points": 1
+          "letter": "V",
+          "points": 4
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "V",
-      "points": 4
-    },
     {
       "letter": "E",
       "points": 1
@@ -1064,7 +1060,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 5,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2547,6 +2548,19 @@
         }
       ],
       "score": 3
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "UDO",
+      "tiles": [
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 5,
+          "y": 5
+        }
+      ],
+      "score": 6
     }
   ],
   "gamePhase": "playing"
