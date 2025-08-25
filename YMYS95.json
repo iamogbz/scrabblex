@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 142,
+      "score": 147,
       "rack": [
         {
           "letter": "V",
@@ -13,10 +13,6 @@
         {
           "letter": "Z",
           "points": 10
-        },
-        {
-          "letter": "D",
-          "points": 2
         },
         {
           "letter": "Q",
@@ -33,6 +29,10 @@
         {
           "letter": "A",
           "points": 1
+        },
+        {
+          "letter": "G",
+          "points": 2
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "G",
-      "points": 2
-    },
     {
       "letter": "A",
       "points": 1
@@ -624,7 +620,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 2,
+          "y": 2
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -2589,6 +2590,19 @@
         }
       ],
       "score": 12
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "TEED",
+      "tiles": [
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 2,
+          "y": 3
+        }
+      ],
+      "score": 5
     }
   ],
   "gamePhase": "playing"
