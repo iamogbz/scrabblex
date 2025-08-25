@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 254,
+      "score": 272,
       "rack": [
         {
           "letter": "V",
@@ -12,10 +12,6 @@
         },
         {
           "letter": "V",
-          "points": 4
-        },
-        {
-          "letter": "H",
           "points": 4
         },
         {
@@ -33,6 +29,10 @@
         {
           "letter": "N",
           "points": 1
+        },
+        {
+          "letter": "P",
+          "points": 3
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "P",
-      "points": 3
-    },
     {
       "letter": "C",
       "points": 3
@@ -1200,7 +1196,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 6,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2785,6 +2786,19 @@
         }
       ],
       "score": 2
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "OH",
+      "tiles": [
+        {
+          "letter": "H",
+          "points": 4,
+          "x": 6,
+          "y": 8
+        }
+      ],
+      "score": 18
     }
   ],
   "gamePhase": "playing"
