@@ -40,18 +40,10 @@
     {
       "id": "p1756080770073",
       "name": "Miche",
-      "score": 204,
+      "score": 236,
       "rack": [
         {
           "letter": "N",
-          "points": 1
-        },
-        {
-          "letter": "V",
-          "points": 4
-        },
-        {
-          "letter": "A",
           "points": 1
         },
         {
@@ -63,30 +55,26 @@
           "points": 1
         },
         {
-          "letter": "I",
+          "letter": "P",
+          "points": 3
+        },
+        {
+          "letter": "W",
+          "points": 4
+        },
+        {
+          "letter": "T",
           "points": 1
         },
         {
-          "letter": "P",
-          "points": 3
+          "letter": "R",
+          "points": 1
         }
       ],
       "code": "miche"
     }
   ],
   "tileBag": [
-    {
-      "letter": "W",
-      "points": 4
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
     {
       "letter": "A",
       "points": 1
@@ -2020,7 +2008,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 13,
+          "y": 1
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -2028,7 +2021,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 13,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2036,7 +2034,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 13,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2705,6 +2708,31 @@
         }
       ],
       "score": 29
+    },
+    {
+      "playerId": "p1756080770073",
+      "word": "VIA",
+      "tiles": [
+        {
+          "letter": "V",
+          "points": 4,
+          "x": 14,
+          "y": 0
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 14,
+          "y": 1
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 14,
+          "y": 2
+        }
+      ],
+      "score": 32
     }
   ],
   "gamePhase": "playing"
