@@ -4,16 +4,8 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 90,
+      "score": 103,
       "rack": [
-        {
-          "letter": "N",
-          "points": 1
-        },
-        {
-          "letter": "R",
-          "points": 1
-        },
         {
           "letter": "L",
           "points": 1
@@ -31,8 +23,16 @@
           "points": 1
         },
         {
+          "letter": "E",
+          "points": 1
+        },
+        {
           "letter": "O",
           "points": 1
+        },
+        {
+          "letter": "B",
+          "points": 3
         }
       ],
       "code": "m"
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "B",
-      "points": 3
-    },
     {
       "letter": "H",
       "points": 4
@@ -1525,7 +1513,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 9,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1667,7 +1660,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "H",
+          "points": 4,
+          "x": 10,
+          "y": 4
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -1794,7 +1792,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 11,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1916,7 +1919,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "P",
+          "points": 3,
+          "x": 12,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2455,6 +2463,31 @@
         }
       ],
       "score": 23
+    },
+    {
+      "playerId": "p1756080761026",
+      "word": "WORN",
+      "tiles": [
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 5,
+          "y": 10
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 5,
+          "y": 11
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 5,
+          "y": 12
+        }
+      ],
+      "score": 13
     }
   ],
   "gamePhase": "playing"
