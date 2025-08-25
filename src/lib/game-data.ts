@@ -27,8 +27,7 @@ export const TILE_BAG: Tile[] = [
   { letter: "X", points: 8 },
   { letter: "Y", points: 4 }, { letter: "Y", points: 4 },
   { letter: "Z", points: 10 },
-  // Blanks - represented as empty string for now
-  // { letter: " ", points: 0 }, { letter: " ", points: 0 },
+  { letter: " ", points: 0 }, { letter: " ", points: 0 },
 ];
 
 const BOARD_SIZE = 15;
@@ -63,7 +62,7 @@ export const createInitialBoard = (): BoardSquare[][] => {
   setMultiplier(premiumSquares.DW, 'word', 2);
   setMultiplier(premiumSquares.TL, 'letter', 3);
   setMultiplier(premiumSquares.DL, 'letter', 2);
-  
+
   board[7][7].isCenter = true;
   board[7][7].multiplierType = 'word';
   board[7][7].multiplier = 2;

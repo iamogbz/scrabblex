@@ -60,6 +60,7 @@ import { PlayerAuthDialog } from "./player-auth-dialog";
 import WordBuilder from "./word-builder";
 import { calculateMoveScore } from "@/lib/scoring";
 import { cn } from "@/lib/utils";
+import SingleTile from "./tile";
 
 const MAX_PLAYER_COUNT = 4;
 
@@ -96,6 +97,7 @@ export default function GameClient({
   const [bugTitle, setBugTitle] = useState("");
   const [bugDescription, setBugDescription] = useState("");
   const [isSubmittingBug, setIsSubmittingBug] = useState(false);
+  const [isTileBagOpen, setIsTileBagOpen] = useState(false);
 
   const [authenticatedPlayerId, setAuthenticatedPlayerId] = useState<
     string | null
@@ -382,6 +384,27 @@ export default function GameClient({
     gameState,
   ]);
 
+  const tileBagContents = useMemo(() => {
+    if (!gameState?.tileBag) return [];
+
+    const counts: Record<string, { tile: Tile; count: number }> = {};
+
+    for (const tile of gameState.tileBag) {
+      const key = tile.letter || "BLANK";
+      if (!counts[key]) {
+        const displayTile = tile.letter ? tile : { letter: "", points: 0 };
+        counts[key] = { tile: displayTile, count: 0 };
+      }
+      counts[key].count++;
+    }
+
+    return Object.values(counts).sort((a, b) => {
+      if (a.tile.letter === "") return 1; // Blanks at the end
+      if (b.tile.letter === "") return -1;
+      return a.tile.letter.localeCompare(b.tile.letter);
+    });
+  }, [gameState?.tileBag]);
+
   const handleSuggestWord = async () => {
     if (!newWord.trim()) return;
     setIsSubmittingSuggestion(true);
@@ -389,7 +412,7 @@ export default function GameClient({
       const result = await suggestWordAction(
         newWord.trim(),
         authenticatedPlayer?.name || "Anonymous",
-        gameId,
+        gameId
       );
       if (result.success && result.prUrl) {
         toast({
@@ -433,7 +456,7 @@ export default function GameClient({
         bugDescription.trim(),
         authenticatedPlayer?.name || "Anonymous",
         gameId,
-        sha,
+        sha
       );
       if (result.success && result.issueUrl) {
         toast({
@@ -647,7 +670,7 @@ export default function GameClient({
     } else {
       // New selection
       setSelectedBoardPos({ x, y });
-      setPlayDirection("horizontal");
+      setPlayDirection(playDirection || "horizontal");
       // As per TODO only clear staged tiles on reset
       //  setStagedTiles([]); // Clear staged tiles on new selection
     }
@@ -826,7 +849,10 @@ export default function GameClient({
         newGameState.history.push(playedWord);
 
         resetTurn();
-        toast({ title: "Valid Word!", description: `Scored ${score} points.` });
+        toast({
+          title: `Played ${playedWord.word}`,
+          description: `Scored ${score} points.`,
+        });
         return newGameState;
       };
 
@@ -878,6 +904,10 @@ export default function GameClient({
 
     const message = `feat: ${authenticatedPlayer.name} passed their turn in game ${gameId}`;
     await performGameAction(action, message);
+  };
+
+  const showTileBag = () => {
+    setIsTileBagOpen(true);
   };
 
   // Only staged tiles without coordinates
@@ -1043,7 +1073,7 @@ export default function GameClient({
                         : "Create your player to join"
                     }.`
                   : "The game is closed to new players but existing players can rejoin."}
-                {currentPlayer ? ` It's ${currentPlayer.name}'s turn.`: ""}
+                {currentPlayer ? ` It's ${currentPlayer.name}'s turn.` : ""}
               </CardDescription>
               <div className="text-center pt-4">
                 <p className="text-sm text-muted-foreground">Game Key</p>
@@ -1266,6 +1296,13 @@ export default function GameClient({
               </Button>
               <Button
                 variant="outline"
+                disabled={isLoading || !gameState?.tileBag.length}
+                onClick={showTileBag}
+              >
+                {`${gameState.tileBag.length} Tiles Left`}
+              </Button>
+              <Button
+                variant="outline"
                 disabled={!isMyTurn || isLoading || !!selectedBoardPos}
                 onClick={handleRequestSwap}
               >
@@ -1283,7 +1320,7 @@ export default function GameClient({
                 onClick={resetTurn}
                 disabled={stagedTiles.length === 0}
               >
-                Reset Rack
+                Reset Turn
               </Button>
             </CardContent>
           </Card>
@@ -1432,6 +1469,32 @@ export default function GameClient({
                 "Submit Bug Report"
               )}
             </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={isTileBagOpen} onOpenChange={setIsTileBagOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Remaining Tiles</DialogTitle>
+            <DialogDescription>
+              There are {gameState.tileBag.length} tiles left in the bag.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-x-2 gap-y-4 py-4 max-h-[60vh] overflow-y-auto">
+            {tileBagContents.map(({ tile, count }) => (
+              <div
+                key={tile.letter || "BLANK"}
+                className="flex items-center gap-2"
+              >
+                <div className="w-10 h-10 flex-shrink-0">
+                  <SingleTile tile={tile} isDraggable={false} />
+                </div>
+                <span className="font-bold text-lg">x {count}</span>
+              </div>
+            ))}
+          </div>
+          <DialogFooter>
+            <Button onClick={() => setIsTileBagOpen(false)}>Close</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
