@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 246,
+      "score": 252,
       "rack": [
         {
           "letter": "V",
@@ -31,7 +31,7 @@
           "points": 1
         },
         {
-          "letter": "E",
+          "letter": "T",
           "points": 1
         }
       ],
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "T",
-      "points": 1
-    },
     {
       "letter": "N",
       "points": 1
@@ -913,7 +909,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "H",
+          "points": 4,
+          "x": 4,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2757,6 +2758,19 @@
         }
       ],
       "score": 7
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "EA",
+      "tiles": [
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 3,
+          "y": 2
+        }
+      ],
+      "score": 6
     }
   ],
   "gamePhase": "playing"
