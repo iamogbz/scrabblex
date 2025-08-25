@@ -40,16 +40,8 @@
     {
       "id": "p1756094890756",
       "name": "Ifunanya",
-      "score": 93,
+      "score": 119,
       "rack": [
-        {
-          "letter": "Q",
-          "points": 10
-        },
-        {
-          "letter": "E",
-          "points": 1
-        },
         {
           "letter": "M",
           "points": 3
@@ -59,15 +51,23 @@
           "points": 1
         },
         {
+          "letter": "U",
+          "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
           "letter": "E",
           "points": 1
         },
         {
-          "letter": "N",
+          "letter": "L",
           "points": 1
         },
         {
-          "letter": "U",
+          "letter": "L",
           "points": 1
         }
       ],
@@ -75,26 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
     {
       "letter": "E",
       "points": 1
@@ -1865,7 +1845,12 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 11,
+          "y": 11
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -2610,6 +2595,43 @@
         }
       ],
       "score": 14
+    },
+    {
+      "playerId": "p1756094890756",
+      "word": "QUEEN",
+      "tiles": [
+        {
+          "letter": "Q",
+          "points": 10,
+          "x": 12,
+          "y": 4
+        },
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 12,
+          "y": 5
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 12,
+          "y": 6
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 12,
+          "y": 7
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 12,
+          "y": 8
+        }
+      ],
+      "score": 26
     }
   ],
   "gamePhase": "playing"
