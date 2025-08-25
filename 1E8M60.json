@@ -4,18 +4,10 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 110,
+      "score": 129,
       "rack": [
         {
           "letter": "R",
-          "points": 1
-        },
-        {
-          "letter": "L",
-          "points": 1
-        },
-        {
-          "letter": "E",
           "points": 1
         },
         {
@@ -23,15 +15,23 @@
           "points": 1
         },
         {
-          "letter": "G",
-          "points": 2
-        },
-        {
           "letter": "A",
           "points": 1
         },
         {
-          "letter": "A",
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "M",
+          "points": 3
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "L",
           "points": 1
         }
       ],
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "M",
-      "points": 3
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
     {
       "letter": "A",
       "points": 1
@@ -1609,7 +1593,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "H",
+          "points": 4,
+          "x": 9,
+          "y": 13
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1746,7 +1735,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 10,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1878,7 +1872,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Y",
+          "points": 4,
+          "x": 11,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2572,6 +2571,37 @@
         }
       ],
       "score": 32
+    },
+    {
+      "playerId": "p1756080761026",
+      "word": "GALE",
+      "tiles": [
+        {
+          "letter": "G",
+          "points": 2,
+          "x": 10,
+          "y": 12
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 11,
+          "y": 12
+        },
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 12,
+          "y": 12
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 13,
+          "y": 12
+        }
+      ],
+      "score": 19
     }
   ],
   "gamePhase": "playing"
