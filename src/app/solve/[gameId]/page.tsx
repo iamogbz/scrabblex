@@ -12,12 +12,15 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertTriangle, RefreshCw } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
+
 
 export default function SolveGamePage({ params }: { params: Promise<{ gameId: string }> }) {
   const { gameId } = use(params);
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [completionDate, setCompletionDate] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -30,6 +33,10 @@ export default function SolveGamePage({ params }: { params: Promise<{ gameId: st
             setError("This game has not been completed yet.");
           } else {
             setGameState(gameData.gameState);
+            if (gameData.gameState.history.length > 0) {
+              const lastMoveTimestamp = gameData.gameState.history[gameData.gameState.history.length - 1].timestamp;
+              setCompletionDate(formatDistanceToNow(new Date(lastMoveTimestamp), { addSuffix: true }));
+            }
           }
         } else {
           setError(`Game with ID "${gameId}" not found.`);
@@ -98,7 +105,9 @@ export default function SolveGamePage({ params }: { params: Promise<{ gameId: st
         {gameState && (
             <>
                 <h1 className="text-3xl font-headline tracking-wider mb-2">Crossword #{gameId}</h1>
-                <p className="text-muted-foreground mb-4">A puzzle generated from a completed Scrabblex game.</p>
+                <p className="text-muted-foreground mb-4">
+                  {completionDate ? `Completed ${completionDate}` : "A generated puzzle."}
+                </p>
                 <CrosswordBoard gameState={gameState} />
             </>
         )}
