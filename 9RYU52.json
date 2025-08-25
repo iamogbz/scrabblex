@@ -40,12 +40,8 @@
     {
       "id": "p1756094890756",
       "name": "Ifunanya",
-      "score": 0,
+      "score": 16,
       "rack": [
-        {
-          "letter": "O",
-          "points": 1
-        },
         {
           "letter": "E",
           "points": 1
@@ -59,15 +55,19 @@
           "points": 1
         },
         {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
           "letter": "A",
           "points": 1
         },
         {
-          "letter": "H",
-          "points": 4
-        },
-        {
-          "letter": "O",
+          "letter": "R",
           "points": 1
         }
       ],
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
     {
       "letter": "D",
       "points": 2
@@ -2286,6 +2274,31 @@
       "tiles": [],
       "score": 0,
       "isSwap": true
+    },
+    {
+      "playerId": "p1756094890756",
+      "word": "HOAX",
+      "tiles": [
+        {
+          "letter": "H",
+          "points": 4,
+          "x": 4,
+          "y": 9
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 5,
+          "y": 9
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 6,
+          "y": 9
+        }
+      ],
+      "score": 16
     }
   ],
   "gamePhase": "playing"
