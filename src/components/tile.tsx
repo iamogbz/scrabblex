@@ -48,7 +48,7 @@ export default function SingleTile({ tile, isDraggable = true, onSelect, isSelec
       style={{
         backgroundColor,
         borderColor,
-        borderWidth: '2px',
+        borderWidth: '0.3vmin',
         containerType: 'size',
         color: 'unset', // Remove default text color
       }}

@@ -1037,12 +1037,13 @@ export default function GameClient({
                 )}
               >
                 {canJoinGame
-                  ? `A game is in progress. ${
+                  ? `The game is in progress. ${
                       existingPlayer
                         ? "Enter your code to rejoin"
                         : "Create your player to join"
                     }.`
                   : "The game is closed to new players but existing players can rejoin."}
+                {currentPlayer ? ` It's ${currentPlayer.name}'s turn.`: ""}
               </CardDescription>
               <div className="text-center pt-4">
                 <p className="text-sm text-muted-foreground">Game Key</p>
@@ -1071,7 +1072,7 @@ export default function GameClient({
                   <div className="relative">
                     <Input
                       type={showCode ? "text" : "password"}
-                      placeholder="Enter a secret code"
+                      placeholder="Secret code"
                       value={newPlayerCode}
                       onChange={(e) => setNewPlayerCode(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && joinGame()}

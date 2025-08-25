@@ -38,7 +38,7 @@ export default function GameBoard({ board, tempPlacedTiles, onSquareClick, selec
   }
 
   return (
-    <div className="aspect-square w-full max-w-[70vh] min-w-[432px] mx-auto bg-background rounded-lg shadow-lg p-2 md:p-4 border">
+    <div className="aspect-square w-full max-w-[70vh] min-w-[248px] mx-auto bg-background rounded-lg shadow-lg p-2 md:p-4 border">
       <div className="grid grid-cols-[repeat(15,minmax(0,1fr))] gap-0.5 md:gap-1 h-full w-full">
         {board.map((row, x) =>
           row.map((square, y) => {
