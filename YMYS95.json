@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 70,
+      "score": 74,
       "rack": [
         {
           "letter": "V",
@@ -12,10 +12,6 @@
         },
         {
           "letter": "S",
-          "points": 1
-        },
-        {
-          "letter": "A",
           "points": 1
         },
         {
@@ -33,6 +29,10 @@
         {
           "letter": "D",
           "points": 2
+        },
+        {
+          "letter": "E",
+          "points": 1
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
     {
       "letter": "Z",
       "points": 10
@@ -506,7 +502,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 1,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2435,6 +2436,19 @@
         }
       ],
       "score": 2
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "AL",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "score": 4
     }
   ],
   "gamePhase": "playing"
