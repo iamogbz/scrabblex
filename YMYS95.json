@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 83,
+      "score": 90,
       "rack": [
         {
           "letter": "V",
@@ -31,8 +31,8 @@
           "points": 10
         },
         {
-          "letter": "O",
-          "points": 1
+          "letter": "D",
+          "points": 2
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "D",
-      "points": 2
-    },
     {
       "letter": "J",
       "points": 8
@@ -336,7 +332,12 @@
   "board": [
     [
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 0,
+          "y": 0
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -2477,6 +2478,19 @@
         }
       ],
       "score": 6
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "OY",
+      "tiles": [
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 1,
+          "y": 4
+        }
+      ],
+      "score": 7
     }
   ],
   "gamePhase": "playing"
