@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 197,
+      "score": 201,
       "rack": [
         {
           "letter": "V",
@@ -13,10 +13,6 @@
         {
           "letter": "Q",
           "points": 10
-        },
-        {
-          "letter": "R",
-          "points": 1
         },
         {
           "letter": "V",
@@ -33,6 +29,10 @@
         {
           "letter": "L",
           "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "I",
-      "points": 1
-    },
     {
       "letter": "H",
       "points": 4
@@ -686,7 +682,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 2,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2673,6 +2674,19 @@
         }
       ],
       "score": 11
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "RE",
+      "tiles": [
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 1,
+          "y": 9
+        }
+      ],
+      "score": 4
     }
   ],
   "gamePhase": "playing"
