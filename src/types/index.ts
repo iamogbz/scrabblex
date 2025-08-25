@@ -37,6 +37,7 @@ export interface PlayedWord {
   score: number;
   isPass?: boolean;
   isSwap?: boolean;
+  timestamp: string;
 }
 
 export interface GameState {

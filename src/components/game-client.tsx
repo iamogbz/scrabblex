@@ -844,6 +844,7 @@ export default function GameClient({
           word: mainWordInfo.word,
           tiles: tempPlacedTiles, // Only store the tiles placed by the user this turn
           score: score,
+          timestamp: new Date().toISOString(),
         };
 
         newGameState.history.push(playedWord);
@@ -893,6 +894,7 @@ export default function GameClient({
         tiles: [],
         score: 0,
         isPass: true,
+        timestamp: new Date().toISOString(),
       };
 
       newGameState.history.push(passEvent);
@@ -987,6 +989,7 @@ export default function GameClient({
         tiles: [],
         score: 0,
         isSwap: true,
+        timestamp: new Date().toISOString(),
       };
       newGameState.history.push(swapEvent);
 
@@ -1309,7 +1312,7 @@ export default function GameClient({
                 Swap Tiles
               </Button>
               <Button
-                variant="destructive"
+                variant="secondary"
                 disabled={!isMyTurn || isLoading}
                 onClick={handlePassTurn}
               >
@@ -1320,7 +1323,8 @@ export default function GameClient({
                 onClick={resetTurn}
                 disabled={stagedTiles.length === 0}
               >
-                Reset Turn
+                {/* Do not change this text */}
+                Reset Rack
               </Button>
             </CardContent>
           </Card>
