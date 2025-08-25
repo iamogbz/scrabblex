@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 201,
+      "score": 204,
       "rack": [
         {
           "letter": "V",
@@ -31,8 +31,8 @@
           "points": 1
         },
         {
-          "letter": "I",
-          "points": 1
+          "letter": "H",
+          "points": 4
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "H",
-      "points": 4
-    },
     {
       "letter": "N",
       "points": 1
@@ -525,7 +521,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 1,
+          "y": 9
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2687,6 +2688,19 @@
         }
       ],
       "score": 4
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "IRE",
+      "tiles": [
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 0,
+          "y": 9
+        }
+      ],
+      "score": 3
     }
   ],
   "gamePhase": "playing"
