@@ -1,3 +1,4 @@
+
 "use server";
 
 import {
@@ -132,6 +133,79 @@ export async function getWordDefinition(word: string): Promise<string | null> {
   }
 
   return definition;
+}
+
+export async function getWordDefinitions(
+  words: string[]
+): Promise<Record<string, string | null>> {
+  const upperCaseWords = words.map((w) => w.toUpperCase());
+  const results: Record<string, string | null> = {};
+  const wordsToFetch: string[] = [];
+
+  // Use the existing cache first
+  for (const word of upperCaseWords) {
+    if (definitionCache.has(word)) {
+      results[word] = definitionCache.get(word)!;
+    } else {
+      wordsToFetch.push(word);
+    }
+  }
+
+  if (wordsToFetch.length === 0) {
+    return results;
+  }
+
+  if (!genAI) {
+    console.log("GEMINI_API_KEY not set, skipping definition lookup.");
+    for (const word of wordsToFetch) {
+      results[word] = "GEMINI_API_KEY not set.";
+    }
+    return results;
+  }
+
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+  const unableToDefine = "Unable to define this word.";
+
+  const prompt = `
+    You are a dictionary expert. Provide a concise, one-line definition for each of the following Scrabble words.
+    Format your response as a JSON object where the key is the uppercase word and the value is its definition.
+    If you are unable to define a word, use the exact phrase "${unableToDefine}".
+
+    Words: ${JSON.stringify(wordsToFetch)}
+
+    Example response for a request of ["DOG", "ZA", "CAT"]:
+    {
+      "DOG": "A domesticated carnivorous mammal that typically has a long snout.",
+      "ZA": "A slang term for pizza.",
+      "CAT": "A small domesticated carnivorous mammal with soft fur."
+    }
+  `;
+
+  try {
+    const generationResult = await model.generateContent(prompt);
+    const responseText = generationResult.response.text();
+    
+    // Clean the response to ensure it's valid JSON
+    const jsonString = responseText.replace(/```json|```/g, "").trim();
+    const definitions = JSON.parse(jsonString) as Record<string, string>;
+
+    for (const word of wordsToFetch) {
+      const definition = definitions[word];
+      if (definition && !definition.includes(unableToDefine)) {
+        results[word] = definition;
+        definitionCache.set(word, definition); // Cache successful definitions
+      } else {
+        results[word] = unableToDefine;
+      }
+    }
+  } catch (error) {
+    console.error("Failed to fetch or parse batch definitions:", error);
+    for (const word of wordsToFetch) {
+      results[word] = "Error fetching definition.";
+    }
+  }
+
+  return results;
 }
 
 const DICTIONARY_PATH = "public/valid-words.txt";
