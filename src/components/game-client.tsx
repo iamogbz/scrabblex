@@ -1268,6 +1268,7 @@ export default function GameClient({
           <Scoreboard
             players={gameState.players}
             currentPlayerId={currentPlayer.id}
+            authenticatedPlayerId={authenticatedPlayerId}
           />
           <Card>
             <CardHeader>
