@@ -106,19 +106,31 @@ export async function getWordDefinition(word: string): Promise<string | null> {
     return null;
   }
   const invalidWord = "Not a valid Scrabble word.";
+  const unableToDefine = "Unable to define this word.";
   const { isValid } = await verifyWordAction(upperCaseWord);
   if (!isValid) {
-    definitionCache.set(upperCaseWord, invalidWord);
+    // Do not bother caching statically invalid words
+    // definitionCache.set(upperCaseWord, invalidWord);
     return invalidWord;
   }
 
+  // At this point, we know the word is valid.
+  // We will use the Gemini API to get a definition.
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-  const prompt = `Provide a concise, one-line definition for the Scrabble word "${upperCaseWord}". If it's not a valid word, say "${invalidWord}". Example: "LIT: past tense of light."`;
+  const prompt = `Provide a concise, one-line definition for the Scrabble word "${upperCaseWord}". If unable to say "${unableToDefine}". Example: "LIT: past tense of light."`;
 
   const result = await model.generateContent(prompt);
   const response = await result.response;
   const definition = response.text();
-  definitionCache.set(upperCaseWord, definition);
+
+  console.log(`Definition for "${upperCaseWord}":`, definition);
+
+  if (!definition.includes(unableToDefine)) {
+    // Do not bother caching valid words that could not be defined.
+    // They might be failing due to AI hallucination.
+    definitionCache.set(upperCaseWord, definition);
+  }
+
   return definition;
 }
 

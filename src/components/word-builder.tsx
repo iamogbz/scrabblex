@@ -116,10 +116,6 @@ export default function WordBuilder({
     setDragOverIndex(null);
   };
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  };
-
   const handleDrop = (
     e: React.DragEvent<HTMLDivElement>,
     dropIndex: number
@@ -179,7 +175,7 @@ export default function WordBuilder({
               onDragStart={(e) => handleDragStart(e, currentIndex)}
               onDragEnter={(e) => handleDragEnter(e, currentIndex)}
               onDragLeave={handleDragLeave}
-              onDragOver={handleDragOver}
+              onDragOver={(e) => handleDragEnter(e, currentIndex)}
               onDrop={(e) => handleDrop(e, currentIndex)}
               className={cn(
                 "transition-all duration-150 cursor-grab",
