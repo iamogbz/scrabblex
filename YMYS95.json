@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 215,
+      "score": 227,
       "rack": [
         {
           "letter": "V",
@@ -31,7 +31,7 @@
           "points": 4
         },
         {
-          "letter": "N",
+          "letter": "R",
           "points": 1
         }
       ],
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "R",
-      "points": 1
-    },
     {
       "letter": "T",
       "points": 1
@@ -362,7 +358,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Q",
+          "points": 10,
+          "x": 0,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2715,6 +2716,19 @@
         }
       ],
       "score": 11
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "QIN",
+      "tiles": [
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 0,
+          "y": 10
+        }
+      ],
+      "score": 12
     }
   ],
   "gamePhase": "playing"
