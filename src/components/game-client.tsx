@@ -956,9 +956,7 @@ export default function GameClient({
       return newGameState;
     };
 
-    const message = `feat: ${authenticatedPlayer.name} swapped ${
-      tilesToSwap.length
-    } tiles in game ${gameId}`;
+    const message = `feat: ${authenticatedPlayer.name} swapped ${tilesToSwap.length} tiles in game ${gameId}`;
     const updatedState = await performGameAction(action, message);
 
     if (updatedState) {
@@ -1016,114 +1014,127 @@ export default function GameClient({
   // Show join screen if not authenticated
   if (!authenticatedPlayer) {
     return (
-      <div className="container mx-auto max-w-2xl">
-        <Card className="shadow-xl">
-          <CardHeader>
-            <CardTitle className="text-3xl text-center">Join Game</CardTitle>
-            <CardDescription
-              className={cn(
-                "text-center",
-                !canJoinGame && !existingPlayer ? "text-destructive" : ""
-              )}
-            >
-              {canJoinGame
-                ? `A game is in progress. ${
-                    existingPlayer
-                      ? "Enter your code to rejoin"
-                      : "Create your player to join"
-                  }.`
-                : "The game is closed to new players but existing players can rejoin."}
-            </CardDescription>
-            <div className="text-center pt-4">
-              <p className="text-sm text-muted-foreground">Game Key</p>
-              <div className="flex items-center justify-center gap-2 mt-1">
-                <p className="text-4xl font-bold tracking-[0.3em] text-primary bg-muted px-4 py-2 rounded-lg">
-                  {gameId}
-                </p>
-                <Button variant="ghost" size="icon" onClick={handleCopyLink}>
-                  {copied ? (
-                    <Check className="h-5 w-5 text-green-500" />
-                  ) : (
-                    <Copy className="h-5 w-5" />
-                  )}
-                </Button>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <Input
-                  placeholder="Enter your name"
-                  value={newPlayerName}
-                  onChange={(e) => setNewPlayerName(e.target.value)}
-                />
-                <div className="relative">
-                  <Input
-                    type={showCode ? "text" : "password"}
-                    placeholder="Enter a secret code"
-                    value={newPlayerCode}
-                    onChange={(e) => setNewPlayerCode(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && joinGame()}
-                  />
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
-                    onClick={() => setShowCode((s) => !s)}
-                  >
-                    {showCode ? (
-                      <EyeOff className="h-4 w-4" />
+      <div className="container mx-auto flex flex-col-reverse lg:flex-row gap-8 items-start justify-center">
+        <div className="w-full lg:w-96 lg:sticky lg:top-20">
+          <Card className="shadow-xl">
+            <CardHeader>
+              <CardTitle className="text-3xl text-center">Join Game</CardTitle>
+              <CardDescription
+                className={cn(
+                  "text-center",
+                  !canJoinGame && !existingPlayer ? "text-destructive" : ""
+                )}
+              >
+                {canJoinGame
+                  ? `A game is in progress. ${
+                      existingPlayer
+                        ? "Enter your code to rejoin"
+                        : "Create your player to join"
+                    }.`
+                  : "The game is closed to new players but existing players can rejoin."}
+              </CardDescription>
+              <div className="text-center pt-4">
+                <p className="text-sm text-muted-foreground">Game Key</p>
+                <div className="flex items-center justify-center gap-2 mt-1">
+                  <p className="text-4xl font-bold tracking-[0.3em] text-primary bg-muted px-4 py-2 rounded-lg">
+                    {gameId}
+                  </p>
+                  <Button variant="ghost" size="icon" onClick={handleCopyLink}>
+                    {copied ? (
+                      <Check className="h-5 w-5 text-green-500" />
                     ) : (
-                      <Eye className="h-4 w-4" />
+                      <Copy className="h-5 w-5" />
                     )}
                   </Button>
                 </div>
               </div>
-              <Button
-                onClick={joinGame}
-                className="w-full"
-                disabled={
-                  !newPlayerName.trim() ||
-                  !newPlayerCode.trim() ||
-                  !canJoinGame ||
-                  isLoading
-                }
-              >
-                {isLoading ? (
-                  <RefreshCw className="animate-spin" />
-                ) : (
-                  <UserPlus className="h-4 w-4 mr-2" />
-                )}
-                {existingPlayer ? "Rejoin Game" : "Join Game"}
-              </Button>
-
-              <div className="space-y-2 pt-4">
-                <h3 className="text-lg font-medium flex items-center">
-                  <Users className="mr-2 h-5 w-5" /> Players Already Joined (
-                  {gameState.players.length}/4)
-                </h3>
-                <div className="bg-muted/50 rounded-lg p-4 min-h-[50px] space-y-2">
-                  {gameState.players.length > 0 ? (
-                    gameState.players.map((p, i) => (
-                      <div
-                        key={p.id}
-                        className="flex items-center bg-background p-2 rounded-md shadow-sm"
-                      >
-                        <span className="font-bold text-primary">{i + 1}.</span>
-                        <span className="ml-2">{p.name}</span>
-                      </div>
-                    ))
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <Input
+                    placeholder="Enter your name"
+                    value={newPlayerName}
+                    onChange={(e) => setNewPlayerName(e.target.value)}
+                  />
+                  <div className="relative">
+                    <Input
+                      type={showCode ? "text" : "password"}
+                      placeholder="Enter a secret code"
+                      value={newPlayerCode}
+                      onChange={(e) => setNewPlayerCode(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && joinGame()}
+                    />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
+                      onClick={() => setShowCode((s) => !s)}
+                    >
+                      {showCode ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
+                </div>
+                <Button
+                  onClick={joinGame}
+                  className="w-full"
+                  disabled={
+                    !newPlayerName.trim() ||
+                    !newPlayerCode.trim() ||
+                    !canJoinGame ||
+                    isLoading
+                  }
+                >
+                  {isLoading ? (
+                    <RefreshCw className="animate-spin" />
                   ) : (
-                    <p className="text-muted-foreground text-center pt-2">
-                      No players have joined yet.
-                    </p>
+                    <UserPlus className="h-4 w-4 mr-2" />
                   )}
+                  {existingPlayer ? "Rejoin Game" : "Join Game"}
+                </Button>
+
+                <div className="space-y-2 pt-4">
+                  <h3 className="text-lg font-medium flex items-center">
+                    <Users className="mr-2 h-5 w-5" /> Players Already Joined (
+                    {gameState.players.length}/4)
+                  </h3>
+                  <div className="bg-muted/50 rounded-lg p-4 min-h-[50px] space-y-2">
+                    {gameState.players.length > 0 ? (
+                      gameState.players.map((p, i) => (
+                        <div
+                          key={p.id}
+                          className="flex items-center bg-background p-2 rounded-md shadow-sm"
+                        >
+                          <span className="font-bold text-primary">
+                            {i + 1}.
+                          </span>
+                          <span className="ml-2">{p.name}</span>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-muted-foreground text-center pt-2">
+                        No players have joined yet.
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
+        <div className="flex-grow w-full">
+          <GameBoard
+            board={gameState.board}
+            tempPlacedTiles={[]}
+            onSquareClick={() => {}}
+            selectedBoardPos={null}
+            playDirection={null}
+          />
+        </div>
       </div>
     );
   }
