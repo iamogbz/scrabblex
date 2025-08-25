@@ -4,15 +4,11 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 77,
+      "score": 83,
       "rack": [
         {
           "letter": "V",
           "points": 4
-        },
-        {
-          "letter": "E",
-          "points": 1
         },
         {
           "letter": "D",
@@ -33,6 +29,10 @@
         {
           "letter": "Z",
           "points": 10
+        },
+        {
+          "letter": "O",
+          "points": 1
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "O",
-      "points": 1
-    },
     {
       "letter": "D",
       "points": 2
@@ -482,7 +478,12 @@
     ],
     [
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 1,
+          "y": 0
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2463,6 +2464,19 @@
         }
       ],
       "score": 3
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "ES",
+      "tiles": [
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "score": 6
     }
   ],
   "gamePhase": "playing"
