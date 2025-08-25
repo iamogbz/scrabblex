@@ -40,23 +40,15 @@
     {
       "id": "p1756080770073",
       "name": "Miche",
-      "score": 84,
+      "score": 111,
       "rack": [
         {
           "letter": "Z",
           "points": 10
         },
         {
-          "letter": "E",
-          "points": 1
-        },
-        {
           "letter": "Q",
           "points": 10
-        },
-        {
-          "letter": "F",
-          "points": 4
         },
         {
           "letter": "Y",
@@ -69,20 +61,20 @@
         {
           "letter": "I",
           "points": 1
+        },
+        {
+          "letter": "H",
+          "points": 4
+        },
+        {
+          "letter": "E",
+          "points": 1
         }
       ],
       "code": "miche"
     }
   ],
   "tileBag": [
-    {
-      "letter": "H",
-      "points": 4
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
     {
       "letter": "N",
       "points": 1
@@ -998,7 +990,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 5,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1006,7 +1003,12 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 5,
+          "y": 11
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1014,7 +1016,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 5,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2488,6 +2495,25 @@
         }
       ],
       "score": 13
+    },
+    {
+      "playerId": "p1756080770073",
+      "word": "FE",
+      "tiles": [
+        {
+          "letter": "F",
+          "points": 4,
+          "x": 4,
+          "y": 10
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 4,
+          "y": 11
+        }
+      ],
+      "score": 27
     }
   ],
   "gamePhase": "playing"
