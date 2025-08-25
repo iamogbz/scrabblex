@@ -4,27 +4,15 @@
     {
       "id": "p1756094880461",
       "name": "Emma",
-      "score": 0,
+      "score": 26,
       "rack": [
         {
           "letter": "P",
           "points": 3
         },
         {
-          "letter": "F",
-          "points": 4
-        },
-        {
-          "letter": "X",
-          "points": 8
-        },
-        {
           "letter": "G",
           "points": 2
-        },
-        {
-          "letter": "A",
-          "points": 1
         },
         {
           "letter": "R",
@@ -33,6 +21,18 @@
         {
           "letter": "V",
           "points": 4
+        },
+        {
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "L",
+          "points": 1
+        },
+        {
+          "letter": "K",
+          "points": 5
         }
       ],
       "code": "emma"
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "K",
-      "points": 5
-    },
     {
       "letter": "H",
       "points": 4
@@ -2244,6 +2232,32 @@
       }
     ]
   ],
-  "history": [],
+  "history": [
+    {
+      "playerId": "p1756094880461",
+      "word": "FAX",
+      "tiles": [
+        {
+          "letter": "F",
+          "points": 4,
+          "x": 7,
+          "y": 7
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
+        {
+          "letter": "X",
+          "points": 8,
+          "x": 7,
+          "y": 9
+        }
+      ],
+      "score": 26
+    }
+  ],
   "gamePhase": "playing"
 }
