@@ -40,7 +40,7 @@
     {
       "id": "p1756080770073",
       "name": "Miche",
-      "score": 111,
+      "score": 143,
       "rack": [
         {
           "letter": "Z",
@@ -51,10 +51,6 @@
           "points": 10
         },
         {
-          "letter": "Y",
-          "points": 4
-        },
-        {
           "letter": "N",
           "points": 1
         },
@@ -63,11 +59,15 @@
           "points": 1
         },
         {
-          "letter": "H",
+          "letter": "V",
           "points": 4
         },
         {
-          "letter": "E",
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "O",
           "points": 1
         }
       ],
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "V",
-      "points": 4
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
     {
       "letter": "E",
       "points": 1
@@ -1173,7 +1161,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "B",
+          "points": 3,
+          "x": 6,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1472,7 +1465,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 8,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1619,7 +1617,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 9,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1751,7 +1754,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 10,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2539,6 +2547,31 @@
         }
       ],
       "score": 7
+    },
+    {
+      "playerId": "p1756080770073",
+      "word": "HEY",
+      "tiles": [
+        {
+          "letter": "H",
+          "points": 4,
+          "x": 9,
+          "y": 13
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 10,
+          "y": 13
+        },
+        {
+          "letter": "Y",
+          "points": 4,
+          "x": 11,
+          "y": 13
+        }
+      ],
+      "score": 32
     }
   ],
   "gamePhase": "playing"
