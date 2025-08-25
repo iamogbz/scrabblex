@@ -9,7 +9,7 @@ import { Button } from "./ui/button";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { ScrollArea } from "./ui/scroll-area";
-import { Check, Lightbulb, RotateCcw, RefreshCw } from "lucide-react";
+import { Check, Lightbulb, RotateCcw, RefreshCw, Focus } from "lucide-react";
 
 interface CrosswordBoardProps {
   gameState: GameState;
@@ -191,6 +191,18 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     }
   };
 
+  const handleFocusWord = (word: Omit<Word, "clue">) => {
+    const tileElement = document.getElementById(`tile-${word.x}-${word.y}`);
+    if (tileElement) {
+        tileElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Find the input within the tile and focus it
+        const input = tileElement.querySelector('input');
+        if (input) {
+            input.focus();
+        }
+    }
+  };
+
   const handleRevealWord = (word: Omit<Word, "clue">) => {
     const newRevealed: string[] = [];
     const newInputsWithSolution: Record<string, string> = { ...userInputs };
@@ -242,9 +254,9 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
           size="icon"
           variant="ghost"
           className="h-6 w-6 ml-2"
-          onClick={() => handleRevealWord(word)}
+          onClick={() => handleFocusWord(word)}
         >
-          <Lightbulb className="h-4 w-4" />
+          <Focus className="h-4 w-4" />
         </Button>
       </div>
     ));
@@ -312,6 +324,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
                   return (
                     <CrosswordTile
                       key={index}
+                      id={`tile-${x}-${y}`}
                       tile={tile}
                       number={wordStartPositions[coordString]}
                       isRevealed={isRevealed}

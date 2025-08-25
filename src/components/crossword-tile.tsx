@@ -5,6 +5,7 @@ import { Input } from './ui/input';
 import { useRef, useEffect } from 'react';
 
 interface CrosswordTileProps {
+  id: string;
   tile: PlacedTile | null;
   number?: number;
   isRevealed: boolean;
@@ -13,7 +14,7 @@ interface CrosswordTileProps {
   onFocus: () => void;
 }
 
-export default function CrosswordTile({ tile, number, isRevealed, value, onChange, onFocus }: CrosswordTileProps) {
+export default function CrosswordTile({ id, tile, number, isRevealed, value, onChange, onFocus }: CrosswordTileProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   if (!tile) {
@@ -35,6 +36,7 @@ export default function CrosswordTile({ tile, number, isRevealed, value, onChang
 
   return (
     <div
+      id={id}
       className={cn(
         "aspect-square w-full h-full rounded-[0.3vmin] flex items-center justify-center relative select-none",
         "bg-[#FBF8E8] border border-[#D5CFAF] text-[#5A4B40]",
