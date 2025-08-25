@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 227,
+      "score": 239,
       "rack": [
         {
           "letter": "V",
@@ -23,15 +23,15 @@
           "points": 4
         },
         {
-          "letter": "L",
-          "points": 1
-        },
-        {
           "letter": "H",
           "points": 4
         },
         {
           "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "T",
           "points": 1
         }
       ],
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "T",
-      "points": 1
-    },
     {
       "letter": "E",
       "points": 1
@@ -384,7 +380,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 0,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2725,6 +2726,19 @@
           "letter": "N",
           "points": 1,
           "x": 0,
+          "y": 10
+        }
+      ],
+      "score": 12
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "ZEL",
+      "tiles": [
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 2,
           "y": 10
         }
       ],
