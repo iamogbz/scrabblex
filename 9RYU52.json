@@ -1,35 +1,44 @@
 {
   "gameId": "9RYU52",
-  "players": [],
+  "players": [
+    {
+      "id": "p1756094880461",
+      "name": "Emma",
+      "score": 0,
+      "rack": [
+        {
+          "letter": "P",
+          "points": 3
+        },
+        {
+          "letter": "F",
+          "points": 4
+        },
+        {
+          "letter": "X",
+          "points": 8
+        },
+        {
+          "letter": "G",
+          "points": 2
+        },
+        {
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "V",
+          "points": 4
+        }
+      ],
+      "code": "emma"
+    }
+  ],
   "tileBag": [
-    {
-      "letter": "P",
-      "points": 3
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "X",
-      "points": 8
-    },
-    {
-      "letter": "G",
-      "points": 2
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "V",
-      "points": 4
-    },
     {
       "letter": "O",
       "points": 1
