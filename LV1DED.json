@@ -4,27 +4,15 @@
     {
       "id": "p1755966105135",
       "name": "Q",
-      "score": 63,
+      "score": 89,
       "rack": [
         {
           "letter": "S",
           "points": 1
         },
         {
-          "letter": "F",
-          "points": 4
-        },
-        {
-          "letter": "G",
-          "points": 2
-        },
-        {
           "letter": "D",
           "points": 2
-        },
-        {
-          "letter": "I",
-          "points": 1
         },
         {
           "letter": "M",
@@ -32,6 +20,18 @@
         },
         {
           "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "Y",
+          "points": 4
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "A",
           "points": 1
         }
       ],
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "Y",
-      "points": 4
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
     {
       "letter": "E",
       "points": 1
@@ -537,6 +525,31 @@
         }
       ],
       "score": 15
+    },
+    {
+      "playerId": "p1755966105135",
+      "word": "GIF",
+      "tiles": [
+        {
+          "letter": "G",
+          "points": 2,
+          "x": 11,
+          "y": 3
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 11,
+          "y": 4
+        },
+        {
+          "letter": "F",
+          "points": 4,
+          "x": 11,
+          "y": 5
+        }
+      ],
+      "score": 26
     }
   ],
   "gamePhase": "playing",
@@ -1888,7 +1901,12 @@
     ],
     [
       {
-        "tile": null,
+        "tile": {
+          "letter": "H",
+          "points": 4,
+          "x": 10,
+          "y": 0
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1896,7 +1914,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 10,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1904,7 +1927,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 10,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1912,7 +1940,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 10,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
