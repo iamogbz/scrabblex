@@ -4,23 +4,11 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 0,
+      "score": 24,
       "rack": [
-        {
-          "letter": "I",
-          "points": 1
-        },
         {
           "letter": "G",
           "points": 2
-        },
-        {
-          "letter": "M",
-          "points": 3
-        },
-        {
-          "letter": "X",
-          "points": 8
         },
         {
           "letter": "R",
@@ -32,6 +20,18 @@
         },
         {
           "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "N",
           "points": 1
         }
       ],
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
     {
       "letter": "A",
       "points": 1
@@ -2244,6 +2232,32 @@
       }
     ]
   ],
-  "history": [],
+  "history": [
+    {
+      "playerId": "p1756080761026",
+      "word": "MIX",
+      "tiles": [
+        {
+          "letter": "M",
+          "points": 3,
+          "x": 7,
+          "y": 7
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
+        {
+          "letter": "X",
+          "points": 8,
+          "x": 7,
+          "y": 9
+        }
+      ],
+      "score": 24
+    }
+  ],
   "gamePhase": "playing"
 }
