@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 32,
+      "score": 36,
       "rack": [
         {
           "letter": "Y",
@@ -31,7 +31,7 @@
           "points": 4
         },
         {
-          "letter": "E",
+          "letter": "S",
           "points": 1
         }
       ],
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "S",
-      "points": 1
-    },
     {
       "letter": "A",
       "points": 1
@@ -668,7 +664,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "M",
+          "points": 3,
+          "x": 2,
+          "y": 6
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2337,6 +2338,19 @@
         }
       ],
       "score": 7
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "EM",
+      "tiles": [
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 2,
+          "y": 5
+        }
+      ],
+      "score": 4
     }
   ],
   "gamePhase": "playing"
