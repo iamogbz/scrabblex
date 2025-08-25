@@ -4,27 +4,11 @@
     {
       "id": "p1756094880461",
       "name": "Emma",
-      "score": 63,
+      "score": 83,
       "rack": [
         {
           "letter": "D",
           "points": 2
-        },
-        {
-          "letter": "R",
-          "points": 1
-        },
-        {
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "T",
-          "points": 1
         },
         {
           "letter": "Z",
@@ -32,6 +16,22 @@
         },
         {
           "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "N",
+          "points": 1
+        },
+        {
+          "letter": "N",
+          "points": 1
+        },
+        {
+          "letter": "V",
+          "points": 4
+        },
+        {
+          "letter": "I",
           "points": 1
         }
       ],
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "V",
-      "points": 4
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
     {
       "letter": "S",
       "points": 1
@@ -1541,7 +1525,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "P",
+          "points": 3,
+          "x": 9,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1549,7 +1538,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 9,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1570,7 +1564,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 9,
+          "y": 9
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1578,7 +1577,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 9,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1586,7 +1590,12 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "K",
+          "points": 5,
+          "x": 9,
+          "y": 11
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1594,7 +1603,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 9,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2445,6 +2459,37 @@
         }
       ],
       "score": 15
+    },
+    {
+      "playerId": "p1756094880461",
+      "word": "TIER",
+      "tiles": [
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 10,
+          "y": 10
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 10,
+          "y": 11
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 10,
+          "y": 12
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 10,
+          "y": 13
+        }
+      ],
+      "score": 20
     }
   ],
   "gamePhase": "playing"
