@@ -40,18 +40,10 @@
     {
       "id": "p1756080770073",
       "name": "Miche",
-      "score": 165,
+      "score": 204,
       "rack": [
         {
-          "letter": "Z",
-          "points": 10
-        },
-        {
           "letter": "N",
-          "points": 1
-        },
-        {
-          "letter": "I",
           "points": 1
         },
         {
@@ -69,20 +61,20 @@
         {
           "letter": "A",
           "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "P",
+          "points": 3
         }
       ],
       "code": "miche"
     }
   ],
   "tileBag": [
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "P",
-      "points": 3
-    },
     {
       "letter": "T",
       "points": 1
@@ -2237,7 +2229,12 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "M",
+          "points": 3,
+          "x": 14,
+          "y": 11
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2245,7 +2242,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 14,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2253,7 +2255,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 14,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2261,7 +2268,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 14,
+          "y": 14
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -2651,6 +2663,25 @@
         }
       ],
       "score": 33
+    },
+    {
+      "playerId": "p1756080770073",
+      "word": "ZIP",
+      "tiles": [
+        {
+          "letter": "Z",
+          "points": 10,
+          "x": 12,
+          "y": 2
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 12,
+          "y": 3
+        }
+      ],
+      "score": 39
     }
   ],
   "gamePhase": "playing"
