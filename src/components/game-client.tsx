@@ -1237,14 +1237,12 @@ export default function GameClient({
                 <PencilRuler className="h-5 w-5" />
                 Controls
               </CardTitle>
-              {!isMyTurn && (
-                <CardDescription>
-                  It's {currentPlayer.name}'s turn.{" "}
-                  {isPolling && (
-                    <RefreshCw className="inline-block animate-spin h-4 w-4 ml-2" />
-                  )}
-                </CardDescription>
-              )}
+              <CardDescription>
+                It's {currentPlayer.name}'s turn.{" "}
+                {isPolling && (
+                  <RefreshCw className="inline-block animate-spin h-4 w-4 ml-2" />
+                )}
+              </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
               <Button
