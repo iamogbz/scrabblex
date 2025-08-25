@@ -120,6 +120,57 @@ export default function GameClient({
     return newArray;
   };
 
+  const checkAndEndGame = (gameState: GameState): GameState => {
+    const { players, history, tileBag } = gameState;
+    const numPlayers = players.length;
+
+    if (numPlayers === 0 || gameState.gamePhase === "ended") return gameState;
+
+    // Condition 1: A player has used all their tiles and the bag is empty.
+    const playerWithEmptyRack = players.find((p) => p.rack.length === 0);
+    if (tileBag.length === 0 && playerWithEmptyRack) {
+      const newGameState = JSON.parse(JSON.stringify(gameState));
+      newGameState.gamePhase = "ended";
+
+      let pointsFromRacks = 0;
+      newGameState.players.forEach((p: Player) => {
+        const rackValue = p.rack.reduce((sum, tile) => sum + tile.points, 0);
+        if (p.id !== playerWithEmptyRack.id) {
+          p.score -= rackValue;
+          pointsFromRacks += rackValue;
+        }
+      });
+
+      const winner = newGameState.players.find(
+        (p: Player) => p.id === playerWithEmptyRack.id
+      )!;
+      winner.score += pointsFromRacks;
+
+      newGameState.endStatus = `${winner.name} has used all their tiles!`;
+      return newGameState;
+    }
+
+    // Condition 2: All players have passed twice consecutively.
+    if (history.length >= numPlayers * 2) {
+      const lastMoves = history.slice(-numPlayers * 2);
+      if (lastMoves.every((move) => move.isPass)) {
+        const newGameState = JSON.parse(JSON.stringify(gameState));
+        newGameState.gamePhase = "ended";
+
+        newGameState.players.forEach((p: Player) => {
+          const rackValue = p.rack.reduce((sum, tile) => sum + tile.points, 0);
+          p.score -= rackValue;
+        });
+        newGameState.endStatus =
+          "Game ended after two rounds of passes. Scores adjusted for remaining tiles.";
+
+        return newGameState;
+      }
+    }
+
+    return gameState;
+  };
+
   const fetchGame = useCallback(
     async (isPoll = false) => {
       if (!isPoll) setIsLoading(true);
@@ -157,6 +208,12 @@ export default function GameClient({
     return () => clearInterval(intervalId);
   }, [fetchGame]);
 
+  const resetTurn = useCallback(() => {
+    setStagedTiles([]);
+    setSelectedBoardPos(null);
+    setPlayDirection(null);
+  }, []);
+
   const handleLeaveGame = useCallback(() => {
     // Reset turn on leave game
     resetTurn();
@@ -167,7 +224,7 @@ export default function GameClient({
       title: "Left Game",
       description: "You have returned to the lobby.",
     });
-  }, [gameId, toast]);
+  }, [gameId, toast, resetTurn]);
 
   useEffect(() => {
     // Add gameId to local storage history
@@ -701,12 +758,6 @@ export default function GameClient({
     setStagedTiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const resetTurn = useCallback(() => {
-    setStagedTiles([]);
-    setSelectedBoardPos(null);
-    setPlayDirection(null);
-  }, []);
-
   const handlePlayWord = async () => {
     if (!gameState || !authenticatedPlayer) return;
     if (stagedTiles.length === 0) {
@@ -857,7 +908,7 @@ export default function GameClient({
           title: `Played ${playedWord.word}`,
           description: `Scored ${score} points.`,
         });
-        return newGameState;
+        return checkAndEndGame(newGameState);
       };
 
       const message = `feat: ${authenticatedPlayer.name} played ${mainWordInfo.word} for ${score} points in game ${gameId}`;
@@ -905,7 +956,7 @@ export default function GameClient({
 
       resetTurn();
       toast({ title: "Turn Passed" });
-      return newGameState;
+      return checkAndEndGame(newGameState);
     };
 
     const message = `feat: ${authenticatedPlayer.name} passed their turn in game ${gameId}`;
@@ -1002,12 +1053,10 @@ export default function GameClient({
         title: "Tiles Swapped",
         description: `You swapped ${tilesToSwap.length} tiles.`,
       });
-      return newGameState;
+      return checkAndEndGame(newGameState);
     };
 
-    const message = `feat: ${
-      authenticatedPlayer.name
-    } swapped ${tilesToSwap.length} tiles in game ${gameId}`;
+    const message = `feat: ${authenticatedPlayer.name} swapped ${tilesToSwap.length} tiles in game ${gameId}`;
     const updatedState = await performGameAction(action, message);
 
     if (updatedState) {
@@ -1155,11 +1204,11 @@ export default function GameClient({
     return (
       <div className="container mx-auto text-center p-4 gap-8 flex flex-col items-center">
         <GameBoard
-            board={gameState.board}
-            tempPlacedTiles={[]}
-            onSquareClick={() => {}}
-            selectedBoardPos={null}
-            playDirection={null}
+          board={gameState.board}
+          tempPlacedTiles={[]}
+          onSquareClick={() => {}}
+          selectedBoardPos={null}
+          playDirection={null}
         />
         <Card className="shadow-xl max-w-md w-full">
           <CardHeader>
@@ -1528,7 +1577,11 @@ export default function GameClient({
             >
               Cancel
             </Button>
-            <Button onClick={handleConfirmSwap} disabled={isLoading}>
+            <Button
+              variant="default"
+              onClick={handleConfirmSwap}
+              disabled={isLoading}
+            >
               {isLoading ? (
                 <RefreshCw className="animate-spin" />
               ) : (
