@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 63,
+      "score": 68,
       "rack": [
         {
           "letter": "L",
@@ -23,16 +23,16 @@
           "points": 1
         },
         {
-          "letter": "A",
-          "points": 1
-        },
-        {
           "letter": "E",
           "points": 1
         },
         {
           "letter": "D",
           "points": 2
+        },
+        {
+          "letter": "T",
+          "points": 1
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "T",
-      "points": 1
-    },
     {
       "letter": "D",
       "points": 2
@@ -380,7 +376,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "G",
+          "points": 2,
+          "x": 0,
+          "y": 3
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2407,6 +2408,19 @@
         }
       ],
       "score": 6
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "AGIN",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 0,
+          "y": 2
+        }
+      ],
+      "score": 5
     }
   ],
   "gamePhase": "playing"
