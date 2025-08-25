@@ -43,6 +43,7 @@ import {
   MessageSquarePlus,
   PencilRuler,
   HelpingHand,
+  Flag,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import GameBoard from "./game-board";
@@ -98,6 +99,7 @@ export default function GameClient({
   const [bugDescription, setBugDescription] = useState("");
   const [isSubmittingBug, setIsSubmittingBug] = useState(false);
   const [isTileBagOpen, setIsTileBagOpen] = useState(false);
+  const [isResignConfirmOpen, setIsResignConfirmOpen] = useState(false);
 
   const [authenticatedPlayerId, setAuthenticatedPlayerId] = useState<
     string | null
@@ -841,6 +843,7 @@ export default function GameClient({
         // Add the played word to history
         const playedWord: PlayedWord = {
           playerId: playerToUpdate.id,
+          playerName: playerToUpdate.name,
           word: mainWordInfo.word,
           tiles: tempPlacedTiles, // Only store the tiles placed by the user this turn
           score: score,
@@ -890,7 +893,8 @@ export default function GameClient({
       // Add a "pass" event to history to advance the turn
       const passEvent: PlayedWord = {
         playerId: authenticatedPlayer.id,
-        word: "",
+        playerName: authenticatedPlayer.name,
+        word: "[PASS]",
         tiles: [],
         score: 0,
         isPass: true,
@@ -985,7 +989,8 @@ export default function GameClient({
 
       const swapEvent: PlayedWord = {
         playerId: authenticatedPlayer.id,
-        word: "",
+        playerName: authenticatedPlayer.name,
+        word: "[SWAP]",
         tiles: [],
         score: 0,
         isSwap: true,
@@ -1000,12 +1005,98 @@ export default function GameClient({
       return newGameState;
     };
 
-    const message = `feat: ${authenticatedPlayer.name} swapped ${tilesToSwap.length} tiles in game ${gameId}`;
+    const message = `feat: ${
+      authenticatedPlayer.name
+    } swapped ${tilesToSwap.length} tiles in game ${gameId}`;
     const updatedState = await performGameAction(action, message);
 
     if (updatedState) {
       setStagedTiles([]);
     }
+  };
+
+  const resignGame = () => {
+    setIsResignConfirmOpen(true);
+  };
+
+  const handleConfirmResign = async () => {
+    if (!gameState || !authenticatedPlayer) return;
+
+    const action = (currentState: GameState): GameState | null => {
+      const newGameState: GameState = JSON.parse(JSON.stringify(currentState));
+      const playerToResign = newGameState.players.find(
+        (p: Player) => p.id === authenticatedPlayer.id
+      );
+
+      if (!playerToResign) {
+        toast({
+          title: "Error",
+          description: "Could not find your player data to resign.",
+          variant: "destructive",
+        });
+        return null;
+      }
+
+      // Add a "resign" event to history. This advances the turn.
+      const resignEvent: PlayedWord = {
+        playerId: playerToResign.id,
+        playerName: playerToResign.name,
+        word: "[RESIGNED]",
+        tiles: [],
+        score: 0,
+        isResign: true,
+        timestamp: new Date().toISOString(),
+      };
+      newGameState.history.push(resignEvent);
+
+      // If more than 2 players are in the game, remove the resigning player and continue.
+      if (currentState.players.length > 2) {
+        // Return the player's tiles to the tile bag
+        newGameState.tileBag.push(...playerToResign.rack);
+        newGameState.tileBag = shuffle(newGameState.tileBag);
+
+        // Remove the player from the game
+        newGameState.players = newGameState.players.filter(
+          (p: Player) => p.id !== playerToResign.id
+        );
+
+        toast({
+          title: "You have resigned",
+          description:
+            "Your tiles have been returned to the bag. The game continues without you.",
+          variant: "destructive",
+        });
+
+        // After resigning, the player is no longer authenticated for this game.
+        // The useEffect hook will handle de-authing the user on the next render.
+        localStorage.removeItem(`${LocalStorageKey.PLAYER_ID_}${gameId}`);
+      } else {
+        // 2 or fewer players, so the game ends.
+        newGameState.gamePhase = "ended";
+        const remainingPlayer = newGameState.players.find(
+          (p: Player) => p.id !== playerToResign.id
+        );
+
+        if (remainingPlayer) {
+          newGameState.endStatus = `${remainingPlayer.name} wins as ${playerToResign.name} resigned.`;
+        } else {
+          // This case happens if a player resigns from a 1-player game.
+          newGameState.endStatus = `${playerToResign.name} resigned.`;
+        }
+
+        toast({
+          title: "You have resigned",
+          description: "The game is now over.",
+          variant: "destructive",
+        });
+      }
+
+      setIsResignConfirmOpen(false);
+      return newGameState;
+    };
+
+    const message = `feat: ${authenticatedPlayer.name} resigned from game ${gameId}`;
+    await performGameAction(action, message);
   };
 
   const handleAuth = (playerId: string) => {
@@ -1053,6 +1144,47 @@ export default function GameClient({
 
   if (!gameState) {
     return <div className="text-center p-10">Game not found.</div>;
+  }
+
+  if (gameState.gamePhase === "ended") {
+    const winner = gameState.players.reduce(
+      (prev, current) => (prev.score > current.score ? prev : current),
+      gameState.players[0] || null
+    );
+
+    return (
+      <div className="container mx-auto text-center p-4 gap-8 flex flex-col items-center">
+        <GameBoard
+            board={gameState.board}
+            tempPlacedTiles={[]}
+            onSquareClick={() => {}}
+            selectedBoardPos={null}
+            playDirection={null}
+        />
+        <Card className="shadow-xl max-w-md w-full">
+          <CardHeader>
+            <CardTitle className="text-4xl">Game Over</CardTitle>
+            <CardDescription>
+              {gameState.endStatus
+                ? gameState.endStatus
+                : winner
+                ? `Winner: ${winner.name} with ${winner.score} points!`
+                : "The game ended."}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Scoreboard
+              players={gameState.players}
+              currentPlayerId={currentPlayer?.id || ""}
+              authenticatedPlayerId={authenticatedPlayerId}
+            />
+            <Button asChild className="mt-4 w-full">
+              <Link href="/draw">Play Again</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   // Show join screen if not authenticated
@@ -1171,13 +1303,18 @@ export default function GameClient({
             </CardContent>
           </Card>
         </div>
-        <div className="flex-grow w-full">
+        <div className="container mx-auto text-center p-4 gap-8 flex flex-col items-center">
           <GameBoard
             board={gameState.board}
             tempPlacedTiles={[]}
             onSquareClick={() => {}}
             selectedBoardPos={null}
             playDirection={null}
+          />
+          <Scoreboard
+            players={gameState.players}
+            currentPlayerId={currentPlayer?.id || ""}
+            authenticatedPlayerId={authenticatedPlayerId}
           />
         </div>
       </div>
@@ -1325,6 +1462,14 @@ export default function GameClient({
               >
                 {/* Do not change this text */}
                 Reset Rack
+              </Button>
+              <Button
+                variant="destructive"
+                className="w-full"
+                onClick={resignGame}
+                disabled={isLoading}
+              >
+                Resign Game
               </Button>
             </CardContent>
           </Card>
@@ -1499,6 +1644,40 @@ export default function GameClient({
           </div>
           <DialogFooter>
             <Button onClick={() => setIsTileBagOpen(false)}>Close</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={isResignConfirmOpen} onOpenChange={setIsResignConfirmOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm Resignation</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to resign?
+              {gameState && gameState.players.length > 2
+                ? " Your tiles will be returned to the bag and the game will continue without you."
+                : " This will end the game."}{" "}
+              This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="ghost"
+              onClick={() => setIsResignConfirmOpen(false)}
+              disabled={isLoading}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleConfirmResign}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <RefreshCw className="animate-spin" />
+              ) : (
+                "Confirm Resign"
+              )}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

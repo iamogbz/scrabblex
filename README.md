@@ -5,8 +5,8 @@ Combining the best parts of Scrabble and Crossword
 ## TODO
 
 - Detect when the last turn is played and move the game phase to ended
-- Add a resign button which moves the game phase to ended
 - Add play against computer functionality
+- Sort the games in the history by last played and show the status i.e. playing, ended etc.
 - Allow using the keyboard (even on mobile) to enter word limiting it to what tiles the user has in their rack
 - Words on the board should be colored by the user that played them
 - Users can request a person is replaced with computer (AI) if the user then does not play in 30mins they are marked as AI

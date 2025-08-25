@@ -32,11 +32,13 @@ export type Board = BoardSquare[][];
 
 export interface PlayedWord {
   playerId: string;
+  playerName: string;
   word: string;
   tiles: PlacedTile[];
   score: number;
   isPass?: boolean;
   isSwap?: boolean;
+  isResign?: boolean;
   timestamp: string;
 }
 
@@ -47,4 +49,5 @@ export interface GameState {
   board: Board;
   history: PlayedWord[];
   gamePhase: GamePhase;
+  endStatus?: string;
 }
