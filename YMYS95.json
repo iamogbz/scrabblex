@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 130,
+      "score": 142,
       "rack": [
         {
           "letter": "V",
@@ -31,7 +31,7 @@
           "points": 4
         },
         {
-          "letter": "E",
+          "letter": "A",
           "points": 1
         }
       ],
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
     {
       "letter": "G",
       "points": 2
@@ -1040,7 +1036,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "J",
+          "points": 8,
+          "x": 5,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2572,6 +2573,19 @@
           "points": 8,
           "x": 5,
           "y": 4
+        }
+      ],
+      "score": 12
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "TEE",
+      "tiles": [
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 2,
+          "y": 2
         }
       ],
       "score": 12
