@@ -40,7 +40,7 @@
     {
       "id": "p1755975122320",
       "name": "W",
-      "score": 117,
+      "score": 135,
       "rack": [
         {
           "letter": "I",
@@ -63,26 +63,18 @@
           "points": 1
         },
         {
-          "letter": "E",
+          "letter": "N",
           "points": 1
         },
         {
-          "letter": "N",
-          "points": 1
+          "letter": "G",
+          "points": 2
         }
       ],
       "code": "w"
     }
   ],
   "tileBag": [
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "G",
-      "points": 2
-    },
     {
       "letter": "A",
       "points": 1
@@ -600,6 +592,25 @@
         }
       ],
       "score": 39
+    },
+    {
+      "playerId": "p1755975122320",
+      "word": "NEE",
+      "tiles": [
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 14,
+          "y": 5
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 14,
+          "y": 6
+        }
+      ],
+      "score": 18
     }
   ],
   "gamePhase": "playing",
@@ -2422,7 +2433,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "W",
+          "points": 4,
+          "x": 13,
+          "y": 5
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2430,7 +2446,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 13,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2451,7 +2472,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 13,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
