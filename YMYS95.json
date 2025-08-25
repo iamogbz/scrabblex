@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 186,
+      "score": 197,
       "rack": [
         {
           "letter": "V",
@@ -31,7 +31,7 @@
           "points": 4
         },
         {
-          "letter": "E",
+          "letter": "L",
           "points": 1
         }
       ],
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "L",
-      "points": 1
-    },
     {
       "letter": "I",
       "points": 1
@@ -677,7 +673,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Z",
+          "points": 10,
+          "x": 2,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2659,6 +2660,19 @@
         }
       ],
       "score": 21
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "ZE",
+      "tiles": [
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 2,
+          "y": 9
+        }
+      ],
+      "score": 11
     }
   ],
   "gamePhase": "playing"
