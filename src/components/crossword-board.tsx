@@ -8,6 +8,7 @@ import {
   useEffect,
   useCallback,
   useLayoutEffect,
+  useRef,
 } from "react";
 import CrosswordTile from "./crossword-tile";
 import { getWordDefinitions } from "@/app/actions";
@@ -58,7 +59,11 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
   const [activeDirection, setActiveDirection] = useState<"across" | "down">(
     "across"
   );
+  const [activeTab, setActiveTab] = useState<"across" | "down">("across");
+
   const isMobile = useIsMobile();
+  const acrossCluesRef = useRef<HTMLDivElement>(null);
+  const downCluesRef = useRef<HTMLDivElement>(null);
 
   // dynamically calculate the height of the element with id board-container
   const [boardContainerElem, setBoardContainerElem] =
@@ -166,6 +171,48 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
         wordsByCell,
       };
     }, [gameState.history]);
+  
+  const scrollClueIntoView = useCallback((wordNumber: number | null, direction: 'across' | 'down') => {
+    if (!wordNumber) return;
+
+    const containerRef = direction === 'across' ? acrossCluesRef : downCluesRef;
+    const clueElement = containerRef.current?.querySelector(`#clue-${direction}-${wordNumber}`) as HTMLElement;
+    
+    if (clueElement && containerRef.current) {
+      const container = containerRef.current;
+      const scrollPosition = clueElement.offsetTop - container.offsetTop - (container.clientHeight / 3);
+      container.scrollTo({ top: scrollPosition, behavior: 'smooth' });
+    }
+  }, []);
+
+  const handleTileClick = (x: number, y: number) => {
+    const isSameCell = activeCell?.x === x && activeCell?.y === y;
+    const wordNums = wordsByCell.get(`${x},${y}`);
+
+    if (isSameCell) {
+      // Toggle direction if clicking the same cell
+      const newDirection = activeDirection === 'across' ? 'down' : 'across';
+      // Only toggle if there's a word in that new direction
+      if ((newDirection === 'across' && wordNums?.across) || (newDirection === 'down' && wordNums?.down)) {
+        setActiveDirection(newDirection);
+        setActiveTab(newDirection);
+        scrollClueIntoView(wordNums?.[newDirection] || null, newDirection);
+      }
+    } else {
+      // New cell selected
+      setActiveCell({ x, y });
+      
+      // Prefer current direction if possible, otherwise switch to the available one.
+      const newDirection = (activeDirection === 'across' && wordNums?.across) || !wordNums?.down
+        ? 'across'
+        : 'down';
+      
+      setActiveDirection(newDirection);
+      setActiveTab(newDirection);
+      scrollClueIntoView(wordNums?.[newDirection] || null, newDirection);
+    }
+  };
+
 
   useEffect(() => {
     if (activeCell) {
@@ -313,6 +360,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
       return (
         <div
           key={word.number + word.direction}
+          id={`clue-${direction}-${word.number}`}
           className={cn(
             "text-sm mb-2 flex items-start text-left p-2 rounded-md transition-colors",
             isActive ? "bg-primary/10 text-primary" : ""
@@ -415,7 +463,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
                       isRevealed={isRevealed}
                       value={userInputs[coordString] || ""}
                       onChange={(val) => handleInputChange(x, y, val)}
-                      onFocus={() => setActiveCell({ x, y })}
+                      onClick={() => handleTileClick(x, y)}
                       isActive={isActive}
                       isPartiallyActive={activeCell?.x === x && activeCell?.y === y}
                     />
@@ -455,10 +503,17 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
         }}
       >
         <Tabs
-          defaultValue="across"
-          onValueChange={(val) =>
-            setActiveDirection(val as "across" | "down")
-          }
+          value={activeTab}
+          onValueChange={(val) => {
+            const newDirection = val as 'across' | 'down';
+            setActiveTab(newDirection);
+            setActiveDirection(newDirection);
+            // Optionally, try to scroll to the currently active word in the new tab
+            if (activeCell) {
+              const wordNums = wordsByCell.get(`${activeCell.x},${activeCell.y}`);
+              scrollClueIntoView(wordNums?.[newDirection] || null, newDirection);
+            }
+          }}
         >
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="across">Across</TabsTrigger>
@@ -466,12 +521,14 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
           </TabsList>
           <TabsContent
             value="across"
+            ref={acrossCluesRef}
             className="h-full w-full rounded-md border p-4 overflow-y-auto max-h-[50vh]"
           >
             {renderClueList(acrossClues, "across")}
           </TabsContent>
           <TabsContent
             value="down"
+            ref={downCluesRef}
             className="h-full w-full rounded-md border p-4 overflow-y-auto max-h-[50vh]"
           >
             {renderClueList(downClues, "down")}

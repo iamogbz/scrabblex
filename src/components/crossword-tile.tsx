@@ -11,12 +11,12 @@ interface CrosswordTileProps {
   isRevealed: boolean;
   value: string;
   onChange: (value: string) => void;
-  onFocus: () => void;
+  onClick: () => void;
   isActive: boolean;
   isPartiallyActive: boolean;
 }
 
-export default function CrosswordTile({ id, tile, number, isRevealed, value, onChange, onFocus, isActive, isPartiallyActive }: CrosswordTileProps) {
+export default function CrosswordTile({ id, tile, number, isRevealed, value, onChange, onClick, isActive, isPartiallyActive }: CrosswordTileProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   if (!tile) {
@@ -28,6 +28,14 @@ export default function CrosswordTile({ id, tile, number, isRevealed, value, onC
     if (val.length <= 1) {
         onChange(val);
     }
+  };
+
+  const handleClick = () => {
+    if (!isRevealed) {
+      // Also focus the input
+      inputRef.current?.focus();
+    }
+    onClick?.()
   };
 
   useEffect(() => {
@@ -47,11 +55,11 @@ export default function CrosswordTile({ id, tile, number, isRevealed, value, onC
       style={{
         borderWidth: '0.1vmin',
         containerType: 'size',
-        cursor: isRevealed ? 'default' : 'pointer',
+        cursor: 'pointer',
       }}
-      onClick={() => !isRevealed && inputRef.current?.focus()}
+      onClick={handleClick}
     >
-      {number && <span className="absolute top-1 left-1 text-[24cqw] font-bold">{number}</span>}
+      {number && <span className="absolute top-0 left-1 text-[24cqw] font-bold pointer-events-none">{number}</span>}
 
       {isRevealed ? (
         <span className={cn("font-bold font-headline")} style={{ fontSize: '50cqw'}}>{tile.letter}</span>
@@ -61,7 +69,6 @@ export default function CrosswordTile({ id, tile, number, isRevealed, value, onC
             type="text"
             value={value}
             onChange={handleInputChange}
-            onFocus={onFocus}
             maxLength={1}
             className={cn("w-full h-full bg-transparent border-0 text-center p-0 font-bold font-headline focus-visible:ring-primary focus-visible:ring-offset-0 rounded-0",
              isRevealed && value.toUpperCase() === tile.letter ? "text-green-700" : "text-blue-600"
