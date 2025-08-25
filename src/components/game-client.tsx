@@ -1295,7 +1295,7 @@ export default function GameClient({
                 )}
               </Button>
               <Button
-                variant="outline"
+                variant="ghost"
                 disabled={isLoading || !gameState?.tileBag.length}
                 onClick={showTileBag}
               >
@@ -1309,7 +1309,7 @@ export default function GameClient({
                 Swap Tiles
               </Button>
               <Button
-                variant="outline"
+                variant="destructive"
                 disabled={!isMyTurn || isLoading}
                 onClick={handlePassTurn}
               >
