@@ -4,12 +4,8 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 275,
+      "score": 281,
       "rack": [
-        {
-          "letter": "V",
-          "points": 4
-        },
         {
           "letter": "V",
           "points": 4
@@ -33,6 +29,10 @@
         {
           "letter": "C",
           "points": 3
+        },
+        {
+          "letter": "S",
+          "points": 1
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "S",
-      "points": 1
-    },
     {
       "letter": "A",
       "points": 1
@@ -1329,7 +1325,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 7,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2813,6 +2814,19 @@
         }
       ],
       "score": 3
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "REV",
+      "tiles": [
+        {
+          "letter": "V",
+          "points": 4,
+          "x": 7,
+          "y": 9
+        }
+      ],
+      "score": 6
     }
   ],
   "gamePhase": "playing"
