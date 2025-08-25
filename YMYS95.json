@@ -4,15 +4,11 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 74,
+      "score": 77,
       "rack": [
         {
           "letter": "V",
           "points": 4
-        },
-        {
-          "letter": "S",
-          "points": 1
         },
         {
           "letter": "E",
@@ -33,6 +29,10 @@
         {
           "letter": "E",
           "points": 1
+        },
+        {
+          "letter": "Z",
+          "points": 10
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "Z",
-      "points": 10
-    },
     {
       "letter": "O",
       "points": 1
@@ -494,7 +490,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 1,
+          "y": 1
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -2449,6 +2450,19 @@
         }
       ],
       "score": 4
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "SAL",
+      "tiles": [
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 1,
+          "y": 0
+        }
+      ],
+      "score": 3
     }
   ],
   "gamePhase": "playing"
