@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 272,
+      "score": 275,
       "rack": [
         {
           "letter": "V",
@@ -27,11 +27,11 @@
           "points": 1
         },
         {
-          "letter": "N",
-          "points": 1
+          "letter": "P",
+          "points": 3
         },
         {
-          "letter": "P",
+          "letter": "C",
           "points": 3
         }
       ],
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "C",
-      "points": 3
-    },
     {
       "letter": "S",
       "points": 1
@@ -1230,7 +1226,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "H",
+          "points": 4,
+          "x": 6,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2799,6 +2800,19 @@
         }
       ],
       "score": 18
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "URN",
+      "tiles": [
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 7,
+          "y": 5
+        }
+      ],
+      "score": 3
     }
   ],
   "gamePhase": "playing"
