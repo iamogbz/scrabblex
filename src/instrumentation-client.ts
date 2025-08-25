@@ -9,7 +9,14 @@ Sentry.init({
 
   // Add optional integrations for additional features
   integrations: [
-    Sentry.replayIntegration(),
+    Sentry.replayIntegration({
+        // NOTE: This will disable built-in masking. Only use this if your site has no sensitive data,
+        // or if you've already set up other options for masking or blocking relevant data,
+        // such as 'ignore', 'block', 'mask' and 'maskFn'.
+        // https://docs.sentry.io/platforms/javascript/session-replay/privacy/#privacy-configuration
+        maskAllText: false,
+        blockAllMedia: false,
+    }),
   ],
 
   // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
