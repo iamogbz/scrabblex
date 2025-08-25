@@ -7,7 +7,7 @@ import { createInitialBoard, TILE_BAG } from "./game-data";
 export const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 export const GITHUB_USER_REPO = "iamogbz/scrabblex";
 export const GITHUB_BRANCH_BASE = "main";
-const GITHUB_BRANCH_GAMES = "games";
+export const GITHUB_BRANCH_GAMES = "games";
 
 const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_USER_REPO}/contents/`;
 
@@ -89,78 +89,81 @@ export async function getGame(
     }
     gameState.board = reconstructedBoard;
 
-    // --- Tile Bag Verification ---
-    const initialTileCounts = countTiles(TILE_BAG);
+    if (gameState.gamePhase === 'playing') {
+        // --- Tile Bag Verification ---
+        const initialTileCounts = countTiles(TILE_BAG);
 
-    const tilesInRacks = gameState.players.flatMap((p) => p.rack);
-    const tilesOnBoard = gameState.history.flatMap((h) =>
-      h.tiles.map((t) => ({ letter: t.letter, points: t.points }))
-    );
+        const tilesInRacks = gameState.players.flatMap((p) => p.rack);
+        const tilesOnBoard = gameState.history.flatMap((h) =>
+        h.tiles.map((t) => ({ letter: t.letter, points: t.points }))
+        );
 
-    const tilesInPlay = [...tilesInRacks, ...tilesOnBoard];
-    const tilesInPlayCounts = countTiles(tilesInPlay);
+        const tilesInPlay = [...tilesInRacks, ...tilesOnBoard];
+        const tilesInPlayCounts = countTiles(tilesInPlay);
 
-    const expectedTileBag: Tile[] = [];
-    for (const letter in initialTileCounts) {
-      const initialCount = initialTileCounts[letter];
-      const inPlayCount = tilesInPlayCounts[letter] || 0;
-      const expectedCountInBag = initialCount - inPlayCount;
-      const tileInfo = TILE_BAG.find((t) => t.letter === letter)!;
-      for (let i = 0; i < expectedCountInBag; i++) {
-        expectedTileBag.push(tileInfo);
-      }
-    }
+        const expectedTileBag: Tile[] = [];
+        for (const letter in initialTileCounts) {
+        const initialCount = initialTileCounts[letter];
+        const inPlayCount = tilesInPlayCounts[letter] || 0;
+        const expectedCountInBag = initialCount - inPlayCount;
+        const tileInfo = TILE_BAG.find((t) => t.letter === letter)!;
+        for (let i = 0; i < expectedCountInBag; i++) {
+            expectedTileBag.push(tileInfo);
+        }
+        }
 
-    const currentBagCounts = countTiles(gameState.tileBag);
-    const expectedBagCounts = countTiles(expectedTileBag);
+        const currentBagCounts = countTiles(gameState.tileBag);
+        const expectedBagCounts = countTiles(expectedTileBag);
 
-    const isBagCorrect =
-      Object.keys(expectedBagCounts).length ===
-        Object.keys(currentBagCounts).length &&
-      Object.keys(expectedBagCounts).every(
-        (letter) => expectedBagCounts[letter] === currentBagCounts[letter]
-      );
+        const isBagCorrect =
+        Object.keys(expectedBagCounts).length ===
+            Object.keys(currentBagCounts).length &&
+        Object.keys(expectedBagCounts).every(
+            (letter) => expectedBagCounts[letter] === currentBagCounts[letter]
+        );
 
-    if (!isBagCorrect) {
-      console.warn(`Correcting tile bag for game ${gameId}`);
-      gameState.tileBag = shuffle(expectedTileBag);
-      stateWasModified = true;
-    }
-
-    // --- Rack Replenishment ---
-    const newTileBag = [...gameState.tileBag];
-    const updatedPlayers = gameState.players.map((player) => {
-      const tilesNeeded = 7 - player.rack.length;
-      if (tilesNeeded > 0 && newTileBag.length > 0) {
-        const tilesToDraw = Math.min(tilesNeeded, newTileBag.length);
-        const newTiles = newTileBag.splice(0, tilesToDraw);
+        if (!isBagCorrect) {
+        console.warn(`Correcting tile bag for game ${gameId}`);
+        gameState.tileBag = shuffle(expectedTileBag);
         stateWasModified = true;
-        return {
-          ...player,
-          rack: [...player.rack, ...newTiles],
+        }
+
+        // --- Rack Replenishment ---
+        const newTileBag = [...gameState.tileBag];
+        const updatedPlayers = gameState.players.map((player) => {
+        const tilesNeeded = 7 - player.rack.length;
+        if (tilesNeeded > 0 && newTileBag.length > 0) {
+            const tilesToDraw = Math.min(tilesNeeded, newTileBag.length);
+            const newTiles = newTileBag.splice(0, tilesToDraw);
+            stateWasModified = true;
+            return {
+            ...player,
+            rack: [...player.rack, ...newTiles],
+            };
+        }
+        return player;
+        });
+
+        if (stateWasModified) {
+        const updatedGameState: GameState = {
+            ...gameState,
+            players: updatedPlayers,
+            tileBag: newTileBag,
         };
-      }
-      return player;
-    });
 
-    if (stateWasModified) {
-      const updatedGameState: GameState = {
-        ...gameState,
-        players: updatedPlayers,
-        tileBag: newTileBag,
-      };
+        // The state was changed, so we must commit it back to GitHub.
+        const updatedData = await updateGame(
+            gameId,
+            updatedGameState,
+            sha,
+            `SYSTEM: Corrected tile bag and player racks for game ${gameId}`
+        );
 
-      // The state was changed, so we must commit it back to GitHub.
-      const updatedData = await updateGame(
-        gameId,
-        updatedGameState,
-        sha,
-        `SYSTEM: Corrected tile bag and player racks for game ${gameId}`
-      );
-
-      // Return the fresh state and the new SHA.
-      return { gameState: updatedGameState, sha: updatedData.content.sha };
+        // Return the fresh state and the new SHA.
+        return { gameState: updatedGameState, sha: updatedData.content.sha };
+        }
     }
+
 
     return { gameState, sha };
   } catch (error) {
