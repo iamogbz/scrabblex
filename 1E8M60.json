@@ -4,12 +4,8 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 42,
+      "score": 64,
       "rack": [
-        {
-          "letter": "R",
-          "points": 1
-        },
         {
           "letter": "O",
           "points": 1
@@ -23,15 +19,19 @@
           "points": 1
         },
         {
-          "letter": "F",
-          "points": 4
-        },
-        {
-          "letter": "E",
+          "letter": "R",
           "points": 1
         },
         {
-          "letter": "R",
+          "letter": "U",
+          "points": 1
+        },
+        {
+          "letter": "D",
+          "points": 2
+        },
+        {
+          "letter": "L",
           "points": 1
         }
       ],
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
     {
       "letter": "Q",
       "points": 10
@@ -1041,7 +1029,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "W",
+          "points": 4,
+          "x": 5,
+          "y": 9
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1163,7 +1156,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 6,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1579,7 +1577,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 9,
+          "y": 9
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1701,7 +1704,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "G",
+          "points": 2,
+          "x": 10,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2350,6 +2358,31 @@
         }
       ],
       "score": 27
+    },
+    {
+      "playerId": "p1756080761026",
+      "word": "FARE",
+      "tiles": [
+        {
+          "letter": "F",
+          "points": 4,
+          "x": 6,
+          "y": 8
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 6,
+          "y": 10
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 6,
+          "y": 11
+        }
+      ],
+      "score": 22
     }
   ],
   "gamePhase": "playing"
