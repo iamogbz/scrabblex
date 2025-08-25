@@ -5,10 +5,11 @@ import type { GameState, Tile } from "@/types";
 import { createInitialBoard, TILE_BAG } from "./game-data";
 
 export const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-export const GITHUB_REPO = "iamogbz/scrabblex";
-const GITHUB_BRANCH = "games";
+export const GITHUB_USER_REPO = "iamogbz/scrabblex";
+export const GITHUB_BRANCH_BASE = "main";
+const GITHUB_BRANCH_GAMES = "games";
 
-const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/`;
+const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_USER_REPO}/contents/`;
 
 if (!GITHUB_TOKEN) {
   console.warn(
@@ -54,7 +55,7 @@ export async function getGame(
   if (!GITHUB_TOKEN) return null;
   try {
     const response = await fetch(
-      `${GITHUB_API_URL}${gameId}.json?ref=${GITHUB_BRANCH}`,
+      `${GITHUB_API_URL}${gameId}.json?ref=${GITHUB_BRANCH_GAMES}`,
       {
         headers: githubHeaders,
         cache: "no-store",
@@ -191,7 +192,7 @@ export async function createNewGame(gameId: string): Promise<GameState> {
       body: JSON.stringify({
         message: `feat: Create game ${gameId}`,
         content,
-        branch: GITHUB_BRANCH,
+        branch: GITHUB_BRANCH_GAMES,
       }),
     });
 
@@ -224,7 +225,7 @@ export async function updateGame(
         message: message || `feat: Update game ${gameId}`,
         content,
         sha,
-        branch: GITHUB_BRANCH,
+        branch: GITHUB_BRANCH_GAMES,
       }),
     });
 

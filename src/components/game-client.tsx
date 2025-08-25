@@ -9,10 +9,10 @@ import type {
   PlacedTile,
   PlayedWord,
   BoardSquare,
-  Board,
 } from "@/types";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
@@ -30,7 +30,6 @@ import {
 } from "./ui/card";
 import {
   UserPlus,
-  Play,
   Copy,
   Check,
   Users,
@@ -39,17 +38,23 @@ import {
   KeyRound,
   EyeOff,
   Eye,
-  ArrowDown,
-  ArrowRight,
-  LogOut,
-  ChevronLeft,
+  LifeBuoy,
+  GitPullRequestCreate,
+  MessageSquarePlus,
   PencilRuler,
+  HelpingHand,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import GameBoard from "./game-board";
 import PlayerRack from "./player-rack";
 import Scoreboard from "./scoreboard";
-import { getGameState, updateGameState, verifyWordAction } from "@/app/actions";
+import {
+  getGameState,
+  suggestWordAction,
+  updateGameState,
+  verifyWordAction,
+  reportBugAction,
+} from "@/app/actions";
 import Link from "next/link";
 import { PlayerAuthDialog } from "./player-auth-dialog";
 import WordBuilder from "./word-builder";
@@ -84,6 +89,13 @@ export default function GameClient({
     "horizontal" | "vertical" | null
   >(null);
   const [isSwapConfirmOpen, setIsSwapConfirmOpen] = useState(false);
+  const [isSuggestWordOpen, setIsSuggestWordOpen] = useState(false);
+  const [newWord, setNewWord] = useState("");
+  const [isSubmittingSuggestion, setIsSubmittingSuggestion] = useState(false);
+  const [isReportBugOpen, setIsReportBugOpen] = useState(false);
+  const [bugTitle, setBugTitle] = useState("");
+  const [bugDescription, setBugDescription] = useState("");
+  const [isSubmittingBug, setIsSubmittingBug] = useState(false);
 
   const [authenticatedPlayerId, setAuthenticatedPlayerId] = useState<
     string | null
@@ -225,7 +237,8 @@ export default function GameClient({
   const numPlayers = gameState?.players.length || 0;
   const lobbyFull = numPlayers >= MAX_PLAYER_COUNT;
   const currentTurnsPlayed = gameState?.history.length || 0;
-  const currentRoundsPlayed = numPlayers && Math.floor(currentTurnsPlayed / numPlayers);
+  const currentRoundsPlayed =
+    numPlayers && Math.floor(currentTurnsPlayed / numPlayers);
   const gameStarted =
     (numPlayers > 1 && currentRoundsPlayed > 0) ||
     (numPlayers < 2 && currentTurnsPlayed > 1);
@@ -241,7 +254,7 @@ export default function GameClient({
       return false;
     }
     return true;
-  }, [gameState, existingPlayer]);
+  }, [gameState, existingPlayer, gameStarted, lobbyFull]);
 
   const isMyTurn = useMemo(() => {
     return authenticatedPlayerId === currentPlayer?.id;
@@ -364,6 +377,86 @@ export default function GameClient({
     selectedBoardPos,
     gameState,
   ]);
+
+  const handleSuggestWord = async () => {
+    if (!newWord.trim()) return;
+    setIsSubmittingSuggestion(true);
+    try {
+      const result = await suggestWordAction(newWord.trim());
+      if (result.success && result.prUrl) {
+        toast({
+          title: "Suggestion Submitted!",
+          description: (
+            <>
+              Pull request created:{" "}
+              <a
+                href={result.prUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                #{result.prNumber}
+              </a>
+            </>
+          ),
+        });
+        setIsSuggestWordOpen(false);
+        setNewWord("");
+      } else {
+        throw new Error(result.error || "An unknown error occurred.");
+      }
+    } catch (e: any) {
+      toast({
+        title: "Submission Failed",
+        description: e.message || "Could not submit word suggestion.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmittingSuggestion(false);
+    }
+  };
+
+  const handleReportBug = async () => {
+    if (!bugTitle.trim() || !bugDescription.trim()) return;
+    setIsSubmittingBug(true);
+    try {
+      const result = await reportBugAction(
+        bugTitle.trim(),
+        bugDescription.trim()
+      );
+      if (result.success && result.issueUrl) {
+        toast({
+          title: "Bug Report Submitted!",
+          description: (
+            <>
+              Issue created:{" "}
+              <a
+                href={result.issueUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                #{result.issueNumber}
+              </a>
+            </>
+          ),
+        });
+        setIsReportBugOpen(false);
+        setBugTitle("");
+        setBugDescription("");
+      } else {
+        throw new Error(result.error || "An unknown error occurred.");
+      }
+    } catch (e: any) {
+      toast({
+        title: "Submission Failed",
+        description: e.message || "Could not submit bug report.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmittingBug(false);
+    }
+  };
 
   const performGameAction = async (
     action: (
@@ -863,7 +956,9 @@ export default function GameClient({
       return newGameState;
     };
 
-    const message = `feat: ${authenticatedPlayer.name} swapped ${tilesToSwap.length} tiles in game ${gameId}`;
+    const message = `feat: ${authenticatedPlayer.name} swapped ${
+      tilesToSwap.length
+    } tiles in game ${gameId}`;
     const updatedState = await performGameAction(action, message);
 
     if (updatedState) {
@@ -1174,6 +1269,36 @@ export default function GameClient({
             players={gameState.players}
             currentPlayerId={currentPlayer.id}
           />
+          <Card>
+            <CardHeader>
+              <CardTitle
+                className="flex items-center gap-2"
+                aria-description="Support, Help, Feedback"
+              >
+                <LifeBuoy className="h-5 w-5" />
+                Support
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-2">
+              <Button onClick={() => setIsSuggestWordOpen(true)}>
+                <GitPullRequestCreate className="mr-2 h-4 w-4" /> Suggest a Word
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setIsReportBugOpen(true)}
+              >
+                <MessageSquarePlus className="mr-2 h-4 w-4" /> Report a Bug
+              </Button>
+              <Button asChild variant="outline">
+                <Link
+                  href="https://playscrabble.com/news-blog/scrabble-rules-official-scrabble-web-games-rules-play-scrabble"
+                  target="_blank"
+                >
+                  <HelpingHand className="mr-2 h-4 w-4" /> Learn how to play
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </div>
       <Dialog open={isSwapConfirmOpen} onOpenChange={setIsSwapConfirmOpen}>
@@ -1199,6 +1324,89 @@ export default function GameClient({
                 <RefreshCw className="animate-spin" />
               ) : (
                 "Confirm Swap"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={isSuggestWordOpen} onOpenChange={setIsSuggestWordOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Suggest a New Word</DialogTitle>
+            <DialogDescription>
+              If you think a word should be valid, you can suggest it here. This
+              If approved it will be added to the dictionary.
+            </DialogDescription>
+          </DialogHeader>
+          <Input
+            value={newWord}
+            onChange={(e) => setNewWord(e.target.value.toUpperCase())}
+            placeholder="Enter word (e.g. ZAAP)"
+            disabled={isSubmittingSuggestion}
+          />
+          <DialogFooter>
+            <Button
+              variant="ghost"
+              onClick={() => setIsSuggestWordOpen(false)}
+              disabled={isSubmittingSuggestion}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSuggestWord}
+              disabled={!newWord.trim() || isSubmittingSuggestion}
+            >
+              {isSubmittingSuggestion ? (
+                <RefreshCw className="animate-spin" />
+              ) : (
+                "Submit"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={isReportBugOpen} onOpenChange={setIsReportBugOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Report a Bug</DialogTitle>
+            <DialogDescription>
+              Describe the bug you encountered. Please be as detailed as
+              possible.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-2">
+            <Input
+              value={bugTitle}
+              onChange={(e) => setBugTitle(e.target.value)}
+              placeholder="Bug title (e.g. Cannot play a valid word)"
+              disabled={isSubmittingBug}
+            />
+            <Textarea
+              value={bugDescription}
+              onChange={(e) => setBugDescription(e.target.value)}
+              placeholder="Describe the bug in detail..."
+              disabled={isSubmittingBug}
+              rows={5}
+            />
+          </div>
+          <DialogFooter>
+            <Button
+              variant="ghost"
+              onClick={() => setIsReportBugOpen(false)}
+              disabled={isSubmittingBug}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleReportBug}
+              disabled={
+                !bugTitle.trim() || !bugDescription.trim() || isSubmittingBug
+              }
+            >
+              {isSubmittingBug ? (
+                <RefreshCw className="animate-spin" />
+              ) : (
+                "Submit Bug Report"
               )}
             </Button>
           </DialogFooter>
