@@ -40,16 +40,8 @@
     {
       "id": "p1756080770073",
       "name": "Miche",
-      "score": 0,
+      "score": 34,
       "rack": [
-        {
-          "letter": "D",
-          "points": 2
-        },
-        {
-          "letter": "A",
-          "points": 1
-        },
         {
           "letter": "Z",
           "points": 10
@@ -59,38 +51,30 @@
           "points": 1
         },
         {
-          "letter": "I",
+          "letter": "C",
+          "points": 3
+        },
+        {
+          "letter": "A",
           "points": 1
         },
         {
-          "letter": "K",
-          "points": 5
+          "letter": "W",
+          "points": 4
         },
         {
-          "letter": "C",
-          "points": 3
+          "letter": "G",
+          "points": 2
+        },
+        {
+          "letter": "N",
+          "points": 1
         }
       ],
       "code": "miche"
     }
   ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "W",
-      "points": 4
-    },
-    {
-      "letter": "G",
-      "points": 2
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
     {
       "letter": "F",
       "points": 4
@@ -1313,7 +1297,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "M",
+          "points": 3,
+          "x": 7,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": true,
@@ -1321,7 +1310,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1329,7 +1323,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "X",
+          "points": 8,
+          "x": 7,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2257,6 +2256,37 @@
         }
       ],
       "score": 24
+    },
+    {
+      "playerId": "p1756080770073",
+      "word": "KADI",
+      "tiles": [
+        {
+          "letter": "K",
+          "points": 5,
+          "x": 8,
+          "y": 6
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 8,
+          "y": 7
+        },
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 8,
+          "y": 8
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 8,
+          "y": 9
+        }
+      ],
+      "score": 34
     }
   ],
   "gamePhase": "playing"
