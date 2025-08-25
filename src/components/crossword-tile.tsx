@@ -36,7 +36,7 @@ export default function CrosswordTile({ tile, number, isRevealed, value, onChang
   return (
     <div
       className={cn(
-        "aspect-square w-full h-full rounded-[0.1vmin] flex items-center justify-center relative select-none",
+        "aspect-square w-full h-full rounded-[0.3vmin] flex items-center justify-center relative select-none",
         "bg-[#FBF8E8] border border-[#D5CFAF] text-[#5A4B40]",
         isRevealed && 'bg-green-100 border-green-300'
       )}

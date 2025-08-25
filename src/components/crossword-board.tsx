@@ -2,7 +2,7 @@
 "use client";
 
 import type { GameState, PlacedTile } from "@/types";
-import { useMemo, useState, useEffect, useCallback } from "react";
+import { useMemo, useState, useEffect, useCallback, useRef, useLayoutEffect } from "react";
 import CrosswordTile from "./crossword-tile";
 import { getWordDefinitions } from "@/app/actions";
 import { Button } from "./ui/button";
@@ -273,10 +273,33 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     }
   });
 
+  // dynamically calculate the height of the element with id board-container
+  const [boardContainerElem, setBoardContainerElem] = useState<HTMLDivElement | null>(null);
+  const [boardContainerHeight, setBoardContainerHeight] = useState(400);
+
+  useLayoutEffect(() => {
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        setBoardContainerHeight(entry.contentRect.height);
+      }
+    });
+
+    if (boardContainerElem) {
+      observer.observe(boardContainerElem);
+    }
+
+    return () => {
+      if (boardContainerElem) {
+        observer.unobserve(boardContainerElem);
+      }
+      observer.disconnect();
+    };
+  }, [boardContainerElem]);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-start">
-      <div className="w-full">
-        <div className="w-full max-w-[70vh] min-w-[248px] mx-auto bg-gray-800 rounded-lg shadow-lg p-2 border">
+      <div ref={(elem) => setBoardContainerElem(elem)} className="w-full" style={{ position: 'sticky', top: 0 }}>
+        <div className="w-full max-w-[70vh] min-w-[248px] mx-auto bg-gray-800 rounded-[1vmin] shadow-lg p-2 border">
           <div className={`grid gap-0.5 md:gap-1 h-full w-full`} style={{gridTemplateColumns: `repeat(${maxY-minY+1}, minmax(0px, 1fr))`}}>
             {Array.from({ length: 15 * 15 }).map((_, index) => {
               const x = Math.floor(index / 15);
@@ -301,7 +324,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
                   return (
                     <div
                       key={index}
-                      className="aspect-square bg-gray-800 rounded-sm md:rounded-md"
+                      className="aspect-square bg-gray-800"
                     />
                   );
                 }
@@ -322,21 +345,23 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
         </div>
       </div>
 
-      <div className="w-full">
+      <div className="w-full pb-4" style={{
+          backgroundColor: 'hsl(var(--background))',
+          boxShadow: '0px -16px 12px 0 hsl(var(--background))',
+          position: 'sticky',
+          bottom: 0,
+          marginTop: `${boardContainerHeight+24}px`
+        }}>
         <Tabs defaultValue="across">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="across">Across</TabsTrigger>
             <TabsTrigger value="down">Down</TabsTrigger>
           </TabsList>
-          <TabsContent value="across">
-            <ScrollArea className="h-96 w-full rounded-md border p-4">
-              {renderClueList(acrossClues)}
-            </ScrollArea>
+          <TabsContent value="across" className="h-full w-full rounded-md border p-4">
+            {renderClueList(acrossClues)}
           </TabsContent>
-          <TabsContent value="down">
-            <ScrollArea className="h-96 w-full rounded-md border p-4">
-              {renderClueList(downClues)}
-            </ScrollArea>
+          <TabsContent value="down" className="h-full w-full rounded-md border p-4">
+            {renderClueList(downClues)}
           </TabsContent>
         </Tabs>
       </div>
