@@ -4,12 +4,8 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 23,
+      "score": 25,
       "rack": [
-        {
-          "letter": "I",
-          "points": 1
-        },
         {
           "letter": "Y",
           "points": 4
@@ -33,6 +29,10 @@
         {
           "letter": "L",
           "points": 1
+        },
+        {
+          "letter": "V",
+          "points": 4
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "V",
-      "points": 4
-    },
     {
       "letter": "E",
       "points": 1
@@ -806,7 +802,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 3,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2309,6 +2310,19 @@
         }
       ],
       "score": 8
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "IS",
+      "tiles": [
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 3,
+          "y": 6
+        }
+      ],
+      "score": 2
     }
   ],
   "gamePhase": "playing"
