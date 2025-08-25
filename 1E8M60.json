@@ -4,16 +4,8 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 103,
+      "score": 110,
       "rack": [
-        {
-          "letter": "L",
-          "points": 1
-        },
-        {
-          "letter": "I",
-          "points": 1
-        },
         {
           "letter": "R",
           "points": 1
@@ -27,12 +19,20 @@
           "points": 1
         },
         {
-          "letter": "O",
+          "letter": "N",
           "points": 1
         },
         {
-          "letter": "B",
-          "points": 3
+          "letter": "G",
+          "points": 2
+        },
+        {
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "A",
+          "points": 1
         }
       ],
       "code": "m"
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "G",
-      "points": 2
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
     {
       "letter": "V",
       "points": 4
@@ -863,7 +847,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "F",
+          "points": 4,
+          "x": 4,
+          "y": 10
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -871,7 +860,12 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 4,
+          "y": 11
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2514,6 +2508,37 @@
         }
       ],
       "score": 27
+    },
+    {
+      "playerId": "p1756080761026",
+      "word": "BROIL",
+      "tiles": [
+        {
+          "letter": "B",
+          "points": 3,
+          "x": 6,
+          "y": 14
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 8,
+          "y": 14
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 9,
+          "y": 14
+        },
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 10,
+          "y": 14
+        }
+      ],
+      "score": 7
     }
   ],
   "gamePhase": "playing"
