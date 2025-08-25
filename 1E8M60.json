@@ -40,34 +40,34 @@
     {
       "id": "p1756080770073",
       "name": "Miche",
-      "score": 34,
+      "score": 61,
       "rack": [
         {
           "letter": "Z",
           "points": 10
         },
         {
-          "letter": "N",
-          "points": 1
-        },
-        {
           "letter": "C",
           "points": 3
         },
         {
-          "letter": "A",
+          "letter": "N",
           "points": 1
         },
         {
-          "letter": "W",
-          "points": 4
+          "letter": "P",
+          "points": 3
         },
         {
-          "letter": "G",
-          "points": 2
+          "letter": "S",
+          "points": 1
         },
         {
           "letter": "N",
+          "points": 1
+        },
+        {
+          "letter": "E",
           "points": 1
         }
       ],
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "P",
-      "points": 3
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
     {
       "letter": "U",
       "points": 1
@@ -1548,7 +1532,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 9,
+          "y": 5
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1556,7 +1545,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 9,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1564,7 +1558,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "G",
+          "points": 2,
+          "x": 9,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2320,6 +2319,37 @@
         }
       ],
       "score": 18
+    },
+    {
+      "playerId": "p1756080770073",
+      "word": "WAXING",
+      "tiles": [
+        {
+          "letter": "W",
+          "points": 4,
+          "x": 5,
+          "y": 9
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 6,
+          "y": 9
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 9,
+          "y": 9
+        },
+        {
+          "letter": "G",
+          "points": 2,
+          "x": 10,
+          "y": 9
+        }
+      ],
+      "score": 27
     }
   ],
   "gamePhase": "playing"
