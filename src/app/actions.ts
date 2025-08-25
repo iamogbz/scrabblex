@@ -138,7 +138,10 @@ const DICTIONARY_PATH = "public/valid-words.txt";
 
 export async function reportBugAction(
   title: string,
-  body: string
+  body: string,
+  playerName: string,
+  gameId: string,
+  gameSha: string | null
 ): Promise<{
   success: boolean;
   error?: string;
@@ -164,6 +167,13 @@ ${body}
 
 ---
 *This issue was submitted automatically from the ScrabbleX application.*
+
+Timestamp: ${new Date().toUTCString()}
+Player: ${playerName}
+Game ID: ${gameId}
+Game State: ${gameSha || "N/A"}
+
+[View Game](https://scrabblex.com/draw/${gameId})
     `;
 
     const { data: issue } = await octokit.issues.create({
@@ -190,7 +200,11 @@ ${body}
   }
 }
 
-export async function suggestWordAction(word: string): Promise<{
+export async function suggestWordAction(
+  word: string,
+  playerName: string,
+  gameId: string,
+): Promise<{
   success: boolean;
   error?: string;
   prUrl?: string;
@@ -305,7 +319,11 @@ export async function suggestWordAction(word: string): Promise<{
       title: `feat: Add word "${upperCaseWord}"`,
       head: branchName,
       base: GITHUB_BRANCH_BASE,
-      body: `Adds the word "${upperCaseWord}" to the dictionary, as suggested by a user.`,
+      body: `Adds the word "${upperCaseWord}" to the dictionary, as suggested by a user.
+
+Player: ${playerName}
+Game ID: ${gameId}
+Timestamp: ${new Date().toUTCString()}`,
     });
 
     return {

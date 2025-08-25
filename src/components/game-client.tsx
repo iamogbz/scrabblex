@@ -386,7 +386,11 @@ export default function GameClient({
     if (!newWord.trim()) return;
     setIsSubmittingSuggestion(true);
     try {
-      const result = await suggestWordAction(newWord.trim());
+      const result = await suggestWordAction(
+        newWord.trim(),
+        authenticatedPlayer?.name || "Anonymous",
+        gameId,
+      );
       if (result.success && result.prUrl) {
         toast({
           title: "Suggestion Submitted!",
@@ -426,7 +430,10 @@ export default function GameClient({
     try {
       const result = await reportBugAction(
         bugTitle.trim(),
-        bugDescription.trim()
+        bugDescription.trim(),
+        authenticatedPlayer?.name || "Anonymous",
+        gameId,
+        sha,
       );
       if (result.success && result.issueUrl) {
         toast({
