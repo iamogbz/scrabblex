@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { GameState, PlacedTile } from "@/types";
@@ -236,10 +237,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     const newInputs = { ...userInputs, [key]: value.toUpperCase() };
     setUserInputs(newInputs);
 
-    const tile = getTileFor(x, y);
-    if (tile && value.toUpperCase() === tile.letter) {
-      setRevealedCells((prev) => [...new Set([...prev, key])]);
-    }
+    // No auto-reveal on input change
   };
 
   const handleFocusWord = (word: Omit<Word, "clue">) => {
@@ -264,12 +262,33 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
   };
 
   const handleCheck = () => {
-    const correctCells = Object.keys(userInputs).filter((key) => {
-      const [x, y] = key.split(",").map(Number);
-      const tile = getTileFor(x, y);
-      return tile && userInputs[key] === tile.letter;
+    const cellsToReveal: string[] = [];
+  
+    words.forEach(wordInfo => {
+      let isCompleteAndCorrect = true;
+      const wordCells: {x: number, y: number}[] = [];
+  
+      for (let i = 0; i < wordInfo.length; i++) {
+        const x = wordInfo.direction === 'down' ? wordInfo.x + i : wordInfo.x;
+        const y = wordInfo.direction === 'across' ? wordInfo.y + i : wordInfo.y;
+        wordCells.push({ x, y });
+  
+        const cellKey = `${x},${y}`;
+        const userInput = userInputs[cellKey];
+        const correctTile = getTileFor(x, y);
+  
+        if (!userInput || !correctTile || userInput.toUpperCase() !== correctTile.letter) {
+          isCompleteAndCorrect = false;
+          break;
+        }
+      }
+  
+      if (isCompleteAndCorrect) {
+        wordCells.forEach(cell => cellsToReveal.push(`${cell.x},${cell.y}`));
+      }
     });
-    setRevealedCells((prev) => [...new Set([...prev, ...correctCells])]);
+  
+    setRevealedCells(prev => [...new Set([...prev, ...cellsToReveal])]);
   };
 
   const acrossClues = words.filter((w) => w.direction === "across");
@@ -379,8 +398,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
 
                 if (playedTilesCoords.has(coordString)) {
                   const tile = getTileFor(x, y);
-                  // TODO: only set is revealed when user clicks check all
-                  const isRevealed = false; // revealedCells.includes(coordString);
+                  const isRevealed = revealedCells.includes(coordString);
                   const cellWords = wordsByCell.get(coordString);
                   const isActive =
                     (activeDirection === "across" &&

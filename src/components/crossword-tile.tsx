@@ -1,3 +1,4 @@
+
 import { cn } from '@/lib/utils';
 import type { PlacedTile } from '@/types';
 import { Input } from './ui/input';
@@ -41,14 +42,14 @@ export default function CrosswordTile({ id, tile, number, isRevealed, value, onC
       className={cn(
         "aspect-square w-full h-full rounded-[0.3vmin] flex items-center justify-center relative select-none transition-colors",
         "bg-[#FBF8E8] border border-[#D5CFAF] text-[#5A4B40]",
-        isRevealed && 'bg-green-100 border-green-300'
+        isRevealed && "bg-green-200 border-green-400"
       )}
       style={{
         borderWidth: '0.1vmin',
         containerType: 'size',
-        cursor: 'pointer',
+        cursor: isRevealed ? 'default' : 'pointer',
       }}
-      onClick={() => inputRef.current?.focus()}
+      onClick={() => !isRevealed && inputRef.current?.focus()}
     >
       {number && <span className="absolute top-1 left-1 text-[24cqw] font-bold">{number}</span>}
 
@@ -71,6 +72,7 @@ export default function CrosswordTile({ id, tile, number, isRevealed, value, onC
               fontSize: '50cqw',
               caretColor: 'transparent'
             }}
+            readOnly={isRevealed}
         />
       )}
     </div>
