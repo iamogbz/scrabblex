@@ -38,7 +38,7 @@ export default function SingleTile({ tile, isDraggable = true, onSelect, isSelec
     <div
       onClick={onSelect}
       className={cn(
-        "cursor-pointer",
+        "cursor-pointer user-select-none",
         "aspect-square w-full h-full rounded-sm md:rounded-md flex items-center justify-center relative select-none shadow-sm",
         "bg-[#FBF8E8] border border-[#D5CFAF] text-[#5A4B40]",
         isDraggable && "cursor-pointer transition-transform duration-150 ease-in-out hover:scale-105 hover:-translate-y-1",
@@ -54,7 +54,7 @@ export default function SingleTile({ tile, isDraggable = true, onSelect, isSelec
       }}
     >
       <span className={cn("font-bold font-headline mr-1 mb-1")} style={{ color: textColor, fontSize: '50cqw'}}>{tile.letter}</span>
-      <span className={cn("absolute bottom-0 right-1 font-bold")} style={{ color: textColor, fontSize: '30cqw' }}>{tile.points}</span>
+      <span className={cn("absolute bottom-0 right-1 font-bold")} style={{ color: textColor, fontSize: '20cqw' }}>{tile.points}</span>
     </div>
   );
 }
