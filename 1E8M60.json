@@ -4,18 +4,10 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 162,
+      "score": 191,
       "rack": [
         {
           "letter": "R",
-          "points": 1
-        },
-        {
-          "letter": "N",
-          "points": 1
-        },
-        {
-          "letter": "O",
           "points": 1
         },
         {
@@ -27,7 +19,15 @@
           "points": 1
         },
         {
+          "letter": "E",
+          "points": 1
+        },
+        {
           "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "I",
           "points": 1
         },
         {
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
     {
       "letter": "W",
       "points": 4
@@ -1898,7 +1886,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Z",
+          "points": 10,
+          "x": 12,
+          "y": 2
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -1906,7 +1899,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 12,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2682,6 +2680,31 @@
         }
       ],
       "score": 39
+    },
+    {
+      "playerId": "p1756080761026",
+      "word": "TON",
+      "tiles": [
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 13,
+          "y": 1
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 13,
+          "y": 2
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 13,
+          "y": 3
+        }
+      ],
+      "score": 29
     }
   ],
   "gamePhase": "playing"
