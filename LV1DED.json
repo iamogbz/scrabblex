@@ -76,19 +76,71 @@
   ],
   "tileBag": [
     {
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "letter": " ",
+      "points": 0
+    },
+    {
+      "letter": "L",
+      "points": 1
+    },
+    {
+      "letter": "T",
+      "points": 1
+    },
+    {
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "letter": "L",
+      "points": 1
+    },
+    {
+      "letter": "E",
+      "points": 1
+    },
+    {
       "letter": "B",
       "points": 3
+    },
+    {
+      "letter": "N",
+      "points": 1
     },
     {
       "letter": "R",
       "points": 1
     },
     {
-      "letter": "C",
-      "points": 3
+      "letter": "L",
+      "points": 1
     },
     {
-      "letter": "U",
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "letter": "K",
+      "points": 5
+    },
+    {
+      "letter": " ",
+      "points": 0
+    },
+    {
+      "letter": "N",
+      "points": 1
+    },
+    {
+      "letter": "I",
       "points": 1
     },
     {
@@ -100,96 +152,52 @@
       "points": 1
     },
     {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
+      "letter": "X",
+      "points": 8
     },
     {
       "letter": "L",
       "points": 1
     },
     {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "A",
-      "points": 1
+      "letter": "C",
+      "points": 3
     },
     {
       "letter": "I",
       "points": 1
     },
     {
-      "letter": "X",
-      "points": 8
-    },
-    {
-      "letter": "G",
+      "letter": "D",
       "points": 2
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
     },
     {
       "letter": "J",
       "points": 8
     },
     {
-      "letter": "D",
+      "letter": "W",
+      "points": 4
+    },
+    {
+      "letter": "G",
       "points": 2
     },
     {
-      "letter": "L",
+      "letter": "U",
       "points": 1
     },
     {
-      "letter": "W",
-      "points": 4
+      "letter": "D",
+      "points": 2
     },
     {
       "letter": "O",
       "points": 1
     },
     {
-      "letter": "N",
+      "letter": "T",
       "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "K",
-      "points": 5
     }
   ],
   "history": [
@@ -2108,7 +2116,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "F",
+          "points": 4,
+          "x": 10,
+          "y": 10
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -2270,7 +2283,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 11,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2417,7 +2435,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 12,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2559,7 +2582,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 13,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2696,7 +2724,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Y",
+          "points": 4,
+          "x": 14,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
