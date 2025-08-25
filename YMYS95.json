@@ -4,7 +4,7 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 15,
+      "score": 23,
       "rack": [
         {
           "letter": "I",
@@ -19,10 +19,6 @@
           "points": 1
         },
         {
-          "letter": "S",
-          "points": 1
-        },
-        {
           "letter": "I",
           "points": 1
         },
@@ -33,6 +29,10 @@
         {
           "letter": "G",
           "points": 2
+        },
+        {
+          "letter": "L",
+          "points": 1
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,10 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "L",
-      "points": 1
-    },
     {
       "letter": "V",
       "points": 4
@@ -932,7 +928,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "P",
+          "points": 3,
+          "x": 4,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2295,6 +2296,19 @@
         }
       ],
       "score": 6
+    },
+    {
+      "playerId": "p1756089969842",
+      "word": "SPOOR",
+      "tiles": [
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 3,
+          "y": 7
+        }
+      ],
+      "score": 8
     }
   ],
   "gamePhase": "playing"
