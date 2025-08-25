@@ -1259,9 +1259,9 @@ export default function GameClient({
               <Button
                 variant="secondary"
                 onClick={resetTurn}
-                disabled={stagedTiles.length === 0 || !isMyTurn || isLoading}
+                disabled={stagedTiles.length === 0}
               >
-                Reset Turn
+                Reset Rack
               </Button>
             </CardContent>
           </Card>
