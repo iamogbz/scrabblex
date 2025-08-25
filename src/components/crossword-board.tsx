@@ -1,15 +1,20 @@
-
 "use client";
 
 import type { GameState, PlacedTile } from "@/types";
-import { useMemo, useState, useEffect, useCallback, useRef, useLayoutEffect } from "react";
+import {
+  useMemo,
+  useState,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
+} from "react";
 import CrosswordTile from "./crossword-tile";
 import { getWordDefinitions } from "@/app/actions";
 import { Button } from "./ui/button";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { ScrollArea } from "./ui/scroll-area";
-import { Check, Lightbulb, RotateCcw, RefreshCw, Focus } from "lucide-react";
+import { Check, RotateCcw, RefreshCw, Focus } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface CrosswordBoardProps {
   gameState: GameState;
@@ -44,6 +49,13 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
   const [activeCell, setActiveCell] = useState<{ x: number; y: number } | null>(
     null
   );
+
+  const isMobile = useIsMobile();
+
+  // dynamically calculate the height of the element with id board-container
+  const [boardContainerElem, setBoardContainerElem] =
+    useState<HTMLDivElement | null>(null);
+  const [boardContainerHeight, setBoardContainerHeight] = useState(400);
 
   const { board, wordStartPositions, playedTilesCoords } = useMemo(() => {
     const board = Array.from({ length: 15 }, () =>
@@ -129,7 +141,6 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     return { board, wordStartPositions, playedTilesCoords: coords };
   }, [gameState.history]);
 
-
   const fetchClues = useCallback(async () => {
     if (words.length === 0) return;
 
@@ -139,27 +150,29 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
       setIsLoadingClues(false);
       return;
     }
-    
+
     setIsLoadingClues(true);
-    const wordsToFetch = words.filter(w => !clues[w.word]).map(w => w.word);
+    const wordsToFetch = words.filter((w) => !clues[w.word]).map((w) => w.word);
 
     try {
-        const definitions = await getWordDefinitions(wordsToFetch);
-        const newClues: Record<string, string> = {};
-        for (const word in definitions) {
-            newClues[word] = definitions[word] || `A ${word.length}-letter word.`;
-        }
-        setClues(prev => ({...prev, ...newClues}));
+      const definitions = await getWordDefinitions(wordsToFetch);
+      const newClues: Record<string, string> = {};
+      for (const word in definitions) {
+        newClues[word] = definitions[word] || `A ${word.length}-letter word.`;
+      }
+      setClues((prev) => ({ ...prev, ...newClues }));
     } catch (e) {
-        console.error("Failed to fetch clues", e);
-        // Set a fallback clue on error
-        const errorClues: Record<string, string> = {};
-        wordsToFetch.forEach(word => {
-            errorClues[word] = `Could not load clue for this ${word.length}-letter word.`
-        });
-        setClues(prev => ({...prev, ...errorClues}))
+      console.error("Failed to fetch clues", e);
+      // Set a fallback clue on error
+      const errorClues: Record<string, string> = {};
+      wordsToFetch.forEach((word) => {
+        errorClues[
+          word
+        ] = `Could not load clue for this ${word.length}-letter word.`;
+      });
+      setClues((prev) => ({ ...prev, ...errorClues }));
     } finally {
-        setIsLoadingClues(false);
+      setIsLoadingClues(false);
     }
   }, [words, clues, setClues]);
 
@@ -194,28 +207,16 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
   const handleFocusWord = (word: Omit<Word, "clue">) => {
     const tileElement = document.getElementById(`tile-${word.x}-${word.y}`);
     if (tileElement) {
-        tileElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        // Find the input within the tile and focus it
-        const input = tileElement.querySelector('input');
-        if (input) {
-            input.focus();
-        }
+      window.scrollTo({
+        top: boardContainerHeight - tileElement.offsetTop,
+        behavior: "smooth",
+      });
+      // Find the input within the tile and focus it
+      const input = tileElement.querySelector("input");
+      if (input) {
+        input.focus();
+      }
     }
-  };
-
-  const handleRevealWord = (word: Omit<Word, "clue">) => {
-    const newRevealed: string[] = [];
-    const newInputsWithSolution: Record<string, string> = { ...userInputs };
-    for (let i = 0; i < word.length; i++) {
-      const key =
-        word.direction === "across"
-          ? `${word.x},${word.y + i}`
-          : `${word.x + i},${word.y}`;
-      newRevealed.push(key);
-      newInputsWithSolution[key] = word.word[i];
-    }
-    setRevealedCells((prev) => [...new Set([...prev, ...newRevealed])]);
-    setUserInputs(newInputsWithSolution);
   };
 
   const handleReset = () => {
@@ -236,7 +237,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
   const acrossClues = words.filter((w) => w.direction === "across");
   const downClues = words.filter((w) => w.direction === "down");
 
-  const renderClueList = (wordList: Omit<Word, 'clue'>[]) => {
+  const renderClueList = (wordList: Omit<Word, "clue">[]) => {
     if (isLoadingClues && Object.keys(clues).length === 0) {
       return (
         <div className="flex items-center justify-center p-4">
@@ -245,10 +246,15 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
       );
     }
     return wordList.map((word) => (
-      <div key={word.number + word.direction} className="text-sm mb-2 flex items-start text-left">
+      <div
+        key={word.number + word.direction}
+        className="text-sm mb-2 flex items-start text-left"
+      >
         <span className="font-bold w-8">{word.number}.</span>
         <span className="flex-1">
-          {clues[word.word] || <span className="text-muted-foreground italic">Fetching...</span>}
+          {clues[word.word] || (
+            <span className="text-muted-foreground italic">Fetching...</span>
+          )}
         </span>
         <Button
           size="icon"
@@ -285,10 +291,6 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     }
   });
 
-  // dynamically calculate the height of the element with id board-container
-  const [boardContainerElem, setBoardContainerElem] = useState<HTMLDivElement | null>(null);
-  const [boardContainerHeight, setBoardContainerHeight] = useState(400);
-
   useLayoutEffect(() => {
     const observer = new ResizeObserver((entries) => {
       for (let entry of entries) {
@@ -310,9 +312,20 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-start">
-      <div ref={(elem) => setBoardContainerElem(elem)} className="w-full" style={{ position: 'sticky', top: 0 }}>
+      <div
+        ref={(elem) => setBoardContainerElem(elem)}
+        className="w-full"
+        style={{ position: "sticky", top: 0 }}
+      >
         <div className="w-full max-w-[70vh] min-w-[248px] mx-auto bg-gray-800 rounded-[1vmin] shadow-lg p-2 border">
-          <div className={`grid gap-0.5 md:gap-1 h-full w-full`} style={{gridTemplateColumns: `repeat(${maxY-minY+1}, minmax(0px, 1fr))`}}>
+          <div
+            className={`grid gap-0.5 md:gap-1 h-full w-full`}
+            style={{
+              gridTemplateColumns: `repeat(${
+                maxY - minY + 1
+              }, minmax(0px, 1fr))`,
+            }}
+          >
             {Array.from({ length: 15 * 15 }).map((_, index) => {
               const x = Math.floor(index / 15);
               const y = index % 15;
@@ -320,7 +333,8 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
               if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
                 if (playedTilesCoords.has(coordString)) {
                   const tile = getTileFor(x, y);
-                  const isRevealed = revealedCells.includes(coordString);
+                  // TODO: only set is revealed when user clicks check all
+                  const isRevealed = false; // revealedCells.includes(coordString);
                   return (
                     <CrosswordTile
                       key={index}
@@ -335,10 +349,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
                   );
                 } else {
                   return (
-                    <div
-                      key={index}
-                      className="aspect-square bg-gray-800"
-                    />
+                    <div key={index} className="aspect-square bg-gray-800" />
                   );
                 }
               }
@@ -358,22 +369,31 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
         </div>
       </div>
 
-      <div className="w-full pb-4" style={{
-          backgroundColor: 'hsl(var(--background))',
-          boxShadow: '0px -16px 12px 0 hsl(var(--background))',
-          position: 'sticky',
+      <div
+        className="w-full pb-4"
+        style={{
+          backgroundColor: "hsl(var(--background))",
+          boxShadow: "0px -12px 12px 12px hsl(var(--background))",
+          position: "sticky",
           bottom: 0,
-          marginTop: `${boardContainerHeight+24}px`
-        }}>
+          marginTop: isMobile ? `${boardContainerHeight + 24}px` : 0,
+        }}
+      >
         <Tabs defaultValue="across">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="across">Across</TabsTrigger>
             <TabsTrigger value="down">Down</TabsTrigger>
           </TabsList>
-          <TabsContent value="across" className="h-full w-full rounded-md border p-4">
+          <TabsContent
+            value="across"
+            className="h-full w-full rounded-md border p-4 overflow-y-auto"
+          >
             {renderClueList(acrossClues)}
           </TabsContent>
-          <TabsContent value="down" className="h-full w-full rounded-md border p-4">
+          <TabsContent
+            value="down"
+            className="h-full w-full rounded-md border p-4 overflow-y-auto"
+          >
             {renderClueList(downClues)}
           </TabsContent>
         </Tabs>
