@@ -4,16 +4,8 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 64,
+      "score": 90,
       "rack": [
-        {
-          "letter": "O",
-          "points": 1
-        },
-        {
-          "letter": "R",
-          "points": 1
-        },
         {
           "letter": "N",
           "points": 1
@@ -23,15 +15,23 @@
           "points": 1
         },
         {
-          "letter": "U",
+          "letter": "L",
           "points": 1
         },
         {
-          "letter": "D",
-          "points": 2
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "R",
+          "points": 1
         },
         {
           "letter": "L",
+          "points": 1
+        },
+        {
+          "letter": "O",
           "points": 1
         }
       ],
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
     {
       "letter": "F",
       "points": 4
@@ -2405,6 +2389,37 @@
       "tiles": [],
       "score": 0,
       "isSwap": true
+    },
+    {
+      "playerId": "p1756080761026",
+      "word": "DOUR",
+      "tiles": [
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 7,
+          "y": 11
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 7,
+          "y": 12
+        },
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 7,
+          "y": 13
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 7,
+          "y": 14
+        }
+      ],
+      "score": 26
     }
   ],
   "gamePhase": "playing"
