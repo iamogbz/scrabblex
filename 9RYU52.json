@@ -4,12 +4,8 @@
     {
       "id": "p1756094880461",
       "name": "Emma",
-      "score": 83,
+      "score": 93,
       "rack": [
-        {
-          "letter": "D",
-          "points": 2
-        },
         {
           "letter": "Z",
           "points": 10
@@ -23,15 +19,19 @@
           "points": 1
         },
         {
-          "letter": "N",
-          "points": 1
-        },
-        {
           "letter": "V",
           "points": 4
         },
         {
-          "letter": "I",
+          "letter": "M",
+          "points": 3
+        },
+        {
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "S",
           "points": 1
         }
       ],
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "M",
-      "points": 3
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
     {
       "letter": "O",
       "points": 1
@@ -1152,7 +1140,12 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 6,
+          "y": 11
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1160,7 +1153,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 6,
+          "y": 12
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1168,7 +1166,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 6,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2523,6 +2526,31 @@
         }
       ],
       "score": 14
+    },
+    {
+      "playerId": "p1756094880461",
+      "word": "RIND",
+      "tiles": [
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 11,
+          "y": 13
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 12,
+          "y": 13
+        },
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 13,
+          "y": 13
+        }
+      ],
+      "score": 10
     }
   ],
   "gamePhase": "playing"
