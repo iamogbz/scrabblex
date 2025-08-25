@@ -36,37 +36,45 @@
         }
       ],
       "code": "m"
+    },
+    {
+      "id": "p1756080770073",
+      "name": "Miche",
+      "score": 0,
+      "rack": [
+        {
+          "letter": "D",
+          "points": 2
+        },
+        {
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "Z",
+          "points": 10
+        },
+        {
+          "letter": "N",
+          "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "K",
+          "points": 5
+        },
+        {
+          "letter": "C",
+          "points": 3
+        }
+      ],
+      "code": "miche"
     }
   ],
   "tileBag": [
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "Z",
-      "points": 10
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "K",
-      "points": 5
-    },
-    {
-      "letter": "C",
-      "points": 3
-    },
     {
       "letter": "O",
       "points": 1
