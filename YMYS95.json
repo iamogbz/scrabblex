@@ -4,18 +4,10 @@
     {
       "id": "p1756089969842",
       "name": "ScrabbleBot 1",
-      "score": 0,
+      "score": 4,
       "rack": [
         {
-          "letter": "R",
-          "points": 1
-        },
-        {
           "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "E",
           "points": 1
         },
         {
@@ -33,6 +25,14 @@
         {
           "letter": "Y",
           "points": 4
+        },
+        {
+          "letter": "N",
+          "points": 1
+        },
+        {
+          "letter": "S",
+          "points": 1
         }
       ],
       "code": "ai-secret-1756089969842",
@@ -40,14 +40,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
     {
       "letter": "I",
       "points": 1
@@ -2237,6 +2229,26 @@
       }
     ]
   ],
-  "history": [],
+  "history": [
+    {
+      "playerId": "p1756089969842",
+      "word": "RE",
+      "tiles": [
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 7,
+          "y": 7
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        }
+      ],
+      "score": 4
+    }
+  ],
   "gamePhase": "playing"
 }
