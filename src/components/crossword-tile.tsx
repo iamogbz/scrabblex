@@ -62,7 +62,7 @@ export default function CrosswordTile({ id, tile, number, isRevealed, value, onC
             onFocus={onFocus}
             maxLength={1}
             className={cn("w-full h-full bg-transparent border-0 text-center p-0 font-bold font-headline focus-visible:ring-primary focus-visible:ring-offset-0 rounded-0",
-             value.toUpperCase() === tile.letter ? "text-green-700" : "text-blue-600"
+             isRevealed && value.toUpperCase() === tile.letter ? "text-green-700" : "text-blue-600"
             )}
             style={{ borderRadius: "0.3vmin", fontSize: '50cqw', caretColor: 'transparent' }}
         />
