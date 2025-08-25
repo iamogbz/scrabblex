@@ -40,14 +40,22 @@
     {
       "id": "p1756094890756",
       "name": "Ifunanya",
-      "score": 26,
+      "score": 41,
       "rack": [
         {
           "letter": "O",
           "points": 1
         },
         {
-          "letter": "O",
+          "letter": "J",
+          "points": 8
+        },
+        {
+          "letter": "Q",
+          "points": 10
+        },
+        {
+          "letter": "A",
           "points": 1
         },
         {
@@ -59,15 +67,7 @@
           "points": 1
         },
         {
-          "letter": "P",
-          "points": 3
-        },
-        {
-          "letter": "K",
-          "points": 5
-        },
-        {
-          "letter": "I",
+          "letter": "N",
           "points": 1
         }
       ],
@@ -75,30 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "J",
-      "points": 8
-    },
-    {
-      "letter": "Q",
-      "points": 10
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
     {
       "letter": "N",
       "points": 1
@@ -1170,7 +1146,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "P",
+          "points": 3,
+          "x": 6,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1449,7 +1430,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 8,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1571,7 +1557,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 9,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1693,7 +1684,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 10,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1815,7 +1811,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 11,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2401,6 +2402,49 @@
         }
       ],
       "score": 19
+    },
+    {
+      "playerId": "p1756094890756",
+      "word": "POTLIKE",
+      "tiles": [
+        {
+          "letter": "P",
+          "points": 3,
+          "x": 9,
+          "y": 6
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 9,
+          "y": 7
+        },
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 9,
+          "y": 9
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 9,
+          "y": 10
+        },
+        {
+          "letter": "K",
+          "points": 5,
+          "x": 9,
+          "y": 11
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 9,
+          "y": 12
+        }
+      ],
+      "score": 15
     }
   ],
   "gamePhase": "playing"
