@@ -28,6 +28,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { CrosswordGuessDialog } from "./crossword-guess-dialog";
 
 interface CrosswordBoardProps {
   gameState: GameState;
@@ -71,6 +72,9 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     "across"
   );
   
+  const [isGuessDialogOpen, setIsGuessDialogOpen] = useState(false);
+  const [focusedWord, setFocusedWord] = useState<Word | null>(null);
+
   const isMobile = useIsMobile();
   const cluesContainerRef = useRef<HTMLDivElement>(null);
   const tileRefs = useRef<Map<string, HTMLInputElement | null>>(new Map());
@@ -345,25 +349,9 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     scrollClueIntoView(word.number, word.direction);
   };
 
-  const handleFocusWord = (word: Omit<Word, "clue">) => {
-    const tileElement = tileRefs.current.get(`${word.x},${word.y}`);
-    if (tileElement) {
-        const boardEl = boardContainerElem;
-        if (boardEl) {
-            const tileRect = tileElement.getBoundingClientRect();
-            const boardRect = boardEl.getBoundingClientRect();
-            const scrollTop = window.scrollY || document.documentElement.scrollTop;
-
-            const desiredScrollTop = scrollTop + tileRect.top - boardRect.top - (window.innerHeight / 2) + (tileRect.height / 2);
-
-            window.scrollTo({
-                top: desiredScrollTop,
-                behavior: "smooth",
-            });
-        }
-
-        handleClueClick(word);
-    }
+  const handleFocusWord = (word: Omit<Word, "clue'>) => {
+    setFocusedWord({ ...word, clue: clues[word.word] || "" });
+    setIsGuessDialogOpen(true);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, x: number, y: number) => {
@@ -475,6 +463,19 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
   
     setRevealedCells(prev => [...new Set([...prev, ...cellsToReveal])]);
   };
+  
+    const handleGuessSubmit = (guess: string) => {
+        if (!focusedWord) return;
+
+        const newInputs = { ...userInputs };
+        for (let i = 0; i < focusedWord.length; i++) {
+            const x = focusedWord.direction === 'down' ? focusedWord.x + i : focusedWord.x;
+            const y = focusedWord.direction === 'across' ? focusedWord.y + i : focusedWord.y;
+            const key = `${x},${y}`;
+            newInputs[key] = guess[i].toUpperCase();
+        }
+        setUserInputs(newInputs);
+    };
 
   const acrossClues = words.filter((w) => w.direction === "across");
   const downClues = words.filter((w) => w.direction === "down");
@@ -687,7 +688,13 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
           )}
         </div>
       </div>
+      <CrosswordGuessDialog
+        isOpen={isGuessDialogOpen}
+        onOpenChange={setIsGuessDialogOpen}
+        wordInfo={focusedWord}
+        board={board}
+        onGuess={handleGuessSubmit}
+      />
     </div>
   );
 }
-
