@@ -12,8 +12,7 @@ import {
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useEffect, useRef, useState } from "react";
-import SingleTile from "./tile";
-import type { BoardSquare, PlacedTile } from "@/types";
+import type { PlacedTile } from "@/types";
 
 interface CrosswordGuessDialogProps {
   isOpen: boolean;
@@ -27,7 +26,7 @@ interface CrosswordGuessDialogProps {
     y: number;
     length: number;
   } | null;
-  board: (PlacedTile | null)[][];
+  userInputs: Record<string, string>;
   onGuess: (guess: string) => void;
 }
 
@@ -35,7 +34,7 @@ export function CrosswordGuessDialog({
   isOpen,
   onOpenChange,
   wordInfo,
-  board,
+  userInputs,
   onGuess,
 }: CrosswordGuessDialogProps) {
   const [guess, setGuess] = useState<string[]>([]);
@@ -49,16 +48,17 @@ export function CrosswordGuessDialog({
           wordInfo.direction === "down" ? wordInfo.x + i : wordInfo.x;
         const y =
           wordInfo.direction === "across" ? wordInfo.y + i : wordInfo.y;
-        if (board[x]?.[y]) {
-          initialGuess[i] = board[x][y]!.letter;
+        const key = `${x},${y}`;
+        if (userInputs[key]) {
+          initialGuess[i] = userInputs[key];
         }
       }
       setGuess(initialGuess);
       inputRefs.current = inputRefs.current.slice(0, wordInfo.length);
     } else {
-        setGuess([])
+      setGuess([]);
     }
-  }, [wordInfo, board]);
+  }, [wordInfo, userInputs]);
 
   const handleInputChange = (
     index: number,
@@ -74,11 +74,14 @@ export function CrosswordGuessDialog({
     }
   };
 
-  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace' && !guess[index] && index > 0) {
-        inputRefs.current[index - 1]?.focus();
+  const handleKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (e.key === "Backspace" && !guess[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
     }
-  }
+  };
 
   const handleSubmit = () => {
     onGuess(guess.join(""));
@@ -92,41 +95,35 @@ export function CrosswordGuessDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {wordInfo.number}. {wordInfo.direction === 'across' ? 'Across' : 'Down'}
+            {wordInfo.number}.{" "}
+            {wordInfo.direction === "across" ? "Across" : "Down"}
           </DialogTitle>
           <DialogDescription>{wordInfo.clue}</DialogDescription>
         </DialogHeader>
         <div className="flex justify-center items-center gap-1 md:gap-2 my-4">
-          {Array.from({ length: wordInfo.length }).map((_, i) => {
-            const x = wordInfo!.direction === 'down' ? wordInfo!.x + i : wordInfo!.x;
-            const y = wordInfo!.direction === 'across' ? wordInfo!.y + i : wordInfo!.y;
-            const existingTile = board[x]?.[y];
-            
-            if (existingTile) {
-                return (
-                    <div key={i} className="w-10 h-10 md:w-12 md:h-12">
-                        <SingleTile tile={existingTile} isDraggable={false} />
-                    </div>
-                )
-            }
-
-            return (
-              <Input
-                key={i}
-                ref={(el) => (inputRefs.current[i] = el)}
-                type="text"
-                maxLength={1}
-                value={guess[i] || ""}
-                onChange={(e) => handleInputChange(i, e)}
-                onKeyDown={(e) => handleKeyDown(i, e)}
-                className="w-10 h-10 md:w-12 md:h-12 text-center text-2xl font-bold uppercase"
-              />
-            );
-          })}
+          {Array.from({ length: wordInfo.length }).map((_, i) => (
+            <Input
+              key={i}
+              ref={(el) => void (inputRefs.current[i] = el)}
+              type="text"
+              maxLength={1}
+              value={guess[i] || ""}
+              onChange={(e) => handleInputChange(i, e)}
+              onKeyDown={(e) => handleKeyDown(i, e)}
+              style={{
+                caretColor: 'transparent'
+              }}
+              className="w-10 h-10 md:w-12 md:h-12 text-center text-l font-bold uppercase"
+            />
+          ))}
         </div>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-          <Button onClick={handleSubmit} disabled={guess.some(g => !g)}>Submit</Button>
+        <DialogFooter className="gap-8">
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} disabled={guess.join("").length === 0}>
+            Submit
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

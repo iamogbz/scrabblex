@@ -472,7 +472,9 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
             const x = focusedWord.direction === 'down' ? focusedWord.x + i : focusedWord.x;
             const y = focusedWord.direction === 'across' ? focusedWord.y + i : focusedWord.y;
             const key = `${x},${y}`;
-            newInputs[key] = guess[i].toUpperCase();
+            if(guess[i]) { // only update if a guess was entered for that letter
+                newInputs[key] = guess[i].toUpperCase();
+            }
         }
         setUserInputs(newInputs);
     };
@@ -692,7 +694,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
         isOpen={isGuessDialogOpen}
         onOpenChange={setIsGuessDialogOpen}
         wordInfo={focusedWord}
-        board={board}
+        userInputs={userInputs}
         onGuess={handleGuessSubmit}
       />
     </div>
