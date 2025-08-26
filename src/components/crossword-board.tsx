@@ -14,7 +14,6 @@ import CrosswordTile from "./crossword-tile";
 import { getWordDefinitions } from "@/app/actions";
 import { Button } from "./ui/button";
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Check, RotateCcw, RefreshCw, Focus } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
@@ -59,11 +58,9 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
   const [activeDirection, setActiveDirection] = useState<"across" | "down">(
     "across"
   );
-  const [activeTab, setActiveTab] = useState<"across" | "down">("across");
-
+  
   const isMobile = useIsMobile();
-  const acrossCluesRef = useRef<HTMLDivElement>(null);
-  const downCluesRef = useRef<HTMLDivElement>(null);
+  const cluesContainerRef = useRef<HTMLDivElement>(null);
   const tileRefs = useRef<Map<string, HTMLDivElement | null>>(new Map());
 
   // dynamically calculate the height of the element with id board-container
@@ -174,13 +171,12 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     }, [gameState.history]);
   
   const scrollClueIntoView = useCallback((wordNumber: number | null, direction: 'across' | 'down') => {
-    if (!wordNumber) return;
+    if (!wordNumber || !cluesContainerRef.current) return;
 
-    const containerRef = direction === 'across' ? acrossCluesRef : downCluesRef;
-    const clueElement = containerRef.current?.querySelector(`#clue-${direction}-${wordNumber}`) as HTMLElement;
+    const clueElement = cluesContainerRef.current.querySelector(`#clue-${direction}-${wordNumber}`) as HTMLElement;
     
-    if (clueElement && containerRef.current) {
-      const container = containerRef.current;
+    if (clueElement) {
+      const container = cluesContainerRef.current;
       const scrollPosition = clueElement.offsetTop - container.offsetTop - (container.clientHeight / 3);
       container.scrollTo({ top: scrollPosition, behavior: 'smooth' });
     }
@@ -190,28 +186,27 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     const isSameCell = activeCell?.x === x && activeCell?.y === y;
     const wordNums = wordsByCell.get(`${x},${y}`);
 
+    let newDirection = activeDirection;
+
     if (isSameCell) {
       // Toggle direction if clicking the same cell
-      const newDirection = activeDirection === 'across' ? 'down' : 'across';
+      newDirection = activeDirection === 'across' ? 'down' : 'across';
       // Only toggle if there's a word in that new direction
-      if ((newDirection === 'across' && wordNums?.across) || (newDirection === 'down' && wordNums?.down)) {
-        setActiveDirection(newDirection);
-        setActiveTab(newDirection);
-        scrollClueIntoView(wordNums?.[newDirection] || null, newDirection);
+      if (!((newDirection === 'across' && wordNums?.across) || (newDirection === 'down' && wordNums?.down))) {
+        newDirection = activeDirection; // Revert if no word in new direction
       }
     } else {
       // New cell selected
       setActiveCell({ x, y });
       
       // Prefer current direction if possible, otherwise switch to the available one.
-      const newDirection = (activeDirection === 'across' && wordNums?.across) || !wordNums?.down
-        ? 'across'
-        : 'down';
-      
-      setActiveDirection(newDirection);
-      setActiveTab(newDirection);
-      scrollClueIntoView(wordNums?.[newDirection] || null, newDirection);
+      if (!((activeDirection === 'across' && wordNums?.across) || (activeDirection === 'down' && wordNums?.down))) {
+        newDirection = (wordNums?.across) ? 'across' : 'down';
+      }
     }
+    
+    setActiveDirection(newDirection);
+    scrollClueIntoView(wordNums?.[newDirection] || null, newDirection);
   };
 
 
@@ -370,13 +365,6 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     wordList: Omit<Word, "clue">[],
     direction: "across" | "down"
   ) => {
-    if (isLoadingClues && Object.keys(clues).length === 0) {
-      return (
-        <div className="flex items-center justify-center p-4">
-          <RefreshCw className="mr-2 h-4 w-4 animate-spin" /> Loading clues...
-        </div>
-      );
-    }
     return wordList.map((word) => {
       const isActive =
         (direction === "across" && activeWords.across === word.number) ||
@@ -528,39 +516,26 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
           marginTop: isMobile ? `${boardContainerHeight + 24}px` : 0,
         }}
       >
-        <Tabs
-          value={activeTab}
-          onValueChange={(val) => {
-            const newDirection = val as 'across' | 'down';
-            setActiveTab(newDirection);
-            setActiveDirection(newDirection);
-            // Optionally, try to scroll to the currently active word in the new tab
-            if (activeCell) {
-              const wordNums = wordsByCell.get(`${activeCell.x},${activeCell.y}`);
-              scrollClueIntoView(wordNums?.[newDirection] || null, newDirection);
-            }
-          }}
+        <div 
+          ref={cluesContainerRef}
+          className="h-full w-full rounded-md border overflow-y-auto max-h-[80vh] md:max-h-[calc(100vh-2rem)]"
         >
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="across">Across</TabsTrigger>
-            <TabsTrigger value="down">Down</TabsTrigger>
-          </TabsList>
-          <TabsContent
-            value="across"
-            ref={acrossCluesRef}
-            className="h-full w-full rounded-md border p-4 overflow-y-auto max-h-[50vh]"
-          >
-            {renderClueList(acrossClues, "across")}
-          </TabsContent>
-          <TabsContent
-            value="down"
-            ref={downCluesRef}
-            className="h-full w-full rounded-md border p-4 overflow-y-auto max-h-[50vh]"
-          >
-            {renderClueList(downClues, "down")}
-          </TabsContent>
-        </Tabs>
+          {isLoadingClues && Object.keys(clues).length === 0 ? (
+            <div className="flex items-center justify-center p-4">
+              <RefreshCw className="mr-2 h-4 w-4 animate-spin" /> Loading clues...
+            </div>
+          ) : (
+            <>
+              <h3 className="font-bold text-lg mb-2 sticky top-0 bg-background py-2 border-b">Across</h3>
+              {renderClueList(acrossClues, "across")}
+              <h3 className="font-bold text-lg mt-4 mb-2 sticky top-0 bg-background py-2 border-b">Down</h3>
+              {renderClueList(downClues, "down")}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
 }
+
+    
