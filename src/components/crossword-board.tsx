@@ -349,7 +349,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     scrollClueIntoView(word.number, word.direction);
   };
 
-  const handleFocusWord = (word: Omit<Word, "clue'>) => {
+  const handleFocusWord = (word: Omit<Word, "clue">) => {
     setFocusedWord({ ...word, clue: clues[word.word] || "" });
     setIsGuessDialogOpen(true);
   };
