@@ -396,7 +396,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
             {clues[word.word] || (
               <span className="text-muted-foreground italic">Fetching...</span>
             )}{" "}
-            <span className="text-muted-foreground">({word.length})</span>
+            <span className="text-muted-foreground">({word.length} {word.length === 1 ? 'letter' : 'letters'})</span>
           </span>
           <Button
             size="icon"
@@ -553,5 +553,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     </div>
   );
 }
+
+    
 
     
