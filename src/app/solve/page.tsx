@@ -181,7 +181,7 @@ export default function SolvePage() {
                           .split(". ")
                           .map((line) => (
                             <span
-                              className="text-sm font-normal text-muted-foreground break-words"
+                              className="text-sm font-normal break-words"
                               key={line}
                             >
                               {line}
