@@ -62,14 +62,20 @@ export function CrosswordGuessDialog({
 
   const handleInputChange = (
     index: number,
-    e: React.ChangeEvent<HTMLInputElement>
+    e?: React.FormEvent<HTMLInputElement>
   ) => {
+    const existingChar = guess[index];
+    const inputEl = inputRefs.current[index]!;
+    const inputValue = inputEl.value.toUpperCase();
+    // Get last new character in case of pasting or overwrite
+    const lastChar = inputValue && (inputValue.replace(existingChar, "").slice(-1) || existingChar);
     const newGuess = [...guess];
-    const value = e.target.value.toUpperCase();
-    newGuess[index] = value;
+    newGuess[index] = lastChar;
     setGuess(newGuess);
+    // update input value to be single character
+    inputEl.value = lastChar;
 
-    if (value && index < wordInfo!.length - 1) {
+    if (lastChar && index < wordInfo!.length - 1) {
       inputRefs.current[index + 1]?.focus();
     }
   };
@@ -78,8 +84,14 @@ export function CrosswordGuessDialog({
     index: number,
     e: React.KeyboardEvent<HTMLInputElement>
   ) => {
-    if (e.key === "Backspace" && !guess[index] && index > 0) {
-      inputRefs.current[index - 1]?.focus();
+    if (e.key === "Backspace") {
+      // focus on previous input if guess was empty
+      if (!guess[index] && index > 0) {
+        inputRefs.current[index - 1]?.focus();
+      }
+      // clear input and trigger change handler
+      inputRefs.current[index]!.value = "";
+      handleInputChange(index);
     }
   };
 
@@ -106,9 +118,9 @@ export function CrosswordGuessDialog({
               key={i}
               ref={(el) => void (inputRefs.current[i] = el)}
               type="text"
-              maxLength={1}
+              maxLength={2}
               value={guess[i] || ""}
-              onChange={(e) => handleInputChange(i, e)}
+              onInput={(e) => handleInputChange(i, e)}
               onKeyDown={(e) => handleKeyDown(i, e)}
               style={{
                 caretColor: 'transparent'
@@ -117,7 +129,7 @@ export function CrosswordGuessDialog({
             />
           ))}
         </div>
-        <DialogFooter className="gap-8">
+        <DialogFooter className="gap-2">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
