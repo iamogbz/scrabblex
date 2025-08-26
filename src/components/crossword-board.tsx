@@ -64,6 +64,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
   const isMobile = useIsMobile();
   const acrossCluesRef = useRef<HTMLDivElement>(null);
   const downCluesRef = useRef<HTMLDivElement>(null);
+  const tileRefs = useRef<Map<string, HTMLDivElement | null>>(new Map());
 
   // dynamically calculate the height of the element with id board-container
   const [boardContainerElem, setBoardContainerElem] =
@@ -284,21 +285,45 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     const newInputs = { ...userInputs, [key]: value.toUpperCase() };
     setUserInputs(newInputs);
 
-    // No auto-reveal on input change
+    if (value) {
+      const activeWordNumber = activeWords[activeDirection];
+      const activeWordInfo = words.find(
+        (w) => w.number === activeWordNumber && w.direction === activeDirection
+      );
+
+      if (activeWordInfo) {
+        let currentPosInWord = -1;
+        if (activeDirection === "across") {
+          currentPosInWord = y - activeWordInfo.y;
+        } else {
+          currentPosInWord = x - activeWordInfo.x;
+        }
+
+        if (currentPosInWord < activeWordInfo.length - 1) {
+          let nextX = x;
+          let nextY = y;
+          if (activeDirection === "across") {
+            nextY += 1;
+          } else {
+            nextX += 1;
+          }
+          const nextTile = tileRefs.current.get(`${nextX},${nextY}`);
+          nextTile?.click();
+          handleTileClick(nextX, nextY);
+        }
+      }
+    }
   };
 
   const handleFocusWord = (word: Omit<Word, "clue">) => {
-    const tileElement = document.getElementById(`tile-${word.x}-${word.y}`);
+    const tileElement = tileRefs.current.get(`${word.x},${word.y}`);
     if (tileElement) {
       window.scrollTo({
         top: tileElement.offsetTop - window.innerHeight / 2, // Center in viewport
         behavior: "smooth",
       });
-      // Find the input within the tile and focus it
-      const input = tileElement.querySelector("input");
-      if (input) {
-        input.focus();
-      }
+      tileElement.click();
+      handleTileClick(word.x, word.y);
     }
   };
 
@@ -458,6 +483,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
                     <CrosswordTile
                       key={coordString}
                       id={`tile-${x}-${y}`}
+                      ref={(el) => void tileRefs.current.set(`${x},${y}`, el)}
                       tile={tile}
                       number={wordStartPositions[coordString]}
                       isRevealed={isRevealed}

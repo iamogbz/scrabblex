@@ -2,7 +2,7 @@
 import { cn } from '@/lib/utils';
 import type { PlacedTile } from '@/types';
 import { Input } from './ui/input';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, forwardRef } from 'react';
 
 interface CrosswordTileProps {
   id: string;
@@ -16,72 +16,78 @@ interface CrosswordTileProps {
   isPartiallyActive: boolean;
 }
 
-export default function CrosswordTile({ id, tile, number, isRevealed, value, onChange, onClick, isActive, isPartiallyActive }: CrosswordTileProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
+const CrosswordTile = forwardRef<HTMLDivElement, CrosswordTileProps>(
+  ({ id, tile, number, isRevealed, value, onChange, onClick, isActive, isPartiallyActive }, ref) => {
+    const inputRef = useRef<HTMLInputElement>(null);
 
-  if (!tile) {
-    return <div className="aspect-square bg-gray-800 rounded-sm md:rounded-md" />;
+    if (!tile) {
+      return <div className="aspect-square bg-gray-800 rounded-sm md:rounded-md" />;
+    }
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const val = e.target.value;
+      if (val.length <= 1) {
+          onChange(val);
+      }
+    };
+
+    const handleClick = () => {
+      if (!isRevealed) {
+        // Also focus the input
+        inputRef.current?.focus();
+      }
+      onClick?.()
+    };
+
+    useEffect(() => {
+      if (isRevealed && inputRef.current) {
+          inputRef.current.blur();
+      }
+    }, [isRevealed])
+
+    return (
+      <div
+        id={id}
+        className={cn(
+          "aspect-square w-full h-full rounded-[0.3vmin] flex items-center justify-center relative select-none transition-colors",
+          "bg-[#FBF8E8] border border-[#D5CFAF] text-[#5A4B40]",
+          isRevealed && "bg-green-200 border-green-400"
+        )}
+        style={{
+          borderWidth: '0.1vmin',
+          containerType: 'size',
+          cursor: 'pointer',
+        }}
+        ref={ref}
+        onClick={handleClick}
+      >
+        {number && <span className="absolute top-0 left-1 text-[24cqw] font-bold pointer-events-none">{number}</span>}
+
+        {isRevealed ? (
+          <span className={cn("font-bold font-headline")} style={{ fontSize: '50cqw'}}>{tile.letter}</span>
+        ) : (
+          <Input
+              ref={inputRef}
+              type="text"
+              value={value}
+              onChange={handleInputChange}
+              maxLength={1}
+              className={cn("w-full h-full bg-transparent border-0 text-center p-0 font-bold font-headline focus-visible:ring-primary focus-visible:ring-offset-0 rounded-0",
+              isRevealed && value.toUpperCase() === tile.letter ? "text-green-700" : "text-blue-600"
+              )}
+              style={{
+                borderWidth: isActive || isPartiallyActive ? "0.3vmin" : 0,
+                borderRadius: "0.3vmin",
+                fontSize: '50cqw',
+                caretColor: 'transparent'
+              }}
+              readOnly={isRevealed}
+          />
+        )}
+      </div>
+    );
   }
+);
+CrosswordTile.displayName = "CrosswordTile";
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    if (val.length <= 1) {
-        onChange(val);
-    }
-  };
-
-  const handleClick = () => {
-    if (!isRevealed) {
-      // Also focus the input
-      inputRef.current?.focus();
-    }
-    onClick?.()
-  };
-
-  useEffect(() => {
-    if (isRevealed && inputRef.current) {
-        inputRef.current.blur();
-    }
-  }, [isRevealed])
-
-  return (
-    <div
-      id={id}
-      className={cn(
-        "aspect-square w-full h-full rounded-[0.3vmin] flex items-center justify-center relative select-none transition-colors",
-        "bg-[#FBF8E8] border border-[#D5CFAF] text-[#5A4B40]",
-        isRevealed && "bg-green-200 border-green-400"
-      )}
-      style={{
-        borderWidth: '0.1vmin',
-        containerType: 'size',
-        cursor: 'pointer',
-      }}
-      onClick={handleClick}
-    >
-      {number && <span className="absolute top-0 left-1 text-[24cqw] font-bold pointer-events-none">{number}</span>}
-
-      {isRevealed ? (
-        <span className={cn("font-bold font-headline")} style={{ fontSize: '50cqw'}}>{tile.letter}</span>
-      ) : (
-        <Input
-            ref={inputRef}
-            type="text"
-            value={value}
-            onChange={handleInputChange}
-            maxLength={1}
-            className={cn("w-full h-full bg-transparent border-0 text-center p-0 font-bold font-headline focus-visible:ring-primary focus-visible:ring-offset-0 rounded-0",
-             isRevealed && value.toUpperCase() === tile.letter ? "text-green-700" : "text-blue-600"
-            )}
-            style={{
-              borderWidth: isActive || isPartiallyActive ? "0.3vmin" : 0,
-              borderRadius: "0.3vmin",
-              fontSize: '50cqw',
-              caretColor: 'transparent'
-            }}
-            readOnly={isRevealed}
-        />
-      )}
-    </div>
-  );
-}
+export default CrosswordTile;
