@@ -4,16 +4,8 @@
     {
       "id": "p1756244351246",
       "name": "E",
-      "score": 28,
+      "score": 51,
       "rack": [
-        {
-          "letter": "Y",
-          "points": 4
-        },
-        {
-          "letter": "L",
-          "points": 1
-        },
         {
           "letter": "R",
           "points": 1
@@ -27,12 +19,20 @@
           "points": 8
         },
         {
-          "letter": "E",
+          "letter": "N",
           "points": 1
         },
         {
-          "letter": "N",
-          "points": 1
+          "letter": "G",
+          "points": 2
+        },
+        {
+          "letter": "B",
+          "points": 3
+        },
+        {
+          "letter": "P",
+          "points": 3
         }
       ],
       "code": "e"
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "G",
-      "points": 2
-    },
-    {
-      "letter": "B",
-      "points": 3
-    },
-    {
-      "letter": "P",
-      "points": 3
-    },
     {
       "letter": "E",
       "points": 1
@@ -903,7 +891,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 4,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -911,7 +904,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 4,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -919,7 +917,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 4,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2371,6 +2374,33 @@
       ],
       "score": 14,
       "timestamp": "2025-08-26T21:49:29.583Z"
+    },
+    {
+      "playerId": "p1756244351246",
+      "playerName": "E",
+      "word": "LYE",
+      "tiles": [
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 7,
+          "y": 0
+        },
+        {
+          "letter": "Y",
+          "points": 4,
+          "x": 7,
+          "y": 1
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 2
+        }
+      ],
+      "score": 23,
+      "timestamp": "2025-08-26T22:03:11.359Z"
     }
   ],
   "gamePhase": "playing"
