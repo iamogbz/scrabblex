@@ -14,6 +14,8 @@ export default function Scoreboard({
   currentPlayerId,
   authenticatedPlayerId,
 }: ScoreboardProps) {
+  if (!players?.length) return null;
+
   return (
     <Card className="max-w-md w-full">
       <CardHeader>
@@ -40,7 +42,7 @@ export default function Scoreboard({
               >
                 <span className="font-medium flex items-center gap-2">
                   <User className="h-4 w-4" />
-                  {player.name}
+                  {player.name.toUpperCase()}
                   {isYou && (
                     <span className="text-xs text-muted-foreground ml-1">
                       (You)
