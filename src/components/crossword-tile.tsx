@@ -14,12 +14,13 @@ interface CrosswordTileProps {
   value: string;
   onChange: (value: string) => void;
   onClick: () => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   isActive: boolean;
   isPartiallyActive: boolean;
 }
 
 const CrosswordTile = forwardRef<HTMLInputElement, CrosswordTileProps>(
-  ({ id, tile, number, isRevealed, value, onChange, onClick, isActive, isPartiallyActive }, ref) => {
+  ({ id, tile, number, isRevealed, value, onChange, onClick, onKeyDown, isActive, isPartiallyActive }, ref) => {
     const internalRef = useRef<HTMLInputElement>(null);
     
     // Allow parent to focus this input
@@ -100,6 +101,7 @@ const CrosswordTile = forwardRef<HTMLInputElement, CrosswordTileProps>(
               type="text"
               value={value}
               onChange={handleInputChange}
+              onKeyDown={onKeyDown}
               onClick={handleInputClick}
               maxLength={1}
               className={cn("w-full h-full bg-transparent border-0 text-center p-0 font-bold font-headline focus-visible:ring-primary focus-visible:ring-offset-0 rounded-0",
@@ -122,3 +124,4 @@ const CrosswordTile = forwardRef<HTMLInputElement, CrosswordTileProps>(
 CrosswordTile.displayName = "CrosswordTile";
 
 export default CrosswordTile;
+ 

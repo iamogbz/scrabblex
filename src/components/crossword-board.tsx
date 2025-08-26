@@ -354,6 +354,63 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, x: number, y: number) => {
+    let nextX = x;
+    let nextY = y;
+    let moved = false;
+  
+    if (e.key.length === 1 && e.key.match(/[a-z]/i)) {
+      // Allow typing to overwrite
+      handleInputChange(x, y, e.key);
+      e.preventDefault();
+      return; 
+    }
+
+    switch(e.key) {
+        case 'ArrowUp':
+            nextX = x - 1;
+            moved = true;
+            break;
+        case 'ArrowDown':
+            nextX = x + 1;
+            moved = true;
+            break;
+        case 'ArrowLeft':
+            nextY = y - 1;
+            moved = true;
+            break;
+        case 'ArrowRight':
+            nextY = y + 1;
+            moved = true;
+            break;
+        case 'Backspace':
+            e.preventDefault();
+            const currentKey = `${x},${y}`;
+            if (userInputs[currentKey]) {
+                setUserInputs(prev => ({...prev, [currentKey]: ''}));
+            } else {
+                // Move to previous tile
+                if (activeDirection === 'across') {
+                    nextY = y - 1;
+                } else {
+                    nextX = x - 1;
+                }
+                moved = true;
+            }
+            break;
+        default:
+            return; // Exit for other keys
+    }
+
+    if (moved) {
+        e.preventDefault();
+        const nextKey = `${nextX},${nextY}`;
+        if (playedTilesCoords.has(nextKey)) {
+          setActiveCell({ x: nextX, y: nextY });
+        }
+    }
+  }
+
   const handleReset = () => {
     setRevealedCells([]);
     setUserInputs({});
@@ -497,7 +554,6 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
                 if (playedTilesCoords.has(coordString)) {
                   const tile = getTileFor(x, y);
                   const isRevealed = revealedCells.includes(coordString);
-                  const cellWords = wordsByCell.get(coordString);
                   
                   let isActive = false;
                   if(activeCell && activeCell.x === x && activeCell.y === y) {
@@ -524,6 +580,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
                       isRevealed={isRevealed}
                       value={userInputs[coordString] || ""}
                       onChange={(val) => handleInputChange(x, y, val)}
+                      onKeyDown={(e) => handleKeyDown(e, x, y)}
                       onClick={() => handleTileClick(x, y)}
                       isActive={isActive}
                       isPartiallyActive={activeCell?.x === x && activeCell?.y === y}
@@ -587,7 +644,3 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     </div>
   );
 }
-
-    
-
-    
