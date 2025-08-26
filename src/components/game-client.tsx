@@ -1350,7 +1350,7 @@ export default function GameClient({
                   <Input
                     placeholder="Enter your name"
                     value={newPlayerName}
-                    onChange={(e) => setNewPlayerName(e.target.value)}
+                    onChange={(e) => setNewPlayerName(e.target.value.toUpperCase())}
                   />
                   <div className="relative">
                     <Input

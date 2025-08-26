@@ -138,6 +138,7 @@ export async function getGame(
             stateWasModified = true;
             return {
             ...player,
+            name: player.name.toUpperCase(),
             rack: [...player.rack, ...newTiles],
             };
         }
