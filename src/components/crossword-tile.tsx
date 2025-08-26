@@ -103,7 +103,8 @@ const CrosswordTile = forwardRef<HTMLInputElement, CrosswordTileProps>(
               onClick={handleInputClick}
               maxLength={1}
               className={cn("w-full h-full bg-transparent border-0 text-center p-0 font-bold font-headline focus-visible:ring-primary focus-visible:ring-offset-0 rounded-0",
-                value.toUpperCase() === tile.letter ? "text-green-700" : "text-blue-600"
+                // only show the green confirmation when both letter is correct revealed
+                isRevealed && value.toUpperCase() === tile.letter ? "text-green-700" : "text-blue-600"
               )}
               style={{
                 borderWidth: 0,

@@ -169,6 +169,11 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
         wordsByCell,
       };
     }, [gameState.history]);
+
+  const allCellsFilled = useMemo(() => {
+    const filledCellCount = Object.values(userInputs).filter(v => v).length;
+    return filledCellCount === playedTilesCoords.size;
+  }, [userInputs, playedTilesCoords]);
   
   const scrollClueIntoView = useCallback((wordNumber: number | null, direction: 'across' | 'down') => {
     if (!wordNumber || !cluesContainerRef.current) return;
@@ -345,7 +350,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
             });
         }
 
-        handleClueClick(word); // Use the new clue click handler
+        handleClueClick(word);
     }
   };
 
@@ -537,7 +542,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
           </div>
         </div>
         <div className="flex justify-center gap-2 mt-4">
-          <Button onClick={handleCheck}>
+          <Button onClick={handleCheck} disabled={!allCellsFilled}>
             <Check className="mr-2 h-4 w-4" />
             Check All
           </Button>
