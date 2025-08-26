@@ -174,7 +174,7 @@ export default function PlayPage() {
               <div className="flex flex-col items-center space-y-2">
                 {previousGames.map((game) => (
                   <div
-                    className="flex flex-row items-center justify-between w-full gap-2"
+                    className="flex flex-row items-center justify-between w-full gap-2 relative"
                     key={game.gameId}
                   >
                     <Link
@@ -204,7 +204,7 @@ export default function PlayPage() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-12 w-12 flex-shrink-0 absolute right-[60px]"
+                      className="h-12 w-12 flex-shrink-0 absolute right-2"
                       onClick={() => handleRemoveGame(game.gameId)}
                       aria-label={`Remove game ${game.gameId} from history`}
                     >
