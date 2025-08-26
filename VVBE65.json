@@ -4,27 +4,11 @@
     {
       "id": "p1756244351246",
       "name": "E",
-      "score": 0,
+      "score": 16,
       "rack": [
-        {
-          "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "N",
-          "points": 1
-        },
-        {
-          "letter": "H",
-          "points": 4
-        },
         {
           "letter": "Y",
           "points": 4
-        },
-        {
-          "letter": "D",
-          "points": 2
         },
         {
           "letter": "Y",
@@ -33,6 +17,22 @@
         {
           "letter": "L",
           "points": 1
+        },
+        {
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "F",
+          "points": 4
+        },
+        {
+          "letter": "J",
+          "points": 8
+        },
+        {
+          "letter": "M",
+          "points": 3
         }
       ],
       "code": "e"
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "J",
-      "points": 8
-    },
-    {
-      "letter": "M",
-      "points": 3
-    },
     {
       "letter": "R",
       "points": 1
@@ -2252,6 +2236,40 @@
       }
     ]
   ],
-  "history": [],
+  "history": [
+    {
+      "playerId": "p1756244351246",
+      "playerName": "E",
+      "word": "HIND",
+      "tiles": [
+        {
+          "letter": "H",
+          "points": 4,
+          "x": 7,
+          "y": 4
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 7,
+          "y": 5
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 7,
+          "y": 6
+        },
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 7,
+          "y": 7
+        }
+      ],
+      "score": 16,
+      "timestamp": "2025-08-26T21:40:42.485Z"
+    }
+  ],
   "gamePhase": "playing"
 }
