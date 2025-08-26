@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { LocalStorageKey, PLAYER_COLORS } from "@/lib/constants";
 import type {
   GameState,
@@ -105,6 +106,8 @@ export default function GameClient({
     string | null
   >(null);
 
+  const lastMoveTimestampRef = useRef<string | null>(null);
+
   const handleReorderStagedTiles = (newOrder: PlacedTile[]) => {
     setStagedTiles(newOrder);
   };
@@ -154,7 +157,7 @@ export default function GameClient({
     if (history.length >= numPlayers * 2) {
       const lastMoves = history.slice(-numPlayers * 2);
       if (lastMoves.every((move) => move.isPass)) {
-        const newGameState = JSON.parse(JSON.stringify(gameState));
+        const newGameState = JSON.parse(JSON.stringify(currentState));
         newGameState.gamePhase = "ended";
 
         newGameState.players.forEach((p: Player) => {
@@ -225,6 +228,56 @@ export default function GameClient({
       description: "You have returned to the lobby.",
     });
   }, [gameId, toast, resetTurn]);
+
+  // Request notification permission when component mounts
+  useEffect(() => {
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  // Effect for showing notifications for opponent moves
+  useEffect(() => {
+    if (
+      !gameState ||
+      !authenticatedPlayerId ||
+      gameState.gamePhase === "ended"
+    ) {
+      return;
+    }
+
+    const lastMove =
+      gameState.history.length > 0
+        ? gameState.history[gameState.history.length - 1]
+        : null;
+
+    if (
+      lastMove &&
+      lastMove.timestamp !== lastMoveTimestampRef.current &&
+      lastMove.playerId !== authenticatedPlayerId
+    ) {
+      lastMoveTimestampRef.current = lastMove.timestamp;
+
+      if ("Notification" in window && Notification.permission === "granted") {
+        let notificationBody = "";
+        if (lastMove.isPass) {
+          notificationBody = `${lastMove.playerName} passed their turn.`;
+        } else if (lastMove.isSwap) {
+          notificationBody = `${lastMove.playerName} swapped tiles.`;
+        } else if (lastMove.isResign) {
+          notificationBody = `${lastMove.playerName} has resigned.`;
+        } else {
+          notificationBody = `${lastMove.playerName} played "${lastMove.word}" for ${lastMove.score} points.`;
+        }
+        new Notification("Scrabblex Move", {
+          body: notificationBody,
+          icon: "/favicon.ico",
+        });
+      }
+    } else if (!lastMove) {
+      lastMoveTimestampRef.current = null;
+    }
+  }, [gameState, authenticatedPlayerId]);
 
   useEffect(() => {
     // Add gameId to local storage history
