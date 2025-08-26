@@ -1,10 +1,11 @@
+
 "use client";
 import { createGame } from "@/app/actions";
 import { JoinGameDialog } from "@/components/join-game-dialog";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Users, X } from "lucide-react";
+import { Plus, Users, X, Home } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { LocalStorageKey } from "@/lib/constants";
@@ -132,14 +133,24 @@ export default function PlayPage() {
   return (
     <main className="flex min-h-screen w-full flex-col items-center justify-center bg-grid-gray-100/[0.1] p-4">
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
-      <Link
-        href="/"
-        className="absolute top-4 left-4 flex items-center gap-2 text-primary hover:text-primary/80 transition-colors z-20"
-      >
-        <Logo className="w-8 h-8" />
-        <span className="font-headline text-2xl tracking-wider">Scrabblex</span>
-      </Link>
-      <Card className="mt-10 w-full max-w-md text-center shadow-2xl z-10 border-primary/20">
+      <header className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-20">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+        >
+          <Logo className="w-8 h-8" />
+          <span className="font-headline text-2xl tracking-wider">
+            Scrabblex
+          </span>
+        </Link>
+        <Button variant="ghost" asChild size="icon" className="md:w-auto md:px-4">
+          <Link href="/">
+            <Home className="h-4 w-4" />
+            <span className="hidden md:inline ml-2">Back to Home</span>
+          </Link>
+        </Button>
+      </header>
+      <Card className="mt-20 w-full max-w-md text-center shadow-2xl z-10 border-primary/20">
         <CardContent className="pt-6">
           <div className="flex flex-col space-y-4">
             <form action={createGame}>

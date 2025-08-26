@@ -7,12 +7,18 @@ import { getGameState } from "@/app/actions";
 import { GameState } from "@/types";
 import { CrosswordBoard } from "@/components/crossword-board";
 import { Logo } from "@/components/logo";
-import { Home } from "lucide-react";
+import { Home, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 
 export default function SolveGamePage({ params }: { params: Promise<{ gameId: string }> }) {
@@ -63,15 +69,40 @@ export default function SolveGamePage({ params }: { params: Promise<{ gameId: st
             Scrabblex
           </span>
         </Link>
-        <Button variant="ghost" asChild size="icon" className="md:w-auto md:px-4">
-          <Link href="/">
-            <Home className="h-4 w-4" />
-            <span className="hidden md:inline ml-2">Back to Home</span>
-          </Link>
-        </Button>
+        <TooltipProvider>
+          <div className="flex items-center gap-1 md:gap-2">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" asChild size="icon" className="md:w-auto md:px-4">
+                  <Link href="/solve">
+                    <ChevronLeft className="h-4 w-4" /> 
+                    <span className="hidden md:inline ml-2">Back to Puzzles</span>
+                  </Link>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="md:hidden">
+                <p>Back to Puzzles</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" asChild size="icon" className="md:w-auto md:px-4">
+                  <Link href="/">
+                    <Home className="h-4 w-4" />
+                    <span className="hidden md:inline ml-2">Back to Home</span>
+                  </Link>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="md:hidden">
+                <p>Back to Home</p>
+              </TooltipContent>
+            </Tooltip>
+          </div>
+        </TooltipProvider>
       </header>
 
-      <div className="w-full max-w-5xl text-center mt-10 z-10">
+      <div className="w-full max-w-5xl text-center mt-20 z-10">
         {loading && (
            <div className="text-center p-10 flex items-center justify-center gap-2">
            <RefreshCw className="animate-spin h-5 w-5" /> Loading Puzzle...
