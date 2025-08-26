@@ -1,4 +1,6 @@
 
+"use client";
+
 import { cn } from '@/lib/utils';
 import type { PlacedTile } from '@/types';
 import { Input } from './ui/input';
@@ -26,9 +28,9 @@ const CrosswordTile = forwardRef<HTMLDivElement, CrosswordTileProps>(
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const val = e.target.value;
-      if (val.length <= 1) {
-          onChange(val);
-      }
+      // Get last character in case of pasting
+      const lastChar = val.slice(-1);
+      onChange(lastChar);
     };
 
     const handleClick = () => {
