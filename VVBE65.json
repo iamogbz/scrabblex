@@ -4,12 +4,8 @@
     {
       "id": "p1756244351246",
       "name": "E",
-      "score": 16,
+      "score": 28,
       "rack": [
-        {
-          "letter": "Y",
-          "points": 4
-        },
         {
           "letter": "Y",
           "points": 4
@@ -31,8 +27,12 @@
           "points": 8
         },
         {
-          "letter": "M",
-          "points": 3
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "N",
+          "points": 1
         }
       ],
       "code": "e"
@@ -75,14 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
     {
       "letter": "E",
       "points": 1
@@ -1135,7 +1127,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "W",
+          "points": 4,
+          "x": 6,
+          "y": 2
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1143,7 +1140,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 6,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1151,7 +1153,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 6,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1159,7 +1166,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 6,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1167,7 +1179,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 6,
+          "y": 6
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2308,6 +2325,27 @@
       ],
       "score": 23,
       "timestamp": "2025-08-26T21:42:44.057Z"
+    },
+    {
+      "playerId": "p1756244351246",
+      "playerName": "E",
+      "word": "MY",
+      "tiles": [
+        {
+          "letter": "M",
+          "points": 3,
+          "x": 5,
+          "y": 6
+        },
+        {
+          "letter": "Y",
+          "points": 4,
+          "x": 5,
+          "y": 7
+        }
+      ],
+      "score": 12,
+      "timestamp": "2025-08-26T21:44:41.808Z"
     }
   ],
   "gamePhase": "playing"
