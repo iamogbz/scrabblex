@@ -659,10 +659,11 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
       </div>
 
       <div
-        className="w-full z-10 mt-14"
+        className="w-full z-10"
         style={{
           backgroundColor: "hsl(var(--background))",
           boxShadow: "0px -12px 12px 12px hsl(var(--background))",
+          marginTop: '12px',
         }}
       >
         <div 
