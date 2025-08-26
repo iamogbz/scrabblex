@@ -12,7 +12,6 @@ import {
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useEffect, useRef, useState } from "react";
-import type { PlacedTile } from "@/types";
 
 interface CrosswordGuessDialogProps {
   isOpen: boolean;

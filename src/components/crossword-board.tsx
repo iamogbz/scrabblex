@@ -511,7 +511,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
           <Button
             size="icon"
             variant="ghost"
-            className="h-6 w-6 ml-2"
+            className="h-8 w-8 ml-2"
             onClick={(e) => {
               e.stopPropagation(); // Prevent parent div's onClick
               handleFocusWord(word)
@@ -659,13 +659,10 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
       </div>
 
       <div
-        className="w-full pb-4"
+        className="w-full z-10 mt-14"
         style={{
           backgroundColor: "hsl(var(--background))",
           boxShadow: "0px -12px 12px 12px hsl(var(--background))",
-          position: "sticky",
-          bottom: 0,
-          marginTop: isMobile ? `${boardContainerHeight + 24}px` : 0,
         }}
       >
         <div 
@@ -673,7 +670,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
           className={`h-full w-full rounded-md border overflow-y-auto`}
           style={{
             minHeight: '137px',
-            maxHeight: isMobile ? `${Math.floor(window.innerHeight - boardContainerHeight)}px` : '80vh',
+            maxHeight: isMobile ? `${Math.floor(window.innerHeight - boardContainerHeight - 140)}px` : '80vh',
           }}
         >
           {isLoadingClues && Object.keys(clues).length === 0 ? (

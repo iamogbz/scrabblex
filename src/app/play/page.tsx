@@ -193,7 +193,7 @@ export default function PlayPage() {
                           .split(". ")
                           .map((line) => (
                             <span
-                              className="text-sm font-normal text-muted-foreground break-words"
+                              className="text-sm font-normal break-words"
                               key={line}
                             >
                               {line}
@@ -204,7 +204,7 @@ export default function PlayPage() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-12 w-12 flex-shrink-0"
+                      className="h-12 w-12 flex-shrink-0 absolute right-[60px]"
                       onClick={() => handleRemoveGame(game.gameId)}
                       aria-label={`Remove game ${game.gameId} from history`}
                     >
