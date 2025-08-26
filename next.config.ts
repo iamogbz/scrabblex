@@ -1,9 +1,13 @@
+
 import {withSentryConfig} from '@sentry/nextjs';
 import type {NextConfig} from 'next';
 import withPWAInit from "next-pwa";
 
+const isDev = process.env.NODE_ENV !== 'production'
+
 const withPWA = withPWAInit({
   dest: "public",
+  disable: isDev,
   register: true,
   skipWaiting: true,
 });

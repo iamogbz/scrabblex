@@ -231,8 +231,8 @@ export default function GameClient({
 
   // Request notification permission when component mounts
   useEffect(() => {
-    if ("Notification" in window && Notification.permission !== "granted") {
-      Notification.requestPermission();
+    if (typeof window !== "undefined" && "Notification" in window && Notification.permission === "default") {
+        Notification.requestPermission();
     }
   }, []);
 
@@ -241,7 +241,8 @@ export default function GameClient({
     if (
       !gameState ||
       !authenticatedPlayerId ||
-      gameState.gamePhase === "ended"
+      gameState.gamePhase === "ended" ||
+      typeof window === "undefined"
     ) {
       return;
     }
@@ -256,26 +257,41 @@ export default function GameClient({
       lastMove.timestamp !== lastMoveTimestampRef.current &&
       lastMove.playerId !== authenticatedPlayerId
     ) {
-      lastMoveTimestampRef.current = lastMove.timestamp;
+        lastMoveTimestampRef.current = lastMove.timestamp;
 
-      if ("Notification" in window && Notification.permission === "granted") {
-        let notificationBody = "";
-        if (lastMove.isPass) {
-          notificationBody = `${lastMove.playerName} passed their turn.`;
-        } else if (lastMove.isSwap) {
-          notificationBody = `${lastMove.playerName} swapped tiles.`;
-        } else if (lastMove.isResign) {
-          notificationBody = `${lastMove.playerName} has resigned.`;
-        } else {
-          notificationBody = `${lastMove.playerName} played "${lastMove.word}" for ${lastMove.score} points.`;
+        // Ensure permission is granted before trying to show a notification
+        if ("Notification" in window && Notification.permission === "granted") {
+            let notificationBody = "";
+            if (lastMove.isPass) {
+                notificationBody = `${lastMove.playerName} passed their turn.`;
+            } else if (lastMove.isSwap) {
+                notificationBody = `${lastMove.playerName} swapped tiles.`;
+            } else if (lastMove.isResign) {
+                notificationBody = `${lastMove.playerName} has resigned.`;
+            } else {
+                notificationBody = `${lastMove.playerName} played "${lastMove.word}" for ${lastMove.score} points.`;
+            }
+
+            const title = "Scrabblex Move";
+            const options = {
+                body: notificationBody,
+                icon: "/favicon.ico", // PWA icon
+                badge: "/favicon.ico", // A smaller badge icon
+                vibrate: [100, 50, 100], // Vibrate pattern
+            };
+
+            // Use the Service Worker to show the notification if available, for background support
+            if ('serviceWorker' in navigator && navigator.serviceWorker.ready) {
+                navigator.serviceWorker.ready.then(registration => {
+                    registration.showNotification(title, options);
+                });
+            } else {
+                // Fallback to regular notification if service worker isn't ready
+                new Notification(title, options);
+            }
         }
-        new Notification("Scrabblex Move", {
-          body: notificationBody,
-          icon: "/favicon.ico",
-        });
-      }
     } else if (!lastMove) {
-      lastMoveTimestampRef.current = null;
+        lastMoveTimestampRef.current = null;
     }
   }, [gameState, authenticatedPlayerId]);
 
