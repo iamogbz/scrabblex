@@ -40,22 +40,10 @@
     {
       "id": "p1756244362835",
       "name": "m",
-      "score": 23,
+      "score": 37,
       "rack": [
         {
-          "letter": "A",
-          "points": 1
-        },
-        {
-          "letter": "N",
-          "points": 1
-        },
-        {
           "letter": "R",
-          "points": 1
-        },
-        {
-          "letter": "N",
           "points": 1
         },
         {
@@ -69,24 +57,24 @@
         {
           "letter": "S",
           "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
         }
       ],
       "code": "m"
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
     {
       "letter": "G",
       "points": 2
@@ -1037,7 +1025,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "M",
+          "points": 3,
+          "x": 5,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1045,7 +1038,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Y",
+          "points": 4,
+          "x": 5,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2346,6 +2344,33 @@
       ],
       "score": 12,
       "timestamp": "2025-08-26T21:44:41.808Z"
+    },
+    {
+      "playerId": "p1756244362835",
+      "playerName": "m",
+      "word": "ANN",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 4,
+          "y": 6
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 4,
+          "y": 7
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 4,
+          "y": 8
+        }
+      ],
+      "score": 14,
+      "timestamp": "2025-08-26T21:49:29.583Z"
     }
   ],
   "gamePhase": "playing"
