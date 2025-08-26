@@ -1,35 +1,44 @@
 {
   "gameId": "VVBE65",
-  "players": [],
+  "players": [
+    {
+      "id": "p1756244351246",
+      "name": "E",
+      "score": 0,
+      "rack": [
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "N",
+          "points": 1
+        },
+        {
+          "letter": "H",
+          "points": 4
+        },
+        {
+          "letter": "Y",
+          "points": 4
+        },
+        {
+          "letter": "D",
+          "points": 2
+        },
+        {
+          "letter": "Y",
+          "points": 4
+        },
+        {
+          "letter": "L",
+          "points": 1
+        }
+      ],
+      "code": "e"
+    }
+  ],
   "tileBag": [
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "H",
-      "points": 4
-    },
-    {
-      "letter": "Y",
-      "points": 4
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "Y",
-      "points": 4
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
     {
       "letter": "E",
       "points": 1
