@@ -53,7 +53,6 @@ export default function SolveGamePage({ params }: { params: Promise<{ gameId: st
 
   return (
     <main className="flex min-h-screen w-full flex-col items-center bg-grid-gray-100/[0.1] p-4">
-       <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
       <header className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-20">
         <Link
           href="/"
@@ -72,7 +71,7 @@ export default function SolveGamePage({ params }: { params: Promise<{ gameId: st
         </Button>
       </header>
 
-      <div className="w-full max-w-5xl text-center mt-20 z-10">
+      <div className="w-full max-w-5xl text-center mt-10 z-10">
         {loading && (
            <div className="text-center p-10 flex items-center justify-center gap-2">
            <RefreshCw className="animate-spin h-5 w-5" /> Loading Puzzle...
@@ -104,8 +103,7 @@ export default function SolveGamePage({ params }: { params: Promise<{ gameId: st
 
         {gameState && (
             <>
-                <h1 className="text-3xl font-headline tracking-wider mb-2">Crossword #{gameId}</h1>
-                <p className="text-muted-foreground mb-4">
+                <p className="text-muted-foreground mb-4 text-sm">
                   {completionDate ? `Uploaded ${completionDate}` : "A generated puzzle."}
                 </p>
                 <CrosswordBoard gameState={gameState} />

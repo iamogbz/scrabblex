@@ -310,6 +310,17 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     }
   };
 
+  const handleClueClick = (word: Omit<Word, "clue">) => {
+    setActiveCell({ x: word.x, y: word.y });
+    setActiveDirection(word.direction);
+    scrollClueIntoView(word.number, word.direction);
+    const tileElement = tileRefs.current.get(`${word.x},${word.y}`);
+    if (tileElement) {
+        // We need to click the tile to focus the input inside it
+        tileElement.click();
+    }
+};
+
   const handleFocusWord = (word: Omit<Word, "clue">) => {
     const tileElement = tileRefs.current.get(`${word.x},${word.y}`);
     if (tileElement) {
@@ -374,8 +385,9 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
         <div
           key={word.number + word.direction}
           id={`clue-${direction}-${word.number}`}
+          onClick={() => handleClueClick(word)}
           className={cn(
-            "text-sm mb-2 flex items-start text-left p-2 rounded-md transition-colors",
+            "text-sm mb-2 flex items-start text-left p-2 rounded-md transition-colors cursor-pointer",
             isActive ? "bg-primary/10 text-primary" : ""
           )}
         >
@@ -389,7 +401,10 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
             size="icon"
             variant="ghost"
             className="h-6 w-6 ml-2"
-            onClick={() => handleFocusWord(word)}
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent parent div's onClick
+              handleFocusWord(word)
+            }}
           >
             <Focus className="h-4 w-4" />
           </Button>
@@ -525,12 +540,12 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
               <RefreshCw className="mr-2 h-4 w-4 animate-spin" /> Loading clues...
             </div>
           ) : (
-            <>
+            <div className="p-2">
               <h3 className="font-bold text-lg mb-2 sticky top-0 bg-background py-2 border-b">Across</h3>
               {renderClueList(acrossClues, "across")}
               <h3 className="font-bold text-lg mt-4 mb-2 sticky top-0 bg-background py-2 border-b">Down</h3>
               {renderClueList(downClues, "down")}
-            </>
+            </div>
           )}
         </div>
       </div>
