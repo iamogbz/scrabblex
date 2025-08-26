@@ -61,7 +61,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
   
   const isMobile = useIsMobile();
   const cluesContainerRef = useRef<HTMLDivElement>(null);
-  const tileRefs = useRef<Map<string, HTMLDivElement | null>>(new Map());
+  const tileRefs = useRef<Map<string, HTMLInputElement | null>>(new Map());
 
   // dynamically calculate the height of the element with id board-container
   const [boardContainerElem, setBoardContainerElem] =
@@ -200,8 +200,13 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
       setActiveCell({ x, y });
       
       // Prefer current direction if possible, otherwise switch to the available one.
-      if (!((activeDirection === 'across' && wordNums?.across) || (activeDirection === 'down' && wordNums?.down))) {
-        newDirection = (wordNums?.across) ? 'across' : 'down';
+      if (wordNums?.across && wordNums?.down) {
+          // If both directions are available, default to across or stick to current if it's an option.
+          newDirection = (activeDirection === 'down' && !wordNums.down) ? 'across' : activeDirection;
+      } else if (wordNums?.across) {
+          newDirection = 'across';
+      } else if (wordNums?.down) {
+          newDirection = 'down';
       }
     }
     
@@ -218,10 +223,13 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
         across: wordNums?.across || null,
         down: wordNums?.down || null,
       });
+      const inputEl = tileRefs.current.get(cellKey);
+      inputEl?.focus();
+
     } else {
       setActiveWords({ across: null, down: null });
     }
-  }, [activeCell, wordsByCell]);
+  }, [activeCell, wordsByCell, activeDirection]);
 
   const fetchClues = useCallback(async () => {
     if (words.length === 0) return;
@@ -302,9 +310,13 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
           } else {
             nextX += 1;
           }
-          const nextTile = tileRefs.current.get(`${nextX},${nextY}`);
-          nextTile?.click();
-          handleTileClick(nextX, nextY);
+          // The ref map key is a string 'x,y', but we need to find the ref for the next input element
+          const nextInputRef = tileRefs.current.get(`${nextX},${nextY}`);
+          if (nextInputRef) {
+            nextInputRef.focus();
+            // Also update the active cell to ensure highlighting follows
+            setActiveCell({ x: nextX, y: nextY });
+          }
         }
       }
     }
@@ -314,22 +326,26 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     setActiveCell({ x: word.x, y: word.y });
     setActiveDirection(word.direction);
     scrollClueIntoView(word.number, word.direction);
-    const tileElement = tileRefs.current.get(`${word.x},${word.y}`);
-    if (tileElement) {
-        // We need to click the tile to focus the input inside it
-        tileElement.click();
-    }
-};
+  };
 
   const handleFocusWord = (word: Omit<Word, "clue">) => {
     const tileElement = tileRefs.current.get(`${word.x},${word.y}`);
     if (tileElement) {
-      window.scrollTo({
-        top: tileElement.offsetTop - window.innerHeight / 2, // Center in viewport
-        behavior: "smooth",
-      });
-      tileElement.click();
-      handleTileClick(word.x, word.y);
+        const boardEl = boardContainerElem;
+        if (boardEl) {
+            const tileRect = tileElement.getBoundingClientRect();
+            const boardRect = boardEl.getBoundingClientRect();
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+            const desiredScrollTop = scrollTop + tileRect.top - boardRect.top - (window.innerHeight / 2) + (tileRect.height / 2);
+
+            window.scrollTo({
+                top: desiredScrollTop,
+                behavior: "smooth",
+            });
+        }
+
+        handleClueClick(word); // Use the new clue click handler
     }
   };
 
@@ -477,17 +493,27 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
                   const tile = getTileFor(x, y);
                   const isRevealed = revealedCells.includes(coordString);
                   const cellWords = wordsByCell.get(coordString);
-                  const isActive =
-                    (activeDirection === "across" &&
-                      cellWords?.across === activeWords.across) ||
-                    (activeDirection === "down" &&
-                      cellWords?.down === activeWords.down);
+                  
+                  let isActive = false;
+                  if(activeCell && activeCell.x === x && activeCell.y === y) {
+                      isActive = true;
+                  } else {
+                      const activeWordInfo = words.find(w => w.number === activeWords[activeDirection] && w.direction === activeDirection);
+                      if (activeWordInfo) {
+                           if(activeDirection === 'across') {
+                               isActive = x === activeWordInfo.x && y >= activeWordInfo.y && y < activeWordInfo.y + activeWordInfo.length;
+                           } else {
+                               isActive = y === activeWordInfo.y && x >= activeWordInfo.x && x < activeWordInfo.x + activeWordInfo.length;
+                           }
+                      }
+                  }
+
 
                   return (
                     <CrosswordTile
                       key={coordString}
                       id={`tile-${x}-${y}`}
-                      ref={(el) => void tileRefs.current.set(`${x},${y}`, el)}
+                      ref={(el) => tileRefs.current.set(coordString, el)}
                       tile={tile}
                       number={wordStartPositions[coordString]}
                       isRevealed={isRevealed}

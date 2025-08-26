@@ -18,9 +18,19 @@ interface CrosswordTileProps {
   isPartiallyActive: boolean;
 }
 
-const CrosswordTile = forwardRef<HTMLDivElement, CrosswordTileProps>(
+const CrosswordTile = forwardRef<HTMLInputElement, CrosswordTileProps>(
   ({ id, tile, number, isRevealed, value, onChange, onClick, isActive, isPartiallyActive }, ref) => {
-    const inputRef = useRef<HTMLInputElement>(null);
+    const internalRef = useRef<HTMLInputElement>(null);
+    
+    // Allow parent to focus this input
+    useEffect(() => {
+        if (typeof ref === 'function') {
+            ref(internalRef.current);
+        } else if (ref) {
+            ref.current = internalRef.current;
+        }
+    }, [ref]);
+
 
     if (!tile) {
       return <div className="aspect-square bg-gray-800 rounded-sm md:rounded-md" />;
@@ -28,22 +38,38 @@ const CrosswordTile = forwardRef<HTMLDivElement, CrosswordTileProps>(
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const val = e.target.value;
-      // Get last character in case of pasting
+      // Get last character in case of pasting or overwrite
       const lastChar = val.slice(-1);
       onChange(lastChar);
     };
 
-    const handleClick = () => {
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
       if (!isRevealed) {
         // Also focus the input
-        inputRef.current?.focus();
+        internalRef.current?.focus();
       }
+      // We stop propagation to prevent the input click from firing,
+      // which could cause a double-fire of the onClick handler
+      e.stopPropagation();
       onClick?.()
     };
+    
+    const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
+        // When the input itself is clicked, also fire the main onClick
+        // so board logic (like changing direction) still works.
+        e.stopPropagation();
+        onClick?.();
+    }
 
     useEffect(() => {
-      if (isRevealed && inputRef.current) {
-          inputRef.current.blur();
+      if (isPartiallyActive && internalRef.current) {
+        internalRef.current.focus();
+      }
+    }, [isPartiallyActive]);
+    
+    useEffect(() => {
+      if (isRevealed && internalRef.current) {
+          internalRef.current.blur();
       }
     }, [isRevealed])
 
@@ -53,14 +79,15 @@ const CrosswordTile = forwardRef<HTMLDivElement, CrosswordTileProps>(
         className={cn(
           "aspect-square w-full h-full rounded-[0.3vmin] flex items-center justify-center relative select-none transition-colors",
           "bg-[#FBF8E8] border border-[#D5CFAF] text-[#5A4B40]",
-          isRevealed && "bg-green-200 border-green-400"
+          isRevealed ? "bg-green-200 border-green-400" : "",
+          isActive && !isRevealed && "bg-blue-100",
+          isPartiallyActive && !isRevealed && "ring-2 ring-primary"
         )}
         style={{
           borderWidth: '0.1vmin',
           containerType: 'size',
-          cursor: 'pointer',
+          cursor: isRevealed ? 'default' : 'pointer',
         }}
-        ref={ref}
         onClick={handleClick}
       >
         {number && <span className="absolute top-0 left-1 text-[24cqw] font-bold pointer-events-none">{number}</span>}
@@ -69,16 +96,17 @@ const CrosswordTile = forwardRef<HTMLDivElement, CrosswordTileProps>(
           <span className={cn("font-bold font-headline")} style={{ fontSize: '50cqw'}}>{tile.letter}</span>
         ) : (
           <Input
-              ref={inputRef}
+              ref={internalRef}
               type="text"
               value={value}
               onChange={handleInputChange}
+              onClick={handleInputClick}
               maxLength={1}
               className={cn("w-full h-full bg-transparent border-0 text-center p-0 font-bold font-headline focus-visible:ring-primary focus-visible:ring-offset-0 rounded-0",
-              isRevealed && value.toUpperCase() === tile.letter ? "text-green-700" : "text-blue-600"
+                value.toUpperCase() === tile.letter ? "text-green-700" : "text-blue-600"
               )}
               style={{
-                borderWidth: isActive || isPartiallyActive ? "0.3vmin" : 0,
+                borderWidth: 0,
                 borderRadius: "0.3vmin",
                 fontSize: '50cqw',
                 caretColor: 'transparent'
