@@ -49,14 +49,14 @@ export default function GamePage({ params }: { params: Promise<{ gameId: string 
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="ghost" asChild size="icon" className="md:w-auto md:px-4">
-                  <Link href="/draw">
+                  <Link href="/play">
                     <ChevronLeft className="h-4 w-4" /> 
-                    <span className="hidden md:inline ml-2">Back to Draw</span>
+                    <span className="hidden md:inline ml-2">Back to Play</span>
                   </Link>
                 </Button>
               </TooltipTrigger>
               <TooltipContent className="md:hidden">
-                <p>Back to Draw</p>
+                <p>Back to Play</p>
               </TooltipContent>
             </Tooltip>
 

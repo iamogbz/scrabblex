@@ -150,7 +150,7 @@ export default function SolvePage() {
              <div className="flex flex-col items-center mt-4 gap-4 text-center text-muted-foreground">
                 <p>No completed games found yet.</p>
                 <Button variant="outline">
-                  <Link href="/draw">
+                  <Link href="/play">
                     <p>Go play a few rounds!</p>
                   </Link>
                 </Button>

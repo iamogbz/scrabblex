@@ -45,7 +45,7 @@ const getGameStatusText = (game: GameDetails): string => {
   return lastUpdatedMsg;
 };
 
-export default function DrawPage() {
+export default function PlayPage() {
   const [previousGames, setPreviousGames] = useState<GameDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -139,7 +139,7 @@ export default function DrawPage() {
         <Logo className="w-8 h-8" />
         <span className="font-headline text-2xl tracking-wider">Scrabblex</span>
       </Link>
-      <Card className="w-full max-w-md text-center shadow-2xl z-10 border-primary/20">
+      <Card className="mt-10 w-full max-w-md text-center shadow-2xl z-10 border-primary/20">
         <CardContent className="pt-6">
           <div className="flex flex-col space-y-4">
             <form action={createGame}>
@@ -178,7 +178,7 @@ export default function DrawPage() {
                     key={game.gameId}
                   >
                     <Link
-                      href={`/draw/${game.gameId}`}
+                      href={`/play/${game.gameId}`}
                       className="flex flex-grow text-primary text-sm "
                     >
                       <Button

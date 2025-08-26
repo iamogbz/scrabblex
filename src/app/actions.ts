@@ -74,7 +74,7 @@ function generateGameId(length = 6) {
 export async function createGame() {
   const gameId = generateGameId();
   await createNewGame(gameId);
-  redirect(`/draw/${gameId}`);
+  redirect(`/play/${gameId}`);
 }
 
 export async function getGameState(gameId: string) {
@@ -248,7 +248,7 @@ Player: ${playerName}
 Game ID: ${gameId}
 Game State: ${gameSha || "N/A"}
 
-[View Game](https://scrabblex.com/draw/${gameId})
+[View Game](https://scrabblex.com/play/${gameId})
     `;
 
     const { data: issue } = await octokit.issues.create({

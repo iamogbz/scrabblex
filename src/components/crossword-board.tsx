@@ -513,7 +513,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
                     <CrosswordTile
                       key={coordString}
                       id={`tile-${x}-${y}`}
-                      ref={(el) => tileRefs.current.set(coordString, el)}
+                      ref={(el) => void tileRefs.current.set(coordString, el)}
                       tile={tile}
                       number={wordStartPositions[coordString]}
                       isRevealed={isRevealed}
@@ -560,7 +560,10 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
       >
         <div 
           ref={cluesContainerRef}
-          className="h-full w-full rounded-md border overflow-y-auto max-h-[80vh] md:max-h-[calc(100vh-2rem)]"
+          className={`h-full w-full rounded-md border overflow-y-auto`}
+          style={{
+            maxHeight: isMobile ? `${Math.floor(window.innerHeight - boardContainerHeight)}px` : '80vh',
+          }}
         >
           {isLoadingClues && Object.keys(clues).length === 0 ? (
             <div className="flex items-center justify-center p-4">

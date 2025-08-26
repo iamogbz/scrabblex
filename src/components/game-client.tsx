@@ -1180,7 +1180,7 @@ export default function GameClient({
                 <RefreshCw className="mr-2 h-4 w-4" /> Try Again
               </Button>
               <Button variant="secondary" asChild>
-                <Link href="/draw">
+                <Link href="/play">
                   <KeyRound className="mr-2 h-4 w-4" /> Join Different Game
                 </Link>
               </Button>
@@ -1228,7 +1228,7 @@ export default function GameClient({
               authenticatedPlayerId={authenticatedPlayerId}
             />
             <Button asChild className="mt-4 w-full">
-              <Link href="/draw">Play Again</Link>
+              <Link href="/play">Play Again</Link>
             </Button>
           </CardContent>
         </Card>

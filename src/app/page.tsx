@@ -20,13 +20,14 @@ export default function Home() {
         </CardHeader>
         <CardContent className="flex flex-col items-center">
           <div className="flex flex-row justify-center gap-4">
-            <Link href="/draw" className="z-10 my-4">
+            <Link href="/play" className="z-10 my-4">
                 <div className="group relative">
                 <div className="absolute -inset-0.5 animate-tilt rounded-lg bg-gradient-to-r from-primary to-accent opacity-75 blur transition duration-1000 group-hover:opacity-100 group-hover:duration-200"></div>
                 <div className="relative flex h-32 w-32 items-center justify-center rounded-lg bg-card text-card-foreground shadow-inner">
                     <div className="flex flex-col items-center gap-2">
                         <Grid2X2 className="h-12 w-12 text-primary" />
-                        <span className="text-xl font-bold tracking-widest">DRAW</span>
+                        <span className="text-xl font-bold tracking-widest">PLAY</span>
+                        <span className="text-sm font-bold tracking-widest">Scrabble</span>
                     </div>
                 </div>
                 </div>
@@ -38,6 +39,7 @@ export default function Home() {
                     <div className="flex flex-col items-center gap-2">
                         <Cross className="h-12 w-12 text-primary" />
                         <span className="text-xl font-bold tracking-widest">SOLVE</span>
+                        <span className="text-sm font-bold tracking-widest">Crossword</span>
                     </div>
                 </div>
                 </div>
