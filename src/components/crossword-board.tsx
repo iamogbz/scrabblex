@@ -669,6 +669,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
           ref={cluesContainerRef}
           className={`h-full w-full rounded-md border overflow-y-auto`}
           style={{
+            minHeight: '137px',
             maxHeight: isMobile ? `${Math.floor(window.innerHeight - boardContainerHeight)}px` : '80vh',
           }}
         >

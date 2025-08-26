@@ -6,6 +6,7 @@ import { Coffee } from "lucide-react";
 export const metadata: Metadata = {
   title: "Scrabblex",
   description: "A classic word game with a modern twist.",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -26,6 +27,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Literata:opsz@7..72&display=swap"
           rel="stylesheet"
         />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
       </head>
       <body className="font-body antialiased">
         {children}
