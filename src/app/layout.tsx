@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from 'next/script';
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import { Coffee } from "lucide-react";
@@ -29,6 +30,20 @@ export default function RootLayout({
         />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
       </head>
+      {/* Google tag (gtag.js) */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-2Y3VRVQ5RJ"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-2Y3VRVQ5RJ');
+        `}
+      </Script>
       <body className="font-body antialiased">
         {children}
         <Toaster />
