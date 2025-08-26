@@ -368,18 +368,34 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
 
     switch(e.key) {
         case 'ArrowUp':
+            if (activeDirection === 'across') {
+                setActiveDirection('down');
+                return;
+            }
             nextX = x - 1;
             moved = true;
             break;
         case 'ArrowDown':
+            if (activeDirection === 'across') {
+                setActiveDirection('down');
+                return;
+            }
             nextX = x + 1;
             moved = true;
             break;
         case 'ArrowLeft':
+            if (activeDirection === 'down') {
+                setActiveDirection('across');
+                return;
+            }
             nextY = y - 1;
             moved = true;
             break;
         case 'ArrowRight':
+            if (activeDirection === 'down') {
+                setActiveDirection('across');
+                return;
+            }
             nextY = y + 1;
             moved = true;
             break;
