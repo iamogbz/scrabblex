@@ -14,9 +14,20 @@ import CrosswordTile from "./crossword-tile";
 import { getWordDefinitions } from "@/app/actions";
 import { Button } from "./ui/button";
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import { Check, RotateCcw, RefreshCw, Focus } from "lucide-react";
+import { Check, RotateCcw, RefreshCw, Focus, AlertTriangle } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface CrosswordBoardProps {
   gameState: GameState;
@@ -39,6 +50,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     {}
   );
   const [isLoadingClues, setIsLoadingClues] = useState(true);
+  const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
 
   const [revealedCells, setRevealedCells] = useLocalStorage<string[]>(
     `crossword-${gameState.gameId}-revealed`,
@@ -431,6 +443,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     setRevealedCells([]);
     setUserInputs({});
     setActiveCell(null);
+    setIsResetConfirmOpen(false);
   };
 
   const handleCheck = () => {
@@ -619,10 +632,26 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
             <Check className="mr-2 h-4 w-4" />
             Check All
           </Button>
-          <Button onClick={handleReset} variant="outline">
-            <RotateCcw className="mr-2 h-4 w-4" />
-            Reset
-          </Button>
+          <AlertDialog open={isResetConfirmOpen} onOpenChange={setIsResetConfirmOpen}>
+            <AlertDialogTrigger asChild>
+              <Button variant="outline">
+                <RotateCcw className="mr-2 h-4 w-4" />
+                Reset
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This will clear all your progress on this puzzle. This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleReset}>Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
 
@@ -660,3 +689,4 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     </div>
   );
 }
+
