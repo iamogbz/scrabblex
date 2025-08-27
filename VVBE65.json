@@ -76,8 +76,16 @@
   ],
   "tileBag": [
     {
-      "letter": " ",
-      "points": 0
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "letter": "A",
+      "points": 1
     },
     {
       "letter": "S",
@@ -88,35 +96,27 @@
       "points": 3
     },
     {
-      "letter": "T",
-      "points": 1
+      "letter": "H",
+      "points": 4
     },
     {
       "letter": "I",
       "points": 1
     },
     {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "H",
-      "points": 4
+      "letter": " ",
+      "points": 0
     },
     {
       "letter": "O",
       "points": 1
     },
     {
-      "letter": "E",
+      "letter": " ",
+      "points": 0
+    },
+    {
+      "letter": "L",
       "points": 1
     }
   ],
@@ -235,7 +235,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 0,
+          "y": 14
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -357,7 +362,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 1,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -484,7 +494,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "V",
+          "points": 4,
+          "x": 2,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -626,7 +641,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 3,
+          "y": 14
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -773,7 +793,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 4,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -915,7 +940,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "U",
+          "points": 1,
+          "x": 5,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1077,7 +1107,13 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 0,
+          "originalLetter": " ",
+          "x": 6,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
