@@ -4,27 +4,15 @@
     {
       "id": "p1756244351246",
       "name": "E",
-      "score": 349,
+      "score": 359,
       "rack": [
         {
-          "letter": "C",
-          "points": 3
-        },
-        {
           "letter": "I",
           "points": 1
         },
         {
-          "letter": "B",
-          "points": 3
-        },
-        {
           "letter": "I",
           "points": 1
-        },
-        {
-          "letter": " ",
-          "points": 0
         },
         {
           "letter": " ",
@@ -3166,6 +3154,34 @@
       ],
       "score": 6,
       "timestamp": "2025-08-27T02:46:39.572Z"
+    },
+    {
+      "playerId": "p1756244351246",
+      "playerName": "E",
+      "word": "COB",
+      "tiles": [
+        {
+          "letter": "C",
+          "points": 3,
+          "x": 1,
+          "y": 8
+        },
+        {
+          "letter": "O",
+          "points": 0,
+          "originalLetter": " ",
+          "x": 1,
+          "y": 9
+        },
+        {
+          "letter": "B",
+          "points": 3,
+          "x": 1,
+          "y": 10
+        }
+      ],
+      "score": 10,
+      "timestamp": "2025-08-27T02:49:35.907Z"
     }
   ],
   "gamePhase": "playing"
