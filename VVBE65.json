@@ -43,15 +43,23 @@
       "score": 52,
       "rack": [
         {
-          "letter": "I",
+          "letter": "E",
           "points": 1
+        },
+        {
+          "letter": "S",
+          "points": 1
+        },
+        {
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": " ",
+          "points": 0
         },
         {
           "letter": "O",
-          "points": 1
-        },
-        {
-          "letter": "I",
           "points": 1
         },
         {
@@ -59,16 +67,8 @@
           "points": 1
         },
         {
-          "letter": "A",
-          "points": 1
-        },
-        {
-          "letter": "O",
-          "points": 1
-        },
-        {
-          "letter": "S",
-          "points": 1
+          "letter": "G",
+          "points": 2
         }
       ],
       "code": "m"
@@ -76,15 +76,31 @@
   ],
   "tileBag": [
     {
-      "letter": "R",
+      "letter": "A",
       "points": 1
     },
     {
-      "letter": " ",
-      "points": 0
+      "letter": "T",
+      "points": 1
     },
     {
-      "letter": "O",
+      "letter": "N",
+      "points": 1
+    },
+    {
+      "letter": "D",
+      "points": 2
+    },
+    {
+      "letter": "X",
+      "points": 8
+    },
+    {
+      "letter": "N",
+      "points": 1
+    },
+    {
+      "letter": "I",
       "points": 1
     },
     {
@@ -92,68 +108,8 @@
       "points": 1
     },
     {
-      "letter": "G",
-      "points": 2
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "B",
-      "points": 3
-    },
-    {
-      "letter": "V",
-      "points": 4
-    },
-    {
-      "letter": "C",
-      "points": 3
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "H",
-      "points": 4
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
       "letter": "W",
       "points": 4
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
     },
     {
       "letter": "Z",
@@ -164,27 +120,27 @@
       "points": 2
     },
     {
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "letter": "T",
+      "points": 1
+    },
+    {
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "letter": "E",
+      "points": 1
+    },
+    {
       "letter": " ",
       "points": 0
     },
     {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "O",
+      "letter": "U",
       "points": 1
     },
     {
@@ -192,131 +148,15 @@
       "points": 3
     },
     {
-      "letter": "U",
+      "letter": "L",
+      "points": 1
+    },
+    {
+      "letter": "A",
       "points": 1
     },
     {
       "letter": "S",
-      "points": 1
-    },
-    {
-      "letter": "X",
-      "points": 8
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "C",
-      "points": 3
-    },
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "V",
-      "points": 4
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "P",
-      "points": 3
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "G",
-      "points": 2
-    },
-    {
-      "letter": "Q",
-      "points": 10
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "K",
-      "points": 5
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "T",
       "points": 1
     },
     {
@@ -326,6 +166,166 @@
     {
       "letter": "E",
       "points": 1
+    },
+    {
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "letter": "F",
+      "points": 4
+    },
+    {
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "letter": "S",
+      "points": 1
+    },
+    {
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "letter": "T",
+      "points": 1
+    },
+    {
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "letter": "V",
+      "points": 4
+    },
+    {
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "letter": "C",
+      "points": 3
+    },
+    {
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "letter": "T",
+      "points": 1
+    },
+    {
+      "letter": "B",
+      "points": 3
+    },
+    {
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "letter": "U",
+      "points": 1
+    },
+    {
+      "letter": "T",
+      "points": 1
+    },
+    {
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "letter": "P",
+      "points": 3
+    },
+    {
+      "letter": "V",
+      "points": 4
+    },
+    {
+      "letter": "C",
+      "points": 3
+    },
+    {
+      "letter": "K",
+      "points": 5
+    },
+    {
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "letter": "L",
+      "points": 1
+    },
+    {
+      "letter": "D",
+      "points": 2
+    },
+    {
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "letter": "L",
+      "points": 1
+    },
+    {
+      "letter": "H",
+      "points": 4
+    },
+    {
+      "letter": "R",
+      "points": 1
+    },
+    {
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "letter": "U",
+      "points": 1
+    },
+    {
+      "letter": "U",
+      "points": 1
+    },
+    {
+      "letter": "Q",
+      "points": 10
+    },
+    {
+      "letter": "G",
+      "points": 2
     }
   ],
   "board": [
@@ -607,7 +607,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "B",
+          "points": 3,
+          "x": 2,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -871,7 +876,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "G",
+          "points": 2,
+          "x": 4,
+          "y": 4
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -2466,6 +2476,15 @@
       ],
       "score": 12,
       "timestamp": "2025-08-27T00:21:43.775Z"
+    },
+    {
+      "playerId": "p1756244362835",
+      "playerName": "m",
+      "word": "[SWAP]",
+      "tiles": [],
+      "score": 0,
+      "isSwap": true,
+      "timestamp": "2025-08-27T00:23:01.905Z"
     }
   ],
   "gamePhase": "playing"
