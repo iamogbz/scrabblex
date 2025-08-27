@@ -74,7 +74,8 @@ export function BlankTileDialog({
             }}
             onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
             maxLength={1}
-            className="w-20 h-20 text-4xl text-center font-bold uppercase"
+            // Keep text as large otherwise it is clipped by the input field
+            className="w-20 h-20 text-l text-center font-bold uppercase"
           />
         </div>
         <DialogFooter className="sm:justify-between gap-2">

@@ -136,7 +136,7 @@ export async function getWordDefinition(word: string, forceRefresh = false): Pro
   }
 
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-  const prompt = `Provide a concise, one-line definition for the Scrabble word "${upperCaseWord}". Your response must not include the word "${upperCaseWord}" itself. If you cannot provide a definition, your entire response must be only the exact phrase "${unableToDefine}".`;
+  const prompt = `Provide a concise, one-line definition for the Scrabble word "${upperCaseWord}", prepended with its language of origin in parentheses. Your response must not include the word "${upperCaseWord}" itself. If you cannot provide a definition, your entire response must be only the exact phrase "${unableToDefine}". Example: (Latin) A type of cheese.`;
 
   const result = await model.generateContent(prompt);
   const response = await result.response;
@@ -199,11 +199,14 @@ export async function getWordDefinitions(
   const unableToDefine = "Unable to define this word.";
 
   const prompt = `
-    You are a dictionary expert. Provide a concise, one-line definition for each of the following Scrabble words.
+    You are a dictionary expert. For each of the Scrabble words provided, give a concise, one-line definition, prepended with its language of origin in parentheses.
     Pay close attention to whether the word is singular or plural and phrase the definition accordingly.
     **Crucially, the definition must not contain the word itself.**
-    Your response must be only a valid JSON object where the key is the uppercase word and the value is its definition.
+    Your response must be only a valid JSON object where the key is the uppercase word and the value is its definition string.
     If you are unable to define a word, use the exact phrase "${unableToDefine}" as its value. Do not include any other text, explanations, or markdown formatting in your response.
+
+    Example Request: ["DOG", "CAT"]
+    Example Response: {"DOG":"(Proto-Germanic) A domesticated carnivorous mammal.","CAT":"(Late Latin) A small domesticated carnivorous mammal with soft fur."}
 
     Words: ${JSON.stringify(wordsToFetchFromApi)}
   `;
@@ -445,3 +448,5 @@ Timestamp: ${new Date().toUTCString()}`,
     };
   }
 }
+
+    
