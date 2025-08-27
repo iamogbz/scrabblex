@@ -1,0 +1,1 @@
+Amounts that contain another quantity an integral number of times without a remainder.
