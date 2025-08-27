@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
@@ -906,6 +907,17 @@ export default function GameClient({
       setStagedTiles((prev) => [...prev, newTile]);
       setBlankTileToStage(null);
     }
+  };
+
+  const handleReturnTileToRack = () => {
+    if (stagedTileToReassign !== null) {
+      const newStagedTiles = stagedTiles.filter(
+        (_, i) => i !== stagedTileToReassign
+      );
+      setStagedTiles(newStagedTiles);
+      setStagedTileToReassign(null);
+    }
+    // No need to do anything if it's a new blank tile, as it hasn't been staged yet.
   };
 
   const handlePlayWord = async () => {
@@ -1901,6 +1913,8 @@ export default function GameClient({
           setIsBlankTileDialogOpen(isOpen);
         }}
         onSelect={handleBlankTileSelect}
+        onReturnToRack={handleReturnTileToRack}
+        showReturnToRack={stagedTileToReassign !== null}
       />
     </div>
   );

@@ -11,18 +11,23 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { useEffect, useState }from "react";
+import { useEffect, useState } from "react";
+import { RotateCcw } from "lucide-react";
 
 interface BlankTileDialogProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
   onSelect: (letter: string) => void;
+  onReturnToRack?: () => void;
+  showReturnToRack: boolean;
 }
 
 export function BlankTileDialog({
   isOpen,
   onOpenChange,
   onSelect,
+  onReturnToRack,
+  showReturnToRack,
 }: BlankTileDialogProps) {
   const [letter, setLetter] = useState("");
 
@@ -39,9 +44,19 @@ export function BlankTileDialog({
     }
   };
 
+  const handleReturn = () => {
+    if (onReturnToRack) {
+      onReturnToRack();
+    }
+    onOpenChange(false);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent onInteractOutside={(e) => e.preventDefault()} hideCloseButton={true}>
+      <DialogContent
+        onInteractOutside={(e) => e.preventDefault()}
+        hideCloseButton={true}
+      >
         <DialogHeader>
           <DialogTitle>Choose a Letter</DialogTitle>
           <DialogDescription>
@@ -62,13 +77,22 @@ export function BlankTileDialog({
             className="w-20 h-20 text-4xl text-center font-bold uppercase"
           />
         </div>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
-          <Button onClick={handleSubmit} disabled={!letter}>
-            Select
-          </Button>
+        <DialogFooter className="sm:justify-between gap-2">
+          {showReturnToRack ? (
+            <Button variant="outline" onClick={handleReturn}>
+              <RotateCcw className="mr-2 h-4 w-4" /> Return to Rack
+            </Button>
+          ) : (
+            <div />
+          )}
+          <div className="flex gap-2 justify-end">
+            <Button variant="ghost" onClick={() => onOpenChange(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSubmit} disabled={!letter}>
+              Select
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
