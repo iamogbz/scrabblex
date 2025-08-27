@@ -31,7 +31,7 @@ const formatRelativeTime = (date: Date): string => {
 const getGameStatusText = (game: GameDetails): string => {
   const lastUpdated = formatRelativeTime(new Date(game.updatedAt));
   const wordCount = game.history.length;
-  return `${wordCount} ${wordCount === 1 ? 'word': 'words'}. Ended ${lastUpdated}.`;
+  return `100% Complete. ${wordCount} ${wordCount === 1 ? 'word' : 'words'}. Ended ${lastUpdated}.`;
 };
 
 export default function SolvePage() {
