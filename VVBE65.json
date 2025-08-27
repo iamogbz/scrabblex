@@ -4,7 +4,7 @@
     {
       "id": "p1756244351246",
       "name": "E",
-      "score": 111,
+      "score": 138,
       "rack": [
         {
           "letter": "R",
@@ -23,16 +23,16 @@
           "points": 10
         },
         {
-          "letter": "D",
-          "points": 2
+          "letter": "K",
+          "points": 5
         },
         {
-          "letter": "A",
+          "letter": "R",
           "points": 1
         },
         {
-          "letter": "K",
-          "points": 5
+          "letter": "S",
+          "points": 1
         }
       ],
       "code": "e"
@@ -75,14 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
     {
       "letter": "A",
       "points": 1
@@ -2743,6 +2735,27 @@
       ],
       "score": 60,
       "timestamp": "2025-08-27T01:19:45.983Z"
+    },
+    {
+      "playerId": "p1756244351246",
+      "playerName": "E",
+      "word": "AD",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 10,
+          "y": 10
+        },
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 10,
+          "y": 11
+        }
+      ],
+      "score": 27,
+      "timestamp": "2025-08-27T02:12:38.589Z"
     }
   ],
   "gamePhase": "playing"
