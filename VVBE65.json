@@ -40,7 +40,7 @@
     {
       "id": "p1756244362835",
       "name": "M",
-      "score": 316,
+      "score": 335,
       "rack": [
         {
           "letter": "U",
@@ -48,14 +48,6 @@
         },
         {
           "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "A",
           "points": 1
         },
         {
@@ -67,23 +59,18 @@
           "points": 1
         },
         {
-          "letter": "S",
+          "letter": " ",
+          "points": 0
+        },
+        {
+          "letter": "L",
           "points": 1
         }
       ],
       "code": "m"
     }
   ],
-  "tileBag": [
-    {
-      "letter": " ",
-      "points": 0
-    },
-    {
-      "letter": "L",
-      "points": 1
-    }
-  ],
+  "tileBag": [],
   "board": [
     [
       {
@@ -2222,7 +2209,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "C",
+          "points": 3,
+          "x": 14,
+          "y": 3
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2230,7 +2222,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 14,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2238,7 +2235,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "V",
+          "points": 4,
+          "x": 14,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2246,7 +2248,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 14,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2254,7 +2261,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 14,
+          "y": 7
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -3039,6 +3051,33 @@
       ],
       "score": 53,
       "timestamp": "2025-08-27T02:40:09.624Z"
+    },
+    {
+      "playerId": "p1756244362835",
+      "playerName": "M",
+      "word": "AIS",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 12,
+          "y": 5
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 12,
+          "y": 6
+        },
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 12,
+          "y": 7
+        }
+      ],
+      "score": 19,
+      "timestamp": "2025-08-27T02:41:36.974Z"
     }
   ],
   "gamePhase": "playing"
