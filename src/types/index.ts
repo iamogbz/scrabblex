@@ -1,6 +1,8 @@
+
 export interface Tile {
   letter: string;
   points: number;
+  originalLetter?: string;
 }
 
 export interface PlacedTile extends Tile {

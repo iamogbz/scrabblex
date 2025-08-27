@@ -63,6 +63,7 @@ import WordBuilder from "./word-builder";
 import { calculateMoveScore } from "@/lib/scoring";
 import { cn } from "@/lib/utils";
 import SingleTile from "./tile";
+import { BlankTileDialog } from "./blank-tile-dialog";
 
 const MAX_PLAYER_COUNT = 4;
 
@@ -101,6 +102,10 @@ export default function GameClient({
   const [isSubmittingBug, setIsSubmittingBug] = useState(false);
   const [isTileBagOpen, setIsTileBagOpen] = useState(false);
   const [isResignConfirmOpen, setIsResignConfirmOpen] = useState(false);
+  const [isBlankTileDialogOpen, setIsBlankTileDialogOpen] = useState(false);
+  const [blankTileToStage, setBlankTileToStage] = useState<Tile | null>(null);
+  const [stagedTileToReassign, setStagedTileToReassign] = useState<number | null>(null);
+
 
   const [authenticatedPlayerId, setAuthenticatedPlayerId] = useState<
     string | null
@@ -157,7 +162,7 @@ export default function GameClient({
     if (history.length >= numPlayers * 2) {
       const lastMoves = history.slice(-numPlayers * 2);
       if (lastMoves.every((move) => move.isPass)) {
-        const newGameState = JSON.parse(JSON.stringify(currentState));
+        const newGameState = JSON.parse(JSON.stringify(gameState));
         newGameState.gamePhase = "ended";
 
         newGameState.players.forEach((p: Player) => {
@@ -397,8 +402,7 @@ export default function GameClient({
   const rackTiles = useMemo(() => {
     if (!authenticatedPlayer) return [];
 
-    // Create a mutable copy of the staged tile letters to track usage
-    const stagedLettersCopy = stagedTiles.map((t) => t.letter);
+    const stagedLettersCopy = stagedTiles.map((t) => (t.originalLetter ?? t.letter));
     const rackCopy = [...authenticatedPlayer.rack];
 
     // Filter out staged letters from the rack display
@@ -807,6 +811,12 @@ export default function GameClient({
   const handleRackTileClick = (tile: Tile) => {
     if (!gameState) return;
 
+    if (tile.letter === " ") {
+      setBlankTileToStage(tile);
+      setIsBlankTileDialogOpen(true);
+      return;
+    }
+    
     // Determine how many tiles can still be placed
     const emptySlots = wordBuilderSlots.filter((s) => s.tile === null).length;
     if (stagedTiles.length >= emptySlots || stagedTiles.length >= 7) {
@@ -824,7 +834,34 @@ export default function GameClient({
   };
 
   const handleStagedTileClick = (index: number) => {
-    setStagedTiles((prev) => prev.filter((_, i) => i !== index));
+    const tile = stagedTiles[index];
+    if (tile.originalLetter === " ") {
+        setStagedTileToReassign(index);
+        setIsBlankTileDialogOpen(true);
+    } else {
+        setStagedTiles((prev) => prev.filter((_, i) => i !== index));
+    }
+  };
+
+  const handleBlankTileSelect = (letter: string) => {
+    if (stagedTileToReassign !== null) {
+        // Reassigning letter for an already staged blank tile
+        const newStagedTiles = [...stagedTiles];
+        newStagedTiles[stagedTileToReassign].letter = letter;
+        setStagedTiles(newStagedTiles);
+        setStagedTileToReassign(null);
+    } else if (blankTileToStage) {
+        // Staging a new blank tile from the rack
+        const newTile: PlacedTile = {
+            ...blankTileToStage,
+            letter: letter,
+            originalLetter: " ",
+            x: -1,
+            y: -1,
+        };
+        setStagedTiles(prev => [...prev, newTile]);
+        setBlankTileToStage(null);
+    }
   };
 
   const handlePlayWord = async () => {
@@ -945,7 +982,7 @@ export default function GameClient({
         const newTiles = newGameState.tileBag.slice(0, tilesToDraw);
 
         let rackAfterPlay = [...playerToUpdate.rack];
-        const stagedLetters = stagedTiles.map((t) => t.letter);
+        const stagedLetters = stagedTiles.map((t) => (t.originalLetter ?? t.letter));
 
         stagedLetters.forEach((letter) => {
           const indexToRemove = rackAfterPlay.findIndex(
@@ -1087,7 +1124,7 @@ export default function GameClient({
       )!;
       const tileBag = newGameState.tileBag;
 
-      const lettersToSwap = tilesToSwap.map((t) => t.letter);
+      const lettersToSwap = tilesToSwap.map((t) => (t.originalLetter ?? t.letter));
       const rackAfterSwap = [...playerToUpdate.rack];
       const swappedOutTiles: Tile[] = [];
 
@@ -1803,6 +1840,17 @@ export default function GameClient({
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <BlankTileDialog
+        isOpen={isBlankTileDialogOpen}
+        onOpenChange={(isOpen) => {
+            if (!isOpen) {
+                setBlankTileToStage(null);
+                setStagedTileToReassign(null);
+            }
+            setIsBlankTileDialogOpen(isOpen)
+        }}
+        onSelect={handleBlankTileSelect}
+      />
     </div>
   );
 }

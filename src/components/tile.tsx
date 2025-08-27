@@ -34,6 +34,8 @@ export default function SingleTile({ tile, isDraggable = true, onSelect, isSelec
   const backgroundColor = playerColor ?? ""
   const borderColor = backgroundColor && darkenColor(backgroundColor, 20); // Darken by 20%
   const textColor = playerColor && contrastColor(playerColor);
+  const isBlank = tile.letter === ' ';
+
   return (
     <div
       onClick={onSelect}
@@ -53,7 +55,7 @@ export default function SingleTile({ tile, isDraggable = true, onSelect, isSelec
         color: 'unset', // Remove default text color
       }}
     >
-      <span className={cn("font-bold font-headline mr-1 mb-1")} style={{ color: textColor, fontSize: '50cqw'}}>{tile.letter}</span>
+      <span className={cn("font-bold font-headline mr-1 mb-1")} style={{ color: textColor, fontSize: '50cqw'}}>{isBlank ? '?' : tile.letter}</span>
       <span className={cn("absolute bottom-0 right-1 font-bold")} style={{ color: textColor, fontSize: '20cqw' }}>{tile.points}</span>
     </div>
   );
