@@ -97,7 +97,7 @@ export default function PlayPage() {
             return {
               ...gameState,
               updatedAt:
-                gameState.history[gameState.history.length - 1].timestamp || new Date().toISOString(),
+                gameState.history[gameState.history.length - 1]?.timestamp || new Date().toISOString(),
             };
           } catch (error) {
             console.error(`Error fetching details for game ${gameId}:`, error);
