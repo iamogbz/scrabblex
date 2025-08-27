@@ -40,19 +40,11 @@
     {
       "id": "p1756244362835",
       "name": "M",
-      "score": 261,
+      "score": 282,
       "rack": [
         {
           "letter": "G",
           "points": 2
-        },
-        {
-          "letter": "D",
-          "points": 2
-        },
-        {
-          "letter": "A",
-          "points": 1
         },
         {
           "letter": "A",
@@ -69,20 +61,20 @@
         {
           "letter": "U",
           "points": 1
+        },
+        {
+          "letter": "F",
+          "points": 4
+        },
+        {
+          "letter": "I",
+          "points": 1
         }
       ],
       "code": "m"
     }
   ],
   "tileBag": [
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
     {
       "letter": "L",
       "points": 1
@@ -1120,7 +1112,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "W",
+          "points": 4,
+          "x": 6,
+          "y": 12
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1459,7 +1456,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Z",
+          "points": 10,
+          "x": 8,
+          "y": 12
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2823,6 +2825,27 @@
       ],
       "score": 29,
       "timestamp": "2025-08-27T02:20:12.907Z"
+    },
+    {
+      "playerId": "p1756244362835",
+      "playerName": "M",
+      "word": "PAD",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 8,
+          "y": 13
+        },
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 9,
+          "y": 13
+        }
+      ],
+      "score": 21,
+      "timestamp": "2025-08-27T02:22:22.086Z"
     }
   ],
   "gamePhase": "playing"
