@@ -11,7 +11,7 @@ import {
   useRef,
 } from "react";
 import CrosswordTile from "./crossword-tile";
-import { getWordDefinition } from "@/app/actions";
+import { getWordDefinition, getWordDefinitions } from "@/app/actions";
 import { Button } from "./ui/button";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { Check, RotateCcw, RefreshCw, Focus, AlertTriangle } from "lucide-react";
@@ -267,7 +267,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     const wordsToFetch = words.filter((w) => !clues[w.word]).map((w) => w.word);
 
     try {
-      const definitions = await getWordDefinition(wordsToFetch);
+      const definitions = await getWordDefinitions(wordsToFetch);
       const newClues: Record<string, string> = {};
       for (const word in definitions) {
         newClues[word] = definitions[word] || `A ${word.length}-letter word.`;

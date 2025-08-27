@@ -8,6 +8,12 @@ import {
   GITHUB_USER_REPO,
   updateGame,
 } from "@/lib/game-service";
+import {
+  getDictionaryWord,
+  updateDictionaryWord,
+  getDictionaryWords,
+  updateDictionaryWords
+} from "@/lib/dictionary-service";
 import { redirect } from "next/navigation";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Octokit } from "@octokit/rest";
@@ -96,12 +102,25 @@ const genAI = process.env.GEMINI_API_KEY
 
 export async function getWordDefinition(word: string, forceRefresh = false): Promise<string | null> {
   const upperCaseWord = word.toUpperCase();
+
+  // In-memory cache check
   if (!forceRefresh && definitionCache.has(upperCaseWord)) {
     return definitionCache.get(upperCaseWord)!;
   }
-   if (forceRefresh) {
+  if(forceRefresh) {
     definitionCache.delete(upperCaseWord);
   }
+
+  // GitHub cache check
+  if (!forceRefresh) {
+    const cachedDefinition = await getDictionaryWord(upperCaseWord);
+    if (cachedDefinition) {
+      definitionCache.set(upperCaseWord, cachedDefinition);
+      return cachedDefinition;
+    }
+  }
+
+  // Verification and API call
   if (!genAI) {
     console.log("GEMINI_API_KEY not set, skipping definition lookup.");
     return "GEMINI_API_KEY not set.";
@@ -113,13 +132,9 @@ export async function getWordDefinition(word: string, forceRefresh = false): Pro
   const unableToDefine = "Unable to define this word.";
   const { isValid } = await verifyWordAction(upperCaseWord);
   if (!isValid) {
-    // Do not bother caching statically invalid words
-    // definitionCache.set(upperCaseWord, invalidWord);
     return invalidWord;
   }
 
-  // At this point, we know the word is valid.
-  // We will use the Gemini API to get a definition.
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
   const prompt = `Provide a concise, one-line definition for the Scrabble word "${upperCaseWord}". Your response must not include the word "${upperCaseWord}" itself. If you cannot provide a definition, your entire response must be only the exact phrase "${unableToDefine}".`;
 
@@ -129,10 +144,9 @@ export async function getWordDefinition(word: string, forceRefresh = false): Pro
 
   console.log(`Definition for "${upperCaseWord}":`, definition);
 
-  if (!definition.includes(unableToDefine)) {
-    // Do not bother caching valid words that could not be defined.
-    // They might be failing due to AI hallucination.
+  if (definition && !definition.includes(unableToDefine)) {
     definitionCache.set(upperCaseWord, definition);
+    await updateDictionaryWord(upperCaseWord, definition);
   }
 
   return definition;
@@ -143,24 +157,39 @@ export async function getWordDefinitions(
 ): Promise<Record<string, string | null>> {
   const upperCaseWords = words.map((w) => w.toUpperCase());
   const results: Record<string, string | null> = {};
-  const wordsToFetch: string[] = [];
+  let wordsToFetchFromApi: string[] = [];
 
-  // Use the existing cache first
+  // Check in-memory cache first
+  const wordsNotInMemCache: string[] = [];
   for (const word of upperCaseWords) {
     if (definitionCache.has(word)) {
       results[word] = definitionCache.get(word)!;
     } else {
-      wordsToFetch.push(word);
+      wordsNotInMemCache.push(word);
     }
   }
 
-  if (wordsToFetch.length === 0) {
+  if (wordsNotInMemCache.length > 0) {
+      // Check GitHub cache for the remaining words
+      const githubCachedDefinitions = await getDictionaryWords(wordsNotInMemCache);
+      
+      for (const word of wordsNotInMemCache) {
+          if (githubCachedDefinitions[word]) {
+              results[word] = githubCachedDefinitions[word];
+              definitionCache.set(word, githubCachedDefinitions[word]!);
+          } else {
+              wordsToFetchFromApi.push(word);
+          }
+      }
+  }
+
+  if (wordsToFetchFromApi.length === 0) {
     return results;
   }
 
   if (!genAI) {
     console.log("GEMINI_API_KEY not set, skipping definition lookup.");
-    for (const word of wordsToFetch) {
+    for (const word of wordsToFetchFromApi) {
       results[word] = "GEMINI_API_KEY not set.";
     }
     return results;
@@ -176,29 +205,34 @@ export async function getWordDefinitions(
     Your response must be only a valid JSON object where the key is the uppercase word and the value is its definition.
     If you are unable to define a word, use the exact phrase "${unableToDefine}" as its value. Do not include any other text, explanations, or markdown formatting in your response.
 
-    Words: ${JSON.stringify(wordsToFetch)}
+    Words: ${JSON.stringify(wordsToFetchFromApi)}
   `;
 
   try {
     const generationResult = await model.generateContent(prompt);
     const responseText = generationResult.response.text();
-
-    // Clean the response to ensure it's valid JSON
     const jsonString = responseText.replace(/```json|```/g, "").trim();
-    const definitions = JSON.parse(jsonString) as Record<string, string>;
+    const definitionsFromApi = JSON.parse(jsonString) as Record<string, string>;
+    const definitionsToCacheInGithub: Record<string, string> = {};
 
-    for (const word of wordsToFetch) {
-      const definition = definitions[word];
+    for (const word of wordsToFetchFromApi) {
+      const definition = definitionsFromApi[word];
       if (definition && !definition.includes(unableToDefine)) {
         results[word] = definition;
-        definitionCache.set(word, definition); // Cache successful definitions
+        definitionCache.set(word, definition);
+        definitionsToCacheInGithub[word] = definition;
       } else {
         results[word] = unableToDefine;
       }
     }
+    
+    if (Object.keys(definitionsToCacheInGithub).length > 0) {
+        await updateDictionaryWords(definitionsToCacheInGithub);
+    }
+
   } catch (error) {
     console.error("Failed to fetch or parse batch definitions:", error);
-    for (const word of wordsToFetch) {
+    for (const word of wordsToFetchFromApi) {
       results[word] = "Error fetching definition.";
     }
   }
