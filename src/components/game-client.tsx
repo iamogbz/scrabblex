@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
@@ -13,7 +12,6 @@ import type {
 } from "@/types";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
@@ -55,7 +53,6 @@ import {
   suggestWordAction,
   updateGameState,
   verifyWordAction,
-  reportBugAction,
 } from "@/app/actions";
 import Link from "next/link";
 import { PlayerAuthDialog } from "./player-auth-dialog";
@@ -64,6 +61,7 @@ import { calculateMoveScore } from "@/lib/scoring";
 import { cn } from "@/lib/utils";
 import SingleTile from "./tile";
 import { BlankTileDialog } from "./blank-tile-dialog";
+import { ReportBugDialog } from "./ui/report-bug-dialog";
 
 const MAX_PLAYER_COUNT = 4;
 
@@ -97,9 +95,6 @@ export default function GameClient({
   const [newWord, setNewWord] = useState("");
   const [isSubmittingSuggestion, setIsSubmittingSuggestion] = useState(false);
   const [isReportBugOpen, setIsReportBugOpen] = useState(false);
-  const [bugTitle, setBugTitle] = useState("");
-  const [bugDescription, setBugDescription] = useState("");
-  const [isSubmittingBug, setIsSubmittingBug] = useState(false);
   const [isTileBagOpen, setIsTileBagOpen] = useState(false);
   const [isResignConfirmOpen, setIsResignConfirmOpen] = useState(false);
   const [isBlankTileDialogOpen, setIsBlankTileDialogOpen] = useState(false);
@@ -621,51 +616,6 @@ export default function GameClient({
       });
     } finally {
       setIsSubmittingSuggestion(false);
-    }
-  };
-
-  const handleReportBug = async () => {
-    if (!bugTitle.trim() || !bugDescription.trim()) return;
-    setIsSubmittingBug(true);
-    try {
-      const result = await reportBugAction(
-        bugTitle.trim(),
-        bugDescription.trim(),
-        authenticatedPlayer?.name || "Anonymous",
-        gameId,
-        sha
-      );
-      if (result.success && result.issueUrl) {
-        toast({
-          title: "Bug Report Submitted!",
-          description: (
-            <>
-              Issue created:{" "}
-              <a
-                href={result.issueUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
-              >
-                #{result.issueNumber}
-              </a>
-            </>
-          ),
-        });
-        setIsReportBugOpen(false);
-        setBugTitle("");
-        setBugDescription("");
-      } else {
-        throw new Error(result.error || "An unknown error occurred.");
-      }
-    } catch (e: any) {
-      toast({
-        title: "Submission Failed",
-        description: e.message || "Could not submit bug report.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmittingBug(false);
     }
   };
 
@@ -1796,53 +1746,13 @@ export default function GameClient({
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      <Dialog open={isReportBugOpen} onOpenChange={setIsReportBugOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Report a Bug</DialogTitle>
-            <DialogDescription>
-              Describe the bug you encountered. Please be as detailed as
-              possible.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-2">
-            <Input
-              value={bugTitle}
-              onChange={(e) => setBugTitle(e.target.value)}
-              placeholder="Bug title (e.g. Cannot play a valid word)"
-              disabled={isSubmittingBug}
-            />
-            <Textarea
-              value={bugDescription}
-              onChange={(e) => setBugDescription(e.target.value)}
-              placeholder="Describe the bug in detail..."
-              disabled={isSubmittingBug}
-              rows={5}
-            />
-          </div>
-          <DialogFooter>
-            <Button
-              variant="ghost"
-              onClick={() => setIsReportBugOpen(false)}
-              disabled={isSubmittingBug}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleReportBug}
-              disabled={
-                !bugTitle.trim() || !bugDescription.trim() || isSubmittingBug
-              }
-            >
-              {isSubmittingBug ? (
-                <RefreshCw className="animate-spin" />
-              ) : (
-                "Submit Bug Report"
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ReportBugDialog
+        isReportBugOpen={isReportBugOpen}
+        setIsReportBugOpen={setIsReportBugOpen}
+        gameId={gameId}
+        authenticatedPlayer={authenticatedPlayer}
+        sha={sha}
+      />
       <Dialog open={isTileBagOpen} onOpenChange={setIsTileBagOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>

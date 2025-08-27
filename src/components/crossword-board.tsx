@@ -1,4 +1,3 @@
-
 "use client";
 
 import type { GameState, PlacedTile } from "@/types";
@@ -14,7 +13,13 @@ import CrosswordTile from "./crossword-tile";
 import { getWordDefinition, getWordDefinitions } from "@/app/actions";
 import { Button } from "./ui/button";
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import { Check, RotateCcw, RefreshCw, Focus, AlertTriangle } from "lucide-react";
+import {
+  Check,
+  RotateCcw,
+  RefreshCw,
+  Focus,
+  MessageSquarePlus,
+} from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import {
@@ -29,6 +34,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { CrosswordGuessDialog } from "./crossword-guess-dialog";
+import { ReportBugDialog } from "./ui/report-bug-dialog";
 
 interface CrosswordBoardProps {
   gameState: GameState;
@@ -72,7 +78,8 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
   const [activeDirection, setActiveDirection] = useState<"across" | "down">(
     "across"
   );
-  
+
+  const [isReportBugOpen, setIsReportBugOpen] = useState(false);
   const [isGuessDialogOpen, setIsGuessDialogOpen] = useState(false);
   const [focusedWord, setFocusedWord] = useState<Word | null>(null);
 
@@ -104,10 +111,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
       const wordStartPositions: { [key: string]: number } = {};
       const wordsList: Omit<Word, "clue">[] = [];
       let wordNumber = 1;
-      const wordsByCell = new Map<
-        string,
-        { across?: number; down?: number }
-      >();
+      const wordsByCell = new Map<string, { across?: number; down?: number }>();
 
       for (let r = 0; r < 15; r++) {
         for (let c = 0; c < 15; c++) {
@@ -134,7 +138,10 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
               length++;
               const cellKey = `${r},${i}`;
               const existing = wordsByCell.get(cellKey) || {};
-              wordsByCell.set(cellKey, { ...existing, across: currentWordNumber });
+              wordsByCell.set(cellKey, {
+                ...existing,
+                across: currentWordNumber,
+              });
             }
             if (length > 1) {
               wordsList.push({
@@ -157,7 +164,10 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
               length++;
               const cellKey = `${i},${c}`;
               const existing = wordsByCell.get(cellKey) || {};
-              wordsByCell.set(cellKey, { ...existing, down: currentWordNumber });
+              wordsByCell.set(cellKey, {
+                ...existing,
+                down: currentWordNumber,
+              });
             }
             if (length > 1) {
               wordsList.push({
@@ -188,21 +198,29 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     }, [gameState.history]);
 
   const allCellsFilled = useMemo(() => {
-    const filledCellCount = Object.values(userInputs).filter(v => v).length;
+    const filledCellCount = Object.values(userInputs).filter((v) => v).length;
     return filledCellCount === playedTilesCoords.size;
   }, [userInputs, playedTilesCoords]);
-  
-  const scrollClueIntoView = useCallback((wordNumber: number | null, direction: 'across' | 'down') => {
-    if (!wordNumber || !cluesContainerRef.current) return;
 
-    const clueElement = cluesContainerRef.current.querySelector(`#clue-${direction}-${wordNumber}`) as HTMLElement;
-    
-    if (clueElement) {
-      const container = cluesContainerRef.current;
-      const scrollPosition = clueElement.offsetTop - container.offsetTop - (container.clientHeight / 3);
-      container.scrollTo({ top: scrollPosition, behavior: 'smooth' });
-    }
-  }, []);
+  const scrollClueIntoView = useCallback(
+    (wordNumber: number | null, direction: "across" | "down") => {
+      if (!wordNumber || !cluesContainerRef.current) return;
+
+      const clueElement = cluesContainerRef.current.querySelector(
+        `#clue-${direction}-${wordNumber}`
+      ) as HTMLElement;
+
+      if (clueElement) {
+        const container = cluesContainerRef.current;
+        const scrollPosition =
+          clueElement.offsetTop -
+          container.offsetTop -
+          container.clientHeight / 3;
+        container.scrollTo({ top: scrollPosition, behavior: "smooth" });
+      }
+    },
+    []
+  );
 
   const handleTileClick = (x: number, y: number) => {
     const isSameCell = activeCell?.x === x && activeCell?.y === y;
@@ -212,30 +230,37 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
 
     if (isSameCell) {
       // Toggle direction if clicking the same cell
-      newDirection = activeDirection === 'across' ? 'down' : 'across';
+      newDirection = activeDirection === "across" ? "down" : "across";
       // Only toggle if there's a word in that new direction
-      if (!((newDirection === 'across' && wordNums?.across) || (newDirection === 'down' && wordNums?.down))) {
+      if (
+        !(
+          (newDirection === "across" && wordNums?.across) ||
+          (newDirection === "down" && wordNums?.down)
+        )
+      ) {
         newDirection = activeDirection; // Revert if no word in new direction
       }
     } else {
       // New cell selected
       setActiveCell({ x, y });
-      
+
       // Prefer current direction if possible, otherwise switch to the available one.
       if (wordNums?.across && wordNums?.down) {
-          // If both directions are available, default to across or stick to current if it's an option.
-          newDirection = (activeDirection === 'down' && !wordNums.down) ? 'across' : activeDirection;
+        // If both directions are available, default to across or stick to current if it's an option.
+        newDirection =
+          activeDirection === "down" && !wordNums.down
+            ? "across"
+            : activeDirection;
       } else if (wordNums?.across) {
-          newDirection = 'across';
+        newDirection = "across";
       } else if (wordNums?.down) {
-          newDirection = 'down';
+        newDirection = "down";
       }
     }
-    
+
     setActiveDirection(newDirection);
     scrollClueIntoView(wordNums?.[newDirection] || null, newDirection);
   };
-
 
   useEffect(() => {
     if (activeCell) {
@@ -247,7 +272,6 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
       });
       const inputEl = tileRefs.current.get(cellKey);
       inputEl?.focus();
-
     } else {
       setActiveWords({ across: null, down: null });
     }
@@ -355,78 +379,82 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     setIsGuessDialogOpen(true);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, x: number, y: number) => {
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    x: number,
+    y: number
+  ) => {
     let nextX = x;
     let nextY = y;
     let moved = false;
-  
+
     if (e.key.length === 1 && e.key.match(/[a-z]/i)) {
       // Allow typing to overwrite
       handleInputChange(x, y, e.key);
       e.preventDefault();
-      return; 
+      return;
     }
 
-    switch(e.key) {
-        case 'ArrowUp':
-            if (activeDirection === 'across') {
-                setActiveDirection('down');
-                return;
-            }
-            nextX = x - 1;
-            moved = true;
-            break;
-        case 'ArrowDown':
-            if (activeDirection === 'across') {
-                setActiveDirection('down');
-                return;
-            }
-            nextX = x + 1;
-            moved = true;
-            break;
-        case 'ArrowLeft':
-            if (activeDirection === 'down') {
-                setActiveDirection('across');
-                return;
-            }
+    switch (e.key) {
+      case "ArrowUp":
+        if (activeDirection === "across") {
+          setActiveDirection("down");
+          return;
+        }
+        nextX = x - 1;
+        moved = true;
+        break;
+      case "ArrowDown":
+        if (activeDirection === "across") {
+          setActiveDirection("down");
+          return;
+        }
+        nextX = x + 1;
+        moved = true;
+        break;
+      case "ArrowLeft":
+        if (activeDirection === "down") {
+          setActiveDirection("across");
+          return;
+        }
+        nextY = y - 1;
+        moved = true;
+        break;
+      case "ArrowRight":
+        if (activeDirection === "down") {
+          setActiveDirection("across");
+          return;
+        }
+        nextY = y + 1;
+        moved = true;
+        break;
+      case "Backspace":
+        e.preventDefault();
+        const currentKey = `${x},${y}`;
+        if (userInputs[currentKey]) {
+          setUserInputs((prev) => ({ ...prev, [currentKey]: "" }));
+        } else {
+          // Move to previous tile
+          if (activeDirection === "across") {
             nextY = y - 1;
-            moved = true;
-            break;
-        case 'ArrowRight':
-            if (activeDirection === 'down') {
-                setActiveDirection('across');
-                return;
-            }
-            nextY = y + 1;
-            moved = true;
-            break;
-        case 'Backspace':
-            e.preventDefault();
-            const currentKey = `${x},${y}`;
-            if (userInputs[currentKey]) {
-                setUserInputs(prev => ({...prev, [currentKey]: ''}));
-            } else {
-                // Move to previous tile
-                if (activeDirection === 'across') {
-                    nextY = y - 1;
-                } else {
-                    nextX = x - 1;
-                }
-                moved = true;
-            }
-            break;
-        default:
-            return; // Exit for other keys
+          } else {
+            nextX = x - 1;
+          }
+          moved = true;
+        }
+        break;
+      default:
+        return; // Exit for other keys
     }
 
     if (moved) {
-        e.preventDefault();
-        const nextKey = `${nextX},${nextY}`;
-        if (playedTilesCoords.has(nextKey)) {
-          setActiveCell({ x: nextX, y: nextY });
-        }
+      e.preventDefault();
+      const nextKey = `${nextX},${nextY}`;
+      if (playedTilesCoords.has(nextKey)) {
+        setActiveCell({ x: nextX, y: nextY });
+      }
     }
-  }
+  };
 
   const handleReset = () => {
     setRevealedCells([]);
@@ -437,62 +465,69 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
 
   const handleCheck = () => {
     const cellsToReveal: string[] = [];
-  
-    words.forEach(wordInfo => {
+
+    words.forEach((wordInfo) => {
       let isCompleteAndCorrect = true;
-      const wordCells: {x: number, y: number}[] = [];
-  
+      const wordCells: { x: number; y: number }[] = [];
+
       for (let i = 0; i < wordInfo.length; i++) {
-        const x = wordInfo.direction === 'down' ? wordInfo.x + i : wordInfo.x;
-        const y = wordInfo.direction === 'across' ? wordInfo.y + i : wordInfo.y;
+        const x = wordInfo.direction === "down" ? wordInfo.x + i : wordInfo.x;
+        const y = wordInfo.direction === "across" ? wordInfo.y + i : wordInfo.y;
         wordCells.push({ x, y });
-  
+
         const cellKey = `${x},${y}`;
         const userInput = userInputs[cellKey];
         const correctTile = getTileFor(x, y);
-  
-        if (!userInput || !correctTile || userInput.toUpperCase() !== correctTile.letter) {
+
+        if (
+          !userInput ||
+          !correctTile ||
+          userInput.toUpperCase() !== correctTile.letter
+        ) {
           isCompleteAndCorrect = false;
           break;
         }
       }
-  
+
       if (isCompleteAndCorrect) {
-        wordCells.forEach(cell => cellsToReveal.push(`${cell.x},${cell.y}`));
+        wordCells.forEach((cell) => cellsToReveal.push(`${cell.x},${cell.y}`));
       }
     });
-  
-    setRevealedCells(prev => [...new Set([...prev, ...cellsToReveal])]);
+
+    setRevealedCells((prev) => [...new Set([...prev, ...cellsToReveal])]);
   };
-  
-    const handleGuessSubmit = (guess: string) => {
-        if (!focusedWord) return;
 
-        const newInputs = { ...userInputs };
-        for (let i = 0; i < focusedWord.length; i++) {
-            const x = focusedWord.direction === 'down' ? focusedWord.x + i : focusedWord.x;
-            const y = focusedWord.direction === 'across' ? focusedWord.y + i : focusedWord.y;
-            const key = `${x},${y}`;
-            if(guess[i]) { // only update if a guess was entered for that letter
-                newInputs[key] = guess[i].toUpperCase();
-            }
-        }
-        setUserInputs(newInputs);
-    };
+  const handleGuessSubmit = (guess: string) => {
+    if (!focusedWord) return;
 
-    const handleRefreshClue = async (word: string) => {
-        setReloadingClues(prev => [...prev, word]);
-        try {
-            const newDefinition = await getWordDefinition(word, true);
-            if (newDefinition) {
-                setClues(prev => ({...prev, [word]: newDefinition}));
-            }
-        } catch (error) {
-            console.error("Failed to refresh clue", error);
-        } finally {
-            setReloadingClues(prev => prev.filter(w => w !== word));
-        }
-    };
+    const newInputs = { ...userInputs };
+    for (let i = 0; i < focusedWord.length; i++) {
+      const x =
+        focusedWord.direction === "down" ? focusedWord.x + i : focusedWord.x;
+      const y =
+        focusedWord.direction === "across" ? focusedWord.y + i : focusedWord.y;
+      const key = `${x},${y}`;
+      if (guess[i]) {
+        // only update if a guess was entered for that letter
+        newInputs[key] = guess[i].toUpperCase();
+      }
+    }
+    setUserInputs(newInputs);
+  };
+
+  const handleRefreshClue = async (word: string) => {
+    setReloadingClues((prev) => [...prev, word]);
+    try {
+      const newDefinition = await getWordDefinition(word, true);
+      if (newDefinition) {
+        setClues((prev) => ({ ...prev, [word]: newDefinition }));
+      }
+    } catch (error) {
+      console.error("Failed to refresh clue", error);
+    } finally {
+      setReloadingClues((prev) => prev.filter((w) => w !== word));
+    }
+  };
 
   const acrossClues = words.filter((w) => w.direction === "across");
   const downClues = words.filter((w) => w.direction === "down");
@@ -520,11 +555,17 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
           <span className="font-bold w-8">{word.number}.</span>
           <span className="flex-1">
             {isReloading ? (
-                 <span className="text-muted-foreground italic">Fetching...</span>
-            ) : clues[word.word] || (
               <span className="text-muted-foreground italic">Fetching...</span>
+            ) : (
+              clues[word.word] || (
+                <span className="text-muted-foreground italic">
+                  Fetching...
+                </span>
+              )
             )}{" "}
-            <span className="text-muted-foreground">({word.length} {word.length === 1 ? 'letter' : 'letters'})</span>
+            <span className="text-muted-foreground">
+              ({word.length} {word.length === 1 ? "letter" : "letters"})
+            </span>
           </span>
           <Button
             size="icon"
@@ -532,11 +573,13 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
             className="h-8 w-8 ml-2"
             disabled={isReloading}
             onClick={(e) => {
-                e.stopPropagation();
-                handleRefreshClue(word.word);
+              e.stopPropagation();
+              handleRefreshClue(word.word);
             }}
-            >
-            <RefreshCw className={cn("h-4 w-4", isReloading && "animate-spin")} />
+          >
+            <RefreshCw
+              className={cn("h-4 w-4", isReloading && "animate-spin")}
+            />
           </Button>
           <Button
             size="icon"
@@ -544,7 +587,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
             className="h-8 w-8"
             onClick={(e) => {
               e.stopPropagation(); // Prevent parent div's onClick
-              handleFocusWord(word)
+              handleFocusWord(word);
             }}
           >
             <Focus className="h-4 w-4" />
@@ -616,21 +659,30 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
                 if (playedTilesCoords.has(coordString)) {
                   const tile = getTileFor(x, y);
                   const isRevealed = revealedCells.includes(coordString);
-                  
-                  let isActive = false;
-                  if(activeCell && activeCell.x === x && activeCell.y === y) {
-                      isActive = true;
-                  } else {
-                      const activeWordInfo = words.find(w => w.number === activeWords[activeDirection] && w.direction === activeDirection);
-                      if (activeWordInfo) {
-                           if(activeDirection === 'across') {
-                               isActive = x === activeWordInfo.x && y >= activeWordInfo.y && y < activeWordInfo.y + activeWordInfo.length;
-                           } else {
-                               isActive = y === activeWordInfo.y && x >= activeWordInfo.x && x < activeWordInfo.x + activeWordInfo.length;
-                           }
-                      }
-                  }
 
+                  let isActive = false;
+                  if (activeCell && activeCell.x === x && activeCell.y === y) {
+                    isActive = true;
+                  } else {
+                    const activeWordInfo = words.find(
+                      (w) =>
+                        w.number === activeWords[activeDirection] &&
+                        w.direction === activeDirection
+                    );
+                    if (activeWordInfo) {
+                      if (activeDirection === "across") {
+                        isActive =
+                          x === activeWordInfo.x &&
+                          y >= activeWordInfo.y &&
+                          y < activeWordInfo.y + activeWordInfo.length;
+                      } else {
+                        isActive =
+                          y === activeWordInfo.y &&
+                          x >= activeWordInfo.x &&
+                          x < activeWordInfo.x + activeWordInfo.length;
+                      }
+                    }
+                  }
 
                   return (
                     <CrosswordTile
@@ -645,7 +697,9 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
                       onKeyDown={(e) => handleKeyDown(e, x, y)}
                       onClick={() => handleTileClick(x, y)}
                       isActive={isActive}
-                      isPartiallyActive={activeCell?.x === x && activeCell?.y === y}
+                      isPartiallyActive={
+                        activeCell?.x === x && activeCell?.y === y
+                      }
                     />
                   );
                 } else {
@@ -661,13 +715,30 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
           </div>
         </div>
         <div className="flex justify-center gap-2 mt-4">
+          {/* TODO: maybe replace with alert dialog in future versions */}
+          <ReportBugDialog
+            isReportBugOpen={isReportBugOpen}
+            setIsReportBugOpen={setIsReportBugOpen}
+            gameId={gameState.gameId}
+            sha={"crossword"}
+          />
+          <Button
+            variant="outline"
+            onClick={() => setIsReportBugOpen(true)}
+            title="Report Bug"
+          >
+            <MessageSquarePlus className="h-4 w-4" />
+          </Button>
           <Button onClick={handleCheck} disabled={!allCellsFilled}>
             <Check className="mr-2 h-4 w-4" />
             Check All
           </Button>
-          <AlertDialog open={isResetConfirmOpen} onOpenChange={setIsResetConfirmOpen}>
+          <AlertDialog
+            open={isResetConfirmOpen}
+            onOpenChange={setIsResetConfirmOpen}
+          >
             <AlertDialogTrigger asChild>
-              <Button variant="outline">
+              <Button variant="destructive">
                 <RotateCcw className="mr-2 h-4 w-4" />
                 Reset
               </Button>
@@ -676,12 +747,15 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
               <AlertDialogHeader>
                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  This will clear all your progress on this puzzle. This action cannot be undone.
+                  This will clear all your progress on this puzzle. This action
+                  cannot be undone.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleReset}>Continue</AlertDialogAction>
+                <AlertDialogAction onClick={handleReset}>
+                  Continue
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
@@ -693,26 +767,35 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
         style={{
           backgroundColor: "hsl(var(--background))",
           boxShadow: "0px -12px 12px 12px hsl(var(--background))",
-          marginTop: '12px',
+          marginTop: "12px",
         }}
       >
-        <div 
+        <div
           ref={cluesContainerRef}
           className={`h-full w-full rounded-md border overflow-y-auto`}
           style={{
-            minHeight: '137px',
-            maxHeight: isMobile ? `${Math.floor(window.innerHeight - boardContainerHeight - 140)}px` : '80vh',
+            minHeight: "137px",
+            maxHeight: isMobile
+              ? `${Math.floor(
+                  window.innerHeight - boardContainerHeight - 140
+                )}px`
+              : "80vh",
           }}
         >
           {isLoadingClues && Object.keys(clues).length === 0 ? (
             <div className="flex items-center justify-center p-4">
-              <RefreshCw className="mr-2 h-4 w-4 animate-spin" /> Loading clues...
+              <RefreshCw className="mr-2 h-4 w-4 animate-spin" /> Loading
+              clues...
             </div>
           ) : (
             <div className="p-2">
-              <h3 className="font-bold text-lg mb-2 sticky top-0 bg-background py-2 border-b">Across</h3>
+              <h3 className="font-bold text-lg mb-2 sticky top-0 bg-background py-2 border-b">
+                Across
+              </h3>
               {renderClueList(acrossClues, "across")}
-              <h3 className="font-bold text-lg mt-4 mb-2 sticky top-0 bg-background py-2 border-b">Down</h3>
+              <h3 className="font-bold text-lg mt-4 mb-2 sticky top-0 bg-background py-2 border-b">
+                Down
+              </h3>
               {renderClueList(downClues, "down")}
             </div>
           )}
