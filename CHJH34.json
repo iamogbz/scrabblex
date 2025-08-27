@@ -1,35 +1,44 @@
 {
   "gameId": "CHJH34",
-  "players": [],
+  "players": [
+    {
+      "id": "p1756301844292",
+      "name": "E",
+      "score": 0,
+      "rack": [
+        {
+          "letter": " ",
+          "points": 0
+        },
+        {
+          "letter": "G",
+          "points": 2
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "N",
+          "points": 1
+        },
+        {
+          "letter": "F",
+          "points": 4
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "A",
+          "points": 1
+        }
+      ],
+      "code": "e"
+    }
+  ],
   "tileBag": [
-    {
-      "letter": " ",
-      "points": 0
-    },
-    {
-      "letter": "G",
-      "points": 2
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
     {
       "letter": "L",
       "points": 1
