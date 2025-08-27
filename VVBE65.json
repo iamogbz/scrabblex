@@ -40,22 +40,14 @@
     {
       "id": "p1756244362835",
       "name": "M",
-      "score": 294,
+      "score": 316,
       "rack": [
         {
-          "letter": "G",
-          "points": 2
-        },
-        {
-          "letter": "T",
+          "letter": "U",
           "points": 1
         },
         {
           "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "U",
           "points": 1
         },
         {
@@ -67,7 +59,15 @@
           "points": 1
         },
         {
-          "letter": "I",
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "S",
           "points": 1
         }
       ],
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
     {
       "letter": "B",
       "points": 3
@@ -2983,6 +2967,39 @@
       ],
       "score": 83,
       "timestamp": "2025-08-27T02:30:31.973Z"
+    },
+    {
+      "playerId": "p1756244362835",
+      "playerName": "M",
+      "word": "GAIT",
+      "tiles": [
+        {
+          "letter": "G",
+          "points": 2,
+          "x": 12,
+          "y": 11
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 12,
+          "y": 12
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 12,
+          "y": 13
+        },
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 12,
+          "y": 14
+        }
+      ],
+      "score": 22,
+      "timestamp": "2025-08-27T02:33:02.503Z"
     }
   ],
   "gamePhase": "playing"
