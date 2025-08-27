@@ -71,6 +71,11 @@ export async function getGame(
 
     const data = await response.json();
     let gameState: GameState = JSON.parse(fromBase64(data.content));
+    gameState.players = gameState.players.map((player) => ({
+      ...player,
+      name: player.name.toUpperCase(),
+    }));
+
     let sha: string = data.sha;
     let stateWasModified = false;
     // --- Board Reconstruction from History ---
@@ -138,7 +143,6 @@ export async function getGame(
             stateWasModified = true;
             return {
             ...player,
-            name: player.name.toUpperCase(),
             rack: [...player.rack, ...newTiles],
             };
         }
