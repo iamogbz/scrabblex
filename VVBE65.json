@@ -4,15 +4,11 @@
     {
       "id": "p1756244351246",
       "name": "E",
-      "score": 63,
+      "score": 82,
       "rack": [
         {
           "letter": "R",
           "points": 1
-        },
-        {
-          "letter": "F",
-          "points": 4
         },
         {
           "letter": "J",
@@ -23,15 +19,19 @@
           "points": 1
         },
         {
-          "letter": "P",
-          "points": 3
-        },
-        {
-          "letter": "O",
+          "letter": "R",
           "points": 1
         },
         {
-          "letter": "R",
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "N",
           "points": 1
         }
       ],
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
     {
       "letter": "D",
       "points": 2
@@ -2485,6 +2473,33 @@
       "score": 0,
       "isSwap": true,
       "timestamp": "2025-08-27T00:23:01.905Z"
+    },
+    {
+      "playerId": "p1756244351246",
+      "playerName": "E",
+      "word": "FOP",
+      "tiles": [
+        {
+          "letter": "F",
+          "points": 4,
+          "x": 8,
+          "y": 3
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 8,
+          "y": 4
+        },
+        {
+          "letter": "P",
+          "points": 3,
+          "x": 8,
+          "y": 5
+        }
+      ],
+      "score": 19,
+      "timestamp": "2025-08-27T00:28:35.021Z"
     }
   ],
   "gamePhase": "playing"
