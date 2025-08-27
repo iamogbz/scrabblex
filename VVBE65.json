@@ -4,7 +4,7 @@
     {
       "id": "p1756244351246",
       "name": "E",
-      "score": 331,
+      "score": 349,
       "rack": [
         {
           "letter": "C",
@@ -19,20 +19,12 @@
           "points": 3
         },
         {
-          "letter": "H",
-          "points": 4
-        },
-        {
           "letter": "I",
           "points": 1
         },
         {
           "letter": " ",
           "points": 0
-        },
-        {
-          "letter": "O",
-          "points": 1
         }
       ],
       "code": "e"
@@ -1936,7 +1928,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 12,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1944,7 +1941,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 12,
+          "y": 6
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1952,7 +1954,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 12,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3078,6 +3085,27 @@
       ],
       "score": 19,
       "timestamp": "2025-08-27T02:41:36.974Z"
+    },
+    {
+      "playerId": "p1756244351246",
+      "playerName": "E",
+      "word": "THO",
+      "tiles": [
+        {
+          "letter": "H",
+          "points": 4,
+          "x": 13,
+          "y": 14
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 14,
+          "y": 14
+        }
+      ],
+      "score": 18,
+      "timestamp": "2025-08-27T02:42:53.475Z"
     }
   ],
   "gamePhase": "playing"
