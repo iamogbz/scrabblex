@@ -4,7 +4,7 @@
     {
       "id": "p1756244351246",
       "name": "E",
-      "score": 51,
+      "score": 63,
       "rack": [
         {
           "letter": "R",
@@ -23,16 +23,16 @@
           "points": 1
         },
         {
-          "letter": "G",
-          "points": 2
-        },
-        {
-          "letter": "B",
-          "points": 3
-        },
-        {
           "letter": "P",
           "points": 3
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "R",
+          "points": 1
         }
       ],
       "code": "e"
@@ -75,14 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
     {
       "letter": "R",
       "points": 1
@@ -729,7 +721,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 3,
+          "y": 3
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -737,7 +734,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 3,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -745,7 +747,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 3,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -753,7 +760,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 3,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2433,6 +2445,27 @@
       ],
       "score": 15,
       "timestamp": "2025-08-27T00:18:18.064Z"
+    },
+    {
+      "playerId": "p1756244351246",
+      "playerName": "E",
+      "word": "BEG",
+      "tiles": [
+        {
+          "letter": "B",
+          "points": 3,
+          "x": 2,
+          "y": 4
+        },
+        {
+          "letter": "G",
+          "points": 2,
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "score": 12,
+      "timestamp": "2025-08-27T00:21:43.775Z"
     }
   ],
   "gamePhase": "playing"
