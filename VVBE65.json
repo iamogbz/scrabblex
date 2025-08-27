@@ -4,7 +4,7 @@
     {
       "id": "p1756244351246",
       "name": "E",
-      "score": 359,
+      "score": 357,
       "rack": [
         {
           "letter": "I",
@@ -28,13 +28,8 @@
     {
       "id": "p1756244362835",
       "name": "M",
-      "score": 341,
-      "rack": [
-        {
-          "letter": "U",
-          "points": 1
-        }
-      ],
+      "score": 349,
+      "rack": [],
       "code": "m"
     }
   ],
@@ -3202,7 +3197,23 @@
       ],
       "score": 10,
       "timestamp": "2025-08-27T02:49:35.907Z"
+    },
+    {
+      "playerId": "p1756244362835",
+      "playerName": "M",
+      "word": "MU",
+      "tiles": [
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 5,
+          "y": 1
+        }
+      ],
+      "score": 6,
+      "timestamp": "2025-08-27T02:50:02.529Z"
     }
   ],
-  "gamePhase": "playing"
+  "gamePhase": "ended",
+  "endStatus": "M has used all their tiles!"
 }
