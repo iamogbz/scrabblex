@@ -11,7 +11,7 @@ import {
   useRef,
 } from "react";
 import CrosswordTile from "./crossword-tile";
-import { getWordDefinitions } from "@/app/actions";
+import { getWordDefinition } from "@/app/actions";
 import { Button } from "./ui/button";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { Check, RotateCcw, RefreshCw, Focus, AlertTriangle } from "lucide-react";
@@ -52,6 +52,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
   );
   const [isLoadingClues, setIsLoadingClues] = useState(true);
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
+  const [reloadingClues, setReloadingClues] = useState<string[]>([]);
 
   const [revealedCells, setRevealedCells] = useLocalStorage<string[]>(
     `crossword-${gameState.gameId}-revealed`,
@@ -266,7 +267,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     const wordsToFetch = words.filter((w) => !clues[w.word]).map((w) => w.word);
 
     try {
-      const definitions = await getWordDefinitions(wordsToFetch);
+      const definitions = await getWordDefinition(wordsToFetch);
       const newClues: Record<string, string> = {};
       for (const word in definitions) {
         newClues[word] = definitions[word] || `A ${word.length}-letter word.`;
@@ -479,6 +480,20 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
         setUserInputs(newInputs);
     };
 
+    const handleRefreshClue = async (word: string) => {
+        setReloadingClues(prev => [...prev, word]);
+        try {
+            const newDefinition = await getWordDefinition(word, true);
+            if (newDefinition) {
+                setClues(prev => ({...prev, [word]: newDefinition}));
+            }
+        } catch (error) {
+            console.error("Failed to refresh clue", error);
+        } finally {
+            setReloadingClues(prev => prev.filter(w => w !== word));
+        }
+    };
+
   const acrossClues = words.filter((w) => w.direction === "across");
   const downClues = words.filter((w) => w.direction === "down");
 
@@ -490,6 +505,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
       const isActive =
         (direction === "across" && activeWords.across === word.number) ||
         (direction === "down" && activeWords.down === word.number);
+      const isReloading = reloadingClues.includes(word.word);
 
       return (
         <div
@@ -503,7 +519,9 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
         >
           <span className="font-bold w-8">{word.number}.</span>
           <span className="flex-1">
-            {clues[word.word] || (
+            {isReloading ? (
+                 <span className="text-muted-foreground italic">Fetching...</span>
+            ) : clues[word.word] || (
               <span className="text-muted-foreground italic">Fetching...</span>
             )}{" "}
             <span className="text-muted-foreground">({word.length} {word.length === 1 ? 'letter' : 'letters'})</span>
@@ -512,6 +530,18 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
             size="icon"
             variant="ghost"
             className="h-8 w-8 ml-2"
+            disabled={isReloading}
+            onClick={(e) => {
+                e.stopPropagation();
+                handleRefreshClue(word.word);
+            }}
+            >
+            <RefreshCw className={cn("h-4 w-4", isReloading && "animate-spin")} />
+          </Button>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="h-8 w-8"
             onClick={(e) => {
               e.stopPropagation(); // Prevent parent div's onClick
               handleFocusWord(word)

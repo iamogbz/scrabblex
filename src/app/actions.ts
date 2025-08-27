@@ -1,3 +1,4 @@
+
 "use server";
 
 import {
@@ -93,10 +94,13 @@ const genAI = process.env.GEMINI_API_KEY
   ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
   : null;
 
-export async function getWordDefinition(word: string): Promise<string | null> {
+export async function getWordDefinition(word: string, forceRefresh = false): Promise<string | null> {
   const upperCaseWord = word.toUpperCase();
-  if (definitionCache.has(upperCaseWord)) {
+  if (!forceRefresh && definitionCache.has(upperCaseWord)) {
     return definitionCache.get(upperCaseWord)!;
+  }
+   if (forceRefresh) {
+    definitionCache.delete(upperCaseWord);
   }
   if (!genAI) {
     console.log("GEMINI_API_KEY not set, skipping definition lookup.");
@@ -117,7 +121,7 @@ export async function getWordDefinition(word: string): Promise<string | null> {
   // At this point, we know the word is valid.
   // We will use the Gemini API to get a definition.
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-  const prompt = `Provide a concise, one-line definition for the Scrabble word "${upperCaseWord}". Do not include the word "${upperCaseWord}" in the definition. If you cannot provide a definition, your entire response must be only the exact phrase "${unableToDefine}".`;
+  const prompt = `Provide a concise, one-line definition for the Scrabble word "${upperCaseWord}". Your response must not include the word "${upperCaseWord}" itself. If you cannot provide a definition, your entire response must be only the exact phrase "${unableToDefine}".`;
 
   const result = await model.generateContent(prompt);
   const response = await result.response;
