@@ -4,34 +4,34 @@
     {
       "id": "p1756244351246",
       "name": "E",
-      "score": 195,
+      "score": 278,
       "rack": [
         {
-          "letter": "R",
+          "letter": "C",
+          "points": 3
+        },
+        {
+          "letter": "E",
           "points": 1
         },
         {
-          "letter": "O",
+          "letter": "T",
           "points": 1
         },
         {
-          "letter": "L",
-          "points": 1
-        },
-        {
-          "letter": " ",
-          "points": 0
-        },
-        {
-          "letter": "U",
-          "points": 1
+          "letter": "C",
+          "points": 3
         },
         {
           "letter": "V",
           "points": 4
         },
         {
-          "letter": "E",
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "I",
           "points": 1
         }
       ],
@@ -75,34 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "C",
-      "points": 3
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "C",
-      "points": 3
-    },
-    {
-      "letter": "V",
-      "points": 4
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
     {
       "letter": " ",
       "points": 0
@@ -1943,7 +1915,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "F",
+          "points": 4,
+          "x": 12,
+          "y": 2
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -1951,7 +1928,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 12,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2913,6 +2895,58 @@
       ],
       "score": 12,
       "timestamp": "2025-08-27T02:28:36.057Z"
+    },
+    {
+      "playerId": "p1756244351246",
+      "playerName": "E",
+      "word": "REVOLUTE",
+      "tiles": [
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 0,
+          "y": 14
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 1,
+          "y": 14
+        },
+        {
+          "letter": "V",
+          "points": 4,
+          "x": 2,
+          "y": 14
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 3,
+          "y": 14
+        },
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 4,
+          "y": 14
+        },
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 5,
+          "y": 14
+        },
+        {
+          "letter": "T",
+          "points": 0,
+          "originalLetter": " ",
+          "x": 6,
+          "y": 14
+        }
+      ],
+      "score": 83,
+      "timestamp": "2025-08-27T02:30:31.973Z"
     }
   ],
   "gamePhase": "playing"
