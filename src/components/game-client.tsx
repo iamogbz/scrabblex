@@ -1380,6 +1380,7 @@ export default function GameClient({
               players={gameState.players}
               currentPlayerId={currentPlayer?.id || ""}
               authenticatedPlayerId={authenticatedPlayerId}
+              isGameOver={gameState.gamePhase === "ended"}
             />
             <Button asChild className="mt-4 w-full">
               <Link href="/play">Play Again</Link>

@@ -7,13 +7,17 @@ interface ScoreboardProps {
   players: Player[];
   currentPlayerId: string;
   authenticatedPlayerId: string | null;
+  isGameOver?: boolean;
 }
 
 export default function Scoreboard({
   players,
   currentPlayerId,
   authenticatedPlayerId,
+  isGameOver,
 }: ScoreboardProps) {
+  const winningScore = Math.max(...players.map((player) => player.score));
+
   if (!players?.length) return null;
 
   return (
@@ -29,12 +33,13 @@ export default function Scoreboard({
           {players.map((player) => {
             const isCurrentTurn = player.id === currentPlayerId;
             const isYou = player.id === authenticatedPlayerId;
+            const isWinner = player.score === winningScore;
             return (
               <li
                 key={player.id}
                 className={cn(
                   "flex justify-between items-center p-2 rounded-md transition-all",
-                  isCurrentTurn
+                  (isGameOver ? isWinner : isCurrentTurn)
                     ? "bg-accent/20 border-l-4 border-accent"
                     : "bg-muted/50",
                   isYou && "ring-2 ring-primary/50"
