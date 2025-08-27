@@ -1,4 +1,3 @@
-
 "use server";
 
 import {
@@ -118,7 +117,7 @@ export async function getWordDefinition(word: string): Promise<string | null> {
   // At this point, we know the word is valid.
   // We will use the Gemini API to get a definition.
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-  const prompt = `Provide a concise, one-line definition for the Scrabble word "${upperCaseWord}". **Crucially, the definition must not contain the word "${upperCaseWord}" itself.** If unable to say "${unableToDefine}". Example: "LIT: past tense of light."`;
+  const prompt = `Provide a concise, one-line definition for the Scrabble word "${upperCaseWord}". Do not include the word "${upperCaseWord}" in the definition. If you cannot provide a definition, your entire response must be only the exact phrase "${unableToDefine}".`;
 
   const result = await model.generateContent(prompt);
   const response = await result.response;
@@ -167,20 +166,13 @@ export async function getWordDefinitions(
   const unableToDefine = "Unable to define this word.";
 
   const prompt = `
-    You are a dictionary expert creating clues for a crossword puzzle. Provide a concise, one-line definition for each of the following Scrabble words.
+    You are a dictionary expert. Provide a concise, one-line definition for each of the following Scrabble words.
     Pay close attention to whether the word is singular or plural and phrase the definition accordingly.
     **Crucially, the definition must not contain the word itself.**
-    Format your response as a JSON object where the key is the uppercase word and the value is its definition.
-    If you are unable to define a word, use the exact phrase "${unableToDefine}".
+    Your response must be only a valid JSON object where the key is the uppercase word and the value is its definition.
+    If you are unable to define a word, use the exact phrase "${unableToDefine}" as its value. Do not include any other text, explanations, or markdown formatting in your response.
 
     Words: ${JSON.stringify(wordsToFetch)}
-
-    Example response for a request of ["DOGS", "ZA", "CAT"]:
-    {
-      "DOGS": "Domesticated carnivorous mammals that typically have long snouts (plural).",
-      "ZA": "A slang term for pizza.",
-      "CAT": "A small domesticated carnivorous mammal with soft fur."
-    }
   `;
 
   try {
