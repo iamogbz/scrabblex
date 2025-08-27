@@ -4,12 +4,8 @@
     {
       "id": "p1756244351246",
       "name": "E",
-      "score": 90,
+      "score": 111,
       "rack": [
-        {
-          "letter": "J",
-          "points": 8
-        },
         {
           "letter": "R",
           "points": 1
@@ -31,15 +27,19 @@
           "points": 2
         },
         {
-          "letter": "O",
+          "letter": "A",
           "points": 1
+        },
+        {
+          "letter": "K",
+          "points": 5
         }
       ],
       "code": "e"
     },
     {
       "id": "p1756244362835",
-      "name": "m",
+      "name": "M",
       "score": 147,
       "rack": [
         {
@@ -75,14 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "K",
-      "points": 5
-    },
     {
       "letter": "E",
       "points": 1
@@ -2656,6 +2648,27 @@
       ],
       "score": 84,
       "timestamp": "2025-08-27T00:42:06.875Z"
+    },
+    {
+      "playerId": "p1756244351246",
+      "playerName": "E",
+      "word": "JOE",
+      "tiles": [
+        {
+          "letter": "J",
+          "points": 8,
+          "x": 9,
+          "y": 7
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 10,
+          "y": 7
+        }
+      ],
+      "score": 21,
+      "timestamp": "2025-08-27T00:55:30.948Z"
     }
   ],
   "gamePhase": "playing"
