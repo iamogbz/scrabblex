@@ -79,7 +79,7 @@ const formatRelativeTime = (date: Date): string => {
 const getGameStatusText = (game: GameDetails): string => {
     const percentage = game.totalWords > 0 ? Math.round((game.completedWords / game.totalWords) * 100) : 0;
     const lastUpdated = formatRelativeTime(new Date(game.updatedAt));
-    return `${percentage}% complete (${game.completedWords}/${game.totalWords} words). Uploaded ${lastUpdated}.`;
+    return `${percentage}% complete. ${game.totalWords} words. Uploaded ${lastUpdated}.`;
 };
 
 export default function SolvePage() {
@@ -201,7 +201,7 @@ export default function SolvePage() {
           </Link>
         </Button>
       </header>
-      <Card className="w-full max-w-md text-center shadow-2xl z-10 border-primary/20 mt-20">
+      <Card className="w-full text-center shadow-2xl z-10 border-primary/20 mt-20">
         <CardContent className="pt-6">
           <div className="flex flex-col items-center mb-4">
              <Cross className="h-12 w-12 text-primary mb-2" />
@@ -227,38 +227,34 @@ export default function SolvePage() {
           )}
 
           {!isLoading && completedGames.length > 0 && (
-            <div className="mt-4 space-y-2">
-              <div className="flex flex-col items-center space-y-2 max-h-[60vh] overflow-y-auto p-2">
+            <div className="mt-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto p-2">
                 {completedGames.map((game) => (
-                  <div
-                    className="flex flex-row items-center justify-between w-full gap-2"
+                  <Link
+                    href={`/solve/${game.gameId}`}
                     key={game.gameId}
+                    className="flex text-primary text-sm"
                   >
-                    <Link
-                      href={`/solve/${game.gameId}`}
-                      className="flex flex-grow text-primary text-sm "
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="w-full h-auto text-lg py-3 flex flex-col items-start text-left"
                     >
-                      <Button
-                        variant="outline"
-                        size="lg"
-                        className="w-full h-auto text-lg py-3 flex flex-col items-start text-left"
-                      >
-                        <span className="font-mono text-base">
-                          {game.gameId}
-                        </span>
-                        {getGameStatusText(game)
-                          .split(". ")
-                          .map((line) => (
-                            <span
-                              className="text-sm font-normal break-words"
-                              key={line}
-                            >
-                              {line}
-                            </span>
-                          ))}
-                      </Button>
-                    </Link>
-                  </div>
+                      <span className="font-mono text-base">
+                        {game.gameId}
+                      </span>
+                      {getGameStatusText(game)
+                        .split(". ")
+                        .map((line) => (
+                          <span
+                            className="text-sm font-normal break-words whitespace-normal"
+                            key={line}
+                          >
+                            {line}
+                          </span>
+                        ))}
+                    </Button>
+                  </Link>
                 ))}
               </div>
             </div>
