@@ -40,26 +40,10 @@
     {
       "id": "p1756244362835",
       "name": "m",
-      "score": 37,
+      "score": 52,
       "rack": [
         {
-          "letter": "R",
-          "points": 1
-        },
-        {
-          "letter": "E",
-          "points": 1
-        },
-        {
           "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "S",
-          "points": 1
-        },
-        {
-          "letter": "E",
           "points": 1
         },
         {
@@ -69,28 +53,28 @@
         {
           "letter": "I",
           "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "S",
+          "points": 1
         }
       ],
       "code": "m"
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
     {
       "letter": "O",
       "points": 1
@@ -1259,7 +1243,12 @@
     ],
     [
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 7,
+          "y": 0
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -1267,7 +1256,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Y",
+          "points": 4,
+          "x": 7,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1275,7 +1269,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2401,6 +2400,39 @@
       ],
       "score": 23,
       "timestamp": "2025-08-26T22:03:11.359Z"
+    },
+    {
+      "playerId": "p1756244362835",
+      "playerName": "m",
+      "word": "SEER",
+      "tiles": [
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 3,
+          "y": 3
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 3,
+          "y": 4
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 3,
+          "y": 5
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 3,
+          "y": 6
+        }
+      ],
+      "score": 15,
+      "timestamp": "2025-08-27T00:18:18.064Z"
     }
   ],
   "gamePhase": "playing"
