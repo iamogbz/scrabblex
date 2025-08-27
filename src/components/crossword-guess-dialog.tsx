@@ -57,7 +57,7 @@ export function CrosswordGuessDialog({
     } else {
       setGuess([]);
     }
-  }, [wordInfo, userInputs]);
+  }, [isOpen, wordInfo, userInputs]);
 
   const handleInputChange = (
     index: number,
@@ -122,9 +122,10 @@ export function CrosswordGuessDialog({
               onInput={(e) => handleInputChange(i, e)}
               onKeyDown={(e) => handleKeyDown(i, e)}
               style={{
-                caretColor: 'transparent'
+                caretColor: 'transparent',
+                fontSize: 'clamp(16px, 1.5rem, 40px)',
               }}
-              className="w-10 h-10 md:w-12 md:h-12 text-center text-l font-bold uppercase"
+              className="w-10 h-10 md:w-12 md:h-12 text-center font-bold uppercase"
             />
           ))}
         </div>

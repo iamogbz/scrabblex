@@ -111,7 +111,7 @@ const CrosswordTile = forwardRef<HTMLInputElement, CrosswordTileProps>(
               style={{
                 borderWidth: 0,
                 borderRadius: "0.3vmin",
-                fontSize: '50cqw',
+                fontSize: 'clamp(16px, 50cqw, 40px)',
                 caretColor: 'transparent'
               }}
               readOnly={isRevealed}
