@@ -78,7 +78,7 @@ export async function createGame() {
 }
 
 export async function getGameState(gameId: string) {
-  return await getGame(gameId);
+  return await getGame(gameId.toUpperCase());
 }
 
 export async function updateGameState(
@@ -87,7 +87,7 @@ export async function updateGameState(
   sha: string,
   message: string
 ) {
-  await updateGame(gameId, gameState, sha, message);
+  await updateGame(gameId.toUpperCase(), gameState, sha, message);
 }
 
 const genAI = process.env.GEMINI_API_KEY
@@ -186,7 +186,7 @@ export async function getWordDefinitions(
   try {
     const generationResult = await model.generateContent(prompt);
     const responseText = generationResult.response.text();
-    
+
     // Clean the response to ensure it's valid JSON
     const jsonString = responseText.replace(/```json|```/g, "").trim();
     const definitions = JSON.parse(jsonString) as Record<string, string>;
