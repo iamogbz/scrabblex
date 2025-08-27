@@ -1,0 +1,1 @@
+Conjunction expressing a negative condition.
