@@ -40,26 +40,10 @@
     {
       "id": "p1756244362835",
       "name": "m",
-      "score": 63,
+      "score": 147,
       "rack": [
         {
-          "letter": " ",
-          "points": 0
-        },
-        {
-          "letter": "G",
-          "points": 2
-        },
-        {
-          "letter": "D",
-          "points": 2
-        },
-        {
-          "letter": "X",
-          "points": 8
-        },
-        {
-          "letter": "N",
+          "letter": "T",
           "points": 1
         },
         {
@@ -69,40 +53,28 @@
         {
           "letter": "E",
           "points": 1
+        },
+        {
+          "letter": " ",
+          "points": 0
+        },
+        {
+          "letter": "U",
+          "points": 1
+        },
+        {
+          "letter": "M",
+          "points": 3
+        },
+        {
+          "letter": "L",
+          "points": 1
         }
       ],
       "code": "m"
     }
   ],
   "tileBag": [
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": " ",
-      "points": 0
-    },
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "M",
-      "points": 3
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
     {
       "letter": "A",
       "points": 1
@@ -1473,7 +1445,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 8,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1600,7 +1577,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 9,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1722,7 +1704,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 10,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1844,7 +1831,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 11,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2576,6 +2568,58 @@
       ],
       "score": 8,
       "timestamp": "2025-08-27T00:40:46.387Z"
+    },
+    {
+      "playerId": "p1756244362835",
+      "playerName": "m",
+      "word": "DETOXING",
+      "tiles": [
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 11,
+          "y": 6
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 11,
+          "y": 7
+        },
+        {
+          "letter": "O",
+          "points": 0,
+          "originalLetter": " ",
+          "x": 11,
+          "y": 9
+        },
+        {
+          "letter": "X",
+          "points": 8,
+          "x": 11,
+          "y": 10
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 11,
+          "y": 11
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 11,
+          "y": 12
+        },
+        {
+          "letter": "G",
+          "points": 2,
+          "x": 11,
+          "y": 13
+        }
+      ],
+      "score": 84,
+      "timestamp": "2025-08-27T00:42:06.875Z"
     }
   ],
   "gamePhase": "playing"
