@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
@@ -104,8 +103,9 @@ export default function GameClient({
   const [isResignConfirmOpen, setIsResignConfirmOpen] = useState(false);
   const [isBlankTileDialogOpen, setIsBlankTileDialogOpen] = useState(false);
   const [blankTileToStage, setBlankTileToStage] = useState<Tile | null>(null);
-  const [stagedTileToReassign, setStagedTileToReassign] = useState<number | null>(null);
-
+  const [stagedTileToReassign, setStagedTileToReassign] = useState<
+    number | null
+  >(null);
 
   const [authenticatedPlayerId, setAuthenticatedPlayerId] = useState<
     string | null
@@ -149,12 +149,27 @@ export default function GameClient({
         }
       });
 
-      const winner = newGameState.players.find(
+      const finishingPlayer = newGameState.players.find(
         (p: Player) => p.id === playerWithEmptyRack.id
       )!;
-      winner.score += pointsFromRacks;
+      finishingPlayer.score += pointsFromRacks;
 
-      newGameState.endStatus = `${winner.name} has used all their tiles!`;
+      const winningScore = Math.max(
+        ...newGameState.players.map((p: Player) => p.score)
+      );
+      const winners = newGameState.players.filter((p: Player) => {
+        return p.score === winningScore;
+      });
+      if (winners.length > 1) {
+        const winnerNames = winners.map((w: Player) => w.name).join(" and ");
+        newGameState.endStatus = `${winnerNames} win after ${finishingPlayer.name} used all their tiles!`;
+      } else if (winners.length === 1) {
+        if (winners[0].id === finishingPlayer.id) {
+          newGameState.endStatus = `${finishingPlayer.name} wins after using all their tiles!`;
+        } else {
+          newGameState.endStatus = `${winners[0].name} wins after ${finishingPlayer.name} used all their tiles!`;
+        }
+      }
       return newGameState;
     }
 
@@ -165,12 +180,35 @@ export default function GameClient({
         const newGameState = JSON.parse(JSON.stringify(gameState));
         newGameState.gamePhase = "ended";
 
+        // adjust score for winning players
+        // all players have their rack values subtracted from their score
+        // since no one used all their tiles, no one gets those points added to their score
         newGameState.players.forEach((p: Player) => {
           const rackValue = p.rack.reduce((sum, tile) => sum + tile.points, 0);
           p.score -= rackValue;
         });
-        newGameState.endStatus =
-          "Game ended after two rounds of passes. Scores adjusted for remaining tiles.";
+
+        const winningScore = 0;
+        const winners: Player[] = [];
+        newGameState.players.forEach((p: Player) => {
+          if (p.score > winningScore) {
+            winners.splice(0, winners.length, p);
+          } else if (p.score === winningScore) {
+            winners.push(p);
+          } else {
+            // do nothing
+          }
+        });
+        if (winners.length > 1) {
+          const winnerNames = winners.map((w) => w.name).join(" and ");
+          newGameState.endStatus = `${winnerNames} win after two rounds of passes`;
+        } else if (winners.length === 1) {
+          newGameState.endStatus = `${winners[0].name} wins after two rounds of passes`;
+        } else {
+          // This should not happen, but just in case
+          newGameState.endStatus =
+            "Game ended after two rounds of passes. Somehow no winner could be determined";
+        }
 
         return newGameState;
       }
@@ -236,8 +274,12 @@ export default function GameClient({
 
   // Request notification permission when component mounts
   useEffect(() => {
-    if (typeof window !== "undefined" && "Notification" in window && Notification.permission === "default") {
-        Notification.requestPermission();
+    if (
+      typeof window !== "undefined" &&
+      "Notification" in window &&
+      Notification.permission === "default"
+    ) {
+      Notification.requestPermission();
     }
   }, []);
 
@@ -262,41 +304,41 @@ export default function GameClient({
       lastMove.timestamp !== lastMoveTimestampRef.current &&
       lastMove.playerId !== authenticatedPlayerId
     ) {
-        lastMoveTimestampRef.current = lastMove.timestamp;
+      lastMoveTimestampRef.current = lastMove.timestamp;
 
-        // Ensure permission is granted before trying to show a notification
-        if ("Notification" in window && Notification.permission === "granted") {
-            let notificationBody = "";
-            if (lastMove.isPass) {
-                notificationBody = `${lastMove.playerName} passed their turn.`;
-            } else if (lastMove.isSwap) {
-                notificationBody = `${lastMove.playerName} swapped tiles.`;
-            } else if (lastMove.isResign) {
-                notificationBody = `${lastMove.playerName} has resigned.`;
-            } else {
-                notificationBody = `${lastMove.playerName} played "${lastMove.word}" for ${lastMove.score} points.`;
-            }
-
-            const title = "Scrabblex Move";
-            const options = {
-                body: notificationBody,
-                icon: "/favicon.ico", // PWA icon
-                badge: "/favicon.ico", // A smaller badge icon
-                vibrate: [100, 50, 100], // Vibrate pattern
-            };
-
-            // Use the Service Worker to show the notification if available, for background support
-            if ('serviceWorker' in navigator && navigator.serviceWorker.ready) {
-                navigator.serviceWorker.ready.then(registration => {
-                    registration.showNotification(title, options);
-                });
-            } else {
-                // Fallback to regular notification if service worker isn't ready
-                new Notification(title, options);
-            }
+      // Ensure permission is granted before trying to show a notification
+      if ("Notification" in window && Notification.permission === "granted") {
+        let notificationBody = "";
+        if (lastMove.isPass) {
+          notificationBody = `${lastMove.playerName} passed their turn.`;
+        } else if (lastMove.isSwap) {
+          notificationBody = `${lastMove.playerName} swapped tiles.`;
+        } else if (lastMove.isResign) {
+          notificationBody = `${lastMove.playerName} has resigned.`;
+        } else {
+          notificationBody = `${lastMove.playerName} played "${lastMove.word}" for ${lastMove.score} points.`;
         }
+
+        const title = "Scrabblex Move";
+        const options = {
+          body: notificationBody,
+          icon: "/favicon.ico", // PWA icon
+          badge: "/favicon.ico", // A smaller badge icon
+          vibrate: [100, 50, 100], // Vibrate pattern
+        };
+
+        // Use the Service Worker to show the notification if available, for background support
+        if ("serviceWorker" in navigator && navigator.serviceWorker.ready) {
+          navigator.serviceWorker.ready.then((registration) => {
+            registration.showNotification(title, options);
+          });
+        } else {
+          // Fallback to regular notification if service worker isn't ready
+          new Notification(title, options);
+        }
+      }
     } else if (!lastMove) {
-        lastMoveTimestampRef.current = null;
+      lastMoveTimestampRef.current = null;
     }
   }, [gameState, authenticatedPlayerId]);
 
@@ -402,7 +444,9 @@ export default function GameClient({
   const rackTiles = useMemo(() => {
     if (!authenticatedPlayer) return [];
 
-    const stagedLettersCopy = stagedTiles.map((t) => (t.originalLetter ?? t.letter));
+    const stagedLettersCopy = stagedTiles.map(
+      (t) => t.originalLetter ?? t.letter
+    );
     const rackCopy = [...authenticatedPlayer.rack];
 
     // Filter out staged letters from the rack display
@@ -816,7 +860,7 @@ export default function GameClient({
       setIsBlankTileDialogOpen(true);
       return;
     }
-    
+
     // Determine how many tiles can still be placed
     const emptySlots = wordBuilderSlots.filter((s) => s.tile === null).length;
     if (stagedTiles.length >= emptySlots || stagedTiles.length >= 7) {
@@ -836,31 +880,31 @@ export default function GameClient({
   const handleStagedTileClick = (index: number) => {
     const tile = stagedTiles[index];
     if (tile.originalLetter === " ") {
-        setStagedTileToReassign(index);
-        setIsBlankTileDialogOpen(true);
+      setStagedTileToReassign(index);
+      setIsBlankTileDialogOpen(true);
     } else {
-        setStagedTiles((prev) => prev.filter((_, i) => i !== index));
+      setStagedTiles((prev) => prev.filter((_, i) => i !== index));
     }
   };
 
   const handleBlankTileSelect = (letter: string) => {
     if (stagedTileToReassign !== null) {
-        // Reassigning letter for an already staged blank tile
-        const newStagedTiles = [...stagedTiles];
-        newStagedTiles[stagedTileToReassign].letter = letter;
-        setStagedTiles(newStagedTiles);
-        setStagedTileToReassign(null);
+      // Reassigning letter for an already staged blank tile
+      const newStagedTiles = [...stagedTiles];
+      newStagedTiles[stagedTileToReassign].letter = letter;
+      setStagedTiles(newStagedTiles);
+      setStagedTileToReassign(null);
     } else if (blankTileToStage) {
-        // Staging a new blank tile from the rack
-        const newTile: PlacedTile = {
-            ...blankTileToStage,
-            letter: letter,
-            originalLetter: " ",
-            x: -1,
-            y: -1,
-        };
-        setStagedTiles(prev => [...prev, newTile]);
-        setBlankTileToStage(null);
+      // Staging a new blank tile from the rack
+      const newTile: PlacedTile = {
+        ...blankTileToStage,
+        letter: letter,
+        originalLetter: " ",
+        x: -1,
+        y: -1,
+      };
+      setStagedTiles((prev) => [...prev, newTile]);
+      setBlankTileToStage(null);
     }
   };
 
@@ -982,7 +1026,9 @@ export default function GameClient({
         const newTiles = newGameState.tileBag.slice(0, tilesToDraw);
 
         let rackAfterPlay = [...playerToUpdate.rack];
-        const stagedLetters = stagedTiles.map((t) => (t.originalLetter ?? t.letter));
+        const stagedLetters = stagedTiles.map(
+          (t) => t.originalLetter ?? t.letter
+        );
 
         stagedLetters.forEach((letter) => {
           const indexToRemove = rackAfterPlay.findIndex(
@@ -1124,7 +1170,9 @@ export default function GameClient({
       )!;
       const tileBag = newGameState.tileBag;
 
-      const lettersToSwap = tilesToSwap.map((t) => (t.originalLetter ?? t.letter));
+      const lettersToSwap = tilesToSwap.map(
+        (t) => t.originalLetter ?? t.letter
+      );
       const rackAfterSwap = [...playerToUpdate.rack];
       const swappedOutTiles: Tile[] = [];
 
@@ -1387,7 +1435,9 @@ export default function GameClient({
                   <Input
                     placeholder="Enter your name"
                     value={newPlayerName}
-                    onChange={(e) => setNewPlayerName(e.target.value.toUpperCase())}
+                    onChange={(e) =>
+                      setNewPlayerName(e.target.value.toUpperCase())
+                    }
                   />
                   <div className="relative">
                     <Input
@@ -1843,11 +1893,11 @@ export default function GameClient({
       <BlankTileDialog
         isOpen={isBlankTileDialogOpen}
         onOpenChange={(isOpen) => {
-            if (!isOpen) {
-                setBlankTileToStage(null);
-                setStagedTileToReassign(null);
-            }
-            setIsBlankTileDialogOpen(isOpen)
+          if (!isOpen) {
+            setBlankTileToStage(null);
+            setStagedTileToReassign(null);
+          }
+          setIsBlankTileDialogOpen(isOpen);
         }}
         onSelect={handleBlankTileSelect}
       />
