@@ -36,37 +36,45 @@
         }
       ],
       "code": "e"
+    },
+    {
+      "id": "p1756302051411",
+      "name": "R",
+      "score": 0,
+      "rack": [
+        {
+          "letter": "L",
+          "points": 1
+        },
+        {
+          "letter": "D",
+          "points": 2
+        },
+        {
+          "letter": "D",
+          "points": 2
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "V",
+          "points": 4
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "S",
+          "points": 1
+        }
+      ],
+      "code": "r"
     }
   ],
   "tileBag": [
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "V",
-      "points": 4
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
     {
       "letter": "T",
       "points": 1
