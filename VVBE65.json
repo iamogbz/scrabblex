@@ -4,7 +4,7 @@
     {
       "id": "p1756244351246",
       "name": "E",
-      "score": 138,
+      "score": 167,
       "rack": [
         {
           "letter": "R",
@@ -13,14 +13,6 @@
         {
           "letter": "N",
           "points": 1
-        },
-        {
-          "letter": "W",
-          "points": 4
-        },
-        {
-          "letter": "Z",
-          "points": 10
         },
         {
           "letter": "K",
@@ -32,6 +24,14 @@
         },
         {
           "letter": "S",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "A",
           "points": 1
         }
       ],
@@ -75,14 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
     {
       "letter": "F",
       "points": 4
@@ -1274,7 +1266,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Q",
+          "points": 10,
+          "x": 7,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1282,7 +1279,12 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "U",
+          "points": 1,
+          "x": 7,
+          "y": 11
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1290,7 +1292,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 7,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1298,7 +1305,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "P",
+          "points": 3,
+          "x": 7,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1306,7 +1318,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 14
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -2785,6 +2802,27 @@
       ],
       "score": 54,
       "timestamp": "2025-08-27T02:14:37.883Z"
+    },
+    {
+      "playerId": "p1756244351246",
+      "playerName": "E",
+      "word": "WIZ",
+      "tiles": [
+        {
+          "letter": "W",
+          "points": 4,
+          "x": 6,
+          "y": 12
+        },
+        {
+          "letter": "Z",
+          "points": 10,
+          "x": 8,
+          "y": 12
+        }
+      ],
+      "score": 29,
+      "timestamp": "2025-08-27T02:20:12.907Z"
     }
   ],
   "gamePhase": "playing"
