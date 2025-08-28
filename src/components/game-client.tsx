@@ -893,7 +893,9 @@ export default function GameClient({
     if (!mainWordInfo || mainWordInfo.word.length < 2) {
       toast({
         title: "Cannot Play",
-        description: "A word must be at least 2 letters long.",
+        description: mainWordInfo
+          ? "A word must be at least 2 letters long."
+          : "You need to place the tiles on valid squares.",
         variant: "destructive",
       });
       return;
