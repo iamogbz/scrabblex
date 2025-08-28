@@ -36,37 +36,45 @@
         }
       ],
       "code": "emma"
+    },
+    {
+      "id": "p1756380128480",
+      "name": "CATHERINE OGBIZI UGBE",
+      "score": 0,
+      "rack": [
+        {
+          "letter": "P",
+          "points": 3
+        },
+        {
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        }
+      ],
+      "code": "H26Q8E"
     }
   ],
   "tileBag": [
-    {
-      "letter": "P",
-      "points": 3
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
     {
       "letter": "A",
       "points": 1
