@@ -4,31 +4,31 @@
     {
       "id": "p1756333563042",
       "name": "EMMA",
-      "score": 0,
+      "score": 68,
       "rack": [
         {
-          "letter": "R",
+          "letter": "A",
           "points": 1
+        },
+        {
+          "letter": "F",
+          "points": 4
         },
         {
           "letter": "O",
           "points": 1
         },
         {
-          "letter": "E",
+          "letter": "A",
           "points": 1
         },
         {
-          "letter": " ",
-          "points": 0
+          "letter": "W",
+          "points": 4
         },
         {
-          "letter": "D",
-          "points": 2
-        },
-        {
-          "letter": "M",
-          "points": 3
+          "letter": "I",
+          "points": 1
         },
         {
           "letter": "E",
@@ -75,34 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "W",
-      "points": 4
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
     {
       "letter": "N",
       "points": 1
@@ -2252,6 +2224,59 @@
       }
     ]
   ],
-  "history": [],
+  "history": [
+    {
+      "playerId": "p1756333563042",
+      "playerName": "EMMA",
+      "word": "MODELER",
+      "tiles": [
+        {
+          "letter": "M",
+          "points": 3,
+          "x": 7,
+          "y": 7
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 7,
+          "y": 9
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 10
+        },
+        {
+          "letter": "L",
+          "points": 0,
+          "originalLetter": " ",
+          "x": 7,
+          "y": 11
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 12
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 7,
+          "y": 13
+        }
+      ],
+      "score": 68,
+      "timestamp": "2025-08-28T12:14:06.696Z"
+    }
+  ],
   "gamePhase": "playing"
 }
