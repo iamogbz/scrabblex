@@ -76,11 +76,19 @@
   ],
   "tileBag": [
     {
-      "letter": "N",
+      "letter": "A",
       "points": 1
     },
     {
-      "letter": "O",
+      "letter": "M",
+      "points": 3
+    },
+    {
+      "letter": "U",
+      "points": 1
+    },
+    {
+      "letter": "I",
       "points": 1
     },
     {
@@ -88,23 +96,7 @@
       "points": 1
     },
     {
-      "letter": "P",
-      "points": 3
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "J",
-      "points": 8
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
-    {
-      "letter": "N",
+      "letter": "I",
       "points": 1
     },
     {
@@ -112,8 +104,16 @@
       "points": 8
     },
     {
-      "letter": "E",
+      "letter": "P",
+      "points": 3
+    },
+    {
+      "letter": "S",
       "points": 1
+    },
+    {
+      "letter": "H",
+      "points": 4
     },
     {
       "letter": "E",
@@ -124,23 +124,43 @@
       "points": 2
     },
     {
-      "letter": "O",
-      "points": 1
+      "letter": "G",
+      "points": 2
     },
     {
-      "letter": "V",
-      "points": 4
-    },
-    {
-      "letter": "E",
-      "points": 1
+      "letter": "J",
+      "points": 8
     },
     {
       "letter": "G",
       "points": 2
     },
     {
-      "letter": "I",
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "letter": "S",
+      "points": 1
+    },
+    {
+      "letter": "H",
+      "points": 4
+    },
+    {
+      "letter": "R",
+      "points": 1
+    },
+    {
+      "letter": "B",
+      "points": 3
+    },
+    {
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "letter": "S",
       "points": 1
     },
     {
@@ -148,7 +168,43 @@
       "points": 1
     },
     {
-      "letter": "S",
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "letter": "G",
+      "points": 2
+    },
+    {
+      "letter": "C",
+      "points": 3
+    },
+    {
+      "letter": "R",
+      "points": 1
+    },
+    {
+      "letter": "B",
+      "points": 3
+    },
+    {
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "letter": "N",
+      "points": 1
+    },
+    {
+      "letter": "F",
+      "points": 4
+    },
+    {
+      "letter": "U",
       "points": 1
     },
     {
@@ -156,7 +212,35 @@
       "points": 10
     },
     {
-      "letter": "L",
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "letter": "N",
+      "points": 1
+    },
+    {
+      "letter": "N",
+      "points": 1
+    },
+    {
+      "letter": "T",
+      "points": 1
+    },
+    {
+      "letter": " ",
+      "points": 0
+    },
+    {
+      "letter": "Y",
+      "points": 4
+    },
+    {
+      "letter": "N",
       "points": 1
     },
     {
@@ -168,23 +252,27 @@
       "points": 1
     },
     {
-      "letter": "E",
+      "letter": "D",
+      "points": 2
+    },
+    {
+      "letter": "R",
       "points": 1
     },
     {
-      "letter": "B",
-      "points": 3
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "H",
+      "letter": "W",
       "points": 4
     },
     {
-      "letter": "O",
+      "letter": "V",
+      "points": 4
+    },
+    {
+      "letter": "U",
+      "points": 1
+    },
+    {
+      "letter": "S",
       "points": 1
     },
     {
@@ -192,7 +280,7 @@
       "points": 1
     },
     {
-      "letter": "I",
+      "letter": "N",
       "points": 1
     },
     {
@@ -208,55 +296,63 @@
       "points": 2
     },
     {
-      "letter": "Q",
-      "points": 10
+      "letter": "A",
+      "points": 1
     },
     {
-      "letter": "U",
+      "letter": "I",
       "points": 1
+    },
+    {
+      "letter": "Y",
+      "points": 4
     },
     {
       "letter": "T",
       "points": 1
     },
     {
-      "letter": "B",
-      "points": 3
-    },
-    {
-      "letter": "H",
-      "points": 4
-    },
-    {
-      "letter": "N",
+      "letter": "A",
       "points": 1
     },
     {
-      "letter": "W",
-      "points": 4
-    },
-    {
-      "letter": "M",
-      "points": 3
-    },
-    {
-      "letter": "V",
-      "points": 4
-    },
-    {
-      "letter": "N",
+      "letter": "O",
       "points": 1
     },
     {
-      "letter": "S",
+      "letter": "E",
       "points": 1
-    },
-    {
-      "letter": "G",
-      "points": 2
     },
     {
       "letter": "A",
+      "points": 1
+    },
+    {
+      "letter": "C",
+      "points": 3
+    },
+    {
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "letter": "K",
+      "points": 5
+    },
+    {
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "letter": "N",
+      "points": 1
+    },
+    {
+      "letter": "I",
       "points": 1
     },
     {
@@ -268,75 +364,11 @@
       "points": 0
     },
     {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "C",
-      "points": 3
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "Y",
-      "points": 4
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
       "letter": "L",
       "points": 1
     },
     {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "I",
+      "letter": "A",
       "points": 1
     },
     {
@@ -348,48 +380,16 @@
       "points": 1
     },
     {
-      "letter": "C",
-      "points": 3
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "G",
-      "points": 2
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "Y",
-      "points": 4
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
       "letter": "L",
       "points": 1
     },
     {
-      "letter": "K",
-      "points": 5
+      "letter": "V",
+      "points": 4
+    },
+    {
+      "letter": "Q",
+      "points": 10
     }
   ],
   "board": [
@@ -1305,7 +1305,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "M",
+          "points": 3,
+          "x": 7,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": true,
@@ -1313,7 +1318,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1321,7 +1331,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 7,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1329,7 +1344,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1337,7 +1357,13 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 0,
+          "originalLetter": " ",
+          "x": 7,
+          "y": 11
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1345,7 +1371,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1353,7 +1384,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 7,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
