@@ -4,7 +4,7 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 247,
+      "score": 267,
       "rack": [
         {
           "letter": "L",
@@ -23,16 +23,16 @@
           "points": 1
         },
         {
-          "letter": "M",
-          "points": 3
-        },
-        {
-          "letter": "O",
-          "points": 1
-        },
-        {
           "letter": "T",
           "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "G",
+          "points": 2
         }
       ],
       "code": "m"
@@ -75,14 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "G",
-      "points": 2
-    },
     {
       "letter": "D",
       "points": 2
@@ -1783,7 +1775,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 11,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2901,6 +2898,27 @@
       ],
       "score": 12,
       "timestamp": "2025-08-30T17:05:24.773Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "MOZ",
+      "tiles": [
+        {
+          "letter": "M",
+          "points": 3,
+          "x": 6,
+          "y": 6
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 6,
+          "y": 7
+        }
+      ],
+      "score": 20,
+      "timestamp": "2025-08-30T17:05:30.607Z"
     }
   ],
   "gamePhase": "playing"
