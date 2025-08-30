@@ -1,0 +1,1 @@
+(English) A playing card with a single pip, ranking highest in its suit.
