@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -54,7 +53,12 @@ export function JoinGameDialog({ children }: { children: ReactNode }) {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={handleJoinGame} className="w-full" disabled={gameKey.length !== 6}>
+          <Button
+            type="submit"
+            onClick={handleJoinGame}
+            className="w-full"
+            disabled={gameKey.length !== 6}
+          >
             Let's Play!
           </Button>
         </DialogFooter>

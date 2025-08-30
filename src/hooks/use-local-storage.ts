@@ -1,14 +1,13 @@
-
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 // Hook
 export function useLocalStorage<T>(key: string, initialValue: T) {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
   const [storedValue, setStoredValue] = useState<T>(() => {
-    if (typeof window === 'undefined') {
+    if (typeof window === "undefined") {
       return initialValue;
     }
     try {
@@ -25,19 +24,19 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
 
   // useEffect to update local storage when the state changes
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-        try {
+    if (typeof window !== "undefined") {
+      try {
         // Allow value to be a function so we have same API as useState
         const valueToStore =
-            typeof storedValue === 'function'
+          typeof storedValue === "function"
             ? storedValue(storedValue)
             : storedValue;
         // Save state
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
-        } catch (error) {
+      } catch (error) {
         // A more advanced implementation would handle the error case
         console.log(error);
-        }
+      }
     }
   }, [key, storedValue]);
 

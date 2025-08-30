@@ -10,6 +10,6 @@ export const PLAYER_COLORS = [
 ];
 
 export const LocalStorageKey = {
-  GAMES: 'scrabblex_game_history',
-  PLAYER_ID_: 'scrabblex_player_id_',
-}
+  GAMES: "scrabblex_game_history",
+  PLAYER_ID_: "scrabblex_player_id_",
+};

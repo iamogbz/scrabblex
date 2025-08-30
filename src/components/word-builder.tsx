@@ -1,4 +1,3 @@
-
 "use client";
 
 import type { PlacedTile, Board, BoardSquare } from "@/types";
@@ -227,7 +226,10 @@ export default function WordBuilder({
         <div className="grid grid-cols-7 gap-1 md:gap-2">{renderSlots()}</div>
         {stagedTiles.length > 0 && word.length > 0 && (
           <div className="text-center mt-4 p-2 bg-muted rounded-lg">
-            <p className="font-bold text-lg tracking-widest">{word || "..."} ({word.length} {word.length === 1 ? 'letter' : 'letters'})</p>
+            <p className="font-bold text-lg tracking-widest">
+              {word || "..."} ({word.length}{" "}
+              {word.length === 1 ? "letter" : "letters"})
+            </p>
             <p className="text-sm text-muted-foreground">
               Potential Score: {score}
             </p>
@@ -237,5 +239,3 @@ export default function WordBuilder({
     </Card>
   );
 }
-
-    

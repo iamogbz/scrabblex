@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Script from 'next/script';
+import Script from "next/script";
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import { Coffee } from "lucide-react";

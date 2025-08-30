@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { use, useState, useEffect } from "react";
@@ -18,10 +16,13 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 
-
-export default function SolveGamePage({ params }: { params: Promise<{ gameId: string }> }) {
+export default function SolveGamePage({
+  params,
+}: {
+  params: Promise<{ gameId: string }>;
+}) {
   const { gameId } = use(params);
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [loading, setLoading] = useState(true);
@@ -40,8 +41,15 @@ export default function SolveGamePage({ params }: { params: Promise<{ gameId: st
           } else {
             setGameState(gameData.gameState);
             if (gameData.gameState.history.length > 0) {
-              const lastMoveTimestamp = gameData.gameState.history[gameData.gameState.history.length - 1].timestamp;
-              setCompletionDate(formatDistanceToNow(new Date(lastMoveTimestamp), { addSuffix: true }));
+              const lastMoveTimestamp =
+                gameData.gameState.history[
+                  gameData.gameState.history.length - 1
+                ].timestamp;
+              setCompletionDate(
+                formatDistanceToNow(new Date(lastMoveTimestamp), {
+                  addSuffix: true,
+                })
+              );
             }
           }
         } else {
@@ -73,10 +81,17 @@ export default function SolveGamePage({ params }: { params: Promise<{ gameId: st
           <div className="flex items-center gap-1 md:gap-2">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" asChild size="icon" className="md:w-auto md:px-4">
+                <Button
+                  variant="ghost"
+                  asChild
+                  size="icon"
+                  className="md:w-auto md:px-4"
+                >
                   <Link href="/solve">
-                    <ChevronLeft className="h-4 w-4" /> 
-                    <span className="hidden md:inline ml-2">Back to Puzzles</span>
+                    <ChevronLeft className="h-4 w-4" />
+                    <span className="hidden md:inline ml-2">
+                      Back to Puzzles
+                    </span>
                   </Link>
                 </Button>
               </TooltipTrigger>
@@ -87,7 +102,12 @@ export default function SolveGamePage({ params }: { params: Promise<{ gameId: st
 
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" asChild size="icon" className="md:w-auto md:px-4">
+                <Button
+                  variant="ghost"
+                  asChild
+                  size="icon"
+                  className="md:w-auto md:px-4"
+                >
                   <Link href="/">
                     <Home className="h-4 w-4" />
                     <span className="hidden md:inline ml-2">Back to Home</span>
@@ -104,44 +124,43 @@ export default function SolveGamePage({ params }: { params: Promise<{ gameId: st
 
       <div className="w-full max-w-5xl text-center mt-20 z-10">
         {loading && (
-           <div className="text-center p-10 flex items-center justify-center gap-2">
-           <RefreshCw className="animate-spin h-5 w-5" /> Loading Puzzle...
-         </div>
+          <div className="text-center p-10 flex items-center justify-center gap-2">
+            <RefreshCw className="animate-spin h-5 w-5" /> Loading Puzzle...
+          </div>
         )}
 
         {error && (
-            <Card className="shadow-xl border-destructive max-w-md mx-auto">
-                <CardHeader>
-                    <div className="mx-auto bg-destructive text-destructive-foreground rounded-full p-3 w-16 h-16 flex items-center justify-center mb-4">
-                    <AlertTriangle className="w-8 h-8" />
-                    </div>
-                    <CardTitle className="text-2xl text-destructive">
-                    Error Loading Puzzle
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">{error}</p>
-                    <div className="flex gap-2 justify-center mt-4">
-                    <Button variant="secondary" asChild>
-                        <Link href="/solve">
-                        Back to Puzzles
-                        </Link>
-                    </Button>
-                    </div>
-                </CardContent>
-            </Card>
+          <Card className="shadow-xl border-destructive max-w-md mx-auto">
+            <CardHeader>
+              <div className="mx-auto bg-destructive text-destructive-foreground rounded-full p-3 w-16 h-16 flex items-center justify-center mb-4">
+                <AlertTriangle className="w-8 h-8" />
+              </div>
+              <CardTitle className="text-2xl text-destructive">
+                Error Loading Puzzle
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">{error}</p>
+              <div className="flex gap-2 justify-center mt-4">
+                <Button variant="secondary" asChild>
+                  <Link href="/solve">Back to Puzzles</Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         )}
 
         {gameState && (
-            <>
-                <p className="text-muted-foreground mb-4 text-sm">
-                  {completionDate ? `Uploaded ${completionDate}` : "A generated puzzle."}
-                </p>
-                <CrosswordBoard gameState={gameState} />
-            </>
+          <>
+            <p className="text-muted-foreground mb-4 text-sm">
+              {completionDate
+                ? `Uploaded ${completionDate}`
+                : "A generated puzzle."}
+            </p>
+            <CrosswordBoard gameState={gameState} />
+          </>
         )}
       </div>
-
     </main>
   );
 }

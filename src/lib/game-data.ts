@@ -41,32 +41,38 @@ const premiumSquares = {
 
 export const createInitialBoard = (): BoardSquare[][] => {
   const board = Array.from({ length: BOARD_SIZE }, (_, r) =>
-    Array.from({ length: BOARD_SIZE }, (_, c): BoardSquare => ({
-      tile: null,
-      multiplier: 1,
-      multiplierType: null,
-      isCenter: false,
-      x: r,
-      y: c
-    }))
+    Array.from(
+      { length: BOARD_SIZE },
+      (_, c): BoardSquare => ({
+        tile: null,
+        multiplier: 1,
+        multiplierType: null,
+        isCenter: false,
+        x: r,
+        y: c,
+      })
+    )
   );
 
-  const setMultiplier = (coords: number[][], type: 'word' | 'letter', value: number) => {
+  const setMultiplier = (
+    coords: number[][],
+    type: "word" | "letter",
+    value: number
+  ) => {
     coords.forEach(([r, c]) => {
       board[r][c].multiplierType = type;
       board[r][c].multiplier = value;
     });
   };
 
-  setMultiplier(premiumSquares.TW, 'word', 3);
-  setMultiplier(premiumSquares.DW, 'word', 2);
-  setMultiplier(premiumSquares.TL, 'letter', 3);
-  setMultiplier(premiumSquares.DL, 'letter', 2);
+  setMultiplier(premiumSquares.TW, "word", 3);
+  setMultiplier(premiumSquares.DW, "word", 2);
+  setMultiplier(premiumSquares.TL, "letter", 3);
+  setMultiplier(premiumSquares.DL, "letter", 2);
 
   board[7][7].isCenter = true;
-  board[7][7].multiplierType = 'word';
+  board[7][7].multiplierType = "word";
   board[7][7].multiplier = 2;
-
 
   return board;
 };

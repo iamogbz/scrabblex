@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -43,10 +42,8 @@ export function CrosswordGuessDialog({
     if (wordInfo) {
       const initialGuess = Array(wordInfo.length).fill("");
       for (let i = 0; i < wordInfo.length; i++) {
-        const x =
-          wordInfo.direction === "down" ? wordInfo.x + i : wordInfo.x;
-        const y =
-          wordInfo.direction === "across" ? wordInfo.y + i : wordInfo.y;
+        const x = wordInfo.direction === "down" ? wordInfo.x + i : wordInfo.x;
+        const y = wordInfo.direction === "across" ? wordInfo.y + i : wordInfo.y;
         const key = `${x},${y}`;
         if (userInputs[key]) {
           initialGuess[i] = userInputs[key];
@@ -67,7 +64,9 @@ export function CrosswordGuessDialog({
     const inputEl = inputRefs.current[index]!;
     const inputValue = inputEl.value.toUpperCase();
     // Get last new character in case of pasting or overwrite
-    const lastChar = inputValue && (inputValue.replace(existingChar, "").slice(-1) || existingChar);
+    const lastChar =
+      inputValue &&
+      (inputValue.replace(existingChar, "").slice(-1) || existingChar);
     const newGuess = [...guess];
     newGuess[index] = lastChar;
     setGuess(newGuess);
@@ -122,8 +121,8 @@ export function CrosswordGuessDialog({
               onInput={(e) => handleInputChange(i, e)}
               onKeyDown={(e) => handleKeyDown(i, e)}
               style={{
-                caretColor: 'transparent',
-                fontSize: 'clamp(16px, 1.5rem, 40px)',
+                caretColor: "transparent",
+                fontSize: "clamp(16px, 1.5rem, 40px)",
               }}
               className="w-10 h-10 md:w-12 md:h-12 text-center font-bold uppercase"
             />

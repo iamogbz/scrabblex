@@ -1,6 +1,11 @@
-
 import type { Tile } from "@/types";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "./ui/card";
 import SingleTile from "./tile";
 import { Hand } from "lucide-react";
 
@@ -11,15 +16,24 @@ interface PlayerRackProps {
   playerColor?: string;
 }
 
-export default function PlayerRack({ rack, onTileSelect, isMyTurn, playerColor }: PlayerRackProps) {
+export default function PlayerRack({
+  rack,
+  onTileSelect,
+  isMyTurn,
+  playerColor,
+}: PlayerRackProps) {
   return (
     <Card className="shadow-lg transition-all duration-300">
       <CardHeader className={!isMyTurn ? "opacity-60" : ""}>
         <CardTitle className="flex items-center gap-2">
-            <Hand className="h-5 w-5"/>
-            Your Tiles
+          <Hand className="h-5 w-5" />
+          Your Tiles
         </CardTitle>
-        {!isMyTurn && <CardDescription>Not your turn but you can still stage your letters.</CardDescription>}
+        {!isMyTurn && (
+          <CardDescription>
+            Not your turn but you can still stage your letters.
+          </CardDescription>
+        )}
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-7 gap-1 md:gap-2">
@@ -33,7 +47,10 @@ export default function PlayerRack({ rack, onTileSelect, isMyTurn, playerColor }
             />
           ))}
           {Array.from({ length: 7 - rack.length }).map((_, index) => (
-             <div key={`empty-${index}`} className="aspect-square bg-muted/50 rounded-md" />
+            <div
+              key={`empty-${index}`}
+              className="aspect-square bg-muted/50 rounded-md"
+            />
           ))}
         </div>
       </CardContent>

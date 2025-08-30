@@ -1,4 +1,3 @@
-
 "use server";
 
 import {
@@ -12,7 +11,7 @@ import {
   getDictionaryWord,
   updateDictionaryWord,
   getDictionaryWords,
-  updateDictionaryWords
+  updateDictionaryWords,
 } from "@/lib/dictionary-service";
 import { redirect } from "next/navigation";
 import { GoogleGenerativeAI } from "@google/generative-ai";
@@ -100,14 +99,17 @@ const genAI = process.env.GEMINI_API_KEY
   ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
   : null;
 
-export async function getWordDefinition(word: string, forceRefresh = false): Promise<string | null> {
+export async function getWordDefinition(
+  word: string,
+  forceRefresh = false
+): Promise<string | null> {
   const upperCaseWord = word.toUpperCase();
 
   // In-memory cache check
   if (!forceRefresh && definitionCache.has(upperCaseWord)) {
     return definitionCache.get(upperCaseWord)!;
   }
-  if(forceRefresh) {
+  if (forceRefresh) {
     definitionCache.delete(upperCaseWord);
   }
 
@@ -170,17 +172,19 @@ export async function getWordDefinitions(
   }
 
   if (wordsNotInMemCache.length > 0) {
-      // Check GitHub cache for the remaining words
-      const githubCachedDefinitions = await getDictionaryWords(wordsNotInMemCache);
-      
-      for (const word of wordsNotInMemCache) {
-          if (githubCachedDefinitions[word]) {
-              results[word] = githubCachedDefinitions[word];
-              definitionCache.set(word, githubCachedDefinitions[word]!);
-          } else {
-              wordsToFetchFromApi.push(word);
-          }
+    // Check GitHub cache for the remaining words
+    const githubCachedDefinitions = await getDictionaryWords(
+      wordsNotInMemCache
+    );
+
+    for (const word of wordsNotInMemCache) {
+      if (githubCachedDefinitions[word]) {
+        results[word] = githubCachedDefinitions[word];
+        definitionCache.set(word, githubCachedDefinitions[word]!);
+      } else {
+        wordsToFetchFromApi.push(word);
       }
+    }
   }
 
   if (wordsToFetchFromApi.length === 0) {
@@ -228,11 +232,10 @@ export async function getWordDefinitions(
         results[word] = unableToDefine;
       }
     }
-    
-    if (Object.keys(definitionsToCacheInGithub).length > 0) {
-        await updateDictionaryWords(definitionsToCacheInGithub);
-    }
 
+    if (Object.keys(definitionsToCacheInGithub).length > 0) {
+      await updateDictionaryWords(definitionsToCacheInGithub);
+    }
   } catch (error) {
     console.error("Failed to fetch or parse batch definitions:", error);
     for (const word of wordsToFetchFromApi) {
@@ -312,7 +315,7 @@ Game State: ${gameSha || "N/A"}
 export async function suggestWordAction(
   word: string,
   playerName: string,
-  gameId: string,
+  gameId: string
 ): Promise<{
   success: boolean;
   error?: string;
@@ -448,5 +451,3 @@ Timestamp: ${new Date().toUTCString()}`,
     };
   }
 }
-
-    

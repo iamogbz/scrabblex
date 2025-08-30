@@ -1,4 +1,3 @@
-
 "use client";
 import { createGame } from "@/app/actions";
 import { JoinGameDialog } from "@/components/join-game-dialog";
@@ -97,7 +96,8 @@ export default function PlayPage() {
             return {
               ...gameState,
               updatedAt:
-                gameState.history[gameState.history.length - 1]?.timestamp || new Date().toISOString(),
+                gameState.history[gameState.history.length - 1]?.timestamp ||
+                new Date().toISOString(),
             };
           } catch (error) {
             console.error(`Error fetching details for game ${gameId}:`, error);
@@ -143,7 +143,12 @@ export default function PlayPage() {
             Scrabblex
           </span>
         </Link>
-        <Button variant="ghost" asChild size="icon" className="md:w-auto md:px-4">
+        <Button
+          variant="ghost"
+          asChild
+          size="icon"
+          className="md:w-auto md:px-4"
+        >
           <Link href="/">
             <Home className="h-4 w-4" />
             <span className="hidden md:inline ml-2">Back to Home</span>
