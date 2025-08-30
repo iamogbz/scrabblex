@@ -40,12 +40,8 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 253,
+      "score": 264,
       "rack": [
-        {
-          "letter": "L",
-          "points": 1
-        },
         {
           "letter": "L",
           "points": 1
@@ -55,43 +51,30 @@
           "points": 1
         },
         {
-          "letter": "O",
-          "points": 1
-        },
-        {
           "letter": "S",
           "points": 1
         },
         {
-          "letter": "E",
-          "points": 1
+          "letter": "F",
+          "points": 4
         },
         {
           "letter": "A",
           "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": " ",
+          "points": 0
         }
       ],
       "code": "e"
     }
   ],
-  "tileBag": [
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": " ",
-      "points": 0
-    }
-  ],
+  "tileBag": [],
   "board": [
     [
       {
@@ -660,7 +643,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "B",
+          "points": 3,
+          "x": 4,
+          "y": 4
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -668,7 +656,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 4,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -676,7 +669,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Y",
+          "points": 4,
+          "x": 4,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3055,6 +3053,39 @@
       ],
       "score": 27,
       "timestamp": "2025-08-30T17:11:27.077Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "ALOE",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 12,
+          "y": 1
+        },
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 12,
+          "y": 2
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 12,
+          "y": 3
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 12,
+          "y": 4
+        }
+      ],
+      "score": 11,
+      "timestamp": "2025-08-30T17:21:54.171Z"
     }
   ],
   "gamePhase": "playing"
