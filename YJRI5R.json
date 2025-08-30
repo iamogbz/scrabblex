@@ -40,7 +40,7 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 233,
+      "score": 253,
       "rack": [
         {
           "letter": "L",
@@ -55,38 +55,26 @@
           "points": 1
         },
         {
-          "letter": "D",
-          "points": 2
-        },
-        {
-          "letter": "U",
-          "points": 1
-        },
-        {
           "letter": "O",
           "points": 1
         },
         {
-          "letter": "P",
-          "points": 3
+          "letter": "S",
+          "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "A",
+          "points": 1
         }
       ],
       "code": "e"
     }
   ],
   "tileBag": [
-    {
-      "letter": "S",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
     {
       "letter": "T",
       "points": 1
@@ -2160,7 +2148,12 @@
     ],
     [
       {
-        "tile": null,
+        "tile": {
+          "letter": "B",
+          "points": 3,
+          "x": 14,
+          "y": 0
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -2168,7 +2161,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 14,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2176,7 +2174,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 14,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2184,7 +2187,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 14,
+          "y": 3
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2192,7 +2200,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 14,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2985,6 +2998,33 @@
       ],
       "score": 26,
       "timestamp": "2025-08-30T17:08:04.521Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "DUP",
+      "tiles": [
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 5,
+          "y": 5
+        },
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 5,
+          "y": 6
+        },
+        {
+          "letter": "P",
+          "points": 3,
+          "x": 5,
+          "y": 7
+        }
+      ],
+      "score": 20,
+      "timestamp": "2025-08-30T17:09:18.461Z"
     }
   ],
   "gamePhase": "playing"
