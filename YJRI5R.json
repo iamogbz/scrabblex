@@ -40,7 +40,7 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 120,
+      "score": 131,
       "rack": [
         {
           "letter": "R",
@@ -59,30 +59,22 @@
           "points": 10
         },
         {
-          "letter": "O",
+          "letter": "L",
           "points": 1
-        },
-        {
-          "letter": "H",
-          "points": 4
         },
         {
           "letter": "L",
           "points": 1
+        },
+        {
+          "letter": " ",
+          "points": 0
         }
       ],
       "code": "e"
     }
   ],
   "tileBag": [
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": " ",
-      "points": 0
-    },
     {
       "letter": "N",
       "points": 1
@@ -1032,7 +1024,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Y",
+          "points": 4,
+          "x": 5,
+          "y": 9
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1040,7 +1037,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 5,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2602,6 +2604,27 @@
       ],
       "score": 36,
       "timestamp": "2025-08-30T16:00:29.820Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "HO",
+      "tiles": [
+        {
+          "letter": "H",
+          "points": 4,
+          "x": 9,
+          "y": 12
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 10,
+          "y": 12
+        }
+      ],
+      "score": 11,
+      "timestamp": "2025-08-30T16:06:58.880Z"
     }
   ],
   "gamePhase": "playing"
