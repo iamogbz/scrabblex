@@ -40,7 +40,7 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 71,
+      "score": 81,
       "rack": [
         {
           "letter": "D",
@@ -55,34 +55,26 @@
           "points": 2
         },
         {
-          "letter": "S",
-          "points": 1
-        },
-        {
-          "letter": "N",
-          "points": 1
-        },
-        {
           "letter": "C",
           "points": 3
         },
         {
           "letter": "N",
           "points": 1
+        },
+        {
+          "letter": "Z",
+          "points": 10
+        },
+        {
+          "letter": "P",
+          "points": 3
         }
       ],
       "code": "e"
     }
   ],
   "tileBag": [
-    {
-      "letter": "Z",
-      "points": 10
-    },
-    {
-      "letter": "P",
-      "points": 3
-    },
     {
       "letter": "A",
       "points": 1
@@ -566,7 +558,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 1,
+          "y": 13
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -698,7 +695,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 2,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -830,7 +832,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 3,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -962,7 +969,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 4,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2431,6 +2443,27 @@
       ],
       "score": 22,
       "timestamp": "2025-08-30T14:55:16.831Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "NANAS",
+      "tiles": [
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 4,
+          "y": 10
+        },
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 4,
+          "y": 14
+        }
+      ],
+      "score": 10,
+      "timestamp": "2025-08-30T14:59:26.898Z"
     }
   ],
   "gamePhase": "playing"
