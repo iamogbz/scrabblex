@@ -40,7 +40,7 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 188,
+      "score": 213,
       "rack": [
         {
           "letter": "L",
@@ -55,19 +55,19 @@
           "points": 1
         },
         {
-          "letter": "E",
-          "points": 1
-        },
-        {
           "letter": "I",
           "points": 1
         },
         {
-          "letter": "M",
-          "points": 3
+          "letter": "R",
+          "points": 1
         },
         {
-          "letter": "O",
+          "letter": "U",
+          "points": 1
+        },
+        {
+          "letter": "N",
           "points": 1
         }
       ],
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
     {
       "letter": "O",
       "points": 1
@@ -2837,6 +2825,33 @@
       ],
       "score": 19,
       "timestamp": "2025-08-30T16:57:20.607Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "MODE",
+      "tiles": [
+        {
+          "letter": "M",
+          "points": 3,
+          "x": 13,
+          "y": 9
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 13,
+          "y": 10
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 13,
+          "y": 12
+        }
+      ],
+      "score": 25,
+      "timestamp": "2025-08-30T16:58:09.253Z"
     }
   ],
   "gamePhase": "playing"
