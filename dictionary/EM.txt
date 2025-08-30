@@ -1,0 +1,1 @@
+(Printing) A unit of measure equal to the point size of the font.
