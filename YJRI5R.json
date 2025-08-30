@@ -40,34 +40,34 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 0,
+      "score": 27,
       "rack": [
         {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "X",
+          "points": 8
+        },
+        {
+          "letter": "D",
+          "points": 2
+        },
+        {
+          "letter": "H",
+          "points": 4
+        },
+        {
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "D",
+          "points": 2
+        },
+        {
           "letter": "S",
-          "points": 1
-        },
-        {
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "G",
-          "points": 2
-        },
-        {
-          "letter": "G",
-          "points": 2
-        },
-        {
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": "N",
           "points": 1
         }
       ],
@@ -75,30 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "X",
-      "points": 8
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "H",
-      "points": 4
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
     {
       "letter": "E",
       "points": 1
@@ -1313,7 +1289,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 7,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": true,
@@ -1321,7 +1302,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1329,7 +1315,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "V",
+          "points": 4,
+          "x": 7,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1337,7 +1328,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "U",
+          "points": 1,
+          "x": 7,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1345,7 +1341,12 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 11
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2271,6 +2272,51 @@
       ],
       "score": 18,
       "timestamp": "2025-08-30T14:37:44.544Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "GINGES",
+      "tiles": [
+        {
+          "letter": "G",
+          "points": 2,
+          "x": 2,
+          "y": 12
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 3,
+          "y": 12
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 4,
+          "y": 12
+        },
+        {
+          "letter": "G",
+          "points": 2,
+          "x": 5,
+          "y": 12
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 6,
+          "y": 12
+        },
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 7,
+          "y": 12
+        }
+      ],
+      "score": 27,
+      "timestamp": "2025-08-30T14:42:33.736Z"
     }
   ],
   "gamePhase": "playing"
