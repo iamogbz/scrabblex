@@ -4,35 +4,35 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 79,
+      "score": 103,
       "rack": [
         {
-          "letter": "I",
-          "points": 1
-        },
-        {
           "letter": "E",
           "points": 1
         },
         {
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": "W",
-          "points": 4
-        },
-        {
-          "letter": "N",
-          "points": 1
-        },
-        {
           "letter": "I",
           "points": 1
         },
         {
           "letter": "I",
           "points": 1
+        },
+        {
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "J",
+          "points": 8
+        },
+        {
+          "letter": "D",
+          "points": 2
         }
       ],
       "code": "m"
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "J",
-      "points": 8
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
     {
       "letter": " ",
       "points": 0
@@ -935,7 +919,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 4,
+          "y": 10
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -982,7 +971,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 4,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2464,6 +2458,39 @@
       ],
       "score": 10,
       "timestamp": "2025-08-30T14:59:26.898Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "SWINE",
+      "tiles": [
+        {
+          "letter": "W",
+          "points": 4,
+          "x": 5,
+          "y": 14
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 6,
+          "y": 14
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 7,
+          "y": 14
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 8,
+          "y": 14
+        }
+      ],
+      "score": 24,
+      "timestamp": "2025-08-30T15:02:40.846Z"
     }
   ],
   "gamePhase": "playing"
