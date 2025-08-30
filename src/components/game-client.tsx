@@ -42,7 +42,6 @@ import {
   MessageSquarePlus,
   PencilRuler,
   HelpingHand,
-  Flag,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import GameBoard from "./game-board";

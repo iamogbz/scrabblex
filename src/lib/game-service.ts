@@ -44,7 +44,8 @@ const shuffle = <T>(array: T[]): T[] => {
 
 const countTiles = (tiles: Tile[]) => {
   return tiles.reduce((acc, tile) => {
-    acc[tile.letter] = (acc[tile.letter] || 0) + 1;
+    const letterToCount = tile.originalLetter ? tile.originalLetter : tile.letter;
+    acc[letterToCount] = (acc[letterToCount] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 };
@@ -100,7 +101,7 @@ export async function getGame(
 
         const tilesInRacks = gameState.players.flatMap((p) => p.rack);
         const tilesOnBoard = gameState.history.flatMap((h) =>
-        h.tiles.map((t) => ({ letter: t.letter, points: t.points }))
+        h.tiles.map((t) => ({ letter: t.originalLetter || t.letter, points: t.points }))
         );
 
         const tilesInPlay = [...tilesInRacks, ...tilesOnBoard];
