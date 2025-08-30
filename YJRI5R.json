@@ -4,7 +4,7 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 103,
+      "score": 118,
       "rack": [
         {
           "letter": "E",
@@ -19,20 +19,20 @@
           "points": 1
         },
         {
-          "letter": "A",
-          "points": 1
-        },
-        {
           "letter": "O",
           "points": 1
         },
         {
-          "letter": "J",
-          "points": 8
-        },
-        {
           "letter": "D",
           "points": 2
+        },
+        {
+          "letter": "Y",
+          "points": 4
+        },
+        {
+          "letter": "O",
+          "points": 1
         }
       ],
       "code": "m"
@@ -75,14 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "Y",
-      "points": 4
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
     {
       "letter": "Q",
       "points": 10
@@ -1178,7 +1170,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Z",
+          "points": 10,
+          "x": 6,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2522,6 +2519,27 @@
       ],
       "score": 29,
       "timestamp": "2025-08-30T15:06:03.083Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "JA",
+      "tiles": [
+        {
+          "letter": "J",
+          "points": 8,
+          "x": 3,
+          "y": 9
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 4,
+          "y": 9
+        }
+      ],
+      "score": 15,
+      "timestamp": "2025-08-30T15:09:50.756Z"
     }
   ],
   "gamePhase": "playing"
