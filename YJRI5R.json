@@ -40,12 +40,8 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 110,
+      "score": 120,
       "rack": [
-        {
-          "letter": "D",
-          "points": 2
-        },
         {
           "letter": "R",
           "points": 1
@@ -59,38 +55,26 @@
           "points": 3
         },
         {
-          "letter": "N",
+          "letter": "Q",
+          "points": 10
+        },
+        {
+          "letter": "O",
           "points": 1
         },
         {
-          "letter": "P",
-          "points": 3
+          "letter": "H",
+          "points": 4
         },
         {
-          "letter": " ",
-          "points": 0
+          "letter": "L",
+          "points": 1
         }
       ],
       "code": "e"
     }
   ],
   "tileBag": [
-    {
-      "letter": "Q",
-      "points": 10
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "H",
-      "points": 4
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
     {
       "letter": "E",
       "points": 1
@@ -762,7 +746,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "J",
+          "points": 8,
+          "x": 3,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -899,7 +888,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 4,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2540,6 +2534,40 @@
       ],
       "score": 15,
       "timestamp": "2025-08-30T15:09:50.756Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "PEND",
+      "tiles": [
+        {
+          "letter": "P",
+          "points": 3,
+          "x": 8,
+          "y": 13
+        },
+        {
+          "letter": "E",
+          "points": 0,
+          "originalLetter": " ",
+          "x": 9,
+          "y": 13
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 10,
+          "y": 13
+        },
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 11,
+          "y": 13
+        }
+      ],
+      "score": 10,
+      "timestamp": "2025-08-30T15:54:32.127Z"
     }
   ],
   "gamePhase": "playing"
