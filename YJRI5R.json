@@ -40,7 +40,7 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 81,
+      "score": 110,
       "rack": [
         {
           "letter": "D",
@@ -63,22 +63,18 @@
           "points": 1
         },
         {
-          "letter": "Z",
-          "points": 10
-        },
-        {
           "letter": "P",
           "points": 3
+        },
+        {
+          "letter": " ",
+          "points": 0
         }
       ],
       "code": "e"
     }
   ],
   "tileBag": [
-    {
-      "letter": " ",
-      "points": 0
-    },
     {
       "letter": "Y",
       "points": 4
@@ -1103,7 +1099,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "W",
+          "points": 4,
+          "x": 5,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1230,7 +1231,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 6,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1382,7 +1388,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 7,
+          "y": 14
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -1519,7 +1530,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 8,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2491,6 +2507,21 @@
       ],
       "score": 24,
       "timestamp": "2025-08-30T15:02:40.846Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "ZEX",
+      "tiles": [
+        {
+          "letter": "Z",
+          "points": 10,
+          "x": 6,
+          "y": 8
+        }
+      ],
+      "score": 29,
+      "timestamp": "2025-08-30T15:06:03.083Z"
     }
   ],
   "gamePhase": "playing"
