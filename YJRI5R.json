@@ -40,7 +40,7 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 213,
+      "score": 225,
       "rack": [
         {
           "letter": "L",
@@ -67,7 +67,7 @@
           "points": 1
         },
         {
-          "letter": "N",
+          "letter": "E",
           "points": 1
         }
       ],
@@ -75,10 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
     {
       "letter": "E",
       "points": 1
@@ -1964,7 +1960,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "F",
+          "points": 4,
+          "x": 12,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1985,7 +1986,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 12,
+          "y": 12
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -2880,6 +2886,21 @@
       ],
       "score": 22,
       "timestamp": "2025-08-30T16:59:08.899Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "QIN",
+      "tiles": [
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 11,
+          "y": 5
+        }
+      ],
+      "score": 12,
+      "timestamp": "2025-08-30T17:05:24.773Z"
     }
   ],
   "gamePhase": "playing"
