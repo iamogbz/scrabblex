@@ -4,7 +4,7 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 118,
+      "score": 154,
       "rack": [
         {
           "letter": "E",
@@ -19,20 +19,20 @@
           "points": 1
         },
         {
-          "letter": "O",
-          "points": 1
-        },
-        {
           "letter": "D",
           "points": 2
         },
         {
-          "letter": "Y",
-          "points": 4
-        },
-        {
           "letter": "O",
           "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "B",
+          "points": 3
         }
       ],
       "code": "m"
@@ -75,14 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "B",
-      "points": 3
-    },
     {
       "letter": "G",
       "points": 2
@@ -1513,7 +1505,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "P",
+          "points": 3,
+          "x": 8,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1640,7 +1637,13 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 0,
+          "originalLetter": " ",
+          "x": 9,
+          "y": 13
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1762,7 +1765,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 10,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1884,7 +1892,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 11,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2568,6 +2581,27 @@
       ],
       "score": 10,
       "timestamp": "2025-08-30T15:54:32.127Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "YO",
+      "tiles": [
+        {
+          "letter": "Y",
+          "points": 4,
+          "x": 5,
+          "y": 9
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 5,
+          "y": 10
+        }
+      ],
+      "score": 36,
+      "timestamp": "2025-08-30T23:56:46.418Z"
     }
   ],
   "gamePhase": "playing"
