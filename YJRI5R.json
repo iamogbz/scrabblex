@@ -1,35 +1,44 @@
 {
   "gameId": "YJRI5R",
-  "players": [],
+  "players": [
+    {
+      "id": "p1756564508380",
+      "name": "M",
+      "score": 0,
+      "rack": [
+        {
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "V",
+          "points": 4
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "W",
+          "points": 4
+        },
+        {
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "U",
+          "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        }
+      ],
+      "code": "m"
+    }
+  ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "V",
-      "points": 4
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "W",
-      "points": 4
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
     {
       "letter": "S",
       "points": 1
