@@ -4,35 +4,35 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 206,
+      "score": 225,
       "rack": [
-        {
-          "letter": "N",
-          "points": 1
-        },
-        {
-          "letter": "A",
-          "points": 1
-        },
-        {
-          "letter": "R",
-          "points": 1
-        },
-        {
-          "letter": "T",
-          "points": 1
-        },
         {
           "letter": "L",
           "points": 1
         },
         {
-          "letter": " ",
-          "points": 0
-        },
-        {
           "letter": "R",
           "points": 1
+        },
+        {
+          "letter": "B",
+          "points": 3
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "F",
+          "points": 4
+        },
+        {
+          "letter": "M",
+          "points": 3
         }
       ],
       "code": "m"
@@ -75,26 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "B",
-      "points": 3
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "M",
-      "points": 3
-    },
     {
       "letter": "S",
       "points": 1
@@ -2791,6 +2771,46 @@
       ],
       "score": 23,
       "timestamp": "2025-08-30T16:52:28.664Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "TRANS",
+      "tiles": [
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 14,
+          "y": 7
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 14,
+          "y": 8
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 14,
+          "y": 9
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 14,
+          "y": 10
+        },
+        {
+          "letter": "S",
+          "points": 0,
+          "originalLetter": " ",
+          "x": 14,
+          "y": 11
+        }
+      ],
+      "score": 19,
+      "timestamp": "2025-08-30T16:57:20.607Z"
     }
   ],
   "gamePhase": "playing"
