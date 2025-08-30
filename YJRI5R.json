@@ -4,7 +4,7 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 293,
+      "score": 320,
       "rack": [
         {
           "letter": "R",
@@ -15,10 +15,6 @@
           "points": 2
         },
         {
-          "letter": "B",
-          "points": 3
-        },
-        {
           "letter": "V",
           "points": 4
         },
@@ -27,12 +23,16 @@
           "points": 1
         },
         {
-          "letter": "Y",
-          "points": 4
+          "letter": "T",
+          "points": 1
         },
         {
-          "letter": "E",
+          "letter": "T",
           "points": 1
+        },
+        {
+          "letter": " ",
+          "points": 0
         }
       ],
       "code": "m"
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": " ",
-      "points": 0
-    },
     {
       "letter": "F",
       "points": 4
@@ -832,7 +820,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 5,
+          "y": 5
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -840,7 +833,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "U",
+          "points": 1,
+          "x": 5,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -848,7 +846,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "P",
+          "points": 3,
+          "x": 5,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3025,6 +3028,33 @@
       ],
       "score": 20,
       "timestamp": "2025-08-30T17:09:18.461Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "BEY",
+      "tiles": [
+        {
+          "letter": "B",
+          "points": 3,
+          "x": 4,
+          "y": 4
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 4,
+          "y": 5
+        },
+        {
+          "letter": "Y",
+          "points": 4,
+          "x": 4,
+          "y": 6
+        }
+      ],
+      "score": 27,
+      "timestamp": "2025-08-30T17:11:27.077Z"
     }
   ],
   "gamePhase": "playing"
