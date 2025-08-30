@@ -4,17 +4,9 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 57,
+      "score": 79,
       "rack": [
         {
-          "letter": "A",
-          "points": 1
-        },
-        {
-          "letter": "I",
-          "points": 1
-        },
-        {
           "letter": "I",
           "points": 1
         },
@@ -23,15 +15,23 @@
           "points": 1
         },
         {
-          "letter": "O",
-          "points": 1
-        },
-        {
           "letter": "E",
           "points": 1
         },
         {
-          "letter": "T",
+          "letter": "W",
+          "points": 4
+        },
+        {
+          "letter": "N",
+          "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "I",
           "points": 1
         }
       ],
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "W",
-      "points": 4
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
     {
       "letter": "Z",
       "points": 10
@@ -1450,7 +1434,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "H",
+          "points": 4,
+          "x": 8,
+          "y": 6
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1458,7 +1447,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 8,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1466,7 +1460,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "X",
+          "points": 8,
+          "x": 8,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2399,6 +2398,39 @@
       ],
       "score": 44,
       "timestamp": "2025-08-30T14:52:38.211Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "IOTA",
+      "tiles": [
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 1,
+          "y": 13
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 2,
+          "y": 13
+        },
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 3,
+          "y": 13
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 4,
+          "y": 13
+        }
+      ],
+      "score": 22,
+      "timestamp": "2025-08-30T14:55:16.831Z"
     }
   ],
   "gamePhase": "playing"
