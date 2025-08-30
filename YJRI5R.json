@@ -4,18 +4,10 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 0,
+      "score": 18,
       "rack": [
         {
           "letter": "A",
-          "points": 1
-        },
-        {
-          "letter": "V",
-          "points": 4
-        },
-        {
-          "letter": "E",
           "points": 1
         },
         {
@@ -23,15 +15,23 @@
           "points": 4
         },
         {
-          "letter": "R",
+          "letter": "A",
           "points": 1
         },
         {
-          "letter": "U",
+          "letter": "A",
           "points": 1
         },
         {
-          "letter": "E",
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "K",
+          "points": 5
+        },
+        {
+          "letter": "I",
           "points": 1
         }
       ],
@@ -75,26 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "K",
-      "points": 5
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
     {
       "letter": "X",
       "points": 8
@@ -2252,6 +2232,46 @@
       }
     ]
   ],
-  "history": [],
+  "history": [
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "REVUE",
+      "tiles": [
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 7,
+          "y": 7
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
+        {
+          "letter": "V",
+          "points": 4,
+          "x": 7,
+          "y": 9
+        },
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 7,
+          "y": 10
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 11
+        }
+      ],
+      "score": 18,
+      "timestamp": "2025-08-30T14:37:44.544Z"
+    }
+  ],
   "gamePhase": "playing"
 }
