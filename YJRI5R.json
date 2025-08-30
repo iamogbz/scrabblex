@@ -4,14 +4,10 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 154,
+      "score": 173,
       "rack": [
         {
           "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": "I",
           "points": 1
         },
         {
@@ -23,7 +19,7 @@
           "points": 2
         },
         {
-          "letter": "O",
+          "letter": "N",
           "points": 1
         },
         {
@@ -31,8 +27,12 @@
           "points": 1
         },
         {
-          "letter": "T",
+          "letter": "R",
           "points": 1
+        },
+        {
+          "letter": "C",
+          "points": 3
         }
       ],
       "code": "m"
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "C",
-      "points": 3
-    },
     {
       "letter": "A",
       "points": 1
@@ -1631,7 +1615,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "H",
+          "points": 4,
+          "x": 9,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1759,7 +1748,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 10,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2625,6 +2619,39 @@
       ],
       "score": 11,
       "timestamp": "2025-08-30T16:06:58.880Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "IOTA",
+      "tiles": [
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 11,
+          "y": 14
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 12,
+          "y": 14
+        },
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 13,
+          "y": 14
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 14,
+          "y": 14
+        }
+      ],
+      "score": 19,
+      "timestamp": "2025-08-30T16:08:11.380Z"
     }
   ],
   "gamePhase": "playing"
