@@ -40,7 +40,7 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 212,
+      "score": 222,
       "rack": [
         {
           "letter": "C",
@@ -55,19 +55,19 @@
           "points": 1
         },
         {
-          "letter": "A",
-          "points": 1
-        },
-        {
           "letter": "E",
           "points": 1
         },
         {
-          "letter": "P",
-          "points": 3
+          "letter": "U",
+          "points": 1
         },
         {
-          "letter": "U",
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "R",
           "points": 1
         }
       ],
@@ -75,14 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
     {
       "letter": "R",
       "points": 1
@@ -1866,7 +1858,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 11,
+          "y": 14
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2018,7 +2015,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 12,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2150,7 +2152,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 13,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2298,7 +2305,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 14,
+          "y": 14
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -2954,6 +2966,27 @@
       ],
       "score": 19,
       "timestamp": "2025-08-31T00:43:58.608Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "PA",
+      "tiles": [
+        {
+          "letter": "P",
+          "points": 3,
+          "x": 13,
+          "y": 13
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 14,
+          "y": 13
+        }
+      ],
+      "score": 10,
+      "timestamp": "2025-08-31T00:45:15.711Z"
     }
   ],
   "gamePhase": "playing"
