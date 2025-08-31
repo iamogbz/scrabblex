@@ -4,22 +4,10 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 218,
+      "score": 258,
       "rack": [
         {
-          "letter": "O",
-          "points": 1
-        },
-        {
-          "letter": "M",
-          "points": 3
-        },
-        {
           "letter": "U",
-          "points": 1
-        },
-        {
-          "letter": "N",
           "points": 1
         },
         {
@@ -27,11 +15,23 @@
           "points": 1
         },
         {
-          "letter": "O",
+          "letter": "A",
           "points": 1
         },
         {
-          "letter": "A",
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "L",
+          "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "L",
           "points": 1
         }
       ],
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
     {
       "letter": "F",
       "points": 4
@@ -1848,7 +1832,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 11,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2127,7 +2116,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "V",
+          "points": 4,
+          "x": 13,
+          "y": 9
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2791,6 +2785,39 @@
       ],
       "score": 14,
       "timestamp": "2025-08-31T00:31:51.139Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "MOON",
+      "tiles": [
+        {
+          "letter": "M",
+          "points": 3,
+          "x": 10,
+          "y": 1
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 10,
+          "y": 2
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 10,
+          "y": 3
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 10,
+          "y": 4
+        }
+      ],
+      "score": 40,
+      "timestamp": "2025-08-31T00:35:32.167Z"
     }
   ],
   "gamePhase": "playing"
