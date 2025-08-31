@@ -153,6 +153,7 @@ export default function SolveGamePage({
         {gameState && (
           <>
             <p className="text-muted-foreground mb-4 text-sm">
+              Game <span>{gameId}</span> -{" "}
               {completionDate
                 ? `Uploaded ${completionDate}`
                 : "A generated puzzle."}
