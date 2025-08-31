@@ -4,22 +4,10 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 305,
+      "score": 320,
       "rack": [
         {
-          "letter": "T",
-          "points": 1
-        },
-        {
-          "letter": "S",
-          "points": 1
-        },
-        {
           "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "E",
           "points": 1
         },
         {
@@ -27,8 +15,16 @@
           "points": 1
         },
         {
-          "letter": "O",
+          "letter": "T",
           "points": 1
+        },
+        {
+          "letter": "U",
+          "points": 1
+        },
+        {
+          "letter": "B",
+          "points": 3
         },
         {
           "letter": "T",
@@ -74,20 +70,7 @@
       "code": "e"
     }
   ],
-  "tileBag": [
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "B",
-      "points": 3
-    },
-    {
-      "letter": "T",
-      "points": 1
-    }
-  ],
+  "tileBag": [],
   "board": [
     [
       {
@@ -538,7 +521,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 3,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -546,7 +534,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 3,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3079,6 +3072,39 @@
       ],
       "score": 11,
       "timestamp": "2025-08-31T00:53:59.744Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "STORE",
+      "tiles": [
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 0,
+          "y": 7
+        },
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 1,
+          "y": 7
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 2,
+          "y": 7
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 4,
+          "y": 7
+        }
+      ],
+      "score": 15,
+      "timestamp": "2025-08-31T00:54:34.226Z"
     }
   ],
   "gamePhase": "playing"
