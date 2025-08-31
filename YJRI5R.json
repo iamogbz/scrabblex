@@ -4,23 +4,14 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 330,
-      "rack": [
-        {
-          "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "R",
-          "points": 1
-        }
-      ],
+      "score": 335,
+      "rack": [],
       "code": "m"
     },
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 268,
+      "score": 266,
       "rack": [
         {
           "letter": "U",
@@ -175,7 +166,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 0,
+          "y": 14
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -312,7 +308,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 1,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3205,7 +3206,29 @@
       ],
       "score": 8,
       "timestamp": "2025-08-31T00:57:12.046Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "IRE",
+      "tiles": [
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 4,
+          "y": 5
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 4,
+          "y": 6
+        }
+      ],
+      "score": 3,
+      "timestamp": "2025-08-31T00:59:19.635Z"
     }
   ],
-  "gamePhase": "playing"
+  "gamePhase": "ended",
+  "endStatus": "M wins after using all their tiles!"
 }
