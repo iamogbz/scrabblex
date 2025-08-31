@@ -4,7 +4,7 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 258,
+      "score": 279,
       "rack": [
         {
           "letter": "U",
@@ -19,19 +19,19 @@
           "points": 1
         },
         {
-          "letter": "E",
-          "points": 1
-        },
-        {
           "letter": "L",
           "points": 1
         },
         {
-          "letter": "E",
+          "letter": "S",
           "points": 1
         },
         {
-          "letter": "L",
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "S",
           "points": 1
         }
       ],
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "S",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
     {
       "letter": "A",
       "points": 1
@@ -1768,7 +1756,12 @@
     ],
     [
       {
-        "tile": null,
+        "tile": {
+          "letter": "F",
+          "points": 4,
+          "x": 11,
+          "y": 0
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1776,7 +1769,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 11,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1784,7 +1782,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 11,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2853,6 +2856,33 @@
       ],
       "score": 16,
       "timestamp": "2025-08-31T00:37:42.493Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "FEEL",
+      "tiles": [
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 12,
+          "y": 0
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 13,
+          "y": 0
+        },
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 14,
+          "y": 0
+        }
+      ],
+      "score": 21,
+      "timestamp": "2025-08-31T00:38:59.115Z"
     }
   ],
   "gamePhase": "playing"
