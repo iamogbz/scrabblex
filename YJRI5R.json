@@ -40,22 +40,10 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 222,
+      "score": 240,
       "rack": [
         {
-          "letter": "C",
-          "points": 3
-        },
-        {
-          "letter": "L",
-          "points": 1
-        },
-        {
           "letter": "T",
-          "points": 1
-        },
-        {
-          "letter": "E",
           "points": 1
         },
         {
@@ -69,24 +57,24 @@
         {
           "letter": "R",
           "points": 1
+        },
+        {
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "N",
+          "points": 1
         }
       ],
       "code": "e"
     }
   ],
   "tileBag": [
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
     {
       "letter": "R",
       "points": 1
@@ -3006,6 +2994,33 @@
       "score": 0,
       "isPass": true,
       "timestamp": "2025-08-31T00:45:55.558Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "CEL",
+      "tiles": [
+        {
+          "letter": "C",
+          "points": 3,
+          "x": 13,
+          "y": 5
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 13,
+          "y": 6
+        },
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 13,
+          "y": 7
+        }
+      ],
+      "score": 18,
+      "timestamp": "2025-08-31T00:50:06.965Z"
     }
   ],
   "gamePhase": "playing"
