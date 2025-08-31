@@ -4,14 +4,26 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 170,
+      "score": 192,
       "rack": [
         {
-          "letter": "I",
+          "letter": "O",
           "points": 1
         },
         {
-          "letter": "O",
+          "letter": "M",
+          "points": 3
+        },
+        {
+          "letter": "M",
+          "points": 3
+        },
+        {
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "U",
           "points": 1
         },
         {
@@ -19,20 +31,8 @@
           "points": 1
         },
         {
-          "letter": "L",
-          "points": 1
-        },
-        {
-          "letter": "M",
-          "points": 3
-        },
-        {
-          "letter": "M",
-          "points": 3
-        },
-        {
-          "letter": "C",
-          "points": 3
+          "letter": "Y",
+          "points": 4
         }
       ],
       "code": "m"
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "Y",
-      "points": 4
-    },
     {
       "letter": "I",
       "points": 1
@@ -1400,7 +1384,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Q",
+          "points": 10,
+          "x": 8,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2683,6 +2672,39 @@
       ],
       "score": 11,
       "timestamp": "2025-08-31T00:24:51.376Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "CIEL",
+      "tiles": [
+        {
+          "letter": "C",
+          "points": 3,
+          "x": 9,
+          "y": 11
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 10,
+          "y": 11
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 11,
+          "y": 11
+        },
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 12,
+          "y": 11
+        }
+      ],
+      "score": 22,
+      "timestamp": "2025-08-31T00:26:10.735Z"
     }
   ],
   "gamePhase": "playing"
