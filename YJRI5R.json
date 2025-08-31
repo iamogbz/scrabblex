@@ -20,22 +20,14 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 260,
+      "score": 268,
       "rack": [
         {
           "letter": "U",
           "points": 1
         },
         {
-          "letter": "N",
-          "points": 1
-        },
-        {
           "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "O",
           "points": 1
         }
       ],
@@ -70,7 +62,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "B",
+          "points": 3,
+          "x": 0,
+          "y": 3
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -78,7 +75,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "U",
+          "points": 1,
+          "x": 0,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -86,7 +88,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 0,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -94,7 +101,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 0,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3172,6 +3184,27 @@
       ],
       "score": 10,
       "timestamp": "2025-08-31T00:56:30.842Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "NO",
+      "tiles": [
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 0,
+          "y": 14
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 1,
+          "y": 14
+        }
+      ],
+      "score": 8,
+      "timestamp": "2025-08-31T00:57:12.046Z"
     }
   ],
   "gamePhase": "playing"
