@@ -110,7 +110,12 @@ export function CrosswordGuessDialog({
           </DialogTitle>
           <DialogDescription>{wordInfo.clue}</DialogDescription>
         </DialogHeader>
-        <div className="flex justify-center items-center gap-1 md:gap-2 my-4">
+        <div
+          className="flex justify-center items-center gap-1 md:gap-2 my-4"
+          style={{
+            containerType: "size",
+          }}
+        >
           {Array.from({ length: wordInfo.length }).map((_, i) => (
             <Input
               key={i}
@@ -122,7 +127,7 @@ export function CrosswordGuessDialog({
               onKeyDown={(e) => handleKeyDown(i, e)}
               style={{
                 caretColor: "transparent",
-                fontSize: "clamp(12px, 0.8rem, 40px)",
+                fontSize: "clamp(16px, 50cqw, 40px)",
               }}
               className="w-10 h-10 md:w-12 md:h-12 text-center font-bold uppercase"
             />
