@@ -4,7 +4,7 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 192,
+      "score": 218,
       "rack": [
         {
           "letter": "O",
@@ -15,24 +15,24 @@
           "points": 3
         },
         {
-          "letter": "M",
-          "points": 3
-        },
-        {
-          "letter": "A",
-          "points": 1
-        },
-        {
           "letter": "U",
           "points": 1
         },
         {
-          "letter": "E",
+          "letter": "N",
           "points": 1
         },
         {
-          "letter": "Y",
-          "points": 4
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "A",
+          "points": 1
         }
       ],
       "code": "m"
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
     {
       "letter": "F",
       "points": 4
@@ -1576,7 +1560,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 9,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2736,6 +2725,39 @@
       ],
       "score": 13,
       "timestamp": "2025-08-31T00:27:20.365Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "MEALY",
+      "tiles": [
+        {
+          "letter": "M",
+          "points": 3,
+          "x": 12,
+          "y": 8
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 12,
+          "y": 9
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 12,
+          "y": 10
+        },
+        {
+          "letter": "Y",
+          "points": 4,
+          "x": 12,
+          "y": 12
+        }
+      ],
+      "score": 26,
+      "timestamp": "2025-08-31T00:29:38.342Z"
     }
   ],
   "gamePhase": "playing"
