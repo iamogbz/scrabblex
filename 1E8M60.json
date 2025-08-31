@@ -39,8 +39,8 @@
     },
     {
       "id": "p1756080770073",
-      "name": "Miche",
-      "score": 236,
+      "name": "MICHE",
+      "score": 265,
       "rack": [
         {
           "letter": "N",
@@ -51,23 +51,23 @@
           "points": 1
         },
         {
-          "letter": "A",
-          "points": 1
-        },
-        {
-          "letter": "P",
-          "points": 3
-        },
-        {
-          "letter": "W",
-          "points": 4
-        },
-        {
           "letter": "T",
           "points": 1
         },
         {
-          "letter": "R",
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "V",
+          "points": 4
+        },
+        {
+          "letter": "N",
+          "points": 1
+        },
+        {
+          "letter": "S",
           "points": 1
         }
       ],
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "V",
-      "points": 4
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
     {
       "letter": "A",
       "points": 1
@@ -2784,6 +2768,39 @@
         }
       ],
       "score": 23
+    },
+    {
+      "playerId": "p1756080770073",
+      "playerName": "MICHE",
+      "word": "PRAWN",
+      "tiles": [
+        {
+          "letter": "P",
+          "points": 3,
+          "x": 1,
+          "y": 12
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 2,
+          "y": 12
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 3,
+          "y": 12
+        },
+        {
+          "letter": "W",
+          "points": 4,
+          "x": 4,
+          "y": 12
+        }
+      ],
+      "score": 29,
+      "timestamp": "2025-08-31T13:03:36.845Z"
     }
   ],
   "gamePhase": "playing"
