@@ -40,7 +40,7 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 169,
+      "score": 185,
       "rack": [
         {
           "letter": "C",
@@ -55,10 +55,6 @@
           "points": 2
         },
         {
-          "letter": "R",
-          "points": 1
-        },
-        {
           "letter": "I",
           "points": 1
         },
@@ -67,7 +63,11 @@
           "points": 4
         },
         {
-          "letter": "I",
+          "letter": " ",
+          "points": 0
+        },
+        {
+          "letter": "T",
           "points": 1
         }
       ],
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": " ",
-      "points": 0
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
     {
       "letter": "S",
       "points": 1
@@ -1631,7 +1619,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "M",
+          "points": 3,
+          "x": 10,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1639,7 +1632,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 10,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1647,7 +1645,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 10,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1655,7 +1658,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 10,
+          "y": 4
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -2818,6 +2826,33 @@
       ],
       "score": 40,
       "timestamp": "2025-08-31T00:35:32.167Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "FIR",
+      "tiles": [
+        {
+          "letter": "F",
+          "points": 4,
+          "x": 11,
+          "y": 0
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 11,
+          "y": 1
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 11,
+          "y": 2
+        }
+      ],
+      "score": 16,
+      "timestamp": "2025-08-31T00:37:42.493Z"
     }
   ],
   "gamePhase": "playing"
