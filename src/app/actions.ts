@@ -158,7 +158,7 @@ export async function getWordDefinitions(
   words: string[]
 ): Promise<Record<string, string | null>> {
   const upperCaseWords = words.map((w) => w.toUpperCase());
-  const results: Record<string, string | null> = {};
+  const results: Record<string, string> = {};
   let wordsToFetchFromApi: string[] = [];
 
   // Check in-memory cache first
@@ -188,6 +188,7 @@ export async function getWordDefinitions(
   }
 
   if (wordsToFetchFromApi.length === 0) {
+    console.log("All definitions found in cache.");
     return results;
   }
 
@@ -233,14 +234,17 @@ export async function getWordDefinitions(
       }
     }
 
-    if (Object.keys(definitionsToCacheInGithub).length > 0) {
-      await updateDictionaryWords(definitionsToCacheInGithub);
-    }
+    // TODO: understand why this is sometimes skipped
+    // and previously defined words are not saved in github
+    // if (Object.keys(definitionsToCacheInGithub).length > 0) {
+    //   await updateDictionaryWords(definitionsToCacheInGithub);
+    // }
   } catch (error) {
     console.error("Failed to fetch or parse batch definitions:", error);
-    for (const word of wordsToFetchFromApi) {
-      results[word] = "Error fetching definition.";
-    }
+  }
+
+  if (results) {
+    await updateDictionaryWords(results);
   }
 
   return results;
