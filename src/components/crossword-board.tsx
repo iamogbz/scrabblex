@@ -92,110 +92,109 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     useState<HTMLDivElement | null>(null);
   const [boardContainerHeight, setBoardContainerHeight] = useState(400);
 
-  const { board, wordStartPositions, playedTilesCoords, wordsByCell } =
-    useMemo(() => {
-      const board = Array.from({ length: 15 }, () =>
-        Array(15).fill(null)
-      ) as (PlacedTile | null)[][];
-      const coords = new Set<string>();
+  const { wordStartPositions, playedTilesCoords, wordsByCell } = useMemo(() => {
+    const board = Array.from({ length: 15 }, () =>
+      Array(15).fill(null)
+    ) as (PlacedTile | null)[][];
+    const coords = new Set<string>();
 
-      gameState.history.forEach((move) => {
-        if (move.tiles) {
-          move.tiles.forEach((tile: PlacedTile) => {
-            board[tile.x][tile.y] = tile;
-            coords.add(`${tile.x},${tile.y}`);
-          });
+    gameState.history.forEach((move) => {
+      if (move.tiles) {
+        move.tiles.forEach((tile: PlacedTile) => {
+          board[tile.x][tile.y] = tile;
+          coords.add(`${tile.x},${tile.y}`);
+        });
+      }
+    });
+
+    const wordStartPositions: { [key: string]: number } = {};
+    const wordsList: Omit<Word, "clue">[] = [];
+    let wordNumber = 1;
+    const wordsByCell = new Map<string, { across?: number; down?: number }>();
+
+    for (let r = 0; r < 15; r++) {
+      for (let c = 0; c < 15; c++) {
+        if (!board[r][c]) continue;
+
+        const isAcrossStart =
+          (c === 0 || !board[r][c - 1]) && c < 14 && board[r][c + 1];
+        const isDownStart =
+          (r === 0 || !board[r - 1]?.[c]) && r < 14 && board[r + 1]?.[c];
+
+        if (isAcrossStart || isDownStart) {
+          const key = `${r},${c}`;
+          if (!wordStartPositions[key]) {
+            wordStartPositions[key] = wordNumber++;
+          }
         }
-      });
 
-      const wordStartPositions: { [key: string]: number } = {};
-      const wordsList: Omit<Word, "clue">[] = [];
-      let wordNumber = 1;
-      const wordsByCell = new Map<string, { across?: number; down?: number }>();
-
-      for (let r = 0; r < 15; r++) {
-        for (let c = 0; c < 15; c++) {
-          if (!board[r][c]) continue;
-
-          const isAcrossStart =
-            (c === 0 || !board[r][c - 1]) && c < 14 && board[r][c + 1];
-          const isDownStart =
-            (r === 0 || !board[r - 1]?.[c]) && r < 14 && board[r + 1]?.[c];
-
-          if (isAcrossStart || isDownStart) {
-            const key = `${r},${c}`;
-            if (!wordStartPositions[key]) {
-              wordStartPositions[key] = wordNumber++;
-            }
+        if (isAcrossStart) {
+          let word = "";
+          let length = 0;
+          const currentWordNumber = wordStartPositions[`${r},${c}`];
+          for (let i = c; i < 15 && board[r][i]; i++) {
+            word += board[r][i]!.letter;
+            length++;
+            const cellKey = `${r},${i}`;
+            const existing = wordsByCell.get(cellKey) || {};
+            wordsByCell.set(cellKey, {
+              ...existing,
+              across: currentWordNumber,
+            });
           }
-
-          if (isAcrossStart) {
-            let word = "";
-            let length = 0;
-            const currentWordNumber = wordStartPositions[`${r},${c}`];
-            for (let i = c; i < 15 && board[r][i]; i++) {
-              word += board[r][i]!.letter;
-              length++;
-              const cellKey = `${r},${i}`;
-              const existing = wordsByCell.get(cellKey) || {};
-              wordsByCell.set(cellKey, {
-                ...existing,
-                across: currentWordNumber,
-              });
-            }
-            if (length > 1) {
-              wordsList.push({
-                number: currentWordNumber,
-                word,
-                direction: "across",
-                x: r,
-                y: c,
-                length,
-              });
-            }
+          if (length > 1) {
+            wordsList.push({
+              number: currentWordNumber,
+              word,
+              direction: "across",
+              x: r,
+              y: c,
+              length,
+            });
           }
+        }
 
-          if (isDownStart) {
-            let word = "";
-            let length = 0;
-            const currentWordNumber = wordStartPositions[`${r},${c}`];
-            for (let i = r; i < 15 && board[i]?.[c]; i++) {
-              word += board[i][c]!.letter;
-              length++;
-              const cellKey = `${i},${c}`;
-              const existing = wordsByCell.get(cellKey) || {};
-              wordsByCell.set(cellKey, {
-                ...existing,
-                down: currentWordNumber,
-              });
-            }
-            if (length > 1) {
-              wordsList.push({
-                number: currentWordNumber,
-                word,
-                direction: "down",
-                x: r,
-                y: c,
-                length,
-              });
-            }
+        if (isDownStart) {
+          let word = "";
+          let length = 0;
+          const currentWordNumber = wordStartPositions[`${r},${c}`];
+          for (let i = r; i < 15 && board[i]?.[c]; i++) {
+            word += board[i][c]!.letter;
+            length++;
+            const cellKey = `${i},${c}`;
+            const existing = wordsByCell.get(cellKey) || {};
+            wordsByCell.set(cellKey, {
+              ...existing,
+              down: currentWordNumber,
+            });
+          }
+          if (length > 1) {
+            wordsList.push({
+              number: currentWordNumber,
+              word,
+              direction: "down",
+              x: r,
+              y: c,
+              length,
+            });
           }
         }
       }
-      // Remove duplicates that might arise from single-letter intersections
-      const uniqueWords = Array.from(
-        new Map(wordsList.map((w) => [`${w.word}-${w.x}-${w.y}`, w])).values()
-      );
-      uniqueWords.sort((a, b) => a.number - b.number);
-      setWords(uniqueWords);
+    }
+    // Remove duplicates that might arise from single-letter intersections
+    const uniqueWords = Array.from(
+      new Map(wordsList.map((w) => [`${w.word}-${w.x}-${w.y}`, w])).values()
+    );
+    uniqueWords.sort((a, b) => a.number - b.number);
+    setWords(uniqueWords);
 
-      return {
-        board,
-        wordStartPositions,
-        playedTilesCoords: coords,
-        wordsByCell,
-      };
-    }, [gameState.history]);
+    return {
+      board,
+      wordStartPositions,
+      playedTilesCoords: coords,
+      wordsByCell,
+    };
+  }, [gameState.history]);
 
   const allCellsFilled = useMemo(() => {
     const filledCellCount = Object.values(userInputs).filter((v) => v).length;

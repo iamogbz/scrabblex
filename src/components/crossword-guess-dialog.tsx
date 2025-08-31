@@ -122,7 +122,7 @@ export function CrosswordGuessDialog({
               onKeyDown={(e) => handleKeyDown(i, e)}
               style={{
                 caretColor: "transparent",
-                fontSize: "clamp(16px, 1.5rem, 40px)",
+                fontSize: "clamp(12px, 0.8rem, 40px)",
               }}
               className="w-10 h-10 md:w-12 md:h-12 text-center font-bold uppercase"
             />
