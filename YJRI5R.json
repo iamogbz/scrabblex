@@ -40,12 +40,8 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 155,
+      "score": 169,
       "rack": [
-        {
-          "letter": "R",
-          "points": 1
-        },
         {
           "letter": "C",
           "points": 3
@@ -63,7 +59,11 @@
           "points": 1
         },
         {
-          "letter": "V",
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "F",
           "points": 4
         },
         {
@@ -75,14 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
     {
       "letter": "E",
       "points": 1
@@ -1980,7 +1972,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "M",
+          "points": 3,
+          "x": 12,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1988,7 +1985,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 12,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1996,7 +1998,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 12,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2017,7 +2024,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Y",
+          "points": 4,
+          "x": 12,
+          "y": 12
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -2758,6 +2770,27 @@
       ],
       "score": 26,
       "timestamp": "2025-08-31T00:29:38.342Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "REV",
+      "tiles": [
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 11,
+          "y": 9
+        },
+        {
+          "letter": "V",
+          "points": 4,
+          "x": 13,
+          "y": 9
+        }
+      ],
+      "score": 14,
+      "timestamp": "2025-08-31T00:31:51.139Z"
     }
   ],
   "gamePhase": "playing"
