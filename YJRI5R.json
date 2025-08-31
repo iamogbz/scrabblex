@@ -4,7 +4,7 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 279,
+      "score": 298,
       "rack": [
         {
           "letter": "U",
@@ -15,24 +15,24 @@
           "points": 1
         },
         {
-          "letter": "A",
-          "points": 1
-        },
-        {
-          "letter": "L",
-          "points": 1
-        },
-        {
           "letter": "S",
           "points": 1
         },
         {
-          "letter": "A",
+          "letter": "I",
           "points": 1
         },
         {
-          "letter": "S",
+          "letter": "O",
           "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "D",
+          "points": 2
         }
       ],
       "code": "m"
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
     {
       "letter": "T",
       "points": 1
@@ -2229,7 +2213,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "F",
+          "points": 4,
+          "x": 14,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2237,7 +2226,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 14,
+          "y": 7
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -2245,7 +2239,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "G",
+          "points": 2,
+          "x": 14,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2253,7 +2252,13 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 0,
+          "originalLetter": " ",
+          "x": 14,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2916,6 +2921,39 @@
       ],
       "score": 27,
       "timestamp": "2025-08-31T00:41:46.512Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "ALAS",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 11,
+          "y": 14
+        },
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 12,
+          "y": 14
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 13,
+          "y": 14
+        },
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 14,
+          "y": 14
+        }
+      ],
+      "score": 19,
+      "timestamp": "2025-08-31T00:43:58.608Z"
     }
   ],
   "gamePhase": "playing"
