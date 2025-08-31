@@ -4,12 +4,8 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 298,
+      "score": 305,
       "rack": [
-        {
-          "letter": "U",
-          "points": 1
-        },
         {
           "letter": "T",
           "points": 1
@@ -23,16 +19,20 @@
           "points": 1
         },
         {
-          "letter": "O",
-          "points": 1
-        },
-        {
           "letter": "E",
           "points": 1
         },
         {
-          "letter": "D",
-          "points": 2
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "T",
+          "points": 1
         }
       ],
       "code": "m"
@@ -75,18 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
     {
       "letter": "I",
       "points": 1
@@ -2063,7 +2051,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "C",
+          "points": 3,
+          "x": 13,
+          "y": 5
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2071,7 +2064,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 13,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2079,7 +2077,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 13,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3021,6 +3024,33 @@
       ],
       "score": 18,
       "timestamp": "2025-08-31T00:50:06.965Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "LOUD",
+      "tiles": [
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 14,
+          "y": 1
+        },
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 14,
+          "y": 2
+        },
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 14,
+          "y": 3
+        }
+      ],
+      "score": 7,
+      "timestamp": "2025-08-31T00:53:30.500Z"
     }
   ],
   "gamePhase": "playing"
