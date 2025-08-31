@@ -218,7 +218,7 @@ export default function WordBuilder({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <WholeWord className="h-5 w-5" />
-          Spell Out
+          Word Planner
         </CardTitle>
         <CardDescription>{renderDescription()}</CardDescription>
       </CardHeader>

@@ -1582,7 +1582,7 @@ export default function GameClient({
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <PencilRuler className="h-5 w-5" />
-                Controls
+                <span style={{ userSelect: "none" }}>Game</span> {gameId}
               </CardTitle>
               <CardDescription>
                 It's {currentPlayer.name}'s turn.{" "}
