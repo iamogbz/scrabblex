@@ -4,7 +4,7 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 214,
+      "score": 243,
       "rack": [
         {
           "letter": "O",
@@ -27,11 +27,11 @@
           "points": 1
         },
         {
-          "letter": "B",
-          "points": 3
+          "letter": "A",
+          "points": 1
         },
         {
-          "letter": "S",
+          "letter": "E",
           "points": 1
         }
       ],
@@ -75,14 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
     {
       "letter": "Y",
       "points": 4
@@ -397,7 +389,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "P",
+          "points": 3,
+          "x": 1,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -519,7 +516,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 2,
+          "y": 12
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -641,7 +643,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 3,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -773,7 +780,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "W",
+          "points": 4,
+          "x": 4,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2801,6 +2813,27 @@
       ],
       "score": 29,
       "timestamp": "2025-08-31T13:03:36.845Z"
+    },
+    {
+      "playerId": "p1756080761026",
+      "playerName": "M",
+      "word": "BAYS",
+      "tiles": [
+        {
+          "letter": "B",
+          "points": 3,
+          "x": 11,
+          "y": 11
+        },
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 11,
+          "y": 14
+        }
+      ],
+      "score": 29,
+      "timestamp": "2025-08-31T13:07:55.511Z"
     }
   ],
   "gamePhase": "playing"
