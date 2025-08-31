@@ -40,7 +40,7 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 185,
+      "score": 212,
       "rack": [
         {
           "letter": "C",
@@ -51,23 +51,23 @@
           "points": 1
         },
         {
-          "letter": "G",
-          "points": 2
-        },
-        {
-          "letter": "I",
+          "letter": "T",
           "points": 1
         },
         {
-          "letter": "F",
-          "points": 4
+          "letter": "A",
+          "points": 1
         },
         {
-          "letter": " ",
-          "points": 0
+          "letter": "E",
+          "points": 1
         },
         {
-          "letter": "T",
+          "letter": "P",
+          "points": 3
+        },
+        {
+          "letter": "U",
           "points": 1
         }
       ],
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "P",
-      "points": 3
-    },
-    {
-      "letter": "U",
-      "points": 1
-    },
     {
       "letter": "I",
       "points": 1
@@ -1908,7 +1892,12 @@
     ],
     [
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 12,
+          "y": 0
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2055,7 +2044,12 @@
     ],
     [
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 13,
+          "y": 0
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2182,7 +2176,12 @@
     ],
     [
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 14,
+          "y": 0
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -2883,6 +2882,40 @@
       ],
       "score": 21,
       "timestamp": "2025-08-31T00:38:59.115Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "FIGS",
+      "tiles": [
+        {
+          "letter": "F",
+          "points": 4,
+          "x": 14,
+          "y": 6
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 14,
+          "y": 7
+        },
+        {
+          "letter": "G",
+          "points": 2,
+          "x": 14,
+          "y": 8
+        },
+        {
+          "letter": "S",
+          "points": 0,
+          "originalLetter": " ",
+          "x": 14,
+          "y": 9
+        }
+      ],
+      "score": 27,
+      "timestamp": "2025-08-31T00:41:46.512Z"
     }
   ],
   "gamePhase": "playing"
