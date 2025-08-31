@@ -40,7 +40,7 @@
     {
       "id": "p1756564581499",
       "name": "E",
-      "score": 240,
+      "score": 251,
       "rack": [
         {
           "letter": "T",
@@ -59,15 +59,15 @@
           "points": 1
         },
         {
-          "letter": "R",
-          "points": 1
-        },
-        {
-          "letter": "A",
-          "points": 1
-        },
-        {
           "letter": "N",
+          "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "O",
           "points": 1
         }
       ],
@@ -75,14 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
     {
       "letter": "U",
       "points": 1
@@ -2176,7 +2168,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 14,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2184,7 +2181,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "U",
+          "points": 1,
+          "x": 14,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2192,7 +2194,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 14,
+          "y": 3
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -3051,6 +3058,27 @@
       ],
       "score": 7,
       "timestamp": "2025-08-31T00:53:30.500Z"
+    },
+    {
+      "playerId": "p1756564581499",
+      "playerName": "E",
+      "word": "RAJ",
+      "tiles": [
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 3,
+          "y": 7
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 3,
+          "y": 8
+        }
+      ],
+      "score": 11,
+      "timestamp": "2025-08-31T00:53:59.744Z"
     }
   ],
   "gamePhase": "playing"
