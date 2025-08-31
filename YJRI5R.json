@@ -4,7 +4,7 @@
     {
       "id": "p1756564508380",
       "name": "M",
-      "score": 320,
+      "score": 330,
       "rack": [
         {
           "letter": "I",
@@ -12,22 +12,6 @@
         },
         {
           "letter": "R",
-          "points": 1
-        },
-        {
-          "letter": "T",
-          "points": 1
-        },
-        {
-          "letter": "U",
-          "points": 1
-        },
-        {
-          "letter": "B",
-          "points": 3
-        },
-        {
-          "letter": "T",
           "points": 1
         }
       ],
@@ -366,7 +350,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 2,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -374,7 +363,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 2,
+          "y": 6
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -395,7 +389,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 2,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -3140,6 +3139,39 @@
       ],
       "score": 9,
       "timestamp": "2025-08-31T00:55:42.960Z"
+    },
+    {
+      "playerId": "p1756564508380",
+      "playerName": "M",
+      "word": "BUTTS",
+      "tiles": [
+        {
+          "letter": "B",
+          "points": 3,
+          "x": 0,
+          "y": 3
+        },
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 0,
+          "y": 4
+        },
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 0,
+          "y": 5
+        },
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 0,
+          "y": 6
+        }
+      ],
+      "score": 10,
+      "timestamp": "2025-08-31T00:56:30.842Z"
     }
   ],
   "gamePhase": "playing"
