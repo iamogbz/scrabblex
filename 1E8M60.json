@@ -4,18 +4,10 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 243,
+      "score": 261,
       "rack": [
         {
-          "letter": "O",
-          "points": 1
-        },
-        {
           "letter": "U",
-          "points": 1
-        },
-        {
-          "letter": "T",
           "points": 1
         },
         {
@@ -33,6 +25,14 @@
         {
           "letter": "E",
           "points": 1
+        },
+        {
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "D",
+          "points": 2
         }
       ],
       "code": "m"
@@ -76,14 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
     {
       "letter": "T",
       "points": 1
@@ -1774,7 +1766,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 0,
+          "x": 11,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1782,7 +1779,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 0,
+          "x": 11,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2858,6 +2860,27 @@
       ],
       "score": 14,
       "timestamp": "2025-09-01T23:11:54.781Z"
+    },
+    {
+      "playerId": "p1756080761026",
+      "playerName": "M",
+      "word": "TEREDO",
+      "tiles": [
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 3,
+          "y": 11
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 8,
+          "y": 11
+        }
+      ],
+      "score": 18,
+      "timestamp": "2025-09-01T23:19:43.587Z"
     }
   ],
   "gamePhase": "playing"
