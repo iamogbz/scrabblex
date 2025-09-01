@@ -4,7 +4,7 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 279,
+      "score": 286,
       "rack": [
         {
           "letter": "U",
@@ -12,14 +12,6 @@
         },
         {
           "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "A",
-          "points": 1
-        },
-        {
-          "letter": "T",
           "points": 1
         },
         {
@@ -33,6 +25,14 @@
         {
           "letter": "I",
           "points": 1
+        },
+        {
+          "letter": "D",
+          "points": 2
+        },
+        {
+          "letter": " ",
+          "points": 0
         }
       ],
       "code": "m"
@@ -76,14 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": " ",
-      "points": 0
-    },
     {
       "letter": "L",
       "points": 1
@@ -249,7 +241,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 0,
+          "x": 0,
+          "y": 14
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -381,7 +378,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 0,
+          "x": 1,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2950,6 +2952,27 @@
       ],
       "score": 10,
       "timestamp": "2025-09-01T23:21:24.282Z"
+    },
+    {
+      "playerId": "p1756080761026",
+      "playerName": "M",
+      "word": "TAE",
+      "tiles": [
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 13,
+          "y": 10
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 13,
+          "y": 11
+        }
+      ],
+      "score": 7,
+      "timestamp": "2025-09-01T23:24:04.355Z"
     }
   ],
   "gamePhase": "playing"
