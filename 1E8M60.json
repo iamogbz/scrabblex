@@ -40,14 +40,10 @@
     {
       "id": "p1756080770073",
       "name": "MICHE",
-      "score": 265,
+      "score": 279,
       "rack": [
         {
           "letter": "N",
-          "points": 1
-        },
-        {
-          "letter": "O",
           "points": 1
         },
         {
@@ -67,8 +63,12 @@
           "points": 1
         },
         {
-          "letter": "S",
-          "points": 1
+          "letter": "Y",
+          "points": 4
+        },
+        {
+          "letter": "C",
+          "points": 3
         }
       ],
       "code": "miche",
@@ -76,14 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "Y",
-      "points": 4
-    },
-    {
-      "letter": "C",
-      "points": 3
-    },
     {
       "letter": "T",
       "points": 1
@@ -2845,6 +2837,27 @@
       ],
       "score": 29,
       "timestamp": "2025-08-31T13:07:55.511Z"
+    },
+    {
+      "playerId": "p1756080770073",
+      "playerName": "MICHE",
+      "word": "OS",
+      "tiles": [
+        {
+          "letter": "O",
+          "points": 0,
+          "x": 11,
+          "y": 6
+        },
+        {
+          "letter": "S",
+          "points": 0,
+          "x": 11,
+          "y": 7
+        }
+      ],
+      "score": 14,
+      "timestamp": "2025-09-01T23:11:54.781Z"
     }
   ],
   "gamePhase": "playing"
