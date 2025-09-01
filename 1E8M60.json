@@ -4,7 +4,7 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 261,
+      "score": 279,
       "rack": [
         {
           "letter": "U",
@@ -19,7 +19,7 @@
           "points": 1
         },
         {
-          "letter": "A",
+          "letter": "T",
           "points": 1
         },
         {
@@ -27,12 +27,12 @@
           "points": 1
         },
         {
-          "letter": "T",
-          "points": 1
+          "letter": "C",
+          "points": 3
         },
         {
-          "letter": "D",
-          "points": 2
+          "letter": "I",
+          "points": 1
         }
       ],
       "code": "m"
@@ -76,18 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "C",
-      "points": 3
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
     {
       "letter": "A",
       "points": 1
@@ -2150,7 +2138,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 0,
+          "x": 13,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2902,6 +2895,33 @@
       ],
       "score": 1,
       "timestamp": "2025-09-01T23:19:52.496Z"
+    },
+    {
+      "playerId": "p1756080761026",
+      "playerName": "M",
+      "word": "DAE",
+      "tiles": [
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 0,
+          "y": 13
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 1,
+          "y": 13
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 2,
+          "y": 13
+        }
+      ],
+      "score": 18,
+      "timestamp": "2025-09-01T23:21:11.495Z"
     }
   ],
   "gamePhase": "playing"
