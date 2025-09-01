@@ -20,18 +20,10 @@ import { Octokit } from "@octokit/rest";
 import { Board, BoardSquare, GameState, PlacedTile, Player, Tile, PlayedWord } from "@/types";
 import { calculateMoveScore } from "@/lib/scoring";
 import { createInitialBoard, TILE_BAG } from "@/lib/game-data";
+import { shuffle } from "@/lib/utils";
 
 let wordSet: Set<string>;
 const definitionCache = new Map<string, string | null>();
-
-const shuffle = <T,>(array: T[]): T[] => {
-  const newArray = [...array];
-  for (let i = newArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-  }
-  return newArray;
-};
 
 async function getWordSet() {
   if (wordSet) {
@@ -367,7 +359,7 @@ export async function suggestWordAction(
       path: DICTIONARY_PATH,
       ref: branchName,
     });
-    
+
     if (!("content" in fileData)) {
       throw new Error("Could not retrieve dictionary content.");
     }
@@ -796,7 +788,7 @@ const checkAndEndGame = (gameState: GameState): GameState => {
 
     const playerWithEmptyRack = players.find((p) => p.rack.length === 0);
     if (tileBag.length === 0 && playerWithEmptyRack) {
-      const newGameState = JSON.parse(JSON.stringify(gameState));
+      const newGameState = JSON.parse(JSON.stringify(gameState)) as GameState;
       newGameState.gamePhase = "ended";
 
       let pointsFromRacks = 0;
@@ -822,7 +814,7 @@ const checkAndEndGame = (gameState: GameState): GameState => {
     if (history.length >= numPlayers * 2) {
       const lastMoves = history.slice(-numPlayers * 2);
       if (lastMoves.every((move) => move.isPass)) {
-        const newGameState = JSON.parse(JSON.stringify(gameState));
+        const newGameState: GameState = JSON.parse(JSON.stringify(gameState));
         newGameState.gamePhase = "ended";
         newGameState.players.forEach((p: Player) => {
           const rackValue = p.rack.reduce((sum, tile) => sum + tile.points, 0);
@@ -878,7 +870,7 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
         if (playerIndex === -1) return { error: "Player not found" };
 
         const playerToUpdate = gs.players[playerIndex];
-        const newGameState = JSON.parse(JSON.stringify(gs));
+        const newGameState: GameState = JSON.parse(JSON.stringify(gs));
         const playerToUpdateInNewState = newGameState.players[playerIndex];
 
         if (m.type === 'play') {
@@ -886,13 +878,13 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
             const mainWord = words.find(w => w.tiles.some(t => "letter" in t && m.tiles.find(mt => mt.x === t.x && mt.y === t.y))) || words[0];
 
             if (!mainWord) return { error: "Invalid move." };
-            
+
             message = `feat: ${p.name} played ${mainWord.word} for ${score} points in game ${gameId}`;
             playerToUpdateInNewState.score += score;
 
             const tilesToDrawCount = m.tiles.length;
             const newTiles = newGameState.tileBag.splice(0, tilesToDrawCount);
-            
+
             let rackAfterPlay = [...playerToUpdate.rack];
             const playedLetters = m.tiles.map(t => t.originalLetter ?? t.letter);
 
@@ -939,7 +931,7 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
             };
             newGameState.history.push(passEvent);
         }
-        
+
         newGameState.board = createInitialBoard();
         newGameState.history.forEach(h => h.tiles.forEach(t => {
             if (newGameState.board[t.x]?.[t.y]) newGameState.board[t.x][t.y].tile = t;
@@ -953,7 +945,7 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
         return { success: false, error: humanMoveResult.error };
     }
     gameState = humanMoveResult;
-    
+
     try {
         let currentPlayer = getCurrentPlayer(gameState);
         while(currentPlayer?.isComputer && gameState.gamePhase === 'playing') {
@@ -970,7 +962,7 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
             } else {
                 computerMove = { type: 'pass' };
             }
-            
+
             let result = applyMove(gameState, computer, computerMove);
             if ("error" in result) {
                  // Log error and break loop
@@ -987,5 +979,3 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
         return { success: false, error: e.message };
     }
 }
-
-    

@@ -1,6 +1,7 @@
 
 
 
+
 "use client";
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
@@ -62,11 +63,12 @@ import Link from "next/link";
 import { PlayerAuthDialog } from "./player-auth-dialog";
 import WordBuilder from "./word-builder";
 import { calculateMoveScore } from "@/lib/scoring";
-import { cn } from "@/lib/utils";
+import { cn, shuffle } from "@/lib/utils";
 import SingleTile from "./tile";
 import { BlankTileDialog } from "./blank-tile-dialog";
 import { ReportBugDialog } from "./ui/report-bug-dialog";
 import { createInitialBoard } from "@/lib/game-data";
+import { HistoryDialog } from "./history-dialog";
 
 const MAX_PLAYER_COUNT = 4;
 
@@ -101,6 +103,7 @@ export default function GameClient({
   const [isSubmittingSuggestion, setIsSubmittingSuggestion] = useState(false);
   const [isReportBugOpen, setIsReportBugOpen] = useState(false);
   const [isTileBagOpen, setIsTileBagOpen] = useState(false);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isResignConfirmOpen, setIsResignConfirmOpen] = useState(false);
   const [isBlankTileDialogOpen, setIsBlankTileDialogOpen] = useState(false);
   const [blankTileToStage, setBlankTileToStage] = useState<Tile | null>(null);
@@ -515,7 +518,7 @@ export default function GameClient({
       player: authenticatedPlayer,
       move,
     });
-    
+
     if (!result.success) {
         toast({
             title: "Action Failed",
@@ -581,7 +584,7 @@ export default function GameClient({
       setIsLoading(false);
       return;
     }
-    
+
     const shuffle = <T,>(array: T[]): T[] => {
       const newArray = [...array];
       for (let i = newArray.length - 1; i > 0; i--) {
@@ -590,7 +593,7 @@ export default function GameClient({
       }
       return newArray;
     };
-    
+
     const newTileBag = [...currentGameState.tileBag];
     const newPlayerTiles = newTileBag.splice(0, 7);
 
@@ -601,13 +604,13 @@ export default function GameClient({
         rack: newPlayerTiles,
         code: trimmedCode,
     };
-    
+
     const newGameState: GameState = {
         ...currentGameState,
         players: [...currentGameState.players, newPlayer],
         tileBag: shuffle(newTileBag),
     };
-    
+
     try {
         const message = `feat: Player ${trimmedName} joined game ${gameId}`;
         await playTurn({
@@ -717,7 +720,7 @@ export default function GameClient({
 
   const handlePlayWord = async () => {
     if (!gameState || !authenticatedPlayer) return;
-    
+
     if (tempPlacedTiles.length === 0) {
       toast({ title: "Cannot Play", description: "You haven't placed any tiles.", variant: "destructive" });
       return;
@@ -727,7 +730,7 @@ export default function GameClient({
     gameState.history.forEach(h => h.tiles.forEach(t => {
       if (tempBoard[t.x]?.[t.y]) tempBoard[t.x][t.y].tile = t;
     }));
-    
+
     const { score, words: allWords } = calculateMoveScore(
       tempPlacedTiles,
       tempBoard
@@ -805,7 +808,7 @@ export default function GameClient({
     setIsSwapConfirmOpen(false);
     const tilesToSwap = getTilesToSwap();
     if (!gameState || !authenticatedPlayer || tilesToSwap.length === 0) return;
-    
+
     await handleGenericAction({ type: 'swap', tiles: tilesToSwap });
     setStagedTiles([]);
     toast({ title: "Tiles Swapped", description: `You swapped ${tilesToSwap.length} tiles.` });
@@ -973,6 +976,7 @@ export default function GameClient({
               lastMoveTimestamp={
                 gameState.history[gameState.history.length - 1]?.timestamp
               }
+              onShowHistory={() => setIsHistoryOpen(true)}
             />
             <Button asChild className="mt-4 w-full">
               <Link href="/play">Play Again</Link>
@@ -1116,6 +1120,7 @@ export default function GameClient({
             lastMoveTimestamp={
               gameState.history[gameState.history.length - 1]?.timestamp
             }
+            onShowHistory={() => setIsHistoryOpen(true)}
           />
         </div>
       </div>
@@ -1273,6 +1278,7 @@ export default function GameClient({
             lastMoveTimestamp={
               gameState.history[gameState.history.length - 1]?.timestamp
             }
+            onShowHistory={() => setIsHistoryOpen(true)}
           />
           <Card>
             <CardHeader>
@@ -1454,8 +1460,13 @@ export default function GameClient({
         onReturnToRack={handleReturnTileToRack}
         showReturnToRack={stagedTileToReassign !== null}
       />
+      <HistoryDialog
+        isOpen={isHistoryOpen}
+        onOpenChange={setIsHistoryOpen}
+        history={gameState.history}
+        players={gameState.players}
+      />
     </div>
   );
 }
 
-    

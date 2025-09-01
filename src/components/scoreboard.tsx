@@ -1,7 +1,7 @@
 import type { Player } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { cn } from "@/lib/utils";
-import { Award, Bot, User } from "lucide-react";
+import { Award, Bot, History, User } from "lucide-react";
 import { Button } from "./ui/button";
 
 interface ScoreboardProps {
@@ -11,6 +11,7 @@ interface ScoreboardProps {
   isGameOver?: boolean;
   onReplacePlayer: (playerId: string) => void;
   lastMoveTimestamp?: string;
+  onShowHistory: () => void;
 }
 
 export default function Scoreboard({
@@ -20,6 +21,7 @@ export default function Scoreboard({
   isGameOver,
   onReplacePlayer,
   lastMoveTimestamp,
+  onShowHistory,
 }: ScoreboardProps) {
   const winningScore = Math.max(...players.map((player) => player.score));
 
@@ -27,11 +29,15 @@ export default function Scoreboard({
 
   return (
     <Card className="max-w-md w-full">
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="flex items-center gap-2">
           <Award className="h-5 w-5" />
           Scores
         </CardTitle>
+        <Button variant="ghost" size="icon" onClick={onShowHistory}>
+          <History className="h-5 w-5" />
+          <span className="sr-only">Show Turn History</span>
+        </Button>
       </CardHeader>
       <CardContent>
         <ul className="space-y-2">
