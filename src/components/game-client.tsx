@@ -49,6 +49,7 @@ import PlayerRack from "./player-rack";
 import Scoreboard from "./scoreboard";
 import {
   getGameState,
+  getWordSuggestions,
   suggestWordAction,
   updateGameState,
   verifyWordAction,
@@ -105,6 +106,12 @@ export default function GameClient({
   const [authenticatedPlayerId, setAuthenticatedPlayerId] = useState<
     string | null
   >(null);
+
+  const authenticatedPlayerIndex = gameState?.players?.findIndex(
+    (p) => p.id === authenticatedPlayerId
+  ) || 0;
+  const playerColor =
+    PLAYER_COLORS[authenticatedPlayerIndex % PLAYER_COLORS.length];
 
   const lastMoveTimestampRef = useRef<string | null>(null);
 
@@ -243,11 +250,21 @@ export default function GameClient({
 
   useEffect(() => {
     fetchGame();
+    console.log(
+      gameState?.players[authenticatedPlayerIndex].rack,
+      gameState?.board,
+    )
+    getWordSuggestions(
+      gameState?.board || [],
+      gameState?.players[authenticatedPlayerIndex].rack || []
+    ).then((wordSuggestions) => {
+      console.log({ wordSuggestions });
+    });
     // Set up polling every 5 seconds
     const intervalId = setInterval(() => fetchGame(true), 5000);
     // Clean up interval on component unmount
     return () => clearInterval(intervalId);
-  }, [fetchGame]);
+  }, [fetchGame, authenticatedPlayerIndex]);
 
   const resetTurn = useCallback(() => {
     setStagedTiles([]);
@@ -1502,12 +1519,6 @@ export default function GameClient({
       />
     );
   }
-
-  const authenticatedPlayerIndex = gameState!.players.findIndex(
-    (p) => p.id === authenticatedPlayerId
-  );
-  const playerColor =
-    PLAYER_COLORS[authenticatedPlayerIndex % PLAYER_COLORS.length];
 
   if (!currentPlayer) {
     return (

@@ -1,3 +1,4 @@
+
 "use server";
 
 import {
@@ -16,6 +17,8 @@ import {
 import { redirect } from "next/navigation";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Octokit } from "@octokit/rest";
+import { Board, BoardSquare, PlacedTile, Tile } from "@/types";
+import { calculateMoveScore } from "@/lib/scoring";
 
 let wordSet: Set<string>;
 const definitionCache = new Map<string, string | null>();
@@ -234,17 +237,11 @@ export async function getWordDefinitions(
       }
     }
 
-    // TODO: understand why this is sometimes skipped
-    // and previously defined words are not saved in github
-    // if (Object.keys(definitionsToCacheInGithub).length > 0) {
-    //   await updateDictionaryWords(definitionsToCacheInGithub);
-    // }
+    if (Object.keys(definitionsToCacheInGithub).length > 0) {
+      await updateDictionaryWords(definitionsToCacheInGithub);
+    }
   } catch (error) {
     console.error("Failed to fetch or parse batch definitions:", error);
-  }
-
-  if (results) {
-    await updateDictionaryWords(results);
   }
 
   return results;
@@ -453,5 +450,312 @@ Timestamp: ${new Date().toUTCString()}`,
       success: false,
       error: error.message || "An unexpected error occurred.",
     };
+  }
+}
+
+type WordSuggestion = {
+  word: string;
+  tiles: PlacedTile[];
+  score: number;
+  direction: "horizontal" | "vertical";
+  x: number;
+  y: number;
+};
+
+export async function getWordSuggestions(
+  board: BoardSquare[][],
+  rack: Tile[]
+): Promise<WordSuggestion[]> {
+  const dictionary = await getWordSet();
+  const suggestions: WordSuggestion[] = [];
+  const anchors = findAnchors(board);
+  const rackLetters = rack.map((t) => t.letter);
+
+  for (const anchor of anchors) {
+    // Horizontal moves
+    if (
+      anchor.y === 0 ||
+      !board[anchor.x]?.[anchor.y - 1] ||
+      !board[anchor.x][anchor.y - 1].tile
+    ) {
+      let prefix = "";
+      for (let i = anchor.y - 1; i >= 0; i--) {
+        const tile = board[anchor.x]?.[i]?.tile;
+        if (tile) {
+          prefix = tile.letter + prefix;
+        } else {
+          break;
+        }
+      }
+      generateMoves(
+        board,
+        rackLetters,
+        anchor.x,
+        anchor.y,
+        "horizontal",
+        dictionary,
+        suggestions,
+        prefix
+      );
+    }
+
+    // Vertical moves
+    if (
+      anchor.x === 0 ||
+      !board[anchor.x - 1]?.[anchor.y] ||
+      !board[anchor.x - 1][anchor.y].tile
+    ) {
+      let prefix = "";
+      for (let i = anchor.x - 1; i >= 0; i--) {
+        const tile = board[i]?.[anchor.y]?.tile;
+        if (tile) {
+          prefix = tile.letter + prefix;
+        } else {
+          break;
+        }
+      }
+      generateMoves(
+        board,
+        rackLetters,
+        anchor.x,
+        anchor.y,
+        "vertical",
+        dictionary,
+        suggestions,
+        prefix
+      );
+    }
+  }
+
+  // Deduplicate and sort
+  const uniqueSuggestions = Array.from(
+    new Map(
+      suggestions.map((s) => [`${s.word}-${s.x}-${s.y}-${s.direction}`, s])
+    ).values()
+  );
+
+  return uniqueSuggestions.sort((a, b) => b.score - a.score);
+}
+
+function findAnchors(board: BoardSquare[][]): { x: number; y: number }[] {
+  if (!board || board.length === 0) return [];
+  const anchors = new Set<string>();
+  let hasTiles = false;
+
+  for (let r = 0; r < 15; r++) {
+    for (let c = 0; c < 15; c++) {
+      if (board[r]?.[c]?.tile) {
+        hasTiles = true;
+      } else {
+        // An empty square is an anchor if it is adjacent to a tile
+        if (
+          (r > 0 && board[r - 1]?.[c]?.tile) ||
+          (r < 14 && board[r + 1]?.[c]?.tile) ||
+          (c > 0 && board[r]?.[c - 1]?.tile) ||
+          (c < 14 && board[r]?.[c + 1]?.tile)
+        ) {
+          anchors.add(`${r},${c}`);
+        }
+      }
+    }
+  }
+
+  if (!hasTiles) {
+    // If board is empty, the center is the only anchor
+    return [{ x: 7, y: 7 }];
+  }
+
+  return Array.from(anchors).map((s) => {
+    const [x, y] = s.split(",").map(Number);
+    return { x, y };
+  });
+}
+
+function generateMoves(
+  board: Board,
+  rack: string[],
+  x: number,
+  y: number,
+  direction: "horizontal" | "vertical",
+  dictionary: Set<string>,
+  suggestions: WordSuggestion[],
+  prefix: string
+) {
+  extend(
+    board,
+    rack,
+    x,
+    y,
+    direction,
+    dictionary,
+    suggestions,
+    prefix,
+    [],
+    x,
+    y
+  );
+}
+
+function extend(
+  board: Board,
+  rack: string[],
+  x: number,
+  y: number,
+  direction: "horizontal" | "vertical",
+  dictionary: Set<string>,
+  suggestions: WordSuggestion[],
+  currentWord: string,
+  placed: PlacedTile[],
+  startX: number,
+  startY: number
+) {
+  if (direction === "horizontal" ? y >= 15 : x >= 15) {
+    validateAndAdd(
+      board,
+      dictionary,
+      suggestions,
+      currentWord,
+      placed,
+      startX,
+      startY,
+      direction
+    );
+    return;
+  }
+
+  const square = board[x]?.[y];
+  if (square?.tile) {
+    const nextX = direction === "vertical" ? x + 1 : x;
+    const nextY = direction === "horizontal" ? y + 1 : y;
+    extend(
+      board,
+      rack,
+      nextX,
+      nextY,
+      direction,
+      dictionary,
+      suggestions,
+      currentWord + square.tile.letter,
+      placed,
+      startX,
+      startY
+    );
+  } else {
+    // This is an empty square, try to place tiles from the rack
+    validateAndAdd(
+      board,
+      dictionary,
+      suggestions,
+      currentWord,
+      placed,
+      startX,
+      startY,
+      direction
+    );
+
+    for (let i = 0; i < rack.length; i++) {
+      const letter = rack[i];
+      const remainingRack = [...rack.slice(0, i), ...rack.slice(i + 1)];
+      const newPlaced = [
+        ...placed,
+        {
+          letter,
+          points: 0, // Points are calculated later
+          x,
+          y,
+          originalLetter: letter === " " ? " " : undefined,
+        },
+      ];
+      const nextX = direction === "vertical" ? x + 1 : x;
+      const nextY = direction === "horizontal" ? y + 1 : y;
+
+      if (letter === " ") {
+        // Blank tile, try every letter
+        for (let charCode = 65; charCode <= 90; charCode++) {
+          const char = String.fromCharCode(charCode);
+          newPlaced[newPlaced.length - 1].letter = char;
+          extend(
+            board,
+            remainingRack,
+            nextX,
+            nextY,
+            direction,
+            dictionary,
+            suggestions,
+            currentWord + char,
+            newPlaced,
+            startX,
+            startY
+          );
+        }
+      } else {
+        extend(
+          board,
+          remainingRack,
+          nextX,
+          nextY,
+          direction,
+          dictionary,
+          suggestions,
+          currentWord + letter,
+          newPlaced,
+          startX,
+          startY
+        );
+      }
+    }
+  }
+}
+
+function validateAndAdd(
+  board: Board,
+  dictionary: Set<string>,
+  suggestions: WordSuggestion[],
+  word: string,
+  placedTiles: PlacedTile[],
+  startX: number,
+  startY: number,
+  direction: "horizontal" | "vertical"
+) {
+  if (placedTiles.length === 0 || !dictionary.has(word)) {
+    return;
+  }
+
+  // Create a temporary board with the new tiles to validate all words
+  const tempBoard = JSON.parse(JSON.stringify(board));
+  placedTiles.forEach((tile) => {
+    if (tempBoard[tile.x]?.[tile.y]) {
+      tempBoard[tile.x][tile.y].tile = tile;
+    }
+  });
+
+  const { score, words: allFormedWords } = calculateMoveScore(
+    placedTiles,
+    tempBoard
+  );
+
+  const areAllWordsValid =
+    allFormedWords.length > 0 &&
+    allFormedWords.every((w) => dictionary.has(w.word));
+
+  if (areAllWordsValid) {
+    const mainWordInfo = allFormedWords.find((w) => w.direction === direction);
+
+    if (mainWordInfo) {
+      const startTile = mainWordInfo.tiles.sort((a, b) =>
+        mainWordInfo.direction === "horizontal"
+          ? ("y" in a ? a.y : Infinity) - ("y" in b ? b.y : Infinity)
+          : ("x" in a ? a.x : Infinity) - ("x" in b ? b.x : Infinity)
+      )[0] as PlacedTile;
+
+      suggestions.push({
+        word: mainWordInfo.word,
+        tiles: placedTiles, // only the newly placed tiles
+        score,
+        direction: mainWordInfo.direction,
+        x: startTile.x,
+        y: startTile.y,
+      });
+    }
   }
 }
