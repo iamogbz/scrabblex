@@ -4,14 +4,10 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 311,
+      "score": 320,
       "rack": [
         {
           "letter": "U",
-          "points": 1
-        },
-        {
-          "letter": "E",
           "points": 1
         },
         {
@@ -20,10 +16,6 @@
         },
         {
           "letter": "U",
-          "points": 1
-        },
-        {
-          "letter": "O",
           "points": 1
         },
         {
@@ -40,7 +32,7 @@
     {
       "id": "p1756080770073",
       "name": "MICHE",
-      "score": 329,
+      "score": 336,
       "rack": [
         {
           "letter": "V",
@@ -56,10 +48,6 @@
         },
         {
           "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": "S",
           "points": 1
         },
         {
@@ -1914,7 +1902,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 12,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2068,7 +2061,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 13,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2076,7 +2074,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 13,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3115,6 +3118,42 @@
       ],
       "score": 30,
       "timestamp": "2025-09-01T23:45:08.061Z"
+    },
+    {
+      "playerId": "p1756080761026",
+      "playerName": "M",
+      "word": "OE",
+      "tiles": [
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 13,
+          "y": 7
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 13,
+          "y": 8
+        }
+      ],
+      "score": 9,
+      "timestamp": "2025-09-01T23:45:35.453Z"
+    },
+    {
+      "playerId": "p1756080770073",
+      "playerName": "MICHE",
+      "word": "SCALL",
+      "tiles": [
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 12,
+          "y": 8
+        }
+      ],
+      "score": 7,
+      "timestamp": "2025-09-01T23:45:35.657Z"
     }
   ],
   "gamePhase": "playing"
