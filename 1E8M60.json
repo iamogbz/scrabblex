@@ -4,12 +4,8 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 320,
+      "score": 326,
       "rack": [
-        {
-          "letter": "U",
-          "points": 1
-        },
         {
           "letter": "I",
           "points": 1
@@ -1598,7 +1594,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "U",
+          "points": 1,
+          "x": 10,
+          "y": 10
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -3154,6 +3155,30 @@
       ],
       "score": 7,
       "timestamp": "2025-09-01T23:45:35.657Z"
+    },
+    {
+      "playerId": "p1756080761026",
+      "playerName": "M",
+      "word": "GU",
+      "tiles": [
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 10,
+          "y": 10
+        }
+      ],
+      "score": 6,
+      "timestamp": "2025-09-01T23:46:35.754Z"
+    },
+    {
+      "playerId": "p1756080770073",
+      "playerName": "MICHE",
+      "word": "[PASS]",
+      "tiles": [],
+      "score": 0,
+      "isPass": true,
+      "timestamp": "2025-09-01T23:46:35.783Z"
     }
   ],
   "gamePhase": "playing"
