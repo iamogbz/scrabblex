@@ -4,7 +4,7 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 286,
+      "score": 291,
       "rack": [
         {
           "letter": "U",
@@ -27,12 +27,12 @@
           "points": 1
         },
         {
-          "letter": "D",
-          "points": 2
-        },
-        {
           "letter": " ",
           "points": 0
+        },
+        {
+          "letter": "U",
+          "points": 1
         }
       ],
       "code": "m"
@@ -76,10 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "U",
-      "points": 1
-    },
     {
       "letter": " ",
       "points": 0
@@ -1964,7 +1960,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 0,
+          "x": 12,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2994,6 +2995,21 @@
       ],
       "score": 1,
       "timestamp": "2025-09-01T23:24:16.201Z"
+    },
+    {
+      "playerId": "p1756080761026",
+      "playerName": "M",
+      "word": "OD",
+      "tiles": [
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 8,
+          "y": 12
+        }
+      ],
+      "score": 5,
+      "timestamp": "2025-09-01T23:35:13.318Z"
     }
   ],
   "gamePhase": "playing"
