@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
@@ -1012,33 +1013,36 @@ export default function GameClient({
           );
         }
 
-        // --- Post-move suggestion logic ---
-        if (!player) {
-          // Don't show for computer moves
-          const boardBeforeMove = currentState.board;
-          const rackBeforeMove = currentTurnPlayer.rack;
-
-          getWordSuggestions(boardBeforeMove, rackBeforeMove).then(
-            (suggestions) => {
-              if (suggestions.length > 0) {
-                const bestMove = suggestions[0];
-                if (bestMove.score > score) {
-                  toast({
-                    title: "Nice move!",
-                    description: `The best word was ${bestMove.word} for ${bestMove.score} points.`,
-                  });
-                }
-              }
-            }
-          );
-        }
-        // --- End suggestion logic ---
-
         const newGameState = JSON.parse(JSON.stringify(currentState)); // Deep copy
-
         const playerToUpdate = newGameState.players.find(
           (p: Player) => p.id === activePlayer.id
         )!;
+
+        // --- Post-move suggestion logic (for human players) ---
+        if (!player) {
+          const boardBeforeMove = currentState.board;
+          const rackBeforeMove = playerToUpdate.rack;
+          getWordSuggestions(boardBeforeMove, rackBeforeMove).then(
+            (suggestions) => {
+              const bestMove = suggestions.length > 0 ? suggestions[0] : null;
+              let description = `You scored ${score} points.`;
+              if (bestMove && bestMove.score > score) {
+                description += ` The best word was ${bestMove.word} for ${bestMove.score} points.`;
+              }
+              toast({
+                title: `Played ${mainWordInfo.word}`,
+                description: description,
+              });
+            }
+          );
+        } else {
+          // For computer moves, show a simpler toast.
+          toast({
+            title: `Played ${mainWordInfo.word}`,
+            description: `Scored ${score} points.`,
+          });
+        }
+
         playerToUpdate.score += score;
 
         // Remove played tiles from rack and replenish from bag
@@ -1055,7 +1059,7 @@ export default function GameClient({
             (t) => t.letter === letter
           );
           if (indexToRemove > -1) {
-            rackAfterPlay.splice(indexToRemove, 1);
+            rackAfterPlay.splice(indexToRemove, 1)[0];
           }
         });
 
@@ -1068,7 +1072,7 @@ export default function GameClient({
           playerId: playerToUpdate.id,
           playerName: playerToUpdate.name,
           word: mainWordInfo.word,
-          tiles: tilesForMove, // Only store the tiles placed by the user this turn
+          tiles: tilesForMove,
           score: score,
           timestamp: new Date().toISOString(),
         };
@@ -1076,10 +1080,6 @@ export default function GameClient({
         newGameState.history.push(playedWord);
 
         resetTurn();
-        toast({
-          title: `Played ${playedWord.word}`,
-          description: `Scored ${score} points.`,
-        });
         return checkAndEndGame(newGameState);
       };
 
