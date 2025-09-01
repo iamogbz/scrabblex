@@ -183,7 +183,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     }
     // Remove duplicates that might arise from single-letter intersections
     const uniqueWords = Array.from(
-      new Map(wordsList.map((w) => [`${w.word}-${w.x}-${w.y}`, w])).values()
+      new Map(wordsList.map((w) => [`${w.word}-${w.x}-${w.y}-${w.direction}`, w])).values()
     );
     uniqueWords.sort((a, b) => a.number - b.number);
     setWords(uniqueWords);
