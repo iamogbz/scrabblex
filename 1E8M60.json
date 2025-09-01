@@ -71,7 +71,8 @@
           "points": 1
         }
       ],
-      "code": "miche"
+      "code": "miche",
+      "isComputer": true
     }
   ],
   "tileBag": [
@@ -1821,7 +1822,12 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "B",
+          "points": 3,
+          "x": 11,
+          "y": 11
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -1855,7 +1861,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 11,
+          "y": 14
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
