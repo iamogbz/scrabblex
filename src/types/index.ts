@@ -15,6 +15,7 @@ export interface Player {
   score: number;
   rack: Tile[];
   code: string;
+  isComputer?: boolean;
 }
 
 export type GamePhase = "playing" | "ended";

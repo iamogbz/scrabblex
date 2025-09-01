@@ -759,3 +759,58 @@ function validateAndAdd(
     }
   }
 }
+
+export async function replacePlayerWithComputer(
+  gameId: string,
+  playerId: string
+): Promise<{ success: boolean; error?: string }> {
+  const gameData = await getGameState(gameId);
+  if (!gameData) {
+    return { success: false, error: "Game not found." };
+  }
+
+  const { gameState, sha } = gameData;
+  const playerIndex = gameState.players.findIndex((p) => p.id === playerId);
+  if (playerIndex === -1) {
+    return { success: false, error: "Player not found." };
+  }
+
+  const turnsPlayed = gameState.history.length;
+  const currentPlayerIndex = turnsPlayed % gameState.players.length;
+
+  if (gameState.players[currentPlayerIndex].id !== playerId) {
+    return { success: false, error: "It is not this player's turn." };
+  }
+
+  const lastMoveTimestamp =
+    gameState.history.length > 0
+      ? new Date(gameState.history[gameState.history.length - 1].timestamp)
+      : new Date(0); // If no moves, can't be replaced yet
+
+  const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
+
+  if (lastMoveTimestamp > thirtyMinutesAgo && gameState.history.length > 0) {
+    return {
+      success: false,
+      error: "Player has not been inactive for 30 minutes.",
+    };
+  }
+
+  const newGameState = JSON.parse(JSON.stringify(gameState));
+  newGameState.players[playerIndex].isComputer = true;
+  newGameState.players[
+    playerIndex
+  ].name = `${newGameState.players[playerIndex].name}`;
+
+  try {
+    await updateGameState(
+      gameId,
+      newGameState,
+      sha,
+      `SYSTEM: Replaced player ${gameState.players[playerIndex].name} with a computer.`
+    );
+    return { success: true };
+  } catch (e: any) {
+    return { success: false, error: e.message || "Failed to update game." };
+  }
+}

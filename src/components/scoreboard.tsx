@@ -1,13 +1,16 @@
 import type { Player } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { cn } from "@/lib/utils";
-import { Award, User } from "lucide-react";
+import { Award, Bot, User } from "lucide-react";
+import { Button } from "./ui/button";
 
 interface ScoreboardProps {
   players: Player[];
   currentPlayerId: string;
   authenticatedPlayerId: string | null;
   isGameOver?: boolean;
+  onReplacePlayer: (playerId: string) => void;
+  lastMoveTimestamp?: string;
 }
 
 export default function Scoreboard({
@@ -15,6 +18,8 @@ export default function Scoreboard({
   currentPlayerId,
   authenticatedPlayerId,
   isGameOver,
+  onReplacePlayer,
+  lastMoveTimestamp,
 }: ScoreboardProps) {
   const winningScore = Math.max(...players.map((player) => player.score));
 
@@ -34,29 +39,56 @@ export default function Scoreboard({
             const isCurrentTurn = player.id === currentPlayerId;
             const isYou = player.id === authenticatedPlayerId;
             const isWinner = player.score === winningScore;
+
+            const isInactive =
+              isCurrentTurn &&
+              lastMoveTimestamp &&
+              new Date(lastMoveTimestamp) <
+                new Date(Date.now() - 30 * 60 * 1000);
+
             return (
               <li
                 key={player.id}
                 className={cn(
-                  "flex justify-between items-center p-2 rounded-md transition-all",
+                  "flex justify-between items-center p-2 rounded-md transition-all group",
                   (isGameOver ? isWinner : isCurrentTurn)
                     ? "bg-accent/20 border-l-4 border-accent"
                     : "bg-muted/50",
                   isYou && "ring-2 ring-primary/50"
                 )}
               >
-                <span className="font-medium flex items-center gap-2">
+                <div className="flex items-center gap-2">
                   <User className="h-4 w-4" />
-                  {player.name.toUpperCase()}
-                  {isYou && (
-                    <span className="text-xs text-muted-foreground ml-1">
-                      (You)
-                    </span>
+                  <span className="font-medium">
+                    {player.name.toUpperCase()}
+                    {isYou && (
+                      <span className="text-xs text-muted-foreground ml-1">
+                        (You)
+                      </span>
+                    )}
+                    {player?.isComputer && (
+                      <span className="text-xs text-muted-foreground ml-1">
+                        (AI)
+                      </span>
+                    )}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {isInactive && !player.isComputer && !isYou && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="opacity-0 group-hover:opacity-100"
+                      onClick={() => onReplacePlayer(player.id)}
+                    >
+                      <Bot className="h-4 w-4" />
+                    </Button>
                   )}
-                </span>
-                <span className="font-bold text-lg text-primary">
-                  {player.score}
-                </span>
+                  {player.isComputer && <Bot className="h-5 w-5 text-muted-foreground" />}
+                  <span className="font-bold text-lg text-primary">
+                    {player.score}
+                  </span>
+                </div>
               </li>
             );
           })}
