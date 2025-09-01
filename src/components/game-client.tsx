@@ -1012,6 +1012,28 @@ export default function GameClient({
           );
         }
 
+        // --- Post-move suggestion logic ---
+        if (!player) {
+          // Don't show for computer moves
+          const boardBeforeMove = currentState.board;
+          const rackBeforeMove = currentTurnPlayer.rack;
+
+          getWordSuggestions(boardBeforeMove, rackBeforeMove).then(
+            (suggestions) => {
+              if (suggestions.length > 0) {
+                const bestMove = suggestions[0];
+                if (bestMove.score > score) {
+                  toast({
+                    title: "Nice move!",
+                    description: `The best word was ${bestMove.word} for ${bestMove.score} points.`,
+                  });
+                }
+              }
+            }
+          );
+        }
+        // --- End suggestion logic ---
+
         const newGameState = JSON.parse(JSON.stringify(currentState)); // Deep copy
 
         const playerToUpdate = newGameState.players.find(
@@ -1064,6 +1086,7 @@ export default function GameClient({
       const message = `feat: ${activePlayer.name} played ${mainWordInfo.word} for ${score} points in game ${gameId}`;
       await performGameAction(action, message);
     } catch (e: any) {
+      console.error(e);
       if (!tilesToPlay) {
         toast({
           title: "Error",
@@ -1071,7 +1094,6 @@ export default function GameClient({
           variant: "destructive",
         });
       }
-      console.error(e);
     } finally {
       setIsLoading(false);
     }
@@ -1855,7 +1877,7 @@ export default function GameClient({
         isReportBugOpen={isReportBugOpen}
         setIsReportBugOpen={setIsReportBugOpen}
         gameId={gameId}
-        authenticatedPlayer={authenticatedPlayer}
+        authenticatedPlayer={authenticatedPlayer || undefined}
         sha={sha}
       />
       <Dialog open={isTileBagOpen} onOpenChange={setIsTileBagOpen}>
