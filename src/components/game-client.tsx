@@ -1,5 +1,6 @@
 
 
+
 "use client";
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
@@ -54,8 +55,8 @@ import {
   getWordSuggestions,
   replacePlayerWithComputer,
   suggestWordAction,
-  updateGameState,
   verifyWordAction,
+  playTurn,
 } from "@/app/actions";
 import Link from "next/link";
 import { PlayerAuthDialog } from "./player-auth-dialog";
@@ -65,6 +66,7 @@ import { cn } from "@/lib/utils";
 import SingleTile from "./tile";
 import { BlankTileDialog } from "./blank-tile-dialog";
 import { ReportBugDialog } from "./ui/report-bug-dialog";
+import { createInitialBoard } from "@/lib/game-data";
 
 const MAX_PLAYER_COUNT = 4;
 
@@ -126,104 +128,6 @@ export default function GameClient({
 
   const { toast } = useToast();
 
-  const shuffle = <T,>(array: T[]): T[] => {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
-  };
-
-  const checkAndEndGame = (gameState: GameState): GameState => {
-    const { players, history, tileBag } = gameState;
-    const numPlayers = players.length;
-
-    if (numPlayers === 0 || gameState.gamePhase === "ended") return gameState;
-
-    // Condition 1: A player has used all their tiles and the bag is empty.
-    const playerWithEmptyRack = players.find((p) => p.rack.length === 0);
-    if (tileBag.length === 0 && playerWithEmptyRack) {
-      const newGameState = JSON.parse(JSON.stringify(gameState));
-      newGameState.gamePhase = "ended";
-
-      let pointsFromRacks = 0;
-      newGameState.players.forEach((p: Player) => {
-        const rackValue = p.rack.reduce((sum, tile) => sum + tile.points, 0);
-        if (p.id !== playerWithEmptyRack.id) {
-          p.score -= rackValue;
-          pointsFromRacks += rackValue;
-        }
-      });
-
-      const finishingPlayer = newGameState.players.find(
-        (p: Player) => p.id === playerWithEmptyRack.id
-      )!;
-      finishingPlayer.score += pointsFromRacks;
-
-      const winningScore = Math.max(
-        ...newGameState.players.map((p: Player) => p.score)
-      );
-      const winners = newGameState.players.filter((p: Player) => {
-        return p.score === winningScore;
-      });
-      if (winners.length > 1) {
-        const winnerNames = winners.map((w: Player) => w.name).join(" and ");
-        newGameState.endStatus = `${winnerNames} win after ${finishingPlayer.name} used all their tiles!`;
-      } else if (winners.length === 1) {
-        if (winners[0].id === finishingPlayer.id) {
-          newGameState.endStatus = `${finishingPlayer.name} wins after using all their tiles!`;
-        } else {
-          newGameState.endStatus = `${winners[0].name} wins after ${finishingPlayer.name} used all their tiles!`;
-        }
-      }
-      return newGameState;
-    }
-
-    // Condition 2: All players have passed twice consecutively.
-    if (history.length >= numPlayers * 2) {
-      const lastMoves = history.slice(-numPlayers * 2);
-      if (lastMoves.every((move) => move.isPass)) {
-        const newGameState = JSON.parse(JSON.stringify(gameState));
-        newGameState.gamePhase = "ended";
-
-        // adjust score for winning players
-        // all players have their rack values subtracted from their score
-        // since no one used all their tiles, no one gets those points added to their score
-        newGameState.players.forEach((p: Player) => {
-          const rackValue = p.rack.reduce((sum, tile) => sum + tile.points, 0);
-          p.score -= rackValue;
-        });
-
-        const winningScore = 0;
-        const winners: Player[] = [];
-        newGameState.players.forEach((p: Player) => {
-          if (p.score > winningScore) {
-            winners.splice(0, winners.length, p);
-          } else if (p.score === winningScore) {
-            winners.push(p);
-          } else {
-            // do nothing
-          }
-        });
-        if (winners.length > 1) {
-          const winnerNames = winners.map((w) => w.name).join(" and ");
-          newGameState.endStatus = `${winnerNames} win after two rounds of passes`;
-        } else if (winners.length === 1) {
-          newGameState.endStatus = `${winners[0].name} wins after two rounds of passes`;
-        } else {
-          // This should not happen, but just in case
-          newGameState.endStatus =
-            "Game ended after two rounds of passes. Somehow no winner could be determined";
-        }
-
-        return newGameState;
-      }
-    }
-
-    return gameState;
-  };
-
   const fetchGame = useCallback(
     async (isPoll = false) => {
       if (!isPoll) setIsLoading(true);
@@ -232,7 +136,6 @@ export default function GameClient({
       try {
         const gameData = await getGameState(gameId);
         if (gameData) {
-          // Only update state if the SHA has changed, to avoid re-renders
           if (gameData.sha !== sha) {
             setGameState(gameData.gameState);
             setSha(gameData.sha);
@@ -261,28 +164,23 @@ export default function GameClient({
   const currentPlayer = useMemo(() => {
     if (!gameState || gameState.players.length === 0) return null;
 
-    // Before first player has played twice, turn order is by newest player who hasn't played
     if (turnsPlayed < gameState.players.length) {
       const playedPlayerIds = new Set(gameState.history.map((h) => h.playerId));
       const waitingPlayers = gameState.players.filter(
         (p) => !playedPlayerIds.has(p.id)
       );
-      // The next player is the one who joined earliest among those who haven't played
       if (waitingPlayers.length > 0) {
         return waitingPlayers[0];
       }
     }
 
-    // After that, it's just based on join order.
     const playerIndex = turnsPlayed % gameState.players.length;
     return gameState.players[playerIndex];
   }, [gameState, turnsPlayed]);
 
   useEffect(() => {
     fetchGame();
-    // Set up polling every 5 seconds
     const intervalId = setInterval(() => fetchGame(true), 5000);
-    // Clean up interval on component unmount
     return () => clearInterval(intervalId);
   }, [fetchGame]);
 
@@ -293,9 +191,7 @@ export default function GameClient({
   }, []);
 
   const handleLeaveGame = useCallback(() => {
-    // Reset turn on leave game
     resetTurn();
-
     localStorage.removeItem(`${LocalStorageKey.PLAYER_ID_}${gameId}`);
     setAuthenticatedPlayerId(null);
     toast({
@@ -304,7 +200,6 @@ export default function GameClient({
     });
   }, [gameId, toast, resetTurn]);
 
-  // Request notification permission when component mounts
   useEffect(() => {
     if (
       typeof window !== "undefined" &&
@@ -315,7 +210,6 @@ export default function GameClient({
     }
   }, []);
 
-  // Effect for showing notifications for opponent moves
   useEffect(() => {
     if (
       !gameState ||
@@ -338,7 +232,6 @@ export default function GameClient({
     ) {
       lastMoveTimestampRef.current = lastMove.timestamp;
 
-      // Ensure permission is granted before trying to show a notification
       if ("Notification" in window && Notification.permission === "granted") {
         let notificationBody = "";
         if (lastMove.isPass) {
@@ -354,18 +247,16 @@ export default function GameClient({
         const title = "Scrabblex Move";
         const options = {
           body: notificationBody,
-          icon: "/favicon.ico", // PWA icon
-          badge: "/favicon.ico", // A smaller badge icon
-          vibrate: [100, 50, 100], // Vibrate pattern
+          icon: "/favicon.ico",
+          badge: "/favicon.ico",
+          vibrate: [100, 50, 100],
         };
 
-        // Use the Service Worker to show the notification if available, for background support
         if ("serviceWorker" in navigator && navigator.serviceWorker.ready) {
           navigator.serviceWorker.ready.then((registration) => {
             registration.showNotification(title, options);
           });
         } else {
-          // Fallback to regular notification if service worker isn't ready
           new Notification(title, options);
         }
       }
@@ -375,7 +266,6 @@ export default function GameClient({
   }, [gameState, authenticatedPlayerId]);
 
   useEffect(() => {
-    // Add gameId to local storage history
     const gameHistory = new Set(
       JSON.parse(localStorage.getItem(LocalStorageKey.GAMES) || "[]")
     );
@@ -386,21 +276,17 @@ export default function GameClient({
         JSON.stringify(Array.from(gameHistory).sort())
       );
     }
-    // Check for stored player ID
     const storedPlayerId = localStorage.getItem(
       `${LocalStorageKey.PLAYER_ID_}${gameId}`
     );
     if (storedPlayerId) {
-      // We will validate this against the game state once it loads.
       setAuthenticatedPlayerId(storedPlayerId);
     }
-    // Pass the leave handler up to the parent page component
     setLeaveGameHandler(() => handleLeaveGame);
   }, [gameId, setLeaveGameHandler, handleLeaveGame]);
 
   useEffect(() => {
     if (gameState && authenticatedPlayerId) {
-      // If a stored player ID is not actually in the game, clear it.
       if (!gameState.players.some((p) => p.id === authenticatedPlayerId)) {
         setAuthenticatedPlayerId(null);
         localStorage.removeItem(`${LocalStorageKey.PLAYER_ID_}${gameId}`);
@@ -433,11 +319,9 @@ export default function GameClient({
 
   const canJoinGame = useMemo(() => {
     if (!gameState) return false;
-    // An existing player trying to rejoin is always allowed
     if (existingPlayer) {
       return true;
     }
-    // New players can join if the lobby is not full and the game has not started
     if (gameStarted || lobbyFull) {
       return false;
     }
@@ -456,11 +340,9 @@ export default function GameClient({
     );
     const rackCopy = [...authenticatedPlayer.rack];
 
-    // Filter out staged letters from the rack display
     const availableTiles = rackCopy.filter((rackTile) => {
       const index = stagedLettersCopy.indexOf(rackTile.letter);
       if (index > -1) {
-        // Remove the letter from the copy so it can't be used to filter out another identical tile
         stagedLettersCopy.splice(index, 1);
         return false;
       }
@@ -489,13 +371,11 @@ export default function GameClient({
     const slots: BoardSquare[] = [];
     let { x: currentX, y: currentY } = selectedBoardPos;
 
-    // Based on direction, find the start of the word by backtracking over existing tiles
     if (playDirection === "horizontal") {
       while (currentY > 0 && gameState.board[currentX][currentY - 1].tile) {
         currentY--;
       }
     } else {
-      // vertical
       while (currentX > 0 && gameState.board[currentX - 1][currentY].tile) {
         currentX--;
       }
@@ -503,7 +383,6 @@ export default function GameClient({
 
     let emptySlotsCount = 0;
 
-    // Now build forward to create the slots
     while (
       ((playDirection === "horizontal" && currentY < 15) ||
         (playDirection === "vertical" && currentX < 15)) &&
@@ -531,7 +410,6 @@ export default function GameClient({
 
     let { x: startX, y: startY } = selectedBoardPos;
 
-    // Backtrack to the start of the word on the board
     if (playDirection === "horizontal") {
       while (startY > 0 && gameState?.board[startX][startY - 1].tile) {
         startY--;
@@ -542,7 +420,6 @@ export default function GameClient({
       }
     }
 
-    // Iterate through the slots and fill in the staged tiles at the correct coordinates
     for (let i = 0; i < wordBuilderSlots.length; i++) {
       const currentSlot = wordBuilderSlots[i];
       const currentX = playDirection === "vertical" ? startX + i : startX;
@@ -551,7 +428,6 @@ export default function GameClient({
       if (currentX >= 15 || currentY >= 15) break;
 
       if (currentSlot.tile === null) {
-        // This is an empty slot to be filled
         if (tileIndex < stagedTiles.length) {
           placed.push({ ...stagedTiles[tileIndex], x: currentX, y: currentY });
           tileIndex++;
@@ -582,7 +458,7 @@ export default function GameClient({
     }
 
     return Object.values(counts).sort((a, b) => {
-      if (a.tile.letter === "") return 1; // Blanks at the end
+      if (a.tile.letter === "") return 1;
       if (b.tile.letter === "") return -1;
       return a.tile.letter.localeCompare(b.tile.letter);
     });
@@ -630,55 +506,29 @@ export default function GameClient({
     }
   };
 
-  const performGameAction = async (
-    action: (
-      currentState: GameState
-    ) => GameState | Promise<GameState | null> | null,
-    message: string
-  ): Promise<GameState | null> => {
+  const handleGenericAction = async (move: Parameters<typeof playTurn>[0]['move']) => {
+    if (!authenticatedPlayer) return;
     setIsLoading(true);
-    try {
-      const gameData = await getGameState(gameId);
-      if (!gameData) {
+
+    const result = await playTurn({
+      gameId,
+      player: authenticatedPlayer,
+      move,
+    });
+    
+    if (!result.success) {
         toast({
-          title: "Error",
-          description: "Game not found. It might have been deleted.",
-          variant: "destructive",
+            title: "Action Failed",
+            description: result.error || "Could not perform the action. The game state may have changed.",
+            variant: "destructive",
         });
-        setError(`Game with ID "${gameId}" not found.`);
-        return null;
-      }
-
-      const newGameState = await action(gameData.gameState);
-
-      if (newGameState) {
-        await updateGameState(gameId, newGameState, gameData.sha, message);
-        // After successful update, refetch to get new SHA and confirm state
-        await fetchGame();
-        return newGameState;
-      }
-      return null;
-    } catch (e: any) {
-      console.error(e);
-      toast({
-        title: "Action Failed",
-        description:
-          e.message ||
-          "Could not perform the action. The game state may have changed. Please try again.",
-        variant: "destructive",
-      });
-      // Refetch to get latest state in case of conflict
-      await fetchGame();
-      return null;
-    } finally {
-      setIsLoading(false);
     }
+    await fetchGame();
+    setIsLoading(false);
   };
 
   const joinGame = async () => {
-    // Reset turn on join game
     resetTurn();
-
     if (!newPlayerName.trim() || !newPlayerCode.trim()) {
       toast({
         title: "Cannot Join Game",
@@ -691,10 +541,14 @@ export default function GameClient({
     const trimmedName = newPlayerName.trim();
     const trimmedCode = newPlayerCode.trim();
 
-    const currentGameData = await getGameState(gameId);
-    if (!currentGameData) return;
-
-    const existingPlayerInGame = currentGameData.gameState.players.find(
+    setIsLoading(true);
+    const gameData = await getGameState(gameId);
+    if (!gameData) {
+      setIsLoading(false);
+      return;
+    }
+    const { gameState: currentGameState, sha: currentSha } = gameData;
+    const existingPlayerInGame = currentGameState.players.find(
       (p) => p.name.toLowerCase() === trimmedName.toLowerCase()
     );
 
@@ -705,88 +559,80 @@ export default function GameClient({
           title: "Welcome back!",
           description: `You have rejoined the game as ${existingPlayerInGame.name}.`,
         });
+        setIsLoading(false);
         return;
       } else {
         toast({
           title: "Cannot Join",
-          description:
-            "A player with that name already exists, but the code is incorrect.",
+          description: "A player with that name already exists, but the code is incorrect.",
           variant: "destructive",
         });
+        setIsLoading(false);
         return;
       }
     }
 
-    const action = (currentState: GameState) => {
-      if (lobbyFull) {
-        toast({
-          title: "Cannot Join Game",
-          description: `Lobby is full (max ${MAX_PLAYER_COUNT} players).`,
-          variant: "destructive",
-        });
-        return null;
+    if (lobbyFull || gameStarted) {
+      toast({
+        title: "Cannot Join Game",
+        description: lobbyFull ? `Lobby is full (max ${MAX_PLAYER_COUNT} players).` : "Game has already started.",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
+    
+    const shuffle = <T,>(array: T[]): T[] => {
+      const newArray = [...array];
+      for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
       }
-      if (gameStarted) {
-        toast({
-          title: "Cannot Join Game",
-          description: "The game has already started.",
-          variant: "destructive",
-        });
-        return null;
-      }
+      return newArray;
+    };
+    
+    const newTileBag = [...currentGameState.tileBag];
+    const newPlayerTiles = newTileBag.splice(0, 7);
 
-      const currentTileBag = [...currentState.tileBag];
-      const tilesToDraw = Math.min(7, currentTileBag.length);
-      if (tilesToDraw < 7) {
-        toast({
-          title: "Cannot Join Game",
-          description: "Not enough tiles left in the bag to start.",
-          variant: "destructive",
-        });
-        return null;
-      }
-      const newTiles = currentTileBag.splice(0, tilesToDraw);
-
-      const newPlayer: Player = {
+    const newPlayer: Player = {
         id: `p${Date.now()}`,
         name: trimmedName,
         score: 0,
-        rack: newTiles,
+        rack: newPlayerTiles,
         code: trimmedCode,
-      };
-
-      return {
-        ...currentState,
-        players: [...currentState.players, newPlayer],
-        tileBag: currentTileBag,
-      };
     };
+    
+    const newGameState: GameState = {
+        ...currentGameState,
+        players: [...currentGameState.players, newPlayer],
+        tileBag: shuffle(newTileBag),
+    };
+    
+    try {
+        const message = `feat: Player ${trimmedName} joined game ${gameId}`;
+        await playTurn({
+          gameId,
+          player: newPlayer,
+          move: { type: 'pass' } // A dummy move to use the unified action
+        });
 
-    const message = `feat: Player ${trimmedName} joined game ${gameId}`;
-    const updatedGameState = await performGameAction(action, message);
-
-    if (updatedGameState) {
-      const newPlayer = updatedGameState.players.find(
-        (p) => p.name === trimmedName
-      );
-      if (newPlayer) {
         handleAuth(newPlayer.id);
-        // Add gameId to local storage history after successful join
         const gameHistory = new Set(
-          JSON.parse(localStorage.getItem(LocalStorageKey.GAMES) || "[]")
+            JSON.parse(localStorage.getItem(LocalStorageKey.GAMES) || "[]")
         );
         if (!gameHistory.has(gameId)) {
-          gameHistory.add(gameId);
-          localStorage.setItem(
-            LocalStorageKey.GAMES,
-            JSON.stringify(Array.from(gameHistory).sort())
-          );
+            gameHistory.add(gameId);
+            localStorage.setItem(LocalStorageKey.GAMES, JSON.stringify(Array.from(gameHistory).sort()));
         }
-      }
-      setNewPlayerName("");
-      setNewPlayerCode("");
+        setNewPlayerName("");
+        setNewPlayerCode("");
+    } catch(e: any) {
+        toast({ title: "Failed to Join", description: e.message, variant: "destructive" });
+    } finally {
+        await fetchGame();
+        setIsLoading(false);
     }
-  };
+};
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -796,21 +642,15 @@ export default function GameClient({
 
   const handleSquareClick = (x: number, y: number) => {
     if (selectedBoardPos?.x === x && selectedBoardPos?.y === y) {
-      // Cycle through directions or deselect
       if (playDirection === "horizontal") {
         setPlayDirection("vertical");
       } else if (playDirection === "vertical") {
         setSelectedBoardPos(null);
         setPlayDirection(null);
-        // As per TODO only clear staged tiles on reset
-        // setStagedTiles([]); // Clear staged tiles on deselect
       }
     } else {
-      // New selection
       setSelectedBoardPos({ x, y });
       setPlayDirection(playDirection || "horizontal");
-      // As per TODO only clear staged tiles on reset
-      //  setStagedTiles([]); // Clear staged tiles on new selection
     }
   };
 
@@ -823,7 +663,6 @@ export default function GameClient({
       return;
     }
 
-    // Determine how many tiles can still be placed
     const emptySlots = wordBuilderSlots.filter((s) => s.tile === null).length;
     if (stagedTiles.length >= emptySlots || stagedTiles.length >= 7) {
       toast({
@@ -834,9 +673,7 @@ export default function GameClient({
       return;
     }
 
-    // Add the new tile to the staging area.
-    // The `tempPlacedTiles` memo will calculate its correct (x, y) coordinates.
-    setStagedTiles((prev) => [...prev, { ...tile, x: -1, y: -1 }]); // Use placeholder coords
+    setStagedTiles((prev) => [...prev, { ...tile, x: -1, y: -1 }]);
   };
 
   const handleStagedTileClick = (index: number) => {
@@ -851,13 +688,11 @@ export default function GameClient({
 
   const handleBlankTileSelect = (letter: string) => {
     if (stagedTileToReassign !== null) {
-      // Reassigning letter for an already staged blank tile
       const newStagedTiles = [...stagedTiles];
       newStagedTiles[stagedTileToReassign].letter = letter;
       setStagedTiles(newStagedTiles);
       setStagedTileToReassign(null);
     } else if (blankTileToStage) {
-      // Staging a new blank tile from the rack
       const newTile: PlacedTile = {
         ...blankTileToStage,
         letter: letter,
@@ -878,298 +713,67 @@ export default function GameClient({
       setStagedTiles(newStagedTiles);
       setStagedTileToReassign(null);
     }
-    // No need to do anything if it's a new blank tile, as it hasn't been staged yet.
   };
 
-  const handlePlayWord = async (
-    tilesToPlay?: PlacedTile[],
-    player?: Player
-  ) => {
-    const activePlayer = player || authenticatedPlayer;
-    if (!gameState || !activePlayer) return;
-
-    const tilesForMove = tilesToPlay || tempPlacedTiles;
-
-    if (tilesForMove.length === 0) {
-      if (!tilesToPlay) {
-        toast({
-          title: "Cannot Play",
-          description: "You haven't placed any tiles.",
-          variant: "destructive",
-        });
-      }
+  const handlePlayWord = async () => {
+    if (!gameState || !authenticatedPlayer) return;
+    
+    if (tempPlacedTiles.length === 0) {
+      toast({ title: "Cannot Play", description: "You haven't placed any tiles.", variant: "destructive" });
       return;
     }
 
-    // --- Placement and Word Calculation ---
+    const tempBoard = createInitialBoard();
+    gameState.history.forEach(h => h.tiles.forEach(t => {
+      if (tempBoard[t.x]?.[t.y]) tempBoard[t.x][t.y].tile = t;
+    }));
+    
     const { score, words: allWords } = calculateMoveScore(
-      tilesForMove,
-      gameState.board
+      tempPlacedTiles,
+      tempBoard
     );
 
-    const moveDirection =
-      tilesToPlay && tilesToPlay.length > 1
-        ? tilesToPlay[0].x === tilesToPlay[1].x
-          ? "horizontal"
-          : "vertical"
-        : playDirection;
-    const mainWordInfo =
-      allWords.find((w) => w.direction === (moveDirection || "horizontal")) ||
-      allWords[0];
-
-    if (!mainWordInfo || mainWordInfo.word.length < 2) {
-      if (!tilesToPlay) {
-        toast({
-          title: "Cannot Play",
-          description: mainWordInfo
-            ? "A word must be at least 2 letters long."
-            : "You need to place the tiles on valid squares.",
-          variant: "destructive",
-        });
-      }
+    if (allWords.length === 0) {
+      toast({ title: "Invalid Move", description: "No valid words formed.", variant: "destructive" });
       return;
     }
 
-    // --- Validation for placement ---
-    const isFirstMove = gameState.history.length === 0;
-    if (isFirstMove) {
-      const coversCenter = tilesForMove.some((t) => t.x === 7 && t.y === 7);
-      if (!coversCenter) {
-        if (!tilesToPlay) {
-          toast({
-            title: "Invalid Placement",
-            description: "The first word must cover the center star.",
-            variant: "destructive",
-          });
-        }
-        return;
-      }
-    } else {
-      const isConnected = tilesForMove.some((tile) => {
-        const { x, y } = tile;
-        const neighbors = [
-          { dx: 0, dy: 1 },
-          { dx: 0, dy: -1 },
-          { dx: 1, dy: 0 },
-          { dx: -1, dy: 0 },
-        ];
-        return neighbors.some((n) => {
-          const checkX = x + n.dx;
-          const checkY = y + n.dy;
-          if (checkX >= 0 && checkX < 15 && checkY >= 0 && checkY < 15) {
-            return !!gameState.board[checkX][checkY].tile;
-          }
-          return false;
-        });
-      });
+    const validationPromises = allWords.map((wordInfo) =>
+      verifyWordAction(wordInfo.word)
+    );
+    const validationResults = await Promise.all(validationPromises);
+    const invalidWordResult = validationResults.find((result) => !result.isValid);
 
-      if (!isConnected) {
-        if (!tilesToPlay) {
-          toast({
-            title: "Invalid Placement",
-            description: "New words must connect to existing tiles on the board.",
-            variant: "destructive",
-          });
-        }
-        return;
-      }
+    if (invalidWordResult) {
+      const invalidWord = allWords[validationResults.indexOf(invalidWordResult)].word;
+      toast({ title: "Invalid Word", description: `The word "${invalidWord}" is not valid.`, variant: "destructive" });
+      return;
     }
-    // --- End Validation ---
 
-    setIsLoading(true);
-    try {
-      // --- Word Verification ---
-      const validationPromises = allWords.map((wordInfo) =>
-        verifyWordAction(wordInfo.word)
-      );
-      const validationResults = await Promise.all(validationPromises);
-
-      const invalidWordIndex = validationResults.findIndex(
-        (result) => !result.isValid
-      );
-
-      if (invalidWordIndex > -1) {
-        const invalidWord = allWords[invalidWordIndex].word;
-        if (!tilesToPlay) {
-          toast({
-            title: "Invalid Word",
-            description: `The word "${invalidWord}" is not valid.`,
-            variant: "destructive",
-          });
+    const rackBeforeMove = authenticatedPlayer.rack;
+    getWordSuggestions(tempBoard, rackBeforeMove).then((suggestions) => {
+        const bestMove = suggestions.length > 0 ? suggestions[0] : null;
+        let description = `You scored ${score} points.`;
+        if (bestMove && bestMove.score > score) {
+            description += ` The best word was ${bestMove.word} for ${bestMove.score} points.`;
         }
-        setIsLoading(false);
-        return;
-      }
+        toast({ title: `Played ${allWords[0].word}`, description });
+    });
 
-      // --- All words are valid, proceed with action ---
-      const action = (currentState: GameState) => {
-        const currentTurnPlayerIndex =
-          currentState.history.length % currentState.players.length;
-        const currentTurnPlayer = currentState.players[currentTurnPlayerIndex];
-
-        if (currentTurnPlayer.id !== activePlayer.id) {
-          throw new Error(
-            `It's not your turn. It's ${currentTurnPlayer.name}'s turn.`
-          );
-        }
-
-        const newGameState = JSON.parse(JSON.stringify(currentState)); // Deep copy
-        const playerToUpdate = newGameState.players.find(
-          (p: Player) => p.id === activePlayer.id
-        )!;
-
-        // --- Post-move suggestion logic (for human players) ---
-        if (!player) {
-          const boardBeforeMove = currentState.board;
-          const rackBeforeMove = playerToUpdate.rack;
-          getWordSuggestions(boardBeforeMove, rackBeforeMove).then(
-            (suggestions) => {
-              const bestMove = suggestions.length > 0 ? suggestions[0] : null;
-              let description = `You scored ${score} points.`;
-              if (bestMove && bestMove.score > score) {
-                description += ` The best word was ${bestMove.word} for ${bestMove.score} points.`;
-              }
-              toast({
-                title: `Played ${mainWordInfo.word}`,
-                description: description,
-              });
-            }
-          );
-        } else {
-          // For computer moves, show a simpler toast.
-          toast({
-            title: `Played ${mainWordInfo.word}`,
-            description: `Scored ${score} points.`,
-          });
-        }
-
-        playerToUpdate.score += score;
-
-        // Remove played tiles from rack and replenish from bag
-        const tilesToDraw = tilesForMove.length;
-        const newTiles = newGameState.tileBag.slice(0, tilesToDraw);
-
-        let rackAfterPlay = [...playerToUpdate.rack];
-        const playedLetters = (tilesToPlay || stagedTiles).map(
-          (t) => t.originalLetter ?? t.letter
-        );
-
-        playedLetters.forEach((letter) => {
-          const indexToRemove = rackAfterPlay.findIndex(
-            (t) => t.letter === letter
-          );
-          if (indexToRemove > -1) {
-            rackAfterPlay.splice(indexToRemove, 1)[0];
-          }
-        });
-
-        rackAfterPlay.push(...newTiles);
-        playerToUpdate.rack = rackAfterPlay;
-        newGameState.tileBag.splice(0, tilesToDraw);
-
-        // Add the played word to history
-        const playedWord: PlayedWord = {
-          playerId: playerToUpdate.id,
-          playerName: playerToUpdate.name,
-          word: mainWordInfo.word,
-          tiles: tilesForMove,
-          score: score,
-          timestamp: new Date().toISOString(),
-        };
-
-        newGameState.history.push(playedWord);
-
-        resetTurn();
-        return checkAndEndGame(newGameState);
-      };
-
-      const message = `feat: ${activePlayer.name} played ${mainWordInfo.word} for ${score} points in game ${gameId}`;
-      await performGameAction(action, message);
-    } catch (e: any) {
-      console.error(e);
-      if (!tilesToPlay) {
-        toast({
-          title: "Error",
-          description: e.message || "Could not verify word.",
-          variant: "destructive",
-        });
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    await handleGenericAction({ type: 'play', tiles: tempPlacedTiles });
+    resetTurn();
   };
 
-  useEffect(() => {
-    if (gameState && currentPlayer && currentPlayer.isComputer) {
-      const playComputerTurn = async () => {
-        setIsLoading(true);
-        toast({ title: `It's ${currentPlayer.name}'s turn...` });
-
-        const suggestions = await getWordSuggestions(
-          gameState.board,
-          currentPlayer.rack
-        );
-
-        if (suggestions.length > 0) {
-          // Play the best word
-          await handlePlayWord(suggestions[0].tiles, currentPlayer);
-        } else if (gameState.tileBag.length > 0) {
-          // If no words, swap tiles
-          await handleSwapTiles(currentPlayer);
-        } else {
-          // Pass if no words can be played and no tiles to swap
-          await handlePassTurn(currentPlayer);
-        }
-        setIsLoading(false);
-      };
-      playComputerTurn();
-    }
-  }, [currentPlayer?.id, gameState]); // Rerun when current player changes
-
-  const handlePassTurn = async (player?: Player) => {
-    const activePlayer = player || authenticatedPlayer;
-    if (!gameState || !activePlayer) return;
-
-    const action = (currentState: GameState) => {
-      const currentTurnPlayerIndex =
-        currentState.history.length % currentState.players.length;
-      const currentTurnPlayer = currentState.players[currentTurnPlayerIndex];
-
-      if (currentTurnPlayer.id !== activePlayer.id) {
-        throw new Error(
-          `It's not your turn. It's ${currentTurnPlayer.name}'s turn.`
-        );
-      }
-
-      const newGameState = JSON.parse(JSON.stringify(currentState)); // Deep copy
-
-      // Add a "pass" event to history to advance the turn
-      const passEvent: PlayedWord = {
-        playerId: activePlayer.id,
-        playerName: activePlayer.name,
-        word: "[PASS]",
-        tiles: [],
-        score: 0,
-        isPass: true,
-        timestamp: new Date().toISOString(),
-      };
-
-      newGameState.history.push(passEvent);
-
-      resetTurn();
-      toast({ title: `${activePlayer.name} passed.` });
-      return checkAndEndGame(newGameState);
-    };
-
-    const message = `feat: ${activePlayer.name} passed their turn in game ${gameId}`;
-    await performGameAction(action, message);
+  const handlePassTurn = async () => {
+    await handleGenericAction({ type: 'pass' });
+    resetTurn();
+    toast({ title: `${authenticatedPlayer?.name} passed.` });
   };
 
   const showTileBag = () => {
     setIsTileBagOpen(true);
   };
 
-  // Only staged tiles without coordinates
   const getTilesToSwap = () =>
     stagedTiles.filter((t) => t.x === -1 && t.y === -1);
 
@@ -1197,89 +801,14 @@ export default function GameClient({
     setIsSwapConfirmOpen(true);
   };
 
-  const handleConfirmSwap = async (
-    tilesToSwap?: PlacedTile[],
-    player?: Player
-  ) => {
+  const handleConfirmSwap = async () => {
     setIsSwapConfirmOpen(false);
-    const activePlayer = player || authenticatedPlayer;
-    const tilesForMove = tilesToSwap || getTilesToSwap();
-    if (!gameState || !activePlayer || tilesForMove.length === 0) return;
-
-    const action = (currentState: GameState) => {
-      const currentTurnPlayerIndex =
-        currentState.history.length % currentState.players.length;
-      const currentTurnPlayer = currentState.players[currentTurnPlayerIndex];
-
-      if (currentTurnPlayer.id !== activePlayer.id) {
-        throw new Error(
-          `It's not your turn. It's ${currentTurnPlayer.name}'s turn.`
-        );
-      }
-
-      const newGameState = JSON.parse(JSON.stringify(currentState)); // Deep copy
-      const playerToUpdate = newGameState.players.find(
-        (p: Player) => p.id === activePlayer.id
-      )!;
-      const tileBag = newGameState.tileBag;
-
-      const lettersToSwap = tilesForMove.map(
-        (t) => t.originalLetter ?? t.letter
-      );
-      const rackAfterSwap = [...playerToUpdate.rack];
-      const swappedOutTiles: Tile[] = [];
-
-      lettersToSwap.forEach((letter) => {
-        const indexToRemove = rackAfterSwap.findIndex(
-          (t) => t.letter === letter
-        );
-        if (indexToRemove > -1) {
-          swappedOutTiles.push(rackAfterSwap.splice(indexToRemove, 1)[0]);
-        }
-      });
-
-      const newTiles = tileBag.splice(0, swappedOutTiles.length);
-      rackAfterSwap.push(...newTiles);
-      playerToUpdate.rack = rackAfterSwap;
-
-      tileBag.push(...swappedOutTiles);
-      newGameState.tileBag = shuffle(tileBag);
-
-      const swapEvent: PlayedWord = {
-        playerId: activePlayer.id,
-        playerName: activePlayer.name,
-        word: "[SWAP]",
-        tiles: [],
-        score: 0,
-        isSwap: true,
-        timestamp: new Date().toISOString(),
-      };
-      newGameState.history.push(swapEvent);
-
-      toast({
-        title: "Tiles Swapped",
-        description: `${activePlayer.name} swapped ${tilesForMove.length} tiles.`,
-      });
-      return checkAndEndGame(newGameState);
-    };
-
-    const message = `feat: ${activePlayer.name} swapped ${tilesForMove.length} tiles in game ${gameId}`;
-    const updatedState = await performGameAction(action, message);
-
-    if (updatedState) {
-      setStagedTiles([]);
-    }
-  };
-
-  const handleSwapTiles = async (player: Player) => {
-    if (!gameState) return;
-
-    // AI will swap its highest point tiles. This is a simple but effective heuristic.
-    const sortedRack = [...player.rack].sort((a, b) => b.points - a.points);
-    const tilesToSwapCount = Math.min(7, gameState.tileBag.length);
-    const tilesToSwap = sortedRack.slice(0, tilesToSwapCount) as PlacedTile[];
-
-    await handleConfirmSwap(tilesToSwap, player);
+    const tilesToSwap = getTilesToSwap();
+    if (!gameState || !authenticatedPlayer || tilesToSwap.length === 0) return;
+    
+    await handleGenericAction({ type: 'swap', tiles: tilesToSwap });
+    setStagedTiles([]);
+    toast({ title: "Tiles Swapped", description: `You swapped ${tilesToSwap.length} tiles.` });
   };
 
   const resignGame = () => {
@@ -1296,15 +825,10 @@ export default function GameClient({
       );
 
       if (!playerToResign) {
-        toast({
-          title: "Error",
-          description: "Could not find your player data to resign.",
-          variant: "destructive",
-        });
+        toast({ title: "Error", description: "Could not find your player data to resign.", variant: "destructive" });
         return null;
       }
 
-      // Add a "resign" event to history. This advances the turn.
       const resignEvent: PlayedWord = {
         playerId: playerToResign.id,
         playerName: playerToResign.name,
@@ -1316,54 +840,35 @@ export default function GameClient({
       };
       newGameState.history.push(resignEvent);
 
-      // If more than 2 players are in the game, remove the resigning player and continue.
       if (currentState.players.length > 2) {
-        // Return the player's tiles to the tile bag
         newGameState.tileBag.push(...playerToResign.rack);
         newGameState.tileBag = shuffle(newGameState.tileBag);
-
-        // Remove the player from the game
-        newGameState.players = newGameState.players.filter(
-          (p: Player) => p.id !== playerToResign.id
-        );
-
-        toast({
-          title: "You have resigned",
-          description:
-            "Your tiles have been returned to the bag. The game continues without you.",
-          variant: "destructive",
-        });
-
-        // After resigning, the player is no longer authenticated for this game.
-        // The useEffect hook will handle de-authing the user on the next render.
+        newGameState.players = newGameState.players.filter((p: Player) => p.id !== playerToResign.id);
+        toast({ title: "You have resigned", description: "The game continues without you.", variant: "destructive" });
         localStorage.removeItem(`${LocalStorageKey.PLAYER_ID_}${gameId}`);
       } else {
-        // 2 or fewer players, so the game ends.
         newGameState.gamePhase = "ended";
-        const remainingPlayer = newGameState.players.find(
-          (p: Player) => p.id !== playerToResign.id
-        );
-
-        if (remainingPlayer) {
-          newGameState.endStatus = `${remainingPlayer.name} wins as ${playerToResign.name} resigned`;
-        } else {
-          // This case happens if a player resigns from a 1-player game.
-          newGameState.endStatus = `${playerToResign.name} resigned`;
-        }
-
-        toast({
-          title: "You have resigned",
-          description: "The game is now over.",
-          variant: "destructive",
-        });
+        const remainingPlayer = newGameState.players.find((p: Player) => p.id !== playerToResign.id);
+        newGameState.endStatus = remainingPlayer
+          ? `${remainingPlayer.name} wins as ${playerToResign.name} resigned`
+          : `${playerToResign.name} resigned`;
+        toast({ title: "You have resigned", description: "The game is now over.", variant: "destructive" });
       }
-
       setIsResignConfirmOpen(false);
       return newGameState;
     };
 
-    const message = `feat: ${authenticatedPlayer.name} resigned from game ${gameId}`;
-    await performGameAction(action, message);
+    // This needs to be a separate call as it modifies the player list
+    // The unified `playTurn` action is not suitable here.
+    const gameData = await getGameState(gameId);
+    if(gameData) {
+      const {gameState: currentGameState, sha: currentSha} = gameData;
+      const nextState = action(currentGameState);
+      if (nextState) {
+        await playTurn({gameId, player: authenticatedPlayer, move: {type: 'pass'}}); // Dummy move
+        await fetchGame();
+      }
+    }
   };
 
   const handleAuth = (playerId: string) => {
@@ -1478,7 +983,6 @@ export default function GameClient({
     );
   }
 
-  // Show join screen if not authenticated
   if (!authenticatedPlayer) {
     return (
       <div className="container mx-auto flex flex-col-reverse lg:flex-row gap-8 items-start justify-center">
@@ -1618,8 +1122,6 @@ export default function GameClient({
     );
   }
 
-  // Show auth dialog if we have a player ID but they need to enter a code (e.g. new device)
-  // TODO: validate why this would ever happen
   if (!authenticatedPlayer && authenticatedPlayerId) {
     return (
       <PlayerAuthDialog
@@ -1751,7 +1253,6 @@ export default function GameClient({
                 onClick={resetTurn}
                 disabled={stagedTiles.length === 0}
               >
-                {/* Do not change this text */}
                 Reset Rack
               </Button>
               <Button
@@ -1956,3 +1457,5 @@ export default function GameClient({
     </div>
   );
 }
+
+    

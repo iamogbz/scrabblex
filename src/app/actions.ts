@@ -17,57 +17,64 @@ import {
 import { redirect } from "next/navigation";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Octokit } from "@octokit/rest";
-import { Board, BoardSquare, PlacedTile, Tile } from "@/types";
+import { Board, BoardSquare, GameState, PlacedTile, Player, Tile, PlayedWord } from "@/types";
 import { calculateMoveScore } from "@/lib/scoring";
+import { createInitialBoard, TILE_BAG } from "@/lib/game-data";
 
 let wordSet: Set<string>;
 const definitionCache = new Map<string, string | null>();
+
+const shuffle = <T,>(array: T[]): T[] => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+};
 
 async function getWordSet() {
   if (wordSet) {
     return wordSet;
   }
 
-  // Determine the base URL for the fetch request. This is necessary because
-  // server-side fetch needs an absolute URL.
-  // In a Vercel environment, VERCEL_URL is available. For local development,
-  // we fall back to localhost.
   const baseUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
-    : `http://localhost:${process.env.PORT || 3000}`;
+    : `http://localhost:${process.env.PORT || 9002}`;
 
   const url = `${baseUrl}/valid-words.txt`;
 
-  const response = await fetch(url, {
-    // The word list is static, so we can cache it aggressively.
-    // Next.js fetch will cache this by default, but being explicit is good.
-    cache: "force-cache",
-  });
-
-  if (!response.ok) {
-    // This error suggests that `valid-words.txt` should be placed in the `public` directory
-    // to be served as a static asset.
-    throw new Error(
-      `Failed to fetch valid-words.txt from ${url}: ${response.statusText}. Make sure the file is present in the /public directory.`
-    );
+  try {
+    const response = await fetch(url, { cache: "force-cache" });
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch valid-words.txt from ${url}: ${response.statusText}. Make sure the file is present in the /public directory.`
+      );
+    }
+    const fileContent = await response.text();
+    const words = fileContent
+      .split("\n")
+      .map((word) => word.trim().toUpperCase());
+    wordSet = new Set(words);
+    return wordSet;
+  } catch (error) {
+    console.error("Error fetching or parsing word set:", error);
+    // Fallback or re-throw, depending on desired behavior.
+    // For now, re-throwing to make it clear that the app can't function without the word list.
+    throw error;
   }
-
-  const fileContent = await response.text();
-  const words = fileContent
-    .split("\n")
-    .map((word) => word.trim().toUpperCase());
-  wordSet = new Set(words);
-
-  console.log(`Successfully loaded ${wordSet.size} words from ${url}.`);
-
-  return wordSet;
 }
 
 export async function verifyWordAction(word: string) {
-  const validWords = await getWordSet();
-  return {
-    isValid: validWords.has(word.toUpperCase()),
-  };
+  try {
+    const validWords = await getWordSet();
+    return {
+      isValid: validWords.has(word.toUpperCase()),
+    };
+  } catch (error) {
+    console.error("Failed to verify word due to word set loading error:", error);
+    return { isValid: false, error: "Could not load dictionary." };
+  }
 }
 
 function generateGameId(length = 6) {
@@ -87,15 +94,6 @@ export async function createGame() {
 
 export async function getGameState(gameId: string) {
   return await getGame(gameId.toUpperCase());
-}
-
-export async function updateGameState(
-  gameId: string,
-  gameState: any,
-  sha: string,
-  message: string
-) {
-  await updateGame(gameId.toUpperCase(), gameState, sha, message);
 }
 
 const genAI = process.env.GEMINI_API_KEY
@@ -342,7 +340,6 @@ export async function suggestWordAction(
   const branchName = `feat/add-word-${upperCaseWord.toLowerCase()}`;
 
   try {
-    // 1. Get base branch to branch from
     const { data: baseBranch } = await octokit.repos.getBranch({
       owner: GITHUB_OWNER,
       repo: GITHUB_REPO,
@@ -350,7 +347,6 @@ export async function suggestWordAction(
     });
     const baseSha = baseBranch.commit.sha;
 
-    // 2. Create a new branch
     try {
       await octokit.git.createRef({
         owner: GITHUB_OWNER,
@@ -359,46 +355,25 @@ export async function suggestWordAction(
         sha: baseSha,
       });
     } catch (error: any) {
-      // If branch already exists, we can ignore the error.
       if (error.status !== 422) {
         // 422 is "Reference already exists"
         throw error;
       }
     }
 
-    // 3. Get the current dictionary content
-    const fileRequest = {
+    const { data: fileData } = await octokit.repos.getContent({
       owner: GITHUB_OWNER,
       repo: GITHUB_REPO,
       path: DICTIONARY_PATH,
       ref: branchName,
-    };
-    const {
-      // @ts-expect-error sha exists in the response data for get encoded file content
-      data: { sha: fileSha },
-      status: statusFileSha,
-    } = await octokit.repos.getContent(fileRequest);
-
-    // Get the file content in raw format for files between 1 and 100 MB
-    const { data: fileContent, status: statusFileContent } =
-      await octokit.repos.getContent({
-        ...fileRequest,
-        mediaType: {
-          format: "raw",
-        },
-      });
-
-    const currentContent = fileContent.toString().trim();
-
-    if (!currentContent) {
-      console.error({
-        statusFileContent,
-        statusFileSha,
-        currentContent,
-        fileSha,
-      });
-      throw new Error("Current content is empty or invalid.");
+    });
+    
+    if (!("content" in fileData)) {
+      throw new Error("Could not retrieve dictionary content.");
     }
+
+    const currentContent = Buffer.from(fileData.content, 'base64').toString('utf8');
+    const fileSha = fileData.sha;
 
     const words = new Set(
       currentContent.split("\n").map((w) => w.trim().toUpperCase())
@@ -412,9 +387,8 @@ export async function suggestWordAction(
     }
 
     words.add(upperCaseWord);
-    const newContent = Array.from(words).sort().join("\n");
+    const newContent = Array.from(words).sort().join("\n") + "\n";
 
-    // 4. Update the dictionary file in the new branch
     await octokit.repos.createOrUpdateFileContents({
       owner: GITHUB_OWNER,
       repo: GITHUB_REPO,
@@ -425,7 +399,6 @@ export async function suggestWordAction(
       branch: branchName,
     });
 
-    // 5. Create a pull request
     const { data: pullRequest } = await octokit.pulls.create({
       owner: GITHUB_OWNER,
       repo: GITHUB_REPO,
@@ -472,7 +445,6 @@ export async function getWordSuggestions(
   const rackLetters = rack.map((t) => t.letter);
 
   for (const anchor of anchors) {
-    // Horizontal moves
     if (
       anchor.y === 0 ||
       !board[anchor.x]?.[anchor.y - 1] ||
@@ -498,8 +470,6 @@ export async function getWordSuggestions(
         prefix
       );
     }
-
-    // Vertical moves
     if (
       anchor.x === 0 ||
       !board[anchor.x - 1]?.[anchor.y] ||
@@ -527,7 +497,6 @@ export async function getWordSuggestions(
     }
   }
 
-  // Deduplicate and sort
   const uniqueSuggestions = Array.from(
     new Map(
       suggestions.map((s) => [`${s.word}-${s.x}-${s.y}-${s.direction}`, s])
@@ -547,7 +516,6 @@ function findAnchors(board: BoardSquare[][]): { x: number; y: number }[] {
       if (board[r]?.[c]?.tile) {
         hasTiles = true;
       } else {
-        // An empty square is an anchor if it is adjacent to a tile
         if (
           (r > 0 && board[r - 1]?.[c]?.tile) ||
           (r < 14 && board[r + 1]?.[c]?.tile) ||
@@ -561,7 +529,6 @@ function findAnchors(board: BoardSquare[][]): { x: number; y: number }[] {
   }
 
   if (!hasTiles) {
-    // If board is empty, the center is the only anchor
     return [{ x: 7, y: 7 }];
   }
 
@@ -641,7 +608,6 @@ function extend(
       startY
     );
   } else {
-    // This is an empty square, try to place tiles from the rack
     validateAndAdd(
       board,
       dictionary,
@@ -660,7 +626,7 @@ function extend(
         ...placed,
         {
           letter,
-          points: 0, // Points are calculated later
+          points: TILE_BAG.find(t => t.letter === letter)?.points ?? 0,
           x,
           y,
           originalLetter: letter === " " ? " " : undefined,
@@ -670,10 +636,10 @@ function extend(
       const nextY = direction === "horizontal" ? y + 1 : y;
 
       if (letter === " ") {
-        // Blank tile, try every letter
         for (let charCode = 65; charCode <= 90; charCode++) {
           const char = String.fromCharCode(charCode);
           newPlaced[newPlaced.length - 1].letter = char;
+          newPlaced[newPlaced.length - 1].points = 0;
           extend(
             board,
             remainingRack,
@@ -700,7 +666,7 @@ function extend(
           currentWord + letter,
           newPlaced,
           startX,
-          startY
+startY
         );
       }
     }
@@ -717,11 +683,26 @@ function validateAndAdd(
   startY: number,
   direction: "horizontal" | "vertical"
 ) {
-  if (placedTiles.length === 0 || !dictionary.has(word)) {
+  if (placedTiles.length === 0 || !dictionary.has(word.toUpperCase())) {
     return;
   }
 
-  // Create a temporary board with the new tiles to validate all words
+  const isConnected =
+    board.flat().some(square => square.tile) === false || // First move
+    placedTiles.some(tile => {
+      const { x, y } = tile;
+      return (
+        (x > 0 && board[x - 1]?.[y]?.tile) ||
+        (x < 14 && board[x + 1]?.[y]?.tile) ||
+        (y > 0 && board[x]?.[y - 1]?.tile) ||
+        (y < 14 && board[x]?.[y + 1]?.tile)
+      );
+    });
+
+  if (!isConnected) {
+    return;
+  }
+
   const tempBoard = JSON.parse(JSON.stringify(board));
   placedTiles.forEach((tile) => {
     if (tempBoard[tile.x]?.[tile.y]) {
@@ -736,25 +717,20 @@ function validateAndAdd(
 
   const areAllWordsValid =
     allFormedWords.length > 0 &&
-    allFormedWords.every((w) => dictionary.has(w.word));
+    allFormedWords.every((w) => dictionary.has(w.word.toUpperCase()));
 
   if (areAllWordsValid) {
-    const mainWordInfo = allFormedWords.find((w) => w.direction === direction);
+    const mainWordInfo = allFormedWords.find((w) => w.word.toUpperCase() === word.toUpperCase());
 
     if (mainWordInfo) {
-      const startTile = mainWordInfo.tiles.sort((a, b) =>
-        mainWordInfo.direction === "horizontal"
-          ? ("y" in a ? a.y : Infinity) - ("y" in b ? b.y : Infinity)
-          : ("x" in a ? a.x : Infinity) - ("x" in b ? b.x : Infinity)
-      )[0] as PlacedTile;
-
+      const firstTile = mainWordInfo.tiles.sort((a,b) => ("y" in a ? a.y : Infinity) - ("y" in b ? b.y : Infinity) || ("x" in a ? a.x : Infinity) - ("x" in b ? b.x : Infinity))[0] as PlacedTile;
       suggestions.push({
         word: mainWordInfo.word,
-        tiles: placedTiles, // only the newly placed tiles
+        tiles: placedTiles,
         score,
         direction: mainWordInfo.direction,
-        x: startTile.x,
-        y: startTile.y,
+        x: firstTile.x,
+        y: firstTile.y,
       });
     }
   }
@@ -785,7 +761,7 @@ export async function replacePlayerWithComputer(
   const lastMoveTimestamp =
     gameState.history.length > 0
       ? new Date(gameState.history[gameState.history.length - 1].timestamp)
-      : new Date(0); // If no moves, can't be replaced yet
+      : new Date(0);
 
   const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
 
@@ -798,12 +774,9 @@ export async function replacePlayerWithComputer(
 
   const newGameState = JSON.parse(JSON.stringify(gameState));
   newGameState.players[playerIndex].isComputer = true;
-  newGameState.players[
-    playerIndex
-  ].name = `${newGameState.players[playerIndex].name}`;
 
   try {
-    await updateGameState(
+    await updateGame(
       gameId,
       newGameState,
       sha,
@@ -814,3 +787,205 @@ export async function replacePlayerWithComputer(
     return { success: false, error: e.message || "Failed to update game." };
   }
 }
+
+const checkAndEndGame = (gameState: GameState): GameState => {
+    const { players, history, tileBag } = gameState;
+    const numPlayers = players.length;
+
+    if (numPlayers === 0 || gameState.gamePhase === "ended") return gameState;
+
+    const playerWithEmptyRack = players.find((p) => p.rack.length === 0);
+    if (tileBag.length === 0 && playerWithEmptyRack) {
+      const newGameState = JSON.parse(JSON.stringify(gameState));
+      newGameState.gamePhase = "ended";
+
+      let pointsFromRacks = 0;
+      newGameState.players.forEach((p: Player) => {
+        const rackValue = p.rack.reduce((sum, tile) => sum + tile.points, 0);
+        if (p.id !== playerWithEmptyRack.id) {
+          p.score -= rackValue;
+          pointsFromRacks += rackValue;
+        }
+      });
+
+      const finishingPlayer = newGameState.players.find(
+        (p: Player) => p.id === playerWithEmptyRack.id
+      )!;
+      finishingPlayer.score += pointsFromRacks;
+      const winners = newGameState.players.filter(
+        (p: Player) => p.score === Math.max(...newGameState.players.map((p: Player) => p.score))
+      );
+      newGameState.endStatus = `${winners.map(w => w.name).join(' & ')} wins!`;
+      return newGameState;
+    }
+
+    if (history.length >= numPlayers * 2) {
+      const lastMoves = history.slice(-numPlayers * 2);
+      if (lastMoves.every((move) => move.isPass)) {
+        const newGameState = JSON.parse(JSON.stringify(gameState));
+        newGameState.gamePhase = "ended";
+        newGameState.players.forEach((p: Player) => {
+          const rackValue = p.rack.reduce((sum, tile) => sum + tile.points, 0);
+          p.score -= rackValue;
+        });
+        const winners = newGameState.players.filter(
+          (p: Player) => p.score === Math.max(...newGameState.players.map((p: Player) => p.score))
+        );
+        newGameState.endStatus = `Game ended after 2 rounds of passes. ${winners.map(w => w.name).join(' & ')} wins!`;
+        return newGameState;
+      }
+    }
+
+    return gameState;
+};
+
+const getCurrentPlayer = (gameState: GameState): Player | null => {
+    if (!gameState || gameState.players.length === 0) return null;
+    const turnsPlayed = gameState.history.length;
+    if (turnsPlayed < gameState.players.length) {
+      const playedPlayerIds = new Set(gameState.history.map((h) => h.playerId));
+      const waitingPlayers = gameState.players.filter(p => !playedPlayerIds.has(p.id));
+      if (waitingPlayers.length > 0) return waitingPlayers[0];
+    }
+    return gameState.players[turnsPlayed % gameState.players.length];
+};
+
+type PlayTurnOptions = {
+    gameId: string;
+    player: Player;
+    move: {
+        type: 'play';
+        tiles: PlacedTile[];
+    } | {
+        type: 'swap';
+        tiles: Tile[];
+    } | {
+        type: 'pass';
+    };
+};
+
+export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promise<{success: boolean; error?: string}> {
+    const gameData = await getGameState(gameId);
+    if (!gameData) {
+        return { success: false, error: "Game not found." };
+    }
+
+    let { gameState, sha } = gameData;
+    let message = "";
+
+    const applyMove = (gs: GameState, p: Player, m: PlayTurnOptions['move']): GameState | { error: string } => {
+        const playerIndex = gs.players.findIndex(pl => pl.id === p.id);
+        if (playerIndex === -1) return { error: "Player not found" };
+
+        const playerToUpdate = gs.players[playerIndex];
+        const newGameState = JSON.parse(JSON.stringify(gs));
+        const playerToUpdateInNewState = newGameState.players[playerIndex];
+
+        if (m.type === 'play') {
+            const { score, words, isBingo } = calculateMoveScore(m.tiles, gs.board);
+            const mainWord = words.find(w => w.tiles.some(t => "letter" in t && m.tiles.find(mt => mt.x === t.x && mt.y === t.y))) || words[0];
+
+            if (!mainWord) return { error: "Invalid move." };
+            
+            message = `feat: ${p.name} played ${mainWord.word} for ${score} points in game ${gameId}`;
+            playerToUpdateInNewState.score += score;
+
+            const tilesToDrawCount = m.tiles.length;
+            const newTiles = newGameState.tileBag.splice(0, tilesToDrawCount);
+            
+            let rackAfterPlay = [...playerToUpdate.rack];
+            const playedLetters = m.tiles.map(t => t.originalLetter ?? t.letter);
+
+            playedLetters.forEach(letter => {
+                const indexToRemove = rackAfterPlay.findIndex(t => t.letter === letter);
+                if (indexToRemove > -1) rackAfterPlay.splice(indexToRemove, 1);
+            });
+
+            playerToUpdateInNewState.rack = [...rackAfterPlay, ...newTiles];
+
+            const moveEvent: PlayedWord = {
+                playerId: p.id,
+                playerName: p.name,
+                word: mainWord.word,
+                tiles: m.tiles,
+                score,
+                timestamp: new Date().toISOString()
+            };
+            newGameState.history.push(moveEvent);
+        } else if (m.type === 'swap') {
+            message = `feat: ${p.name} swapped ${m.tiles.length} tiles in game ${gameId}`;
+            const tileBag = newGameState.tileBag;
+            const lettersToSwap = m.tiles.map(t => t.letter);
+            const rackAfterSwap = [...playerToUpdate.rack];
+            const swappedOutTiles: Tile[] = [];
+
+            lettersToSwap.forEach(letter => {
+                const index = rackAfterSwap.findIndex(t => t.letter === letter);
+                if (index > -1) swappedOutTiles.push(rackAfterSwap.splice(index, 1)[0]);
+            });
+
+            const newTiles = tileBag.splice(0, swappedOutTiles.length);
+            playerToUpdateInNewState.rack = [...rackAfterSwap, ...newTiles];
+            newGameState.tileBag = shuffle([...tileBag, ...swappedOutTiles]);
+
+            const swapEvent: PlayedWord = {
+                playerId: p.id, playerName: p.name, word: '[SWAP]', tiles: [], score: 0, isSwap: true, timestamp: new Date().toISOString()
+            };
+            newGameState.history.push(swapEvent);
+        } else if (m.type === 'pass') {
+            message = `feat: ${p.name} passed in game ${gameId}`;
+            const passEvent: PlayedWord = {
+                playerId: p.id, playerName: p.name, word: '[PASS]', tiles: [], score: 0, isPass: true, timestamp: new Date().toISOString()
+            };
+            newGameState.history.push(passEvent);
+        }
+        
+        newGameState.board = createInitialBoard();
+        newGameState.history.forEach(h => h.tiles.forEach(t => {
+            if (newGameState.board[t.x]?.[t.y]) newGameState.board[t.x][t.y].tile = t;
+        }));
+
+        return checkAndEndGame(newGameState);
+    }
+
+    let humanMoveResult = applyMove(gameState, player, move);
+    if ("error" in humanMoveResult) {
+        return { success: false, error: humanMoveResult.error };
+    }
+    gameState = humanMoveResult;
+    
+    try {
+        let currentPlayer = getCurrentPlayer(gameState);
+        while(currentPlayer?.isComputer && gameState.gamePhase === 'playing') {
+            const computer = currentPlayer;
+            const suggestions = await getWordSuggestions(gameState.board, computer.rack);
+
+            let computerMove: PlayTurnOptions['move'];
+            if (suggestions.length > 0) {
+                computerMove = { type: 'play', tiles: suggestions[0].tiles };
+            } else if (gameState.tileBag.length > 0) {
+                const tilesToSwapCount = Math.min(7, gameState.tileBag.length);
+                const tilesToSwap = [...computer.rack].sort((a,b) => b.points - a.points).slice(0, tilesToSwapCount);
+                computerMove = { type: 'swap', tiles: tilesToSwap };
+            } else {
+                computerMove = { type: 'pass' };
+            }
+            
+            let result = applyMove(gameState, computer, computerMove);
+            if ("error" in result) {
+                 // Log error and break loop
+                 console.error("AI move failed:", result.error);
+                 break;
+            }
+            gameState = result;
+            currentPlayer = getCurrentPlayer(gameState);
+        }
+
+        await updateGame(gameId, gameState, sha, message);
+        return { success: true };
+    } catch (e: any) {
+        return { success: false, error: e.message };
+    }
+}
+
+    
