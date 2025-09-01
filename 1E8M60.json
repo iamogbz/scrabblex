@@ -40,7 +40,7 @@
     {
       "id": "p1756080770073",
       "name": "MICHE",
-      "score": 291,
+      "score": 299,
       "rack": [
         {
           "letter": "V",
@@ -55,10 +55,6 @@
           "points": 4
         },
         {
-          "letter": "C",
-          "points": 3
-        },
-        {
           "letter": "T",
           "points": 1
         },
@@ -67,7 +63,11 @@
           "points": 1
         },
         {
-          "letter": "L",
+          "letter": " ",
+          "points": 0
+        },
+        {
+          "letter": "E",
           "points": 1
         }
       ],
@@ -76,14 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": " ",
-      "points": 0
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
     {
       "letter": "O",
       "points": 1
@@ -1353,7 +1345,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 8,
+          "y": 12
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -3010,6 +3007,27 @@
       ],
       "score": 5,
       "timestamp": "2025-09-01T23:35:13.318Z"
+    },
+    {
+      "playerId": "p1756080770073",
+      "playerName": "MICHE",
+      "word": "CALL",
+      "tiles": [
+        {
+          "letter": "C",
+          "points": 0,
+          "x": 12,
+          "y": 9
+        },
+        {
+          "letter": "L",
+          "points": 0,
+          "x": 12,
+          "y": 11
+        }
+      ],
+      "score": 8,
+      "timestamp": "2025-09-01T23:35:25.382Z"
     }
   ],
   "gamePhase": "playing"
