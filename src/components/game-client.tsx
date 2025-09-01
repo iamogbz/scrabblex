@@ -1064,7 +1064,6 @@ export default function GameClient({
       const message = `feat: ${activePlayer.name} played ${mainWordInfo.word} for ${score} points in game ${gameId}`;
       await performGameAction(action, message);
     } catch (e: any) {
-      console.error(e);
       if (!tilesToPlay) {
         toast({
           title: "Error",
@@ -1072,6 +1071,7 @@ export default function GameClient({
           variant: "destructive",
         });
       }
+      console.error(e);
     } finally {
       setIsLoading(false);
     }
@@ -1091,8 +1091,11 @@ export default function GameClient({
         if (suggestions.length > 0) {
           // Play the best word
           await handlePlayWord(suggestions[0].tiles, currentPlayer);
+        } else if (gameState.tileBag.length > 0) {
+          // If no words, swap tiles
+          await handleSwapTiles(currentPlayer);
         } else {
-          // Pass if no words can be played
+          // Pass if no words can be played and no tiles to swap
           await handlePassTurn(currentPlayer);
         }
         setIsLoading(false);
@@ -1172,18 +1175,21 @@ export default function GameClient({
     setIsSwapConfirmOpen(true);
   };
 
-  const handleConfirmSwap = async () => {
+  const handleConfirmSwap = async (
+    tilesToSwap?: PlacedTile[],
+    player?: Player
+  ) => {
     setIsSwapConfirmOpen(false);
-
-    const tilesToSwap = getTilesToSwap();
-    if (!gameState || !authenticatedPlayer || tilesToSwap.length === 0) return;
+    const activePlayer = player || authenticatedPlayer;
+    const tilesForMove = tilesToSwap || getTilesToSwap();
+    if (!gameState || !activePlayer || tilesForMove.length === 0) return;
 
     const action = (currentState: GameState) => {
       const currentTurnPlayerIndex =
         currentState.history.length % currentState.players.length;
       const currentTurnPlayer = currentState.players[currentTurnPlayerIndex];
 
-      if (currentTurnPlayer.id !== authenticatedPlayerId) {
+      if (currentTurnPlayer.id !== activePlayer.id) {
         throw new Error(
           `It's not your turn. It's ${currentTurnPlayer.name}'s turn.`
         );
@@ -1191,11 +1197,11 @@ export default function GameClient({
 
       const newGameState = JSON.parse(JSON.stringify(currentState)); // Deep copy
       const playerToUpdate = newGameState.players.find(
-        (p: Player) => p.id === authenticatedPlayerId
+        (p: Player) => p.id === activePlayer.id
       )!;
       const tileBag = newGameState.tileBag;
 
-      const lettersToSwap = tilesToSwap.map(
+      const lettersToSwap = tilesForMove.map(
         (t) => t.originalLetter ?? t.letter
       );
       const rackAfterSwap = [...playerToUpdate.rack];
@@ -1218,8 +1224,8 @@ export default function GameClient({
       newGameState.tileBag = shuffle(tileBag);
 
       const swapEvent: PlayedWord = {
-        playerId: authenticatedPlayer.id,
-        playerName: authenticatedPlayer.name,
+        playerId: activePlayer.id,
+        playerName: activePlayer.name,
         word: "[SWAP]",
         tiles: [],
         score: 0,
@@ -1230,17 +1236,28 @@ export default function GameClient({
 
       toast({
         title: "Tiles Swapped",
-        description: `You swapped ${tilesToSwap.length} tiles.`,
+        description: `${activePlayer.name} swapped ${tilesForMove.length} tiles.`,
       });
       return checkAndEndGame(newGameState);
     };
 
-    const message = `feat: ${authenticatedPlayer.name} swapped ${tilesToSwap.length} tiles in game ${gameId}`;
+    const message = `feat: ${activePlayer.name} swapped ${tilesForMove.length} tiles in game ${gameId}`;
     const updatedState = await performGameAction(action, message);
 
     if (updatedState) {
       setStagedTiles([]);
     }
+  };
+
+  const handleSwapTiles = async (player: Player) => {
+    if (!gameState) return;
+
+    // AI will swap its highest point tiles. This is a simple but effective heuristic.
+    const sortedRack = [...player.rack].sort((a, b) => b.points - a.points);
+    const tilesToSwapCount = Math.min(7, gameState.tileBag.length);
+    const tilesToSwap = sortedRack.slice(0, tilesToSwapCount) as PlacedTile[];
+
+    await handleConfirmSwap(tilesToSwap, player);
   };
 
   const resignGame = () => {
@@ -1786,7 +1803,7 @@ export default function GameClient({
             </Button>
             <Button
               variant="default"
-              onClick={handleConfirmSwap}
+              onClick={() => handleConfirmSwap()}
               disabled={isLoading}
             >
               {isLoading ? (
