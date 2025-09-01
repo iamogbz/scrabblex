@@ -541,6 +541,24 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
         (direction === "down" && activeWords.down === word.number);
       const isReloading = reloadingClues.includes(word.word);
 
+      let isComplete = true;
+      const wordCells: { x: number; y: number }[] = [];
+
+      for (let i = 0; i < word.length; i++) {
+        const x = word.direction === "down" ? word.x + i : word.x;
+        const y = word.direction === "across" ? word.y + i : word.y;
+        wordCells.push({ x, y });
+
+        const cellKey = `${x},${y}`;
+        const userInput = userInputs[cellKey];
+        const correctTile = getTileFor(x, y);
+
+        if (!userInput || !correctTile) {
+          isComplete = false;
+          break;
+        }
+      }
+
       return (
         <div
           key={word.number + word.direction}
@@ -550,6 +568,9 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
             "text-sm mb-2 flex items-start text-left p-2 rounded-md transition-colors cursor-pointer",
             isActive ? "bg-primary/10 text-primary" : ""
           )}
+          style={{
+            opacity: isComplete ? 0.5 : 1,
+          }}
         >
           <span className="font-bold w-8">{word.number}.</span>
           <span className="flex-1">
