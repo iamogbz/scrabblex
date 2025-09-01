@@ -40,7 +40,7 @@
     {
       "id": "p1756080770073",
       "name": "MICHE",
-      "score": 290,
+      "score": 291,
       "rack": [
         {
           "letter": "V",
@@ -63,11 +63,11 @@
           "points": 1
         },
         {
-          "letter": "A",
+          "letter": "R",
           "points": 1
         },
         {
-          "letter": "R",
+          "letter": "L",
           "points": 1
         }
       ],
@@ -76,10 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "L",
-      "points": 1
-    },
     {
       "letter": "U",
       "points": 1
@@ -2110,7 +2106,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 13,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2118,7 +2119,12 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 13,
+          "y": 11
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2973,6 +2979,21 @@
       ],
       "score": 7,
       "timestamp": "2025-09-01T23:24:04.355Z"
+    },
+    {
+      "playerId": "p1756080770073",
+      "playerName": "MICHE",
+      "word": "AT",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 0,
+          "x": 12,
+          "y": 10
+        }
+      ],
+      "score": 1,
+      "timestamp": "2025-09-01T23:24:16.201Z"
     }
   ],
   "gamePhase": "playing"
