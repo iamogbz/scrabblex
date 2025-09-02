@@ -5,30 +5,30 @@
       "id": "p_1756773666082_akzfhxa",
       "name": "E",
       "code": "e",
-      "score": 0,
+      "score": 14,
       "rack": [
         {
           "letter": "I",
           "points": 1
         },
         {
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": "F",
-          "points": 4
-        },
-        {
           "letter": "X",
           "points": 8
         },
         {
-          "letter": "E",
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "T",
           "points": 1
         },
         {
           "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "R",
           "points": 1
         },
         {
@@ -75,22 +75,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
     {
       "letter": "E",
       "points": 1
@@ -1309,7 +1293,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "F",
+          "points": 4,
+          "x": 7,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1317,7 +1306,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1325,7 +1319,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1333,7 +1332,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 7,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": true,
@@ -2252,6 +2256,40 @@
       }
     ]
   ],
-  "history": [],
+  "history": [
+    {
+      "playerId": "p_1756773666082_akzfhxa",
+      "playerName": "E",
+      "word": "FEEL",
+      "tiles": [
+        {
+          "letter": "F",
+          "points": 4,
+          "x": 7,
+          "y": 4
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 5
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 6
+        },
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 7,
+          "y": 7
+        }
+      ],
+      "score": 14,
+      "timestamp": "2025-09-02T01:26:59.415Z"
+    }
+  ],
   "gamePhase": "playing"
 }
