@@ -680,6 +680,23 @@ export default function GameClient({
     }
   };
 
+  const includeBestWordInToast = async (
+    title: string,
+    description: string = "",
+    score: number = 0
+  ) => {
+    getWordSuggestions(gameState?.board!, currentPlayer?.rack!).then(
+      (suggestions) => {
+        const bestMove = suggestions.length > 0 ? suggestions[0] : null;
+        if (bestMove && bestMove.score > score) {
+          description +=
+            ` The best word was ${bestMove.word} for ${bestMove.score} points.`.trim();
+        }
+        toast({ title, description });
+      }
+    );
+  };
+
   const handlePlayWord = async () => {
     if (!gameState || !authenticatedPlayer) return;
 
@@ -732,24 +749,20 @@ export default function GameClient({
       return;
     }
 
-    const rackBeforeMove = authenticatedPlayer.rack;
-    getWordSuggestions(tempBoard, rackBeforeMove).then((suggestions) => {
-      const bestMove = suggestions.length > 0 ? suggestions[0] : null;
-      let description = `You scored ${score} points.`;
-      if (bestMove && bestMove.score > score) {
-        description += ` The best word was ${bestMove.word} for ${bestMove.score} points.`;
-      }
-      toast({ title: `Played ${allWords[0].word}`, description });
-    });
+    await includeBestWordInToast(
+      `Played ${allWords[0].word}`,
+      `You scored ${score} points.`,
+      score
+    );
 
     await handleGenericAction({ type: "play", tiles: tempPlacedTiles });
     resetTurn();
   };
 
   const handlePassTurn = async () => {
+    await includeBestWordInToast(`${authenticatedPlayer?.name} passed.`);
     await handleGenericAction({ type: "pass" });
     resetTurn();
-    toast({ title: `${authenticatedPlayer?.name} passed.` });
   };
 
   const showTileBag = () => {
@@ -788,12 +801,13 @@ export default function GameClient({
     const tilesToSwap = getTilesToSwap();
     if (!gameState || !authenticatedPlayer || tilesToSwap.length === 0) return;
 
+    await includeBestWordInToast(
+      `Tiles Swapped`,
+      `You swapped ${tilesToSwap.length} tiles.`
+    );
+
     await handleGenericAction({ type: "swap", tiles: tilesToSwap });
     setStagedTiles([]);
-    toast({
-      title: "Tiles Swapped",
-      description: `You swapped ${tilesToSwap.length} tiles.`,
-    });
   };
 
   const resignGame = () => {
