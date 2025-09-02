@@ -41,7 +41,7 @@
       "id": "p_1756776144533_76yszei",
       "name": "M",
       "code": "m",
-      "score": 218,
+      "score": 220,
       "rack": [
         {
           "letter": "I",
@@ -76,10 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "N",
-      "points": 1
-    },
     {
       "letter": "L",
       "points": 1
@@ -826,7 +822,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 5,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2909,6 +2910,30 @@
       ],
       "score": 8,
       "timestamp": "2025-09-02T23:45:47.869Z"
+    },
+    {
+      "playerId": "p_1756773666082_akzfhxa",
+      "playerName": "E",
+      "word": "[PASS]",
+      "tiles": [],
+      "score": 0,
+      "isPass": true,
+      "timestamp": "2025-09-02T23:45:58.824Z"
+    },
+    {
+      "playerId": "p_1756776144533_76yszei",
+      "playerName": "M",
+      "word": "NU",
+      "tiles": [
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 5,
+          "y": 4
+        }
+      ],
+      "score": 2,
+      "timestamp": "2025-09-02T23:46:02.632Z"
     }
   ],
   "gamePhase": "playing"
