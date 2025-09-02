@@ -41,14 +41,10 @@
       "id": "p_1756776144533_76yszei",
       "name": "M",
       "code": "m",
-      "score": 172,
+      "score": 184,
       "rack": [
         {
           "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "L",
           "points": 1
         },
         {
@@ -64,11 +60,15 @@
           "points": 1
         },
         {
-          "letter": "E",
-          "points": 1
+          "letter": " ",
+          "points": 0
         },
         {
-          "letter": "E",
+          "letter": "M",
+          "points": 3
+        },
+        {
+          "letter": "U",
           "points": 1
         }
       ],
@@ -76,18 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": " ",
-      "points": 0
-    },
-    {
-      "letter": "M",
-      "points": 3
-    },
-    {
-      "letter": "U",
-      "points": 1
-    },
     {
       "letter": "U",
       "points": 1
@@ -1555,7 +1543,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 10,
+          "y": 4
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -1717,7 +1710,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 11,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1874,7 +1872,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 12,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2788,6 +2791,42 @@
       ],
       "score": 20,
       "timestamp": "2025-09-02T20:54:38.600Z"
+    },
+    {
+      "playerId": "p_1756773666082_akzfhxa",
+      "playerName": "E",
+      "word": "[PASS]",
+      "tiles": [],
+      "score": 0,
+      "isPass": true,
+      "timestamp": "2025-09-02T21:32:43.417Z"
+    },
+    {
+      "playerId": "p_1756776144533_76yszei",
+      "playerName": "M",
+      "word": "EEL",
+      "tiles": [
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 10,
+          "y": 4
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 11,
+          "y": 4
+        },
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 12,
+          "y": 4
+        }
+      ],
+      "score": 12,
+      "timestamp": "2025-09-02T21:32:44.110Z"
     }
   ],
   "gamePhase": "playing"
