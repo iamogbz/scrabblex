@@ -71,7 +71,8 @@
           "points": 1
         }
       ],
-      "code": "H26Q8E"
+      "code": "H26Q8E",
+      "isComputer": true
     }
   ],
   "tileBag": [
@@ -1448,7 +1449,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "F",
+          "points": 4,
+          "x": 8,
+          "y": 6
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1456,7 +1462,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 8,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1464,7 +1475,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "W",
+          "points": 4,
+          "x": 8,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
