@@ -1,4 +1,5 @@
 
+
 "use server";
 
 import {
@@ -856,6 +857,44 @@ type PlayTurnOptions = {
     };
 };
 
+export async function addPlayer(gameId: string, playerName: string, playerCode: string): Promise<{ success: boolean; error?: string; player?: Player }> {
+  const gameData = await getGameState(gameId);
+  if (!gameData) {
+    return { success: false, error: "Game not found." };
+  }
+  const { gameState, sha } = gameData;
+  const { players, tileBag } = gameState;
+
+  if (players.length >= 4) {
+    return { success: false, error: "Game is full." };
+  }
+
+  const newTileBag = [...tileBag];
+  const newPlayerTiles = newTileBag.splice(0, 7);
+
+  const newPlayer: Player = {
+    id: `p_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+    name: playerName,
+    code: playerCode,
+    score: 0,
+    rack: newPlayerTiles,
+  };
+
+  const newGameState: GameState = {
+    ...gameState,
+    players: [...players, newPlayer],
+    tileBag: shuffle(newTileBag),
+  };
+
+  try {
+    const message = `feat: Player ${playerName} joined game ${gameId}`;
+    await updateGame(gameId, newGameState, sha, message);
+    return { success: true, player: newPlayer };
+  } catch (e: any) {
+    return { success: false, error: e.message || "Failed to add player." };
+  }
+}
+
 export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promise<{success: boolean; error?: string}> {
     const gameData = await getGameState(gameId);
     if (!gameData) {
@@ -933,9 +972,13 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
         }
 
         newGameState.board = createInitialBoard();
-        newGameState.history.forEach(h => h.tiles.forEach(t => {
-            if (newGameState.board[t.x]?.[t.y]) newGameState.board[t.x][t.y].tile = t;
-        }));
+        newGameState.history.forEach(h => {
+          if(h.tiles) {
+            h.tiles.forEach(t => {
+                if (newGameState.board[t.x]?.[t.y]) newGameState.board[t.x][t.y].tile = t;
+            })
+          }
+        });
 
         return checkAndEndGame(newGameState);
     }

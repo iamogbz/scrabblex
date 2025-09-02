@@ -1,7 +1,3 @@
-
-
-
-
 "use client";
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
@@ -58,6 +54,7 @@ import {
   suggestWordAction,
   verifyWordAction,
   playTurn,
+  addPlayer,
 } from "@/app/actions";
 import Link from "next/link";
 import { PlayerAuthDialog } from "./player-auth-dialog";
@@ -531,7 +528,6 @@ export default function GameClient({
   };
 
   const joinGame = async () => {
-    resetTurn();
     if (!newPlayerName.trim() || !newPlayerCode.trim()) {
       toast({
         title: "Cannot Join Game",
@@ -545,97 +541,56 @@ export default function GameClient({
     const trimmedCode = newPlayerCode.trim();
 
     setIsLoading(true);
-    const gameData = await getGameState(gameId);
-    if (!gameData) {
-      setIsLoading(false);
-      return;
-    }
-    const { gameState: currentGameState, sha: currentSha } = gameData;
-    const existingPlayerInGame = currentGameState.players.find(
-      (p) => p.name.toLowerCase() === trimmedName.toLowerCase()
-    );
 
-    if (existingPlayerInGame) {
-      if (existingPlayerInGame.code === trimmedCode) {
-        handleAuth(existingPlayerInGame.id);
+    // Check for existing player on the client first
+    if (existingPlayer) {
+      if (existingPlayer.code === trimmedCode) {
+        handleAuth(existingPlayer.id);
         toast({
           title: "Welcome back!",
-          description: `You have rejoined the game as ${existingPlayerInGame.name}.`,
+          description: `You have rejoined the game as ${existingPlayer.name}.`,
         });
-        setIsLoading(false);
-        return;
       } else {
         toast({
           title: "Cannot Join",
           description: "A player with that name already exists, but the code is incorrect.",
           variant: "destructive",
         });
-        setIsLoading(false);
-        return;
       }
-    }
-
-    if (lobbyFull || gameStarted) {
-      toast({
-        title: "Cannot Join Game",
-        description: lobbyFull ? `Lobby is full (max ${MAX_PLAYER_COUNT} players).` : "Game has already started.",
-        variant: "destructive",
-      });
       setIsLoading(false);
       return;
     }
 
-    const shuffle = <T,>(array: T[]): T[] => {
-      const newArray = [...array];
-      for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-      }
-      return newArray;
-    };
-
-    const newTileBag = [...currentGameState.tileBag];
-    const newPlayerTiles = newTileBag.splice(0, 7);
-
-    const newPlayer: Player = {
-        id: `p${Date.now()}`,
-        name: trimmedName,
-        score: 0,
-        rack: newPlayerTiles,
-        code: trimmedCode,
-    };
-
-    const newGameState: GameState = {
-        ...currentGameState,
-        players: [...currentGameState.players, newPlayer],
-        tileBag: shuffle(newTileBag),
-    };
-
+    // If not an existing player, call the server action to add a new one
     try {
-        const message = `feat: Player ${trimmedName} joined game ${gameId}`;
-        await playTurn({
-          gameId,
-          player: newPlayer,
-          move: { type: 'pass' } // A dummy move to use the unified action
-        });
+      const result = await addPlayer(gameId, trimmedName, trimmedCode);
 
-        handleAuth(newPlayer.id);
-        const gameHistory = new Set(
-            JSON.parse(localStorage.getItem(LocalStorageKey.GAMES) || "[]")
-        );
-        if (!gameHistory.has(gameId)) {
-            gameHistory.add(gameId);
-            localStorage.setItem(LocalStorageKey.GAMES, JSON.stringify(Array.from(gameHistory).sort()));
-        }
+      if (result.success && result.player) {
+        handleAuth(result.player.id);
+        toast({
+          title: `Welcome, ${result.player.name}!`,
+          description: "You have successfully joined the game.",
+        });
         setNewPlayerName("");
         setNewPlayerCode("");
-    } catch(e: any) {
-        toast({ title: "Failed to Join", description: e.message, variant: "destructive" });
+      } else {
+        toast({
+          title: "Failed to Join",
+          description: result.error || "An unknown error occurred.",
+          variant: "destructive",
+        });
+      }
+    } catch (e: any) {
+      toast({
+        title: "Error",
+        description: e.message || "A server error occurred while trying to join.",
+        variant: "destructive",
+      });
     } finally {
-        await fetchGame();
-        setIsLoading(false);
+      await fetchGame();
+      setIsLoading(false);
     }
-};
+  };
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -845,7 +800,6 @@ export default function GameClient({
 
       if (currentState.players.length > 2) {
         newGameState.tileBag.push(...playerToResign.rack);
-        newGameState.tileBag = shuffle(newGameState.tileBag);
         newGameState.players = newGameState.players.filter((p: Player) => p.id !== playerToResign.id);
         toast({ title: "You have resigned", description: "The game continues without you.", variant: "destructive" });
         localStorage.removeItem(`${LocalStorageKey.PLAYER_ID_}${gameId}`);
@@ -867,8 +821,8 @@ export default function GameClient({
     if(gameData) {
       const {gameState: currentGameState, sha: currentSha} = gameData;
       const nextState = action(currentGameState);
-      if (nextState) {
-        await playTurn({gameId, player: authenticatedPlayer, move: {type: 'pass'}}); // Dummy move
+      if (nextState && currentSha) {
+        await updateGame(gameId, nextState, currentSha, `Player ${authenticatedPlayer.name} resigned.`);
         await fetchGame();
       }
     }
@@ -1469,4 +1423,3 @@ export default function GameClient({
     </div>
   );
 }
-

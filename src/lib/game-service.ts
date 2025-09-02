@@ -85,14 +85,16 @@ export async function getGame(
     const reconstructedBoard = createInitialBoard();
     if (gameState.history) {
       gameState.history.forEach((playedWord) => {
-        playedWord.tiles.forEach((tile) => {
-          if (
-            reconstructedBoard[tile.x] &&
-            reconstructedBoard[tile.x][tile.y]
-          ) {
-            reconstructedBoard[tile.x][tile.y].tile = tile;
-          }
-        });
+        if (playedWord.tiles) {
+          playedWord.tiles.forEach((tile) => {
+            if (
+              reconstructedBoard[tile.x] &&
+              reconstructedBoard[tile.x][tile.y]
+            ) {
+              reconstructedBoard[tile.x][tile.y].tile = tile;
+            }
+          });
+        }
       });
     }
     gameState.board = reconstructedBoard;
@@ -103,10 +105,10 @@ export async function getGame(
 
       const tilesInRacks = gameState.players.flatMap((p) => p.rack);
       const tilesOnBoard = gameState.history.flatMap((h) =>
-        h.tiles.map((t) => ({
+        h.tiles ? h.tiles.map((t) => ({
           letter: t.originalLetter || t.letter,
           points: t.points,
-        }))
+        })) : []
       );
 
       const tilesInPlay = [...tilesInRacks, ...tilesOnBoard];
