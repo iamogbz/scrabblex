@@ -4,19 +4,14 @@
     {
       "id": "p1756333563042",
       "name": "EMMA",
-      "score": 448,
-      "rack": [
-        {
-          "letter": "B",
-          "points": 3
-        }
-      ],
+      "score": 462,
+      "rack": [],
       "code": "emma"
     },
     {
       "id": "p1756380128480",
       "name": "CATHERINE OGBIZI UGBE",
-      "score": 266,
+      "score": 263,
       "rack": [
         {
           "letter": "I",
@@ -823,7 +818,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "B",
+          "points": 3,
+          "x": 5,
+          "y": 1
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -3198,7 +3198,23 @@
       ],
       "score": 5,
       "timestamp": "2025-09-02T04:17:18.136Z"
+    },
+    {
+      "playerId": "p1756333563042",
+      "playerName": "EMMA",
+      "word": "BUT",
+      "tiles": [
+        {
+          "letter": "B",
+          "points": 3,
+          "x": 5,
+          "y": 1
+        }
+      ],
+      "score": 11,
+      "timestamp": "2025-09-02T04:17:40.999Z"
     }
   ],
-  "gamePhase": "playing"
+  "gamePhase": "ended",
+  "endStatus": "EMMA wins!"
 }
