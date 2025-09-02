@@ -4,14 +4,10 @@
     {
       "id": "p1756333563042",
       "name": "EMMA",
-      "score": 169,
+      "score": 183,
       "rack": [
         {
           "letter": "O",
-          "points": 1
-        },
-        {
-          "letter": "I",
           "points": 1
         },
         {
@@ -27,12 +23,16 @@
           "points": 1
         },
         {
-          "letter": "Q",
-          "points": 10
-        },
-        {
           "letter": "R",
           "points": 1
+        },
+        {
+          "letter": "G",
+          "points": 2
+        },
+        {
+          "letter": "H",
+          "points": 4
         }
       ],
       "code": "emma"
@@ -40,12 +40,8 @@
     {
       "id": "p1756380128480",
       "name": "CATHERINE OGBIZI UGBE",
-      "score": 92,
+      "score": 111,
       "rack": [
-        {
-          "letter": "I",
-          "points": 1
-        },
         {
           "letter": "I",
           "points": 1
@@ -55,19 +51,23 @@
           "points": 4
         },
         {
-          "letter": "Y",
-          "points": 4
-        },
-        {
-          "letter": "R",
-          "points": 1
-        },
-        {
           "letter": "G",
           "points": 2
         },
         {
-          "letter": "R",
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "L",
           "points": 1
         }
       ],
@@ -76,30 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "G",
-      "points": 2
-    },
-    {
-      "letter": "H",
-      "points": 4
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
     {
       "letter": "Y",
       "points": 4
@@ -1759,7 +1735,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Y",
+          "points": 4,
+          "x": 10,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1891,7 +1872,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 11,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2018,7 +2004,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 12,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2084,7 +2075,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Q",
+          "points": 10,
+          "x": 13,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2145,7 +2141,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 13,
+          "y": 13
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -2211,7 +2212,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 14,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2572,6 +2578,60 @@
       ],
       "score": 35,
       "timestamp": "2025-09-02T03:25:02.919Z"
+    },
+    {
+      "playerId": "p1756333563042",
+      "playerName": "EMMA",
+      "word": "QI",
+      "tiles": [
+        {
+          "letter": "Q",
+          "points": 10,
+          "x": 13,
+          "y": 6
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 14,
+          "y": 6
+        }
+      ],
+      "score": 14,
+      "timestamp": "2025-09-02T03:31:51.368Z"
+    },
+    {
+      "playerId": "p1756380128480",
+      "playerName": "CATHERINE OGBIZI UGBE",
+      "word": "YIRR",
+      "tiles": [
+        {
+          "letter": "Y",
+          "points": 4,
+          "x": 10,
+          "y": 13
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 11,
+          "y": 13
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 12,
+          "y": 13
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 13,
+          "y": 13
+        }
+      ],
+      "score": 19,
+      "timestamp": "2025-09-02T03:31:52.001Z"
     }
   ],
   "gamePhase": "playing"
