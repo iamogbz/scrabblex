@@ -4,35 +4,35 @@
     {
       "id": "p1756333563042",
       "name": "EMMA",
-      "score": 355,
+      "score": 391,
       "rack": [
         {
-          "letter": "I",
-          "points": 1
-        },
-        {
           "letter": "D",
           "points": 2
         },
         {
-          "letter": "D",
-          "points": 2
-        },
-        {
-          "letter": "S",
+          "letter": "T",
           "points": 1
         },
         {
-          "letter": "O",
+          "letter": "B",
+          "points": 3
+        },
+        {
+          "letter": "L",
           "points": 1
         },
         {
-          "letter": " ",
-          "points": 0
+          "letter": "N",
+          "points": 1
         },
         {
-          "letter": "X",
-          "points": 8
+          "letter": "U",
+          "points": 1
+        },
+        {
+          "letter": "F",
+          "points": 4
         }
       ],
       "code": "emma"
@@ -40,7 +40,7 @@
     {
       "id": "p1756380128480",
       "name": "CATHERINE OGBIZI UGBE",
-      "score": 215,
+      "score": 243,
       "rack": [
         {
           "letter": "I",
@@ -59,15 +59,15 @@
           "points": 1
         },
         {
-          "letter": "U",
-          "points": 1
+          "letter": "J",
+          "points": 8
         },
         {
-          "letter": "E",
-          "points": 1
+          "letter": "V",
+          "points": 4
         },
         {
-          "letter": "S",
+          "letter": "R",
           "points": 1
         }
       ],
@@ -76,42 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "B",
-      "points": 3
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "J",
-      "points": 8
-    },
-    {
-      "letter": "V",
-      "points": 4
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
     {
       "letter": "T",
       "points": 1
@@ -519,7 +483,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "U",
+          "points": 1,
+          "x": 2,
+          "y": 12
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -561,7 +530,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 3,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -569,7 +543,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 3,
+          "y": 3
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -577,7 +556,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "X",
+          "points": 8,
+          "x": 3,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -585,7 +569,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 3,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -593,7 +582,13 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 0,
+          "originalLetter": " ",
+          "x": 3,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -601,7 +596,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 3,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -656,7 +656,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 3,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -793,7 +798,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 4,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2978,6 +2988,79 @@
       ],
       "score": 18,
       "timestamp": "2025-09-02T04:11:43.634Z"
+    },
+    {
+      "playerId": "p1756333563042",
+      "playerName": "EMMA",
+      "word": "DOXIES",
+      "tiles": [
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 3,
+          "y": 2
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 3,
+          "y": 3
+        },
+        {
+          "letter": "X",
+          "points": 8,
+          "x": 3,
+          "y": 4
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 3,
+          "y": 5
+        },
+        {
+          "letter": "E",
+          "points": 0,
+          "originalLetter": " ",
+          "x": 3,
+          "y": 6
+        },
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 3,
+          "y": 7
+        }
+      ],
+      "score": 36,
+      "timestamp": "2025-09-02T04:13:26.172Z"
+    },
+    {
+      "playerId": "p1756380128480",
+      "playerName": "CATHERINE OGBIZI UGBE",
+      "word": "USE",
+      "tiles": [
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 2,
+          "y": 12
+        },
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 3,
+          "y": 12
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 4,
+          "y": 12
+        }
+      ],
+      "score": 28,
+      "timestamp": "2025-09-02T04:13:26.958Z"
     }
   ],
   "gamePhase": "playing"
