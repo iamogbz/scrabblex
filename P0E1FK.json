@@ -41,7 +41,7 @@
       "id": "p_1756776144533_76yszei",
       "name": "M",
       "code": "m",
-      "score": 120,
+      "score": 136,
       "rack": [
         {
           "letter": "U",
@@ -52,15 +52,7 @@
           "points": 1
         },
         {
-          "letter": "B",
-          "points": 3
-        },
-        {
           "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "A",
           "points": 1
         },
         {
@@ -70,20 +62,20 @@
         {
           "letter": "N",
           "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "R",
+          "points": 1
         }
       ],
       "isComputer": true
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
     {
       "letter": "L",
       "points": 1
@@ -1349,7 +1341,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 8,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1357,7 +1354,12 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "B",
+          "points": 3,
+          "x": 8,
+          "y": 11
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2669,6 +2671,36 @@
       ],
       "score": 16,
       "timestamp": "2025-09-02T20:52:22.052Z"
+    },
+    {
+      "playerId": "p_1756773666082_akzfhxa",
+      "playerName": "E",
+      "word": "[PASS]",
+      "tiles": [],
+      "score": 0,
+      "isPass": true,
+      "timestamp": "2025-09-02T20:53:58.648Z"
+    },
+    {
+      "playerId": "p_1756776144533_76yszei",
+      "playerName": "M",
+      "word": "AB",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 8,
+          "y": 10
+        },
+        {
+          "letter": "B",
+          "points": 3,
+          "x": 8,
+          "y": 11
+        }
+      ],
+      "score": 16,
+      "timestamp": "2025-09-02T20:53:59.451Z"
     }
   ],
   "gamePhase": "playing"
