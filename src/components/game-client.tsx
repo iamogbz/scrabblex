@@ -60,12 +60,13 @@ import Link from "next/link";
 import { PlayerAuthDialog } from "./player-auth-dialog";
 import WordBuilder from "./word-builder";
 import { calculateMoveScore } from "@/lib/scoring";
-import { cn, shuffle } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import SingleTile from "./tile";
 import { BlankTileDialog } from "./blank-tile-dialog";
 import { ReportBugDialog } from "./ui/report-bug-dialog";
 import { createInitialBoard } from "@/lib/game-data";
 import { HistoryDialog } from "./history-dialog";
+import { updateGame } from "@/lib/game-service";
 
 const MAX_PLAYER_COUNT = 4;
 
@@ -506,7 +507,9 @@ export default function GameClient({
     }
   };
 
-  const handleGenericAction = async (move: Parameters<typeof playTurn>[0]['move']) => {
+  const handleGenericAction = async (
+    move: Parameters<typeof playTurn>[0]["move"]
+  ) => {
     if (!authenticatedPlayer) return;
     setIsLoading(true);
 
@@ -517,11 +520,13 @@ export default function GameClient({
     });
 
     if (!result.success) {
-        toast({
-            title: "Action Failed",
-            description: result.error || "Could not perform the action. The game state may have changed.",
-            variant: "destructive",
-        });
+      toast({
+        title: "Action Failed",
+        description:
+          result.error ||
+          "Could not perform the action. The game state may have changed.",
+        variant: "destructive",
+      });
     }
     await fetchGame();
     setIsLoading(false);
@@ -553,7 +558,8 @@ export default function GameClient({
       } else {
         toast({
           title: "Cannot Join",
-          description: "A player with that name already exists, but the code is incorrect.",
+          description:
+            "A player with that name already exists, but the code is incorrect.",
           variant: "destructive",
         });
       }
@@ -583,7 +589,8 @@ export default function GameClient({
     } catch (e: any) {
       toast({
         title: "Error",
-        description: e.message || "A server error occurred while trying to join.",
+        description:
+          e.message || "A server error occurred while trying to join.",
         variant: "destructive",
       });
     } finally {
@@ -677,14 +684,20 @@ export default function GameClient({
     if (!gameState || !authenticatedPlayer) return;
 
     if (tempPlacedTiles.length === 0) {
-      toast({ title: "Cannot Play", description: "You haven't placed any tiles.", variant: "destructive" });
+      toast({
+        title: "Cannot Play",
+        description: "You haven't placed any tiles.",
+        variant: "destructive",
+      });
       return;
     }
 
     const tempBoard = createInitialBoard();
-    gameState.history.forEach(h => h.tiles.forEach(t => {
-      if (tempBoard[t.x]?.[t.y]) tempBoard[t.x][t.y].tile = t;
-    }));
+    gameState.history.forEach((h) =>
+      h.tiles.forEach((t) => {
+        if (tempBoard[t.x]?.[t.y]) tempBoard[t.x][t.y].tile = t;
+      })
+    );
 
     const { score, words: allWords } = calculateMoveScore(
       tempPlacedTiles,
@@ -692,7 +705,11 @@ export default function GameClient({
     );
 
     if (allWords.length === 0) {
-      toast({ title: "Invalid Move", description: "No valid words formed.", variant: "destructive" });
+      toast({
+        title: "Invalid Move",
+        description: "No valid words formed.",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -700,30 +717,37 @@ export default function GameClient({
       verifyWordAction(wordInfo.word)
     );
     const validationResults = await Promise.all(validationPromises);
-    const invalidWordResult = validationResults.find((result) => !result.isValid);
+    const invalidWordResult = validationResults.find(
+      (result) => !result.isValid
+    );
 
     if (invalidWordResult) {
-      const invalidWord = allWords[validationResults.indexOf(invalidWordResult)].word;
-      toast({ title: "Invalid Word", description: `The word "${invalidWord}" is not valid.`, variant: "destructive" });
+      const invalidWord =
+        allWords[validationResults.indexOf(invalidWordResult)].word;
+      toast({
+        title: "Invalid Word",
+        description: `The word "${invalidWord}" is not valid.`,
+        variant: "destructive",
+      });
       return;
     }
 
     const rackBeforeMove = authenticatedPlayer.rack;
     getWordSuggestions(tempBoard, rackBeforeMove).then((suggestions) => {
-        const bestMove = suggestions.length > 0 ? suggestions[0] : null;
-        let description = `You scored ${score} points.`;
-        if (bestMove && bestMove.score > score) {
-            description += ` The best word was ${bestMove.word} for ${bestMove.score} points.`;
-        }
-        toast({ title: `Played ${allWords[0].word}`, description });
+      const bestMove = suggestions.length > 0 ? suggestions[0] : null;
+      let description = `You scored ${score} points.`;
+      if (bestMove && bestMove.score > score) {
+        description += ` The best word was ${bestMove.word} for ${bestMove.score} points.`;
+      }
+      toast({ title: `Played ${allWords[0].word}`, description });
     });
 
-    await handleGenericAction({ type: 'play', tiles: tempPlacedTiles });
+    await handleGenericAction({ type: "play", tiles: tempPlacedTiles });
     resetTurn();
   };
 
   const handlePassTurn = async () => {
-    await handleGenericAction({ type: 'pass' });
+    await handleGenericAction({ type: "pass" });
     resetTurn();
     toast({ title: `${authenticatedPlayer?.name} passed.` });
   };
@@ -764,9 +788,12 @@ export default function GameClient({
     const tilesToSwap = getTilesToSwap();
     if (!gameState || !authenticatedPlayer || tilesToSwap.length === 0) return;
 
-    await handleGenericAction({ type: 'swap', tiles: tilesToSwap });
+    await handleGenericAction({ type: "swap", tiles: tilesToSwap });
     setStagedTiles([]);
-    toast({ title: "Tiles Swapped", description: `You swapped ${tilesToSwap.length} tiles.` });
+    toast({
+      title: "Tiles Swapped",
+      description: `You swapped ${tilesToSwap.length} tiles.`,
+    });
   };
 
   const resignGame = () => {
@@ -783,7 +810,11 @@ export default function GameClient({
       );
 
       if (!playerToResign) {
-        toast({ title: "Error", description: "Could not find your player data to resign.", variant: "destructive" });
+        toast({
+          title: "Error",
+          description: "Could not find your player data to resign.",
+          variant: "destructive",
+        });
         return null;
       }
 
@@ -800,16 +831,28 @@ export default function GameClient({
 
       if (currentState.players.length > 2) {
         newGameState.tileBag.push(...playerToResign.rack);
-        newGameState.players = newGameState.players.filter((p: Player) => p.id !== playerToResign.id);
-        toast({ title: "You have resigned", description: "The game continues without you.", variant: "destructive" });
+        newGameState.players = newGameState.players.filter(
+          (p: Player) => p.id !== playerToResign.id
+        );
+        toast({
+          title: "You have resigned",
+          description: "The game continues without you.",
+          variant: "destructive",
+        });
         localStorage.removeItem(`${LocalStorageKey.PLAYER_ID_}${gameId}`);
       } else {
         newGameState.gamePhase = "ended";
-        const remainingPlayer = newGameState.players.find((p: Player) => p.id !== playerToResign.id);
+        const remainingPlayer = newGameState.players.find(
+          (p: Player) => p.id !== playerToResign.id
+        );
         newGameState.endStatus = remainingPlayer
           ? `${remainingPlayer.name} wins as ${playerToResign.name} resigned`
           : `${playerToResign.name} resigned`;
-        toast({ title: "You have resigned", description: "The game is now over.", variant: "destructive" });
+        toast({
+          title: "You have resigned",
+          description: "The game is now over.",
+          variant: "destructive",
+        });
       }
       setIsResignConfirmOpen(false);
       return newGameState;
@@ -818,11 +861,16 @@ export default function GameClient({
     // This needs to be a separate call as it modifies the player list
     // The unified `playTurn` action is not suitable here.
     const gameData = await getGameState(gameId);
-    if(gameData) {
-      const {gameState: currentGameState, sha: currentSha} = gameData;
+    if (gameData) {
+      const { gameState: currentGameState, sha: currentSha } = gameData;
       const nextState = action(currentGameState);
       if (nextState && currentSha) {
-        await updateGame(gameId, nextState, currentSha, `Player ${authenticatedPlayer.name} resigned.`);
+        await updateGame(
+          gameId,
+          nextState,
+          currentSha,
+          `Player ${authenticatedPlayer.name} resigned.`
+        );
         await fetchGame();
       }
     }
@@ -894,6 +942,15 @@ export default function GameClient({
     return <div className="text-center p-10">Game not found.</div>;
   }
 
+  const historyDialog = (
+    <HistoryDialog
+      isOpen={isHistoryOpen}
+      onOpenChange={setIsHistoryOpen}
+      history={gameState.history}
+      players={gameState.players}
+    />
+  );
+
   if (gameState.gamePhase === "ended") {
     const winner = gameState.players.reduce(
       (prev, current) => (prev.score > current.score ? prev : current),
@@ -937,6 +994,7 @@ export default function GameClient({
             </Button>
           </CardContent>
         </Card>
+        {historyDialog}
       </div>
     );
   }
@@ -1077,6 +1135,7 @@ export default function GameClient({
             onShowHistory={() => setIsHistoryOpen(true)}
           />
         </div>
+        {historyDialog}
       </div>
     );
   }
@@ -1122,6 +1181,7 @@ export default function GameClient({
             </div>
           </CardContent>
         </Card>
+        {historyDialog}
       </div>
     );
   }
@@ -1414,12 +1474,7 @@ export default function GameClient({
         onReturnToRack={handleReturnTileToRack}
         showReturnToRack={stagedTileToReassign !== null}
       />
-      <HistoryDialog
-        isOpen={isHistoryOpen}
-        onOpenChange={setIsHistoryOpen}
-        history={gameState.history}
-        players={gameState.players}
-      />
+      {historyDialog}
     </div>
   );
 }
