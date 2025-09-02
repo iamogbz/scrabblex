@@ -41,7 +41,7 @@
       "id": "p_1756776144533_76yszei",
       "name": "M",
       "code": "m",
-      "score": 196,
+      "score": 210,
       "rack": [
         {
           "letter": "I",
@@ -68,18 +68,14 @@
           "points": 1
         },
         {
-          "letter": "F",
-          "points": 4
+          "letter": "A",
+          "points": 1
         }
       ],
       "isComputer": true
     }
   ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
     {
       "letter": "N",
       "points": 1
@@ -2042,7 +2038,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "F",
+          "points": 4,
+          "x": 13,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2859,6 +2860,30 @@
       ],
       "score": 12,
       "timestamp": "2025-09-02T23:45:18.429Z"
+    },
+    {
+      "playerId": "p_1756773666082_akzfhxa",
+      "playerName": "E",
+      "word": "[PASS]",
+      "tiles": [],
+      "score": 0,
+      "isPass": true,
+      "timestamp": "2025-09-02T23:45:34.001Z"
+    },
+    {
+      "playerId": "p_1756776144533_76yszei",
+      "playerName": "M",
+      "word": "FORB",
+      "tiles": [
+        {
+          "letter": "F",
+          "points": 4,
+          "x": 13,
+          "y": 6
+        }
+      ],
+      "score": 14,
+      "timestamp": "2025-09-02T23:45:37.825Z"
     }
   ],
   "gamePhase": "playing"
