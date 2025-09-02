@@ -41,7 +41,7 @@
       "id": "p_1756776144533_76yszei",
       "name": "M",
       "code": "m",
-      "score": 0,
+      "score": 20,
       "rack": [
         {
           "letter": "I",
@@ -50,14 +50,6 @@
         {
           "letter": "I",
           "points": 1
-        },
-        {
-          "letter": "N",
-          "points": 1
-        },
-        {
-          "letter": "Y",
-          "points": 4
         },
         {
           "letter": "T",
@@ -70,20 +62,20 @@
         {
           "letter": "S",
           "points": 1
+        },
+        {
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "N",
+          "points": 1
         }
       ],
       "isComputer": true
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
     {
       "letter": "O",
       "points": 1
@@ -1180,7 +1172,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 6,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1188,7 +1185,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Y",
+          "points": 4,
+          "x": 6,
+          "y": 6
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2290,6 +2292,27 @@
       ],
       "score": 14,
       "timestamp": "2025-09-02T01:26:59.415Z"
+    },
+    {
+      "playerId": "p_1756776144533_76yszei",
+      "playerName": "M",
+      "word": "NY",
+      "tiles": [
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 6,
+          "y": 5
+        },
+        {
+          "letter": "Y",
+          "points": 4,
+          "x": 6,
+          "y": 6
+        }
+      ],
+      "score": 20,
+      "timestamp": "2025-09-02T20:23:46.200Z"
     }
   ],
   "gamePhase": "playing"
