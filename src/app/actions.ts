@@ -733,53 +733,80 @@ export async function replacePlayerWithComputer(
   gameId: string,
   playerId: string
 ): Promise<{ success: boolean; error?: string }> {
-  const gameData = await getGameState(gameId);
-  if (!gameData) {
-    return { success: false, error: "Game not found." };
-  }
+    const gameData = await getGameState(gameId);
+    if (!gameData) {
+        return { success: false, error: "Game not found." };
+    }
 
-  const { gameState, sha } = gameData;
-  const playerIndex = gameState.players.findIndex((p) => p.id === playerId);
-  if (playerIndex === -1) {
-    return { success: false, error: "Player not found." };
-  }
+    let { gameState, sha } = gameData;
+    const playerIndex = gameState.players.findIndex((p) => p.id === playerId);
+    if (playerIndex === -1) {
+        return { success: false, error: "Player not found." };
+    }
 
-  const turnsPlayed = gameState.history.length;
-  const currentPlayerIndex = turnsPlayed % gameState.players.length;
+    const isCurrentTurn = getCurrentPlayer(gameState)?.id === playerId;
 
-  if (gameState.players[currentPlayerIndex].id !== playerId) {
-    return { success: false, error: "It is not this player's turn." };
-  }
+    if (!isCurrentTurn) {
+        return { success: false, error: "It is not this player's turn to be replaced." };
+    }
 
-  const lastMoveTimestamp =
-    gameState.history.length > 0
-      ? new Date(gameState.history[gameState.history.length - 1].timestamp)
-      : new Date(0);
+    const lastMoveTimestamp =
+        gameState.history.length > 0
+            ? new Date(gameState.history[gameState.history.length - 1].timestamp)
+            : new Date(0);
 
-  const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
+    const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
 
-  if (lastMoveTimestamp > thirtyMinutesAgo && gameState.history.length > 0) {
-    return {
-      success: false,
-      error: "Player has not been inactive for 30 minutes.",
-    };
-  }
+    if (lastMoveTimestamp > thirtyMinutesAgo && gameState.history.length > 0) {
+        return {
+            success: false,
+            error: "Player has not been inactive for 30 minutes.",
+        };
+    }
 
-  const newGameState = JSON.parse(JSON.stringify(gameState));
-  newGameState.players[playerIndex].isComputer = true;
+    const newGameState = JSON.parse(JSON.stringify(gameState));
+    const playerToReplace = newGameState.players[playerIndex];
+    playerToReplace.isComputer = true;
 
-  try {
-    await updateGame(
-      gameId,
-      newGameState,
-      sha,
-      `SYSTEM: Replaced player ${gameState.players[playerIndex].name} with a computer.`
-    );
-    return { success: true };
-  } catch (e: any) {
-    return { success: false, error: e.message || "Failed to update game." };
-  }
+    try {
+        const message = `SYSTEM: Replaced player ${playerToReplace.name} with a computer.`;
+        await updateGame(gameId, newGameState, sha, message);
+
+        // Since it's their turn, immediately play a move
+        const computer = playerToReplace;
+        const suggestions = await getWordSuggestions(newGameState.board, computer.rack);
+        let computerMove: PlayTurnOptions['move'];
+
+        if (suggestions.length > 0) {
+            computerMove = { type: 'play', tiles: suggestions[0].tiles };
+        } else if (newGameState.tileBag.length > 0) {
+            const tilesToSwapCount = Math.min(7, newGameState.tileBag.length);
+            const tilesToSwap = [...computer.rack].sort((a, b) => b.points - a.points).slice(0, tilesToSwapCount);
+            computerMove = { type: 'swap', tiles: tilesToSwap };
+        } else {
+            computerMove = { type: 'pass' };
+        }
+
+        // We need to fetch the game again to get the new sha after the first update
+        const updatedGameData = await getGameState(gameId);
+        if (!updatedGameData) {
+            throw new Error("Failed to refetch game state before AI move.");
+        }
+
+        await playTurn({
+            gameId,
+            player: computer,
+            move: computerMove,
+        });
+
+        return { success: true };
+
+    } catch (e: any) {
+        console.error("Error during player replacement and AI move:", e);
+        return { success: false, error: e.message || "Failed to update game." };
+    }
 }
+
 
 const checkAndEndGame = (gameState: GameState): GameState => {
     const { players, history, tileBag } = gameState;
