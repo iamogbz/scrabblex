@@ -41,7 +41,7 @@
       "id": "p_1756776144533_76yszei",
       "name": "M",
       "code": "m",
-      "score": 184,
+      "score": 196,
       "rack": [
         {
           "letter": "I",
@@ -64,26 +64,18 @@
           "points": 0
         },
         {
-          "letter": "M",
-          "points": 3
-        },
-        {
           "letter": "U",
           "points": 1
+        },
+        {
+          "letter": "F",
+          "points": 4
         }
       ],
       "isComputer": true
     }
   ],
   "tileBag": [
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
     {
       "letter": "A",
       "points": 1
@@ -1702,7 +1694,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "M",
+          "points": 3,
+          "x": 11,
+          "y": 3
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -1736,7 +1733,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "U",
+          "points": 1,
+          "x": 11,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2827,6 +2829,36 @@
       ],
       "score": 12,
       "timestamp": "2025-09-02T21:32:44.110Z"
+    },
+    {
+      "playerId": "p_1756773666082_akzfhxa",
+      "playerName": "E",
+      "word": "[PASS]",
+      "tiles": [],
+      "score": 0,
+      "isPass": true,
+      "timestamp": "2025-09-02T23:45:13.554Z"
+    },
+    {
+      "playerId": "p_1756776144533_76yszei",
+      "playerName": "M",
+      "word": "MENU",
+      "tiles": [
+        {
+          "letter": "M",
+          "points": 3,
+          "x": 11,
+          "y": 3
+        },
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 11,
+          "y": 6
+        }
+      ],
+      "score": 12,
+      "timestamp": "2025-09-02T23:45:18.429Z"
     }
   ],
   "gamePhase": "playing"
