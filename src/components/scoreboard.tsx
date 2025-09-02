@@ -47,8 +47,7 @@ export default function Scoreboard({
             const isWinner = player.score === winningScore;
 
             const isInactive =
-              isCurrentTurn &&
-              lastMoveTimestamp &&
+              !!lastMoveTimestamp &&
               new Date(lastMoveTimestamp) <
                 new Date(Date.now() - 30 * 60 * 1000);
 
@@ -84,13 +83,14 @@ export default function Scoreboard({
                     <Button
                       size="sm"
                       variant="ghost"
-                      className="opacity-0 group-hover:opacity-100"
                       onClick={() => onReplacePlayer(player.id)}
                     >
                       <Bot className="h-4 w-4" />
                     </Button>
                   )}
-                  {player.isComputer && <Bot className="h-5 w-5 text-muted-foreground" />}
+                  {player.isComputer && (
+                    <Bot className="h-5 w-5 text-muted-foreground" />
+                  )}
                   <span className="font-bold text-lg text-primary">
                     {player.score}
                   </span>

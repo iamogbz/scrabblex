@@ -58,7 +58,7 @@ export function HistoryDialog({
       </p>
     );
   };
-  console.log(history);
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-lg">
