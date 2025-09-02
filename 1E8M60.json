@@ -4,7 +4,7 @@
     {
       "id": "p1756080761026",
       "name": "M",
-      "score": 326,
+      "score": 315,
       "rack": [
         {
           "letter": "I",
@@ -28,7 +28,7 @@
     {
       "id": "p1756080770073",
       "name": "MICHE",
-      "score": 336,
+      "score": 328,
       "rack": [
         {
           "letter": "V",
@@ -3197,7 +3197,17 @@
       "score": 0,
       "isPass": true,
       "timestamp": "2025-09-02T00:24:53.665Z"
+    },
+    {
+      "playerId": "p1756080761026",
+      "playerName": "M",
+      "word": "[PASS]",
+      "tiles": [],
+      "score": 0,
+      "isPass": true,
+      "timestamp": "2025-09-02T00:25:19.531Z"
     }
   ],
-  "gamePhase": "playing"
+  "gamePhase": "ended",
+  "endStatus": "Game ended after 2 rounds of passes. MICHE wins!"
 }
