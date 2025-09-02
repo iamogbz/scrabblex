@@ -774,19 +774,6 @@ export async function replacePlayerWithComputer(
 
         // Since it's their turn, immediately play a move
         const computer = playerToReplace;
-        const suggestions = await getWordSuggestions(newGameState.board, computer.rack);
-        let computerMove: PlayTurnOptions['move'];
-
-        if (suggestions.length > 0) {
-            computerMove = { type: 'play', tiles: suggestions[0].tiles };
-        } else if (newGameState.tileBag.length > 0) {
-            const tilesToSwapCount = Math.min(7, newGameState.tileBag.length);
-            const tilesToSwap = [...computer.rack].sort((a, b) => b.points - a.points).slice(0, tilesToSwapCount);
-            computerMove = { type: 'swap', tiles: tilesToSwap };
-        } else {
-            computerMove = { type: 'pass' };
-        }
-
         // We need to fetch the game again to get the new sha after the first update
         const updatedGameData = await getGameState(gameId);
         if (!updatedGameData) {
@@ -796,8 +783,9 @@ export async function replacePlayerWithComputer(
         await playTurn({
             gameId,
             player: computer,
-            move: computerMove,
+            move: { type: 'pass' }, // Pass here, the playTurn logic will handle the AI move
         });
+
 
         return { success: true };
 
@@ -1022,16 +1010,30 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
             const computer = currentPlayer;
             const suggestions = await getWordSuggestions(gameState.board, computer.rack);
 
-            let computerMove: PlayTurnOptions['move'];
-            if (suggestions.length > 0) {
-                computerMove = { type: 'play', tiles: suggestions[0].tiles };
-            } else if (gameState.tileBag.length > 0) {
-                const tilesToSwapCount = Math.min(7, gameState.tileBag.length);
-                const tilesToSwap = [...computer.rack].sort((a,b) => b.points - a.points).slice(0, tilesToSwapCount);
-                computerMove = { type: 'swap', tiles: tilesToSwap };
-            } else {
-                computerMove = { type: 'pass' };
+            let computerMove: PlayTurnOptions['move'] | null = null;
+
+            for (const suggestion of suggestions) {
+                const tempBoard = JSON.parse(JSON.stringify(gameState.board));
+                const { words: allFormedWords } = calculateMoveScore(suggestion.tiles, tempBoard);
+                const validationPromises = allFormedWords.map(w => verifyWordAction(w.word));
+                const validationResults = await Promise.all(validationPromises);
+                
+                if (validationResults.every(r => r.isValid)) {
+                    computerMove = { type: 'play', tiles: suggestion.tiles };
+                    break; 
+                }
             }
+
+            if (!computerMove) {
+                 if (gameState.tileBag.length > 0) {
+                    const tilesToSwapCount = Math.min(7, gameState.tileBag.length);
+                    const tilesToSwap = [...computer.rack].sort((a,b) => b.points - a.points).slice(0, tilesToSwapCount);
+                    computerMove = { type: 'swap', tiles: tilesToSwap };
+                } else {
+                    computerMove = { type: 'pass' };
+                }
+            }
+
 
             let result = applyMove(gameState, computer, computerMove);
             if ("error" in result) {
