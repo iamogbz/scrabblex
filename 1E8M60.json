@@ -3179,6 +3179,24 @@
       "score": 0,
       "isPass": true,
       "timestamp": "2025-09-01T23:46:35.783Z"
+    },
+    {
+      "playerId": "p1756080761026",
+      "playerName": "M",
+      "word": "[PASS]",
+      "tiles": [],
+      "score": 0,
+      "isPass": true,
+      "timestamp": "2025-09-02T00:24:51.847Z"
+    },
+    {
+      "playerId": "p1756080770073",
+      "playerName": "MICHE",
+      "word": "[PASS]",
+      "tiles": [],
+      "score": 0,
+      "isPass": true,
+      "timestamp": "2025-09-02T00:24:53.665Z"
     }
   ],
   "gamePhase": "playing"
