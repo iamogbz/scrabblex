@@ -4,14 +4,22 @@
     {
       "id": "p1756333563042",
       "name": "EMMA",
-      "score": 329,
+      "score": 355,
       "rack": [
         {
-          "letter": "S",
+          "letter": "I",
           "points": 1
         },
         {
-          "letter": "I",
+          "letter": "D",
+          "points": 2
+        },
+        {
+          "letter": "D",
+          "points": 2
+        },
+        {
+          "letter": "S",
           "points": 1
         },
         {
@@ -19,20 +27,12 @@
           "points": 1
         },
         {
-          "letter": "C",
-          "points": 3
+          "letter": " ",
+          "points": 0
         },
         {
-          "letter": "L",
-          "points": 1
-        },
-        {
-          "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "C",
-          "points": 3
+          "letter": "X",
+          "points": 8
         }
       ],
       "code": "emma"
@@ -40,7 +40,7 @@
     {
       "id": "p1756380128480",
       "name": "CATHERINE OGBIZI UGBE",
-      "score": 197,
+      "score": 215,
       "rack": [
         {
           "letter": "I",
@@ -57,10 +57,6 @@
         {
           "letter": "U",
           "points": 1
-        },
-        {
-          "letter": "V",
-          "points": 4
         },
         {
           "letter": "U",
@@ -69,6 +65,10 @@
         {
           "letter": "E",
           "points": 1
+        },
+        {
+          "letter": "S",
+          "points": 1
         }
       ],
       "code": "H26Q8E",
@@ -76,38 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": " ",
-      "points": 0
-    },
-    {
-      "letter": "X",
-      "points": 8
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
     {
       "letter": "T",
       "points": 1
@@ -212,7 +180,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "V",
+          "points": 4,
+          "x": 0,
+          "y": 7
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -310,7 +283,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "C",
+          "points": 3,
+          "x": 1,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -318,7 +296,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 1,
+          "y": 5
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -326,7 +309,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 1,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -334,7 +322,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 1,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -342,7 +335,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "C",
+          "points": 3,
+          "x": 1,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -350,7 +348,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 1,
+          "y": 9
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -456,7 +459,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 2,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2904,6 +2912,72 @@
       ],
       "score": 7,
       "timestamp": "2025-09-02T03:54:42.998Z"
+    },
+    {
+      "playerId": "p1756333563042",
+      "playerName": "EMMA",
+      "word": "COLICS",
+      "tiles": [
+        {
+          "letter": "C",
+          "points": 3,
+          "x": 1,
+          "y": 4
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 1,
+          "y": 5
+        },
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 1,
+          "y": 6
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 1,
+          "y": 7
+        },
+        {
+          "letter": "C",
+          "points": 3,
+          "x": 1,
+          "y": 8
+        },
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 1,
+          "y": 9
+        }
+      ],
+      "score": 26,
+      "timestamp": "2025-09-02T04:11:43.155Z"
+    },
+    {
+      "playerId": "p1756380128480",
+      "playerName": "CATHERINE OGBIZI UGBE",
+      "word": "VIE",
+      "tiles": [
+        {
+          "letter": "V",
+          "points": 4,
+          "x": 0,
+          "y": 7
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 2,
+          "y": 7
+        }
+      ],
+      "score": 18,
+      "timestamp": "2025-09-02T04:11:43.634Z"
     }
   ],
   "gamePhase": "playing"
