@@ -5,12 +5,8 @@
       "id": "p_1756862491863_4je0lj1",
       "name": "E",
       "code": "e",
-      "score": 166,
+      "score": 181,
       "rack": [
-        {
-          "letter": "I",
-          "points": 1
-        },
         {
           "letter": "I",
           "points": 1
@@ -32,6 +28,10 @@
           "points": 1
         },
         {
+          "letter": "I",
+          "points": 1
+        },
+        {
           "letter": "L",
           "points": 1
         }
@@ -41,7 +41,7 @@
       "id": "p_1756862496815_gla4uly",
       "name": "R",
       "code": "r",
-      "score": 144,
+      "score": 160,
       "rack": [
         {
           "letter": "T",
@@ -52,23 +52,23 @@
           "points": 1
         },
         {
-          "letter": "M",
-          "points": 3
+          "letter": "O",
+          "points": 1
         },
         {
-          "letter": "A",
+          "letter": "L",
           "points": 1
+        },
+        {
+          "letter": "Y",
+          "points": 4
         },
         {
           "letter": "U",
           "points": 1
         },
         {
-          "letter": "O",
-          "points": 1
-        },
-        {
-          "letter": "L",
+          "letter": "S",
           "points": 1
         }
       ],
@@ -76,26 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "Y",
-      "points": 4
-    },
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
     {
       "letter": "A",
       "points": 1
@@ -864,7 +844,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 4,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -996,7 +981,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 5,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1202,7 +1192,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 7,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1359,7 +1354,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "M",
+          "points": 3,
+          "x": 8,
+          "y": 6
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1501,7 +1501,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "U",
+          "points": 1,
+          "x": 9,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2661,6 +2666,54 @@
       ],
       "score": 34,
       "timestamp": "2025-09-03T02:25:56.858Z"
+    },
+    {
+      "playerId": "p_1756862491863_4je0lj1",
+      "playerName": "E",
+      "word": "LINY",
+      "tiles": [
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 4,
+          "y": 14
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 5,
+          "y": 14
+        }
+      ],
+      "score": 15,
+      "timestamp": "2025-09-03T02:26:42.427Z"
+    },
+    {
+      "playerId": "p_1756862496815_gla4uly",
+      "playerName": "R",
+      "word": "AMU",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 7,
+          "y": 6
+        },
+        {
+          "letter": "M",
+          "points": 3,
+          "x": 8,
+          "y": 6
+        },
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 9,
+          "y": 6
+        }
+      ],
+      "score": 16,
+      "timestamp": "2025-09-03T02:26:42.915Z"
     }
   ],
   "gamePhase": "playing"
