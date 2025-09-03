@@ -5,15 +5,11 @@
       "id": "p_1756773666082_akzfhxa",
       "name": "E",
       "code": "e",
-      "score": 286,
+      "score": 306,
       "rack": [
         {
           "letter": "W",
           "points": 4
-        },
-        {
-          "letter": "O",
-          "points": 1
         },
         {
           "letter": "R",
@@ -33,15 +29,11 @@
       "id": "p_1756776144533_76yszei",
       "name": "M",
       "code": "m",
-      "score": 309,
+      "score": 319,
       "rack": [
         {
           "letter": "V",
           "points": 4
-        },
-        {
-          "letter": "J",
-          "points": 8
         }
       ],
       "isComputer": true
@@ -226,7 +218,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "J",
+          "points": 8,
+          "x": 1,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3249,6 +3246,42 @@
       ],
       "score": 16,
       "timestamp": "2025-09-03T00:45:52.440Z"
+    },
+    {
+      "playerId": "p_1756773666082_akzfhxa",
+      "playerName": "E",
+      "word": "OH",
+      "tiles": [
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 0,
+          "y": 14
+        },
+        {
+          "letter": "H",
+          "points": 4,
+          "x": 1,
+          "y": 14
+        }
+      ],
+      "score": 20,
+      "timestamp": "2025-09-03T00:45:56.018Z"
+    },
+    {
+      "playerId": "p_1756776144533_76yszei",
+      "playerName": "M",
+      "word": "JIN",
+      "tiles": [
+        {
+          "letter": "J",
+          "points": 8,
+          "x": 1,
+          "y": 6
+        }
+      ],
+      "score": 10,
+      "timestamp": "2025-09-03T00:45:56.039Z"
     }
   ],
   "gamePhase": "playing"
