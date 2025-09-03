@@ -22,6 +22,7 @@ import { Board, BoardSquare, GameState, PlacedTile, Player, Tile, PlayedWord } f
 import { calculateMoveScore } from "@/lib/scoring";
 import { createInitialBoard, TILE_BAG } from "@/lib/game-data";
 import { shuffle } from "@/lib/utils";
+import { INVALID_WORD_ERROR, NO_API_KEY_ERROR, UNDEFINED_WORD_ERROR, UNDEFINED_WORD_VALID } from "@/lib/constants";
 
 let wordSet: Set<string>;
 const definitionCache = new Map<string, string | null>();
@@ -99,7 +100,6 @@ export async function getWordDefinition(
 ): Promise<string | null> {
   const upperCaseWord = word.toUpperCase();
 
-  // In-memory cache check
   if (!forceRefresh && definitionCache.has(upperCaseWord)) {
     return definitionCache.get(upperCaseWord)!;
   }
@@ -107,7 +107,6 @@ export async function getWordDefinition(
     definitionCache.delete(upperCaseWord);
   }
 
-  // GitHub cache check
   if (!forceRefresh) {
     const cachedDefinition = await getDictionaryWord(upperCaseWord);
     if (cachedDefinition) {
@@ -116,46 +115,51 @@ export async function getWordDefinition(
     }
   }
 
-  // Verification and API call
   if (!genAI) {
     console.log("GEMINI_API_KEY not set, skipping definition lookup.");
-    return "GEMINI_API_KEY not set.";
+    return NO_API_KEY_ERROR;
   }
   if (word.length < 2) {
     return null;
   }
-  const invalidWord = "Not a valid Scrabble word.";
-  const unableToDefine = "Unable to define this word.";
+
   const { isValid } = await verifyWordAction(upperCaseWord);
   if (!isValid) {
-    return invalidWord;
+    return INVALID_WORD_ERROR;
   }
 
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-  const prompt = `Provide a concise, one-line definition for the Scrabble word "${upperCaseWord}", prepended with its language of origin in parentheses. Your response must not include the word "${upperCaseWord}" itself. If you cannot provide a definition, your entire response must be only the exact phrase "${unableToDefine}". Example: (Latin) A type of cheese.`;
+  const prompt = `Provide a concise, one-line definition for the Scrabble word "${upperCaseWord}", prepended with its language of origin in parentheses. Your response must not include the word "${upperCaseWord}" itself. If you cannot provide a definition, your entire response must be only the exact phrase "${UNDEFINED_WORD_ERROR}". Example: (Latin) A type of cheese.`;
 
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  const definition = response.text();
+  try {
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const definition = response.text();
 
-  console.log(`Definition for "${upperCaseWord}":`, definition);
+    console.log(`Definition for "${upperCaseWord}":`, definition);
 
-  if (definition && !definition.includes(unableToDefine)) {
-    definitionCache.set(upperCaseWord, definition);
-    await updateDictionaryWord(upperCaseWord, definition);
+    if (definition && !definition.includes(UNDEFINED_WORD_ERROR)) {
+      definitionCache.set(upperCaseWord, definition);
+      await updateDictionaryWord(upperCaseWord, definition);
+      return definition;
+    } else {
+      // It's a valid word, but the AI can't define it. Return the specific string.
+      return UNDEFINED_WORD_VALID;
+    }
+  } catch(error) {
+    console.error(`Error fetching definition for "${upperCaseWord}":`, error);
+    // It's a valid word, but there was an API error. Return the specific string.
+    return UNDEFINED_WORD_VALID;
   }
-
-  return definition;
 }
 
 export async function getWordDefinitions(
   words: string[]
 ): Promise<Record<string, string | null>> {
   const upperCaseWords = words.map((w) => w.toUpperCase());
-  const results: Record<string, string> = {};
+  const results: Record<string, string | null> = {};
   let wordsToFetchFromApi: string[] = [];
 
-  // Check in-memory cache first
   const wordsNotInMemCache: string[] = [];
   for (const word of upperCaseWords) {
     if (definitionCache.has(word)) {
@@ -166,7 +170,6 @@ export async function getWordDefinitions(
   }
 
   if (wordsNotInMemCache.length > 0) {
-    // Check GitHub cache for the remaining words
     const githubCachedDefinitions = await getDictionaryWords(
       wordsNotInMemCache
     );
@@ -174,7 +177,7 @@ export async function getWordDefinitions(
     for (const word of wordsNotInMemCache) {
       if (githubCachedDefinitions[word]) {
         results[word] = githubCachedDefinitions[word];
-        definitionCache.set(word, githubCachedDefinitions[word]!);
+        definitionCache.set(word, githubCachedDefinitions[word]);
       } else {
         wordsToFetchFromApi.push(word);
       }
@@ -189,20 +192,19 @@ export async function getWordDefinitions(
   if (!genAI) {
     console.log("GEMINI_API_KEY not set, skipping definition lookup.");
     for (const word of wordsToFetchFromApi) {
-      results[word] = "GEMINI_API_KEY not set.";
+      results[word] = NO_API_KEY_ERROR;
     }
     return results;
   }
 
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-  const unableToDefine = "Unable to define this word.";
 
   const prompt = `
     You are a dictionary expert. For each of the Scrabble words provided, give a concise, one-line definition, prepended with its language of origin in parentheses.
     Pay close attention to whether the word is singular or plural and phrase the definition accordingly.
     **Crucially, the definition must not contain the word itself.**
     Your response must be only a valid JSON object where the key is the uppercase word and the value is its definition string.
-    If you are unable to define a word, use the exact phrase "${unableToDefine}" as its value. Do not include any other text, explanations, or markdown formatting in your response.
+    If you are unable to define a word, use the exact phrase "${UNDEFINED_WORD_ERROR}" as its value. Do not include any other text, explanations, or markdown formatting in your response.
 
     Example Request: ["DOG", "CAT"]
     Example Response: {"DOG":"(Proto-Germanic) A domesticated carnivorous mammal.","CAT":"(Late Latin) A small domesticated carnivorous mammal with soft fur."}
@@ -219,12 +221,14 @@ export async function getWordDefinitions(
 
     for (const word of wordsToFetchFromApi) {
       const definition = definitionsFromApi[word];
-      if (definition && !definition.includes(unableToDefine)) {
+      if (definition && !definition.includes(UNDEFINED_WORD_ERROR)) {
         results[word] = definition;
         definitionCache.set(word, definition);
         definitionsToCacheInGithub[word] = definition;
       } else {
-        results[word] = unableToDefine;
+        // Even if the API returns an error for a word, we still need to check if it's valid.
+        const { isValid } = await verifyWordAction(word);
+        results[word] = isValid ? UNDEFINED_WORD_VALID : INVALID_WORD_ERROR;
       }
     }
 
@@ -233,6 +237,11 @@ export async function getWordDefinitions(
     }
   } catch (error) {
     console.error("Failed to fetch or parse batch definitions:", error);
+    // If the entire API call fails, check each word individually.
+    for (const word of wordsToFetchFromApi) {
+       const { isValid } = await verifyWordAction(word);
+       results[word] = isValid ? UNDEFINED_WORD_VALID : INVALID_WORD_ERROR;
+    }
   }
 
   return results;
@@ -936,6 +945,12 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
             message = `feat: ${p.name} played ${mainWord.word} for ${score} points in game ${gameId}`;
             playerToUpdateInNewState.score += score;
 
+            m.tiles.forEach(tile => {
+                if(newGameState.board[tile.x]?.[tile.y]) {
+                    newGameState.board[tile.x][tile.y].tile = tile;
+                }
+            });
+
             const tilesToDrawCount = m.tiles.length;
             const newTiles = newGameState.tileBag.splice(0, tilesToDrawCount);
 
@@ -986,23 +1001,18 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
             newGameState.history.push(passEvent);
         }
 
-        newGameState.board = createInitialBoard();
-        newGameState.history.forEach(h => {
-          if(h.tiles) {
-            h.tiles.forEach(t => {
-                if (newGameState.board[t.x]?.[t.y]) newGameState.board[t.x][t.y].tile = t;
-            })
-          }
-        });
-
         return checkAndEndGame(newGameState);
     }
 
-    let humanMoveResult = applyMove(gameState, player, move);
-    if ("error" in humanMoveResult) {
-        return { success: false, error: humanMoveResult.error };
+    // Only apply human move if it's not a pass from an AI replacement scenario
+    if (!(player.isComputer && move.type === 'pass')) {
+      let humanMoveResult = applyMove(gameState, player, move);
+      if ("error" in humanMoveResult) {
+          return { success: false, error: humanMoveResult.error };
+      }
+      gameState = humanMoveResult;
     }
-    gameState = humanMoveResult;
+
 
     try {
         let currentPlayer = getCurrentPlayer(gameState);
@@ -1013,7 +1023,11 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
             let computerMove: PlayTurnOptions['move'] | null = null;
 
             for (const suggestion of suggestions) {
-                const tempBoard = JSON.parse(JSON.stringify(gameState.board));
+                const tempBoard = createInitialBoard();
+                gameState.history.forEach(h => h.tiles.forEach(t => {
+                  if (tempBoard[t.x]?.[t.y]) tempBoard[t.x][t.y].tile = t;
+                }));
+
                 const { words: allFormedWords } = calculateMoveScore(suggestion.tiles, tempBoard);
                 const validationPromises = allFormedWords.map(w => verifyWordAction(w.word));
                 const validationResults = await Promise.all(validationPromises);
@@ -1037,7 +1051,6 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
 
             let result = applyMove(gameState, computer, computerMove);
             if ("error" in result) {
-                 // Log error and break loop
                  console.error("AI move failed:", result.error);
                  break;
             }

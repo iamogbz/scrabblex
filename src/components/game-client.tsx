@@ -678,6 +678,12 @@ export default function GameClient({
   };
 
   const handleStagedTileClick = (index: number) => {
+    if (stagedTiles[index]?.originalLetter === " ") {
+      setStagedTileToReassign(index);
+      setIsBlankTileDialogOpen(true);
+      return;
+    }
+
     if (selectedBuilderIndex === index) {
       // Deselect if clicking the same selected tile
       setSelectedBuilderIndex(null);
@@ -1357,6 +1363,10 @@ export default function GameClient({
                   tempPlacedTiles={tempPlacedTiles}
                   playerColor={playerColor}
                   playDirection={playDirection}
+                  onBlankTileReassign={(index: number) => {
+                    setStagedTileToReassign(index);
+                    setIsBlankTileDialogOpen(true);
+                  }}
                 />
               )}
             </div>
@@ -1613,7 +1623,7 @@ export default function GameClient({
         }}
         onSelect={handleBlankTileSelect}
         onReturnToRack={handleReturnTileToRack}
-        showReturnToRack={stagedTileToReassign !== null || selectedBuilderIndex !== null && !!stagedTiles[selectedBuilderIndex]}
+        showReturnToRack={stagedTileToReassign !== null || (selectedBuilderIndex !== null && !!stagedTiles[selectedBuilderIndex])}
       />
       {historyDialog}
     </div>

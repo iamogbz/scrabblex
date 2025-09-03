@@ -1,4 +1,3 @@
-
 "use client";
 
 import type { PlacedTile, Board, BoardSquare } from "@/types";
@@ -15,6 +14,7 @@ import { useMemo, useState, useEffect } from "react";
 import { calculateMoveScore } from "@/lib/scoring";
 import { getWordDefinition } from "@/app/actions";
 import { cn } from "@/lib/utils";
+import { INVALID_WORD_ERROR, NO_API_KEY_ERROR, UNDEFINED_WORD_VALID } from "@/lib/constants";
 
 interface WordBuilderProps {
   slots: readonly BoardSquare[];
@@ -26,6 +26,7 @@ interface WordBuilderProps {
   tempPlacedTiles: PlacedTile[];
   playDirection: "horizontal" | "vertical" | null;
   playerColor?: string;
+  onBlankTileReassign: (index: number) => void;
 }
 
 export default function WordBuilder({
@@ -38,6 +39,7 @@ export default function WordBuilder({
   tempPlacedTiles,
   playDirection,
   playerColor,
+  onBlankTileReassign,
 }: WordBuilderProps) {
   const [definition, setDefinition] = useState<string | null>(null);
   const [isFetchingDefinition, setIsFetchingDefinition] = useState(false);
@@ -94,7 +96,10 @@ export default function WordBuilder({
     if (isFetchingDefinition) {
       return "Looking up word...";
     }
-    if (definition) {
+    if (definition && definition === UNDEFINED_WORD_VALID) {
+      return definition;
+    }
+    if (definition && ![INVALID_WORD_ERROR, NO_API_KEY_ERROR].includes(definition)) {
       return definition;
     }
     if (selectedBuilderIndex !== null && stagedTiles[selectedBuilderIndex]) {
@@ -125,7 +130,13 @@ export default function WordBuilder({
             <div
               key={`staged-${currentIndex}`}
               className="aspect-square"
-              onClick={() => onStagedTileClick(currentIndex)}
+              onClick={() => {
+                if (tile.originalLetter === ' ') {
+                  onBlankTileReassign(currentIndex);
+                } else {
+                  onStagedTileClick(currentIndex);
+                }
+              }}
             >
               <SingleTile
                 tile={tile}
