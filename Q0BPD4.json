@@ -12,18 +12,6 @@
           "points": 1
         },
         {
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "E",
-          "points": 1
-        },
-        {
           "letter": "R",
           "points": 1
         },
@@ -32,7 +20,19 @@
           "points": 1
         },
         {
-          "letter": "O",
+          "letter": "H",
+          "points": 4
+        },
+        {
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "N",
           "points": 1
         }
       ]
@@ -41,15 +41,11 @@
       "id": "p_1756862496815_gla4uly",
       "name": "R",
       "code": "r",
-      "score": 293,
+      "score": 315,
       "rack": [
         {
           "letter": "L",
           "points": 1
-        },
-        {
-          "letter": "B",
-          "points": 3
         },
         {
           "letter": "R",
@@ -60,15 +56,19 @@
           "points": 1
         },
         {
-          "letter": "D",
-          "points": 2
-        },
-        {
           "letter": "Q",
           "points": 10
         },
         {
           "letter": "N",
+          "points": 1
+        },
+        {
+          "letter": " ",
+          "points": 0
+        },
+        {
+          "letter": "A",
           "points": 1
         }
       ],
@@ -77,27 +77,11 @@
   ],
   "tileBag": [
     {
-      "letter": "H",
-      "points": 4
+      "letter": "G",
+      "points": 2
     },
     {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "A",
+      "letter": "I",
       "points": 1
     },
     {
@@ -105,27 +89,15 @@
       "points": 1
     },
     {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "V",
-      "points": 4
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": " ",
-      "points": 0
+      "letter": "G",
+      "points": 2
     },
     {
       "letter": "N",
+      "points": 1
+    },
+    {
+      "letter": "I",
       "points": 1
     },
     {
@@ -137,12 +109,32 @@
       "points": 3
     },
     {
-      "letter": "G",
-      "points": 2
+      "letter": "A",
+      "points": 1
     },
     {
-      "letter": "G",
-      "points": 2
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "letter": "V",
+      "points": 4
+    },
+    {
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "letter": "O",
+      "points": 1
     }
   ],
   "board": [
@@ -1788,7 +1780,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 11,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2107,7 +2104,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "B",
+          "points": 3,
+          "x": 13,
+          "y": 9
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2954,6 +2956,36 @@
       ],
       "score": 27,
       "timestamp": "2025-09-03T02:38:41.552Z"
+    },
+    {
+      "playerId": "p_1756862491863_4je0lj1",
+      "playerName": "E",
+      "word": "[SWAP]",
+      "tiles": [],
+      "score": 0,
+      "isSwap": true,
+      "timestamp": "2025-09-03T02:39:07.436Z"
+    },
+    {
+      "playerId": "p_1756862496815_gla4uly",
+      "playerName": "R",
+      "word": "DEB",
+      "tiles": [
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 11,
+          "y": 9
+        },
+        {
+          "letter": "B",
+          "points": 3,
+          "x": 13,
+          "y": 9
+        }
+      ],
+      "score": 22,
+      "timestamp": "2025-09-03T02:39:07.797Z"
     }
   ],
   "gamePhase": "playing"
