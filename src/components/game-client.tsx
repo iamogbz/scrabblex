@@ -614,15 +614,28 @@ export default function GameClient({
 
   const handleSquareClick = (x: number, y: number) => {
     setSelectedBoardPos((prevPos) => {
-      if (prevPos?.x === x && prevPos?.y === y) {
-        setPlayDirection((prevDir) =>
-          prevDir === "horizontal" ? "vertical" : "horizontal"
-        );
-        return prevPos;
-      } else {
+      // If clicking a different square, reset direction
+      if (prevPos?.x !== x || prevPos?.y !== y) {
         setPlayDirection("horizontal");
         return { x, y };
       }
+  
+      // If clicking the same square, cycle through directions
+      if (playDirection === "horizontal") {
+        setPlayDirection("vertical");
+        return prevPos; // Keep the same position
+      }
+  
+      if (playDirection === "vertical") {
+        // This is the third click on the same square, so deselect it
+        setPlayDirection(null);
+        return null;
+      }
+  
+      // This case handles when a square is selected but direction is null (after deselection)
+      // It will restart the cycle by setting direction to horizontal
+      setPlayDirection("horizontal");
+      return prevPos;
     });
   };
 
