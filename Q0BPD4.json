@@ -2290,6 +2290,15 @@
       ],
       "score": 14,
       "timestamp": "2025-09-03T01:24:01.435Z"
+    },
+    {
+      "playerId": "p_1756862496815_gla4uly",
+      "playerName": "R",
+      "word": "[PASS]",
+      "tiles": [],
+      "score": 0,
+      "isPass": true,
+      "timestamp": "2025-09-03T02:05:38.127Z"
     }
   ],
   "gamePhase": "playing"
