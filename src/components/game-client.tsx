@@ -165,7 +165,7 @@ export default function GameClient({
   );
 
   const turnsPlayed = useMemo(
-    () => gameState?.history?.length ?? 0,
+    () => gameState?.history?.filter(h => h.playerId).length ?? 0,
     [gameState]
   );
 
@@ -644,7 +644,14 @@ export default function GameClient({
       // A tile in the builder is selected, return it to the rack
       const newStagedTiles = { ...stagedTiles };
       delete newStagedTiles[selectedBuilderIndex];
-      setStagedTiles(newStagedTiles);
+      // Important: re-key the remaining tiles to fill the gap
+      const remainingTiles = Object.values(newStagedTiles);
+      const rekeyedTiles: Record<number, PlacedTile> = {};
+      remainingTiles.forEach((tile, index) => {
+        rekeyedTiles[index] = tile;
+      });
+
+      setStagedTiles(rekeyedTiles);
       setSelectedBuilderIndex(null);
     }
   };
@@ -672,6 +679,21 @@ export default function GameClient({
     if (selectedBuilderIndex === index) {
       // Deselect if clicking the same selected tile
       setSelectedBuilderIndex(null);
+    } else if (selectedBuilderIndex !== null) {
+        // Another staged tile is already selected, so swap them
+        const newStagedTiles = { ...stagedTiles };
+        const tileToMove = stagedTiles[selectedBuilderIndex];
+        const targetTile = stagedTiles[index];
+        if (tileToMove) {
+             newStagedTiles[index] = tileToMove;
+             if(targetTile) {
+                newStagedTiles[selectedBuilderIndex] = targetTile;
+             } else {
+                delete newStagedTiles[selectedBuilderIndex];
+             }
+        }
+        setStagedTiles(newStagedTiles);
+        setSelectedBuilderIndex(null);
     } else {
       // Select the tile to be moved
       setSelectedBuilderIndex(index);
@@ -711,7 +733,14 @@ export default function GameClient({
           delete newStagedTiles[selectedBuilderIndex];
           newStagedTiles[index] = tileToMove;
         }
-        setStagedTiles(newStagedTiles);
+         // After a move/swap, re-key the tiles to ensure they are contiguous
+        const remainingTiles = Object.values(newStagedTiles);
+        const rekeyedTiles: Record<number, PlacedTile> = {};
+        remainingTiles.forEach((tile, idx) => {
+            rekeyedTiles[idx] = tile;
+        });
+
+        setStagedTiles(rekeyedTiles);
       }
       setSelectedBuilderIndex(null); // Deselect after move/swap
     } else {
@@ -1588,5 +1617,3 @@ export default function GameClient({
     </div>
   );
 }
-
-    
