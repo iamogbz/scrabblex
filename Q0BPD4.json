@@ -5,18 +5,10 @@
       "id": "p_1756862491863_4je0lj1",
       "name": "E",
       "code": "e",
-      "score": 320,
+      "score": 334,
       "rack": [
         {
           "letter": "N",
-          "points": 1
-        },
-        {
-          "letter": "D",
-          "points": 2
-        },
-        {
-          "letter": "O",
           "points": 1
         }
       ]
@@ -25,18 +17,10 @@
       "id": "p_1756862496815_gla4uly",
       "name": "R",
       "code": "r",
-      "score": 370,
+      "score": 381,
       "rack": [
         {
-          "letter": "R",
-          "points": 1
-        },
-        {
           "letter": "T",
-          "points": 1
-        },
-        {
-          "letter": "E",
           "points": 1
         },
         {
@@ -311,7 +295,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 2,
+          "y": 2
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -319,7 +308,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 2,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -433,7 +427,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 3,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -441,7 +440,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 3,
+          "y": 3
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -3213,6 +3217,48 @@
       ],
       "score": 10,
       "timestamp": "2025-09-03T02:54:45.072Z"
+    },
+    {
+      "playerId": "p_1756862491863_4je0lj1",
+      "playerName": "E",
+      "word": "DOZING",
+      "tiles": [
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 2,
+          "y": 2
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 3,
+          "y": 2
+        }
+      ],
+      "score": 14,
+      "timestamp": "2025-09-03T02:56:17.867Z"
+    },
+    {
+      "playerId": "p_1756862496815_gla4uly",
+      "playerName": "R",
+      "word": "ER",
+      "tiles": [
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 2,
+          "y": 3
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 3,
+          "y": 3
+        }
+      ],
+      "score": 11,
+      "timestamp": "2025-09-03T02:56:18.009Z"
     }
   ],
   "gamePhase": "playing"
