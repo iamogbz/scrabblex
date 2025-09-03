@@ -609,16 +609,14 @@ export default function GameClient({
 
   const handleSquareClick = (x: number, y: number) => {
     if (selectedBoardPos?.x === x && selectedBoardPos?.y === y) {
-      if (playDirection === "horizontal") {
-        setPlayDirection("vertical");
-      } else if (playDirection === "vertical") {
-        setSelectedBoardPos(null);
-        setPlayDirection(null);
-      }
+      // Toggle direction if the same square is clicked again
+      setPlayDirection((prev) =>
+        prev === "horizontal" ? "vertical" : "horizontal"
+      );
     } else {
-      resetTurn();
+      // Set new position and default direction
       setSelectedBoardPos({ x, y });
-      setPlayDirection(playDirection || "horizontal");
+      setPlayDirection("horizontal"); // Default to horizontal
     }
   };
 
@@ -1522,3 +1520,4 @@ export default function GameClient({
   );
 }
 
+    
