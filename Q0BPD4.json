@@ -71,7 +71,8 @@
           "letter": "S",
           "points": 1
         }
-      ]
+      ],
+      "isComputer": true
     }
   ],
   "tileBag": [
