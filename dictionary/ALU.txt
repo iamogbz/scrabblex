@@ -1,0 +1,1 @@
+(Computing) A digital circuit performing arithmetic and logical operations.
