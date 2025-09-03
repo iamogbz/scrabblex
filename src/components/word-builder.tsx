@@ -97,10 +97,13 @@ export default function WordBuilder({
     if (definition) {
       return definition;
     }
-    if (Object.keys(stagedTiles).length > 0) {
-      return "Click a slot on the board to place your word.";
+    if (selectedBuilderIndex !== null && stagedTiles[selectedBuilderIndex]) {
+       return "Click an empty slot to move, or another tile to swap.";
     }
-    return "Select a slot below, then a tile from your rack to build a word.";
+    if (selectedBuilderIndex !== null) {
+        return "Now select a tile from your rack to place it here.";
+    }
+    return "Select a slot below to begin building a word.";
   };
 
   const renderSlots = () => {
@@ -119,12 +122,16 @@ export default function WordBuilder({
         const tile = stagedTiles[currentIndex];
         if (tile) {
           rendered.push(
-            <div key={`staged-${currentIndex}`} className="aspect-square">
+            <div
+              key={`staged-${currentIndex}`}
+              className="aspect-square"
+              onClick={() => onStagedTileClick(currentIndex)}
+            >
               <SingleTile
                 tile={tile}
                 isDraggable={true}
                 isTemp={true}
-                onSelect={() => onStagedTileClick(currentIndex)}
+                isSelected={selectedBuilderIndex === currentIndex}
                 playerColor={playerColor}
               />
             </div>

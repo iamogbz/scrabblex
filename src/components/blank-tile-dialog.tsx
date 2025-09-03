@@ -75,6 +75,7 @@ export function BlankTileDialog({
             maxLength={1}
             // Keep text as 3xl otherwise it is clipped by the input field
             className="w-20 h-20 text-3xl text-center font-bold uppercase"
+            autoFocus
           />
         </div>
         <DialogFooter className="sm:justify-between gap-2">

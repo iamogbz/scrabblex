@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
@@ -609,32 +610,28 @@ export default function GameClient({
 
   const handleSquareClick = (x: number, y: number) => {
     if (selectedBoardPos?.x === x && selectedBoardPos?.y === y) {
-      // Toggle direction if the same square is clicked again
       setPlayDirection((prev) =>
         prev === "horizontal" ? "vertical" : "horizontal"
       );
     } else {
-      // Set new position and default direction
       setSelectedBoardPos({ x, y });
-      setPlayDirection("horizontal"); // Default to horizontal
+      setPlayDirection("horizontal");
     }
   };
 
   const handleRackTileClick = (tile: Tile) => {
-    if (!gameState) return;
-
-    if (tile.letter === " ") {
-      setBlankTileToStage(tile);
-      setIsBlankTileDialogOpen(true);
-      return;
-    }
-
     if (selectedBuilderIndex === null) {
       toast({
         title: "Select a slot",
         description: "Click an empty slot in the word planner first.",
         variant: "destructive",
       });
+      return;
+    }
+
+    if (tile.letter === " ") {
+      setBlankTileToStage(tile);
+      setIsBlankTileDialogOpen(true);
       return;
     }
 
@@ -645,19 +642,38 @@ export default function GameClient({
   };
 
   const handleStagedTileClick = (index: number) => {
-    const tile = stagedTiles[index];
-    if (tile.originalLetter === " ") {
-      setStagedTileToReassign(index);
-      setIsBlankTileDialogOpen(true);
+    if (selectedBuilderIndex === index) {
+      // Deselect if clicking the same selected tile
+      setSelectedBuilderIndex(null);
     } else {
-      const newStagedTiles = { ...stagedTiles };
-      delete newStagedTiles[index];
-      setStagedTiles(newStagedTiles);
+      // Select the tile to be moved
+      setSelectedBuilderIndex(index);
     }
   };
 
   const handleBuilderSlotClick = (index: number) => {
-    setSelectedBuilderIndex(index);
+    if (selectedBuilderIndex !== null) {
+      const tileToMove = stagedTiles[selectedBuilderIndex];
+      const targetTile = stagedTiles[index];
+      const newStagedTiles = { ...stagedTiles };
+
+      if (tileToMove) {
+        if (targetTile) {
+          // Swap tiles
+          newStagedTiles[index] = tileToMove;
+          newStagedTiles[selectedBuilderIndex] = targetTile;
+        } else {
+          // Move tile to empty slot
+          delete newStagedTiles[selectedBuilderIndex];
+          newStagedTiles[index] = tileToMove;
+        }
+        setStagedTiles(newStagedTiles);
+      }
+      setSelectedBuilderIndex(null); // Deselect after move/swap
+    } else {
+      // Select an empty slot as the target for a rack tile
+      setSelectedBuilderIndex(index);
+    }
   };
 
   const handleBlankTileSelect = (letter: string) => {
@@ -693,6 +709,12 @@ export default function GameClient({
       delete newStagedTiles[stagedTileToReassign];
       setStagedTiles(newStagedTiles);
       setStagedTileToReassign(null);
+    }
+    if (selectedBuilderIndex !== null) {
+      const newStagedTiles = { ...stagedTiles };
+      delete newStagedTiles[selectedBuilderIndex];
+      setStagedTiles(newStagedTiles);
+      setSelectedBuilderIndex(null);
     }
   };
 
@@ -1507,13 +1529,12 @@ export default function GameClient({
           if (!isOpen) {
             setBlankTileToStage(null);
             setStagedTileToReassign(null);
-            setSelectedBuilderIndex(null);
           }
           setIsBlankTileDialogOpen(isOpen);
         }}
         onSelect={handleBlankTileSelect}
         onReturnToRack={handleReturnTileToRack}
-        showReturnToRack={stagedTileToReassign !== null}
+        showReturnToRack={stagedTileToReassign !== null || selectedBuilderIndex !== null && !!stagedTiles[selectedBuilderIndex]}
       />
       {historyDialog}
     </div>
