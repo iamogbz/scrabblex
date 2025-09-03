@@ -96,6 +96,9 @@ export default function GameClient({
   const [selectedBuilderIndex, setSelectedBuilderIndex] = useState<
     number | null
   >(null);
+  const [selectedRackTileIndex, setSelectedRackTileIndex] = useState<
+    number | null
+  >(null);
   const [selectedBoardPos, setSelectedBoardPos] = useState<{
     x: number;
     y: number;
@@ -194,6 +197,7 @@ export default function GameClient({
     setSelectedBoardPos(null);
     setPlayDirection(null);
     setSelectedBuilderIndex(null);
+    setSelectedRackTileIndex(null);
   }, []);
 
   const handleLeaveGame = useCallback(() => {
@@ -609,36 +613,37 @@ export default function GameClient({
   };
 
   const handleSquareClick = (x: number, y: number) => {
-    if (selectedBoardPos?.x === x && selectedBoardPos?.y === y) {
-      setPlayDirection((prev) =>
-        prev === "horizontal" ? "vertical" : "horizontal"
-      );
-    } else {
-      setSelectedBoardPos({ x, y });
-      setPlayDirection("horizontal");
-    }
+    setSelectedBoardPos((prevPos) => {
+      if (prevPos?.x === x && prevPos?.y === y) {
+        setPlayDirection((prevDir) =>
+          prevDir === "horizontal" ? "vertical" : "horizontal"
+        );
+        return prevPos;
+      } else {
+        setPlayDirection("horizontal");
+        return { x, y };
+      }
+    });
   };
 
-  const handleRackTileClick = (tile: Tile) => {
-    if (selectedBuilderIndex === null) {
-      toast({
-        title: "Select a slot",
-        description: "Click an empty slot in the word planner first.",
-        variant: "destructive",
-      });
-      return;
+  const handleRackTileClick = (tile: Tile, index: number) => {
+    if (selectedBuilderIndex !== null) {
+      // If a builder slot is selected, place this tile there
+      if (tile.letter === " ") {
+        setBlankTileToStage(tile);
+        setIsBlankTileDialogOpen(true);
+        // selectedBuilderIndex is already set, so the dialog will use it
+      } else {
+        const newStagedTiles = { ...stagedTiles };
+        newStagedTiles[selectedBuilderIndex] = { ...tile, x: -1, y: -1 };
+        setStagedTiles(newStagedTiles);
+      }
+      setSelectedBuilderIndex(null);
+      setSelectedRackTileIndex(null);
+    } else {
+      // Otherwise, just select this rack tile
+      setSelectedRackTileIndex(index === selectedRackTileIndex ? null : index);
     }
-
-    if (tile.letter === " ") {
-      setBlankTileToStage(tile);
-      setIsBlankTileDialogOpen(true);
-      return;
-    }
-
-    const newStagedTiles = { ...stagedTiles };
-    newStagedTiles[selectedBuilderIndex] = { ...tile, x: -1, y: -1 };
-    setStagedTiles(newStagedTiles);
-    setSelectedBuilderIndex(null);
   };
 
   const handleStagedTileClick = (index: number) => {
@@ -648,14 +653,31 @@ export default function GameClient({
     } else {
       // Select the tile to be moved
       setSelectedBuilderIndex(index);
+      setSelectedRackTileIndex(null); // Deselect any rack tile
     }
   };
 
   const handleBuilderSlotClick = (index: number) => {
-    if (selectedBuilderIndex !== null) {
+    const newStagedTiles = { ...stagedTiles };
+
+    if (selectedRackTileIndex !== null && authenticatedPlayer) {
+      // A tile from the rack is selected, place it here
+      const tileToPlace = rackTiles[selectedRackTileIndex];
+      if (tileToPlace) {
+        if (tileToPlace.letter === " ") {
+          setBlankTileToStage(tileToPlace);
+          setSelectedBuilderIndex(index); // Set target for blank tile
+          setIsBlankTileDialogOpen(true);
+        } else {
+          newStagedTiles[index] = { ...tileToPlace, x: -1, y: -1 };
+          setStagedTiles(newStagedTiles);
+        }
+      }
+      setSelectedRackTileIndex(null);
+    } else if (selectedBuilderIndex !== null) {
+      // A tile from the builder is selected, move or swap it
       const tileToMove = stagedTiles[selectedBuilderIndex];
       const targetTile = stagedTiles[index];
-      const newStagedTiles = { ...stagedTiles };
 
       if (tileToMove) {
         if (targetTile) {
@@ -671,7 +693,7 @@ export default function GameClient({
       }
       setSelectedBuilderIndex(null); // Deselect after move/swap
     } else {
-      // Select an empty slot as the target for a rack tile
+      // No tile is selected, so select this empty slot as the target
       setSelectedBuilderIndex(index);
     }
   };
@@ -1236,6 +1258,7 @@ export default function GameClient({
                   onTileSelect={handleRackTileClick}
                   isMyTurn={false}
                   playerColor={playerColor}
+                  selectedRackTileIndex={selectedRackTileIndex}
                 />
               )}
             </div>
@@ -1266,6 +1289,7 @@ export default function GameClient({
                 onTileSelect={handleRackTileClick}
                 isMyTurn={isMyTurn}
                 playerColor={playerColor}
+                selectedRackTileIndex={selectedRackTileIndex}
               />
               {gameState && (
                 <WordBuilder
