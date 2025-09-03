@@ -70,6 +70,7 @@ import { ReportBugDialog } from "./ui/report-bug-dialog";
 import { createInitialBoard } from "@/lib/game-data";
 import { HistoryDialog } from "./history-dialog";
 import { updateGame } from "@/lib/game-service";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 
 const MAX_PLAYER_COUNT = 4;
 
@@ -90,9 +91,10 @@ export default function GameClient({
   const [showCode, setShowCode] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const [stagedTiles, setStagedTiles] = useState<Record<number, PlacedTile>>(
-    {}
-  );
+  const [stagedTiles, setStagedTiles] = useLocalStorage<
+    Record<number, PlacedTile>
+  >(`scrabblex_staged_tiles_${gameId}`, {});
+
   const [selectedBuilderIndex, setSelectedBuilderIndex] = useState<
     number | null
   >(null);
@@ -198,7 +200,7 @@ export default function GameClient({
     setPlayDirection(null);
     setSelectedBuilderIndex(null);
     setSelectedRackTileIndex(null);
-  }, []);
+  }, [setStagedTiles]);
 
   const handleLeaveGame = useCallback(() => {
     resetTurn();
