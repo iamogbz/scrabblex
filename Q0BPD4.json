@@ -5,22 +5,14 @@
       "id": "p_1756862491863_4je0lj1",
       "name": "E",
       "code": "e",
-      "score": 193,
+      "score": 205,
       "rack": [
         {
-          "letter": "U",
-          "points": 1
-        },
-        {
           "letter": "I",
           "points": 1
         },
         {
           "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "A",
           "points": 1
         },
         {
@@ -29,6 +21,14 @@
         },
         {
           "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "S",
           "points": 1
         },
         {
@@ -41,7 +41,7 @@
       "id": "p_1756862496815_gla4uly",
       "name": "R",
       "code": "r",
-      "score": 216,
+      "score": 266,
       "rack": [
         {
           "letter": "L",
@@ -50,14 +50,6 @@
         {
           "letter": "W",
           "points": 4
-        },
-        {
-          "letter": "Z",
-          "points": 10
-        },
-        {
-          "letter": "P",
-          "points": 3
         },
         {
           "letter": "B",
@@ -70,36 +62,20 @@
         {
           "letter": "O",
           "points": 1
+        },
+        {
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "F",
+          "points": 4
         }
       ],
       "isComputer": true
     }
   ],
   "tileBag": [
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "S",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
     {
       "letter": "R",
       "points": 1
@@ -1745,7 +1721,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "P",
+          "points": 3,
+          "x": 11,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1753,7 +1734,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 11,
+          "y": 3
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -1897,7 +1883,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 12,
+          "y": 2
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -1905,7 +1896,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "U",
+          "points": 1,
+          "x": 12,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2044,7 +2040,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Z",
+          "points": 10,
+          "x": 13,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2052,7 +2053,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 13,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2834,6 +2840,60 @@
       ],
       "score": 25,
       "timestamp": "2025-09-03T02:31:00.002Z"
+    },
+    {
+      "playerId": "p_1756862491863_4je0lj1",
+      "playerName": "E",
+      "word": "AUE",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 11,
+          "y": 3
+        },
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 12,
+          "y": 3
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 13,
+          "y": 3
+        }
+      ],
+      "score": 12,
+      "timestamp": "2025-09-03T02:34:22.885Z"
+    },
+    {
+      "playerId": "p_1756862496815_gla4uly",
+      "playerName": "R",
+      "word": "POZ",
+      "tiles": [
+        {
+          "letter": "P",
+          "points": 3,
+          "x": 11,
+          "y": 2
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 12,
+          "y": 2
+        },
+        {
+          "letter": "Z",
+          "points": 10,
+          "x": 13,
+          "y": 2
+        }
+      ],
+      "score": 50,
+      "timestamp": "2025-09-03T02:34:23.474Z"
     }
   ],
   "gamePhase": "playing"
