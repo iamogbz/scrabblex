@@ -5,7 +5,7 @@
       "id": "p_1756862491863_4je0lj1",
       "name": "E",
       "code": "e",
-      "score": 50,
+      "score": 63,
       "rack": [
         {
           "letter": "I",
@@ -16,23 +16,23 @@
           "points": 1
         },
         {
-          "letter": "C",
-          "points": 3
-        },
-        {
-          "letter": "K",
-          "points": 5
-        },
-        {
           "letter": "U",
           "points": 1
         },
         {
-          "letter": "O",
+          "letter": "E",
           "points": 1
         },
         {
           "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "Y",
+          "points": 4
+        },
+        {
+          "letter": "R",
           "points": 1
         }
       ]
@@ -41,23 +41,15 @@
       "id": "p_1756862496815_gla4uly",
       "name": "R",
       "code": "r",
-      "score": 28,
+      "score": 47,
       "rack": [
         {
           "letter": "P",
           "points": 3
         },
         {
-          "letter": "R",
-          "points": 1
-        },
-        {
           "letter": "T",
           "points": 1
-        },
-        {
-          "letter": "W",
-          "points": 4
         },
         {
           "letter": "T",
@@ -70,36 +62,20 @@
         {
           "letter": "I",
           "points": 1
+        },
+        {
+          "letter": " ",
+          "points": 0
+        },
+        {
+          "letter": "O",
+          "points": 1
         }
       ],
       "isComputer": true
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "Y",
-      "points": 4
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": " ",
-      "points": 0
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
     {
       "letter": "I",
       "points": 1
@@ -1086,7 +1062,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "C",
+          "points": 3,
+          "x": 5,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1176,7 +1157,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "W",
+          "points": 4,
+          "x": 6,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1208,7 +1194,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 6,
+          "y": 12
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1350,7 +1341,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "K",
+          "points": 5,
+          "x": 7,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1482,7 +1478,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 8,
+          "y": 12
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1719,7 +1720,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 10,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2366,6 +2372,60 @@
       ],
       "score": 28,
       "timestamp": "2025-09-03T02:18:58.256Z"
+    },
+    {
+      "playerId": "p_1756862491863_4je0lj1",
+      "playerName": "E",
+      "word": "COKES",
+      "tiles": [
+        {
+          "letter": "C",
+          "points": 3,
+          "x": 5,
+          "y": 12
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 6,
+          "y": 12
+        },
+        {
+          "letter": "K",
+          "points": 5,
+          "x": 7,
+          "y": 12
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 8,
+          "y": 12
+        }
+      ],
+      "score": 13,
+      "timestamp": "2025-09-03T02:20:27.661Z"
+    },
+    {
+      "playerId": "p_1756862496815_gla4uly",
+      "playerName": "R",
+      "word": "WAXER",
+      "tiles": [
+        {
+          "letter": "W",
+          "points": 4,
+          "x": 6,
+          "y": 8
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 10,
+          "y": 8
+        }
+      ],
+      "score": 19,
+      "timestamp": "2025-09-03T02:20:28.521Z"
     }
   ],
   "gamePhase": "playing"
