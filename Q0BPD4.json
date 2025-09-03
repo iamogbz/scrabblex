@@ -5,7 +5,7 @@
       "id": "p_1756862491863_4je0lj1",
       "name": "E",
       "code": "e",
-      "score": 63,
+      "score": 93,
       "rack": [
         {
           "letter": "I",
@@ -24,16 +24,16 @@
           "points": 1
         },
         {
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": "Y",
-          "points": 4
-        },
-        {
           "letter": "R",
           "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "M",
+          "points": 3
         }
       ]
     },
@@ -41,7 +41,7 @@
       "id": "p_1756862496815_gla4uly",
       "name": "R",
       "code": "r",
-      "score": 47,
+      "score": 57,
       "rack": [
         {
           "letter": "P",
@@ -56,19 +56,19 @@
           "points": 1
         },
         {
-          "letter": "N",
-          "points": 1
-        },
-        {
           "letter": "I",
           "points": 1
         },
         {
-          "letter": " ",
-          "points": 0
+          "letter": "A",
+          "points": 1
         },
         {
-          "letter": "O",
+          "letter": "L",
+          "points": 1
+        },
+        {
+          "letter": "T",
           "points": 1
         }
       ],
@@ -76,26 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "M",
-      "points": 3
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
     {
       "letter": "A",
       "points": 1
@@ -1186,7 +1166,13 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Z",
+          "points": 0,
+          "x": 6,
+          "y": 11,
+          "originalLetter": " "
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1207,7 +1193,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 6,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1215,7 +1206,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 6,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1354,7 +1350,12 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1362,7 +1363,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Y",
+          "points": 4,
+          "x": 7,
+          "y": 14
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -2426,6 +2432,55 @@
       ],
       "score": 19,
       "timestamp": "2025-09-03T02:20:28.521Z"
+    },
+    {
+      "playerId": "p_1756862491863_4je0lj1",
+      "playerName": "E",
+      "word": "KEY",
+      "tiles": [
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 13
+        },
+        {
+          "letter": "Y",
+          "points": 4,
+          "x": 7,
+          "y": 14
+        }
+      ],
+      "score": 30,
+      "timestamp": "2025-09-03T02:20:42.216Z"
+    },
+    {
+      "playerId": "p_1756862496815_gla4uly",
+      "playerName": "R",
+      "word": "ZOON",
+      "tiles": [
+        {
+          "letter": "Z",
+          "points": 0,
+          "x": 6,
+          "y": 11,
+          "originalLetter": " "
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 6,
+          "y": 13
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 6,
+          "y": 14
+        }
+      ],
+      "score": 10,
+      "timestamp": "2025-09-03T02:20:54.774Z"
     }
   ],
   "gamePhase": "playing"
