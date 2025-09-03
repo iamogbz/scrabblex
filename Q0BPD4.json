@@ -5,19 +5,14 @@
       "id": "p_1756862491863_4je0lj1",
       "name": "E",
       "code": "e",
-      "score": 334,
-      "rack": [
-        {
-          "letter": "N",
-          "points": 1
-        }
-      ]
+      "score": 342,
+      "rack": []
     },
     {
       "id": "p_1756862496815_gla4uly",
       "name": "R",
       "code": "r",
-      "score": 381,
+      "score": 379,
       "rack": [
         {
           "letter": "T",
@@ -419,7 +414,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 3,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3259,7 +3259,23 @@
       ],
       "score": 11,
       "timestamp": "2025-09-03T02:56:18.009Z"
+    },
+    {
+      "playerId": "p_1756862491863_4je0lj1",
+      "playerName": "E",
+      "word": "NOR",
+      "tiles": [
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 3,
+          "y": 1
+        }
+      ],
+      "score": 6,
+      "timestamp": "2025-09-03T02:57:02.934Z"
     }
   ],
-  "gamePhase": "playing"
+  "gamePhase": "ended",
+  "endStatus": "R wins!"
 }
