@@ -24,7 +24,7 @@ function contrastColor(hex: string) {
 interface TileProps {
   tile: Tile;
   isDraggable?: boolean;
-  onSelect?: () => void;
+  onSelect?: (e: React.MouseEvent) => void;
   isSelected?: boolean;
   isTemp?: boolean;
   playerColor?: string;

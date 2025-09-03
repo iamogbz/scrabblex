@@ -11,7 +11,8 @@ import { Hand } from "lucide-react";
 
 interface PlayerRackProps {
   rack: Tile[];
-  onTileSelect: (tile: Tile, index: number) => void;
+  onTileClick: (tile: Tile, index: number) => void;
+  onRackClick: () => void;
   isMyTurn: boolean;
   selectedRackTileIndex: number | null;
   playerColor?: string;
@@ -19,13 +20,17 @@ interface PlayerRackProps {
 
 export default function PlayerRack({
   rack,
-  onTileSelect,
+  onTileClick,
+  onRackClick,
   isMyTurn,
   selectedRackTileIndex,
   playerColor,
 }: PlayerRackProps) {
   return (
-    <Card className="shadow-lg transition-all duration-300">
+    <Card
+      className="shadow-lg transition-all duration-300"
+      onClick={onRackClick}
+    >
       <CardHeader className={!isMyTurn ? "opacity-60" : ""}>
         <CardTitle className="flex items-center gap-2">
           <Hand className="h-5 w-5" />
@@ -43,7 +48,10 @@ export default function PlayerRack({
             <SingleTile
               key={index}
               tile={tile}
-              onSelect={() => onTileSelect(tile, index)}
+              onSelect={(e) => {
+                e.stopPropagation(); // Prevent onRackClick from firing
+                onTileClick(tile, index);
+              }}
               isDraggable={isMyTurn}
               isSelected={selectedRackTileIndex === index}
               playerColor={playerColor}

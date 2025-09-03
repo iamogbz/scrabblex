@@ -626,13 +626,22 @@ export default function GameClient({
     });
   };
 
+  const handleRackClick = () => {
+    if (selectedBuilderIndex !== null) {
+      // A tile in the builder is selected, return it to the rack
+      const newStagedTiles = { ...stagedTiles };
+      delete newStagedTiles[selectedBuilderIndex];
+      setStagedTiles(newStagedTiles);
+      setSelectedBuilderIndex(null);
+    }
+  };
+
   const handleRackTileClick = (tile: Tile, index: number) => {
     if (selectedBuilderIndex !== null) {
-      // If a builder slot is selected, place this tile there
+      // A builder slot is selected, place this tile there
       if (tile.letter === " ") {
         setBlankTileToStage(tile);
         setIsBlankTileDialogOpen(true);
-        // selectedBuilderIndex is already set, so the dialog will use it
       } else {
         const newStagedTiles = { ...stagedTiles };
         newStagedTiles[selectedBuilderIndex] = { ...tile, x: -1, y: -1 };
@@ -641,7 +650,7 @@ export default function GameClient({
       setSelectedBuilderIndex(null);
       setSelectedRackTileIndex(null);
     } else {
-      // Otherwise, just select this rack tile
+      // Otherwise, just select/deselect this rack tile
       setSelectedRackTileIndex(index === selectedRackTileIndex ? null : index);
     }
   };
@@ -1255,7 +1264,8 @@ export default function GameClient({
               {authenticatedPlayer && (
                 <PlayerRack
                   rack={authenticatedPlayer.rack}
-                  onTileSelect={handleRackTileClick}
+                  onTileClick={handleRackTileClick}
+                  onRackClick={handleRackClick}
                   isMyTurn={false}
                   playerColor={playerColor}
                   selectedRackTileIndex={selectedRackTileIndex}
@@ -1286,7 +1296,8 @@ export default function GameClient({
             <div className="lg:sticky lg:top-4 space-y-4 z-10">
               <PlayerRack
                 rack={rackTiles}
-                onTileSelect={handleRackTileClick}
+                onTileClick={handleRackTileClick}
+                onRackClick={handleRackClick}
                 isMyTurn={isMyTurn}
                 playerColor={playerColor}
                 selectedRackTileIndex={selectedRackTileIndex}
