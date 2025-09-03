@@ -5,20 +5,8 @@
       "id": "p_1756773666082_akzfhxa",
       "name": "E",
       "code": "e",
-      "score": 306,
+      "score": 320,
       "rack": [
-        {
-          "letter": "W",
-          "points": 4
-        },
-        {
-          "letter": "R",
-          "points": 1
-        },
-        {
-          "letter": "Y",
-          "points": 4
-        },
         {
           "letter": "T",
           "points": 1
@@ -939,7 +927,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "W",
+          "points": 4,
+          "x": 6,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1091,7 +1084,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 7,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1233,7 +1231,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Y",
+          "points": 4,
+          "x": 8,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3282,6 +3285,42 @@
       ],
       "score": 10,
       "timestamp": "2025-09-03T00:45:56.039Z"
+    },
+    {
+      "playerId": "p_1756773666082_akzfhxa",
+      "playerName": "E",
+      "word": "WRY",
+      "tiles": [
+        {
+          "letter": "W",
+          "points": 4,
+          "x": 6,
+          "y": 1
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 7,
+          "y": 1
+        },
+        {
+          "letter": "Y",
+          "points": 4,
+          "x": 8,
+          "y": 1
+        }
+      ],
+      "score": 14,
+      "timestamp": "2025-09-03T00:46:35.325Z"
+    },
+    {
+      "playerId": "p_1756776144533_76yszei",
+      "playerName": "M",
+      "word": "[PASS]",
+      "tiles": [],
+      "score": 0,
+      "isPass": true,
+      "timestamp": "2025-09-03T00:46:35.328Z"
     }
   ],
   "gamePhase": "playing"
