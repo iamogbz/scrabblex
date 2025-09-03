@@ -5,12 +5,8 @@
       "id": "p_1756773666082_akzfhxa",
       "name": "E",
       "code": "e",
-      "score": 266,
+      "score": 286,
       "rack": [
-        {
-          "letter": "O",
-          "points": 1
-        },
         {
           "letter": "W",
           "points": 4
@@ -22,10 +18,6 @@
         {
           "letter": "R",
           "points": 1
-        },
-        {
-          "letter": "H",
-          "points": 4
         },
         {
           "letter": "Y",
@@ -41,31 +33,15 @@
       "id": "p_1756776144533_76yszei",
       "name": "M",
       "code": "m",
-      "score": 293,
+      "score": 309,
       "rack": [
-        {
-          "letter": "L",
-          "points": 1
-        },
         {
           "letter": "V",
           "points": 4
         },
         {
-          "letter": "C",
-          "points": 3
-        },
-        {
-          "letter": "O",
-          "points": 1
-        },
-        {
           "letter": "J",
           "points": 8
-        },
-        {
-          "letter": "A",
-          "points": 1
         }
       ],
       "isComputer": true
@@ -187,7 +163,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 0,
+          "y": 14
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -314,7 +295,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "H",
+          "points": 4,
+          "x": 1,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -483,7 +469,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 3,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -645,7 +636,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 4,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -792,7 +788,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "C",
+          "points": 3,
+          "x": 5,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -949,7 +950,12 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 6,
+          "y": 2
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -3189,6 +3195,60 @@
       ],
       "score": 19,
       "timestamp": "2025-09-03T00:44:18.725Z"
+    },
+    {
+      "playerId": "p_1756773666082_akzfhxa",
+      "playerName": "E",
+      "word": "OH",
+      "tiles": [
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 0,
+          "y": 14
+        },
+        {
+          "letter": "H",
+          "points": 4,
+          "x": 1,
+          "y": 14
+        }
+      ],
+      "score": 20,
+      "timestamp": "2025-09-03T00:45:51.801Z"
+    },
+    {
+      "playerId": "p_1756776144533_76yszei",
+      "playerName": "M",
+      "word": "ALCO",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 3,
+          "y": 2
+        },
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 4,
+          "y": 2
+        },
+        {
+          "letter": "C",
+          "points": 3,
+          "x": 5,
+          "y": 2
+        },
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 6,
+          "y": 2
+        }
+      ],
+      "score": 16,
+      "timestamp": "2025-09-03T00:45:52.440Z"
     }
   ],
   "gamePhase": "playing"
