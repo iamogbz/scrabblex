@@ -43,42 +43,32 @@ export default function WordBuilder({
   const [isFetchingDefinition, setIsFetchingDefinition] = useState(false);
 
   const { word, score } = useMemo(() => {
-    const stagedTilesArray = Object.values(stagedTiles);
-    if (stagedTilesArray.length === 0 || tempPlacedTiles.length === 0)
-      return { word: "", score: 0 };
+    if (tempPlacedTiles.length === 0) return { word: "", score: 0 };
     const { score: calculatedScore, words } = calculateMoveScore(
       tempPlacedTiles,
       board
     );
-    const mainWordInfo =
-      words.find((w) => w.direction === (playDirection || "horizontal")) ||
-      words[0];
+
+    if (words.length === 0) return { word: "", score: 0 };
+
+    // Try to find the main word based on the play direction
+    let mainWordInfo = words.find(w => w.direction === playDirection);
+    
+    // If no word matches the play direction (e.g. single tile play), or if all words are cross-words,
+    // find the longest word among those formed.
+    if (!mainWordInfo) {
+      mainWordInfo = words.reduce((longest, current) => current.word.length > longest.word.length ? current : longest, words[0]);
+    }
+
     return { word: mainWordInfo?.word || "", score: calculatedScore };
-  }, [stagedTiles, tempPlacedTiles, board, playDirection]);
+  }, [tempPlacedTiles, board, playDirection]);
+
 
   useEffect(() => {
-    const stagedWordLetters = [];
-    let emptySlotCounter = 0;
-    for (let i = 0; i < slots.length; i++) {
-      const slot = slots[i];
-      if (slot.tile) {
-        stagedWordLetters.push(slot.tile.letter);
-      } else {
-        const stagedTile = stagedTiles[emptySlotCounter];
-        if (stagedTile) {
-          stagedWordLetters.push(stagedTile.letter);
-        } else {
-          // It's an actual empty space in the word, represented by a placeholder
-          stagedWordLetters.push("_");
-        }
-        emptySlotCounter++;
-      }
-    }
-    const stagedWord = stagedWordLetters.join("").toUpperCase().replace(/_/g, "");
-    if (stagedWord && stagedWord.length >= 2) {
+    if (word && word.length >= 2) {
       const timer = setTimeout(() => {
         setIsFetchingDefinition(true);
-        getWordDefinition(stagedWord)
+        getWordDefinition(word)
           .then((def) => {
             setDefinition(def);
           })
@@ -91,7 +81,7 @@ export default function WordBuilder({
     } else {
       setDefinition(null);
     }
-  }, [slots, stagedTiles]);
+  }, [word]);
 
   const getMultiplierText = (square: BoardSquare) => {
     if (square.isCenter) return "★";
@@ -177,8 +167,10 @@ export default function WordBuilder({
         {Object.keys(stagedTiles).length > 0 && word.length > 0 && (
           <div className="text-center mt-4 p-2 bg-muted rounded-lg">
             <p className="font-bold text-lg tracking-widest">
-              {word || "..."} ({word.length}{" "}
-              {word.length === 1 ? "letter" : "letters"})
+              {word || "..."}{" "}
+              <span className="text-sm font-normal text-muted-foreground">
+                ({word.length} {word.length === 1 ? "letter" : "letters"})
+              </span>
             </p>
             <p className="text-sm text-muted-foreground">
               Potential Score: {score}
