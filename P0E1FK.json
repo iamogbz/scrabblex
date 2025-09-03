@@ -5,19 +5,14 @@
       "id": "p_1756773666082_akzfhxa",
       "name": "E",
       "code": "e",
-      "score": 320,
-      "rack": [
-        {
-          "letter": "T",
-          "points": 1
-        }
-      ]
+      "score": 328,
+      "rack": []
     },
     {
       "id": "p_1756776144533_76yszei",
       "name": "M",
       "code": "m",
-      "score": 319,
+      "score": 315,
       "rack": [
         {
           "letter": "V",
@@ -726,7 +721,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "T",
+          "points": 1,
+          "x": 4,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3321,7 +3321,23 @@
       "score": 0,
       "isPass": true,
       "timestamp": "2025-09-03T00:46:35.328Z"
+    },
+    {
+      "playerId": "p_1756773666082_akzfhxa",
+      "playerName": "E",
+      "word": "TI",
+      "tiles": [
+        {
+          "letter": "T",
+          "points": 1,
+          "x": 4,
+          "y": 12
+        }
+      ],
+      "score": 4,
+      "timestamp": "2025-09-03T00:47:54.376Z"
     }
   ],
-  "gamePhase": "playing"
+  "gamePhase": "ended",
+  "endStatus": "E wins!"
 }
