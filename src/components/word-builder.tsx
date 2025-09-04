@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { PlacedTile, Board, BoardSquare } from "@/types";
@@ -45,25 +46,52 @@ export default function WordBuilder({
   const [isFetchingDefinition, setIsFetchingDefinition] = useState(false);
 
   const { word, score } = useMemo(() => {
-    if (tempPlacedTiles.length === 0) return { word: "", score: 0 };
-    const { score: calculatedScore, words } = calculateMoveScore(
-      tempPlacedTiles,
-      board
-    );
-
-    if (words.length === 0) return { word: "", score: 0 };
-
-    // Try to find the main word based on the play direction
-    let mainWordInfo = words.find(w => w.direction === playDirection);
-    
-    // If no word matches the play direction (e.g. single tile play), or if all words are cross-words,
-    // find the longest word among those formed.
-    if (!mainWordInfo) {
-      mainWordInfo = words.reduce((longest, current) => current.word.length > longest.word.length ? current : longest, words[0]);
+    if (Object.keys(stagedTiles).length === 0 && tempPlacedTiles.length === 0) {
+      return { word: "", score: 0 };
     }
 
-    return { word: mainWordInfo?.word || "", score: calculatedScore };
-  }, [tempPlacedTiles, board, playDirection]);
+    const currentWordTiles: (PlacedTile | BoardSquare)[] = [];
+    let currentWord = "";
+    let emptySlotCounter = 0;
+
+    for (const slot of slots) {
+      if (slot.tile) {
+        currentWordTiles.push(slot);
+        currentWord += slot.tile.letter;
+      } else {
+        const stagedTile = stagedTiles[emptySlotCounter];
+        if (stagedTile) {
+          currentWordTiles.push(stagedTile);
+          currentWord += stagedTile.letter;
+        } else {
+          // Break on the first empty slot to only score the contiguous word
+          break;
+        }
+        emptySlotCounter++;
+      }
+    }
+    
+    if (tempPlacedTiles.length > 0) {
+      const { score: calculatedScore, words } = calculateMoveScore(
+        tempPlacedTiles,
+        board
+      );
+
+      if (words.length > 0) {
+        // Try to find the main word based on the play direction
+        let mainWordInfo = words.find(w => w.direction === playDirection);
+        // If no word matches the play direction (e.g. single tile play), find the longest word.
+        if (!mainWordInfo) {
+          mainWordInfo = words.reduce((longest, current) => current.word.length > longest.word.length ? current : longest, words[0]);
+        }
+         return { word: mainWordInfo?.word || "", score: calculatedScore };
+      }
+    }
+
+    // Fallback to a simple concatenation if no valid placement yet.
+    // This allows definition lookup while planning.
+    return { word: currentWord, score: 0 };
+  }, [stagedTiles, slots, tempPlacedTiles, board, playDirection]);
 
 
   useEffect(() => {
@@ -96,11 +124,10 @@ export default function WordBuilder({
     if (isFetchingDefinition) {
       return "Looking up word...";
     }
-    if (definition && definition === UNDEFINED_WORD_VALID) {
-      return definition;
-    }
-    if (definition && ![INVALID_WORD_ERROR, NO_API_KEY_ERROR].includes(definition)) {
-      return definition;
+    if (definition) {
+       if (definition === UNDEFINED_WORD_VALID || ![INVALID_WORD_ERROR, NO_API_KEY_ERROR].includes(definition)) {
+          return definition;
+       }
     }
     if (selectedBuilderIndex !== null && stagedTiles[selectedBuilderIndex]) {
        return "Click an empty slot to move, or another tile to swap.";
