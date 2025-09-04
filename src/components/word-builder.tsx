@@ -146,6 +146,7 @@ export default function WordBuilder({
       if (slot.tile) {
         rendered.push(
           <div key={`board-${i}`} className="aspect-square">
+            {/* These are fixed tiles and should not have the player color applied */}
             <SingleTile tile={slot.tile} isDraggable={false} />
           </div>
         );
@@ -170,6 +171,7 @@ export default function WordBuilder({
                 isDraggable={true}
                 isTemp={true}
                 isSelected={selectedBuilderIndex === currentIndex}
+                playerColor={playerColor}
               />
             </div>
           );

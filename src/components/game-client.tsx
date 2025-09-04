@@ -1562,7 +1562,7 @@ export default function GameClient({
                 className="flex items-center gap-2"
               >
                 <div className="w-10 h-10 flex-shrink-0">
-                  <SingleTile tile={tile} isDraggable={false} />
+                  <SingleTile tile={tile} isDraggable={false} playerColor={playerColor}/>
                 </div>
                 <span className="font-bold text-lg">x {count}</span>
               </div>

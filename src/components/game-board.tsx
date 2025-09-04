@@ -11,6 +11,7 @@ interface GameBoardProps {
   onSquareClick: (x: number, y: number) => void;
   selectedBoardPos: { x: number; y: number } | null;
   playDirection: "horizontal" | "vertical" | null;
+  playerColor?: string,
 }
 
 export default function GameBoard({
@@ -19,11 +20,12 @@ export default function GameBoard({
   onSquareClick,
   selectedBoardPos,
   playDirection,
+  playerColor,
 }: GameBoardProps) {
   const getSquareContent = (square: BoardSquare, x: number, y: number) => {
     const tempTile = tempPlacedTiles.find((t) => t.x === x && t.y === y);
     if (tempTile) {
-      return <SingleTile tile={tempTile} isDraggable={false} isTemp={true} />;
+      return <SingleTile tile={tempTile} isDraggable={false} isTemp={true} playerColor={playerColor} />;
     }
     if (square.tile) {
       return <SingleTile tile={square.tile} isDraggable={false} />;

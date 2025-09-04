@@ -8,6 +8,7 @@ interface TileProps {
   onSelect?: (e: React.MouseEvent) => void;
   isSelected?: boolean;
   isTemp?: boolean;
+  playerColor?: string;
 }
 
 export default function SingleTile({
@@ -16,6 +17,7 @@ export default function SingleTile({
   onSelect,
   isSelected,
   isTemp = false,
+  playerColor,
 }: TileProps) {
   const isBlank = tile.letter === " ";
 
@@ -34,6 +36,7 @@ export default function SingleTile({
       style={{
         borderWidth: "0.3vmin",
         containerType: "size",
+        backgroundColor: playerColor,
       }}
     >
       <span

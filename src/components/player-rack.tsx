@@ -75,6 +75,7 @@ export default function PlayerRack({
                 }}
                 isDraggable={isMyTurn}
                 isSelected={selectedRackTileIndex === originalIndex}
+                playerColor={playerColor}
               />
             );
           })}

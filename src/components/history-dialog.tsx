@@ -13,6 +13,7 @@ import type { PlayedWord, Player } from "@/types";
 import SingleTile from "./tile";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatDistanceToNow } from "date-fns";
+import { PLAYER_COLORS } from "@/lib/constants";
 
 interface HistoryDialogProps {
   isOpen: boolean;
@@ -76,10 +77,12 @@ export function HistoryDialog({
                 .slice()
                 .reverse()
                 .map((move, index) => {
-                  const playerName = players.find(
+                  const playerIndex = players.findIndex(
                     (player) => player.id === move.playerId
-                  )?.name;
+                  );
+                  const playerName = playerIndex && players[playerIndex].name;
                   move.playerName = playerName || "Unknown";
+                  const playerColor = playerIndex ? PLAYER_COLORS[playerIndex % PLAYER_COLORS.length] : undefined;
                   return (
                     <div
                       key={`${move.timestamp}-${index}`}
@@ -104,7 +107,7 @@ export function HistoryDialog({
                           <div className="flex gap-1 mt-2">
                             {move.tiles.map((tile, i) => (
                               <div key={i} className="w-8 h-8">
-                                <SingleTile tile={tile} isDraggable={false} />
+                                <SingleTile tile={tile} isDraggable={false} playerColor={playerColor} />
                               </div>
                             ))}
                           </div>
