@@ -714,7 +714,7 @@ export default function GameClient({
 
     if (selectedRackTileIndex !== null && authenticatedPlayer) {
       // A tile from the rack is selected, place it here
-      const tileToPlace = rackTiles[selectedRackTileIndex];
+      const tileToPlace = authenticatedPlayer.rack[selectedRackTileIndex];
       if (tileToPlace) {
         if (tileToPlace.letter === " ") {
           setBlankTileToStage(tileToPlace);
@@ -1314,6 +1314,7 @@ export default function GameClient({
               {authenticatedPlayer && (
                 <PlayerRack
                   rack={authenticatedPlayer.rack}
+                  originalRack={authenticatedPlayer.rack}
                   onTileClick={handleRackTileClick}
                   onRackClick={handleRackClick}
                   isMyTurn={false}
@@ -1346,6 +1347,7 @@ export default function GameClient({
             <div className="lg:sticky lg:top-4 space-y-4 z-10">
               <PlayerRack
                 rack={rackTiles}
+                originalRack={authenticatedPlayer.rack}
                 onTileClick={handleRackTileClick}
                 onRackClick={handleRackClick}
                 isMyTurn={isMyTurn}

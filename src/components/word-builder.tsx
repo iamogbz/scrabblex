@@ -170,7 +170,6 @@ export default function WordBuilder({
                 isDraggable={true}
                 isTemp={true}
                 isSelected={selectedBuilderIndex === currentIndex}
-                playerColor={playerColor}
               />
             </div>
           );

@@ -11,8 +11,9 @@ import SingleTile from "./tile";
 import { Hand } from "lucide-react";
 
 interface PlayerRackProps {
-  rack: Tile[];
-  onTileClick: (tile: Tile, index: number) => void;
+  rack: Tile[]; // This should be the filtered list of available (un-staged) tiles
+  originalRack: Tile[]; // This is the full, original rack of the player
+  onTileClick: (tile: Tile, originalIndex: number) => void;
   onRackClick: () => void;
   isMyTurn: boolean;
   selectedRackTileIndex: number | null;
@@ -21,12 +22,18 @@ interface PlayerRackProps {
 
 export default function PlayerRack({
   rack,
+  originalRack,
   onTileClick,
   onRackClick,
   isMyTurn,
   selectedRackTileIndex,
   playerColor,
 }: PlayerRackProps) {
+  // Create a copy of the original rack to safely find and "remove" tiles
+  // as we match them to the display rack. This prevents re-selecting the same
+  // tile if there are duplicates (e.g. two 'A' tiles).
+  const originalRackCopy = [...originalRack];
+
   return (
     <Card
       className="shadow-lg transition-all duration-300"
@@ -45,19 +52,32 @@ export default function PlayerRack({
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-7 gap-1 md:gap-2">
-          {rack.map((tile, index) => (
-            <SingleTile
-              key={index}
-              tile={tile}
-              onSelect={(e) => {
-                e.stopPropagation(); // Prevent onRackClick from firing
-                onTileClick(tile, index);
-              }}
-              isDraggable={isMyTurn}
-              isSelected={selectedRackTileIndex === index}
-              playerColor={playerColor}
-            />
-          ))}
+          {rack.map((tile, displayIndex) => {
+            // Find the index of this tile instance in our mutable copy of the original rack.
+            const originalIndex = originalRackCopy.findIndex(
+              (t) =>
+                t && t.letter === tile.letter && t.points === tile.points
+            );
+            
+            if (originalIndex !== -1) {
+              // "Remove" the found tile from the copy so it's not found again.
+              originalRackCopy.splice(originalIndex, 1, null as any);
+            }
+
+            return (
+              <SingleTile
+                key={`${tile.letter}-${displayIndex}`}
+                tile={tile}
+                onSelect={(e) => {
+                  e.stopPropagation(); // Prevent onRackClick from firing
+                  // We must use the original index from the full rack for the click handler.
+                  onTileClick(tile, originalIndex);
+                }}
+                isDraggable={isMyTurn}
+                isSelected={selectedRackTileIndex === originalIndex}
+              />
+            );
+          })}
           {Array.from({ length: 7 - rack.length }).map((_, index) => (
             <div
               key={`empty-${index}`}
