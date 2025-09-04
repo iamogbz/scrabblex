@@ -71,7 +71,8 @@
           "points": 1
         }
       ],
-      "code": "r"
+      "code": "r",
+      "isComputer": true
     }
   ],
   "tileBag": [
