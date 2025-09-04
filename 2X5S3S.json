@@ -5,22 +5,10 @@
       "id": "p_1756918786134_h3a45jf",
       "name": "E",
       "code": "e",
-      "score": 0,
+      "score": 30,
       "rack": [
         {
-          "letter": "W",
-          "points": 4
-        },
-        {
-          "letter": "R",
-          "points": 1
-        },
-        {
           "letter": "L",
-          "points": 1
-        },
-        {
-          "letter": "E",
           "points": 1
         },
         {
@@ -28,12 +16,24 @@
           "points": 1
         },
         {
-          "letter": "A",
+          "letter": "E",
           "points": 1
         },
         {
-          "letter": "V",
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "H",
           "points": 4
+        },
+        {
+          "letter": "P",
+          "points": 3
+        },
+        {
+          "letter": "A",
+          "points": 1
         }
       ]
     },
@@ -111,26 +111,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "H",
-      "points": 4
-    },
-    {
-      "letter": "P",
-      "points": 3
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
     {
       "letter": "A",
       "points": 1
@@ -1309,7 +1289,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "W",
+          "points": 4,
+          "x": 7,
+          "y": 3
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1317,7 +1302,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 7,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1325,7 +1315,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "V",
+          "points": 4,
+          "x": 7,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1333,7 +1328,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1341,7 +1341,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 7,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": true,
@@ -2260,6 +2265,46 @@
       }
     ]
   ],
-  "history": [],
+  "history": [
+    {
+      "playerId": "p_1756918786134_h3a45jf",
+      "playerName": "E",
+      "word": "WAVER",
+      "tiles": [
+        {
+          "letter": "W",
+          "points": 4,
+          "x": 7,
+          "y": 3
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 7,
+          "y": 4
+        },
+        {
+          "letter": "V",
+          "points": 4,
+          "x": 7,
+          "y": 5
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 6
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 7,
+          "y": 7
+        }
+      ],
+      "score": 30,
+      "timestamp": "2025-09-04T09:08:30.809Z"
+    }
+  ],
   "gamePhase": "playing"
 }
