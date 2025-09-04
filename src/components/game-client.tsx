@@ -728,8 +728,8 @@ export default function GameClient({
       setSelectedRackTileIndex(null);
     } else if (selectedBuilderIndex !== null) {
       // A tile from the builder is selected, move or swap it
-      const tileToMove = stagedTiles[selectedBuilderIndex];
-      const targetTile = stagedTiles[index];
+      const tileToMove = newStagedTiles[selectedBuilderIndex];
+      const targetTile = newStagedTiles[index];
 
       if (tileToMove) {
         if (targetTile) {
@@ -741,14 +741,7 @@ export default function GameClient({
           delete newStagedTiles[selectedBuilderIndex];
           newStagedTiles[index] = tileToMove;
         }
-         // After a move/swap, re-key the tiles to ensure they are contiguous
-        const remainingTiles = Object.values(newStagedTiles);
-        const rekeyedTiles: Record<number, PlacedTile> = {};
-        remainingTiles.forEach((tile, idx) => {
-            rekeyedTiles[idx] = tile;
-        });
-
-        setStagedTiles(rekeyedTiles);
+        setStagedTiles(newStagedTiles);
       }
       setSelectedBuilderIndex(null); // Deselect after move/swap
     } else {
@@ -1363,8 +1356,8 @@ export default function GameClient({
                   selectedBuilderIndex={selectedBuilderIndex}
                   board={gameState.board}
                   tempPlacedTiles={tempPlacedTiles}
-                  playerColor={playerColor}
                   playDirection={playDirection}
+                  playerColor={playerColor}
                   onBlankTileReassign={(index: number) => {
                     setStagedTileToReassign(index);
                     setIsBlankTileDialogOpen(true);

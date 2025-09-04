@@ -28,7 +28,7 @@ export default function SingleTile({
         "bg-[#FBF8E8] border border-[#D5CFAF] text-[#5A4B40]",
         isDraggable &&
           "cursor-pointer transition-transform duration-150 ease-in-out hover:scale-105 hover:-translate-y-1",
-        isSelected && "ring-2 ring-accent ring-offset-2 scale-105",
+        isSelected && "ring-2 ring-accent ring-offset-2 scale-105 z-10",
         isTemp && "ring-green-500"
       )}
       style={{
