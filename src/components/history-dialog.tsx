@@ -80,8 +80,7 @@ export function HistoryDialog({
                   const playerIndex = players.findIndex(
                     (player) => player.id === move.playerId
                   );
-                  const playerName = playerIndex && players[playerIndex].name;
-                  move.playerName = playerName || "Unknown";
+                  move.playerName = playerIndex == undefined ? "Unknown" : players[playerIndex].name;
                   const playerColor = playerIndex ? PLAYER_COLORS[playerIndex % PLAYER_COLORS.length] : undefined;
                   return (
                     <div

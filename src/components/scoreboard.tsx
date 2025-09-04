@@ -28,7 +28,7 @@ export default function Scoreboard({
   if (!players?.length) return null;
 
   return (
-    <Card className="max-w-md w-full">
+    <Card className="w-full">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="flex items-center gap-2">
           <Award className="h-5 w-5" />
