@@ -313,6 +313,34 @@ export default function GameClient({
     );
   }, [gameState, authenticatedPlayerId]);
 
+  useEffect(() => {
+    if (authenticatedPlayer && Object.keys(stagedTiles).length > 0) {
+      const rackLetters = [...authenticatedPlayer.rack];
+      const validStagedTiles: Record<number, PlacedTile> = {};
+      let somethingChanged = false;
+
+      Object.entries(stagedTiles).forEach(([key, stagedTile]) => {
+        const letterToCheck = stagedTile.originalLetter ?? stagedTile.letter;
+        const indexInRack = rackLetters.findIndex(
+          (t) => t.letter === letterToCheck
+        );
+
+        if (indexInRack !== -1) {
+          validStagedTiles[parseInt(key)] = stagedTile;
+          // Remove the tile from the available rack letters to handle duplicates
+          rackLetters.splice(indexInRack, 1);
+        } else {
+          somethingChanged = true;
+        }
+      });
+
+      if (somethingChanged) {
+        setStagedTiles(validStagedTiles);
+      }
+    }
+  }, [authenticatedPlayer, stagedTiles, setStagedTiles]);
+
+
   const existingPlayer = useMemo(() => {
     if (!gameState || !newPlayerName) return null;
     return gameState.players.find(
