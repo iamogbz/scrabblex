@@ -646,14 +646,7 @@ export default function GameClient({
       // A tile in the builder is selected, return it to the rack
       const newStagedTiles = { ...stagedTiles };
       delete newStagedTiles[selectedBuilderIndex];
-      // Important: re-key the remaining tiles to fill the gap
-      const remainingTiles = Object.values(newStagedTiles);
-      const rekeyedTiles: Record<number, PlacedTile> = {};
-      remainingTiles.forEach((tile, index) => {
-        rekeyedTiles[index] = tile;
-      });
-
-      setStagedTiles(rekeyedTiles);
+      setStagedTiles(newStagedTiles);
       setSelectedBuilderIndex(null);
     }
   };
