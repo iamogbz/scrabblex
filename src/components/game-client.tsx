@@ -670,10 +670,12 @@ export default function GameClient({
   };
 
   const handleRackClick = () => {
+    // If a builder tile is selected, clicking the rack should return it.
     if (selectedBuilderIndex !== null) {
-      // A tile in the builder is selected, return it to the rack
       const newStagedTiles = { ...stagedTiles };
       delete newStagedTiles[selectedBuilderIndex];
+      // Note: We are not re-keying/re-numbering the staged tiles.
+      // This preserves spaces between them.
       setStagedTiles(newStagedTiles);
       setSelectedBuilderIndex(null);
     }
@@ -699,6 +701,18 @@ export default function GameClient({
   };
 
   const handleStagedTileClick = (index: number) => {
+    if (selectedRackTileIndex !== null && authenticatedPlayer) {
+      // A rack tile is selected, perform a swap with the builder tile
+      const rackTileToPlace = authenticatedPlayer.rack[selectedRackTileIndex];
+      if (rackTileToPlace) {
+        const newStagedTiles = { ...stagedTiles };
+        newStagedTiles[index] = { ...rackTileToPlace, x: -1, y: -1 };
+        setStagedTiles(newStagedTiles);
+      }
+      setSelectedRackTileIndex(null); // Deselect rack tile after swap
+      return; // End the function here
+    }
+
     if (stagedTiles[index]?.originalLetter === " ") {
       setStagedTileToReassign(index);
       setIsBlankTileDialogOpen(true);
@@ -709,20 +723,20 @@ export default function GameClient({
       // Deselect if clicking the same selected tile
       setSelectedBuilderIndex(null);
     } else if (selectedBuilderIndex !== null) {
-        // Another staged tile is already selected, so swap them
-        const newStagedTiles = { ...stagedTiles };
-        const tileToMove = stagedTiles[selectedBuilderIndex];
-        const targetTile = stagedTiles[index];
-        if (tileToMove) {
-             newStagedTiles[index] = tileToMove;
-             if(targetTile) {
-                newStagedTiles[selectedBuilderIndex] = targetTile;
-             } else {
-                delete newStagedTiles[selectedBuilderIndex];
-             }
+      // Another staged tile is already selected, so swap them
+      const newStagedTiles = { ...stagedTiles };
+      const tileToMove = stagedTiles[selectedBuilderIndex];
+      const targetTile = stagedTiles[index];
+      if (tileToMove) {
+        newStagedTiles[index] = tileToMove;
+        if (targetTile) {
+          newStagedTiles[selectedBuilderIndex] = targetTile;
+        } else {
+          delete newStagedTiles[selectedBuilderIndex];
         }
-        setStagedTiles(newStagedTiles);
-        setSelectedBuilderIndex(null);
+      }
+      setStagedTiles(newStagedTiles);
+      setSelectedBuilderIndex(null);
     } else {
       // Select the tile to be moved
       setSelectedBuilderIndex(index);
@@ -748,23 +762,14 @@ export default function GameClient({
       }
       setSelectedRackTileIndex(null);
     } else if (selectedBuilderIndex !== null) {
-      // A tile from the builder is selected, move or swap it
+      // A tile from the builder is selected, move it to this empty slot
       const tileToMove = newStagedTiles[selectedBuilderIndex];
-      const targetTile = newStagedTiles[index];
-
       if (tileToMove) {
-        if (targetTile) {
-          // Swap tiles
-          newStagedTiles[index] = tileToMove;
-          newStagedTiles[selectedBuilderIndex] = targetTile;
-        } else {
-          // Move tile to empty slot
-          delete newStagedTiles[selectedBuilderIndex];
-          newStagedTiles[index] = tileToMove;
-        }
+        delete newStagedTiles[selectedBuilderIndex]; // Remove from old position
+        newStagedTiles[index] = tileToMove; // Add to new position
         setStagedTiles(newStagedTiles);
       }
-      setSelectedBuilderIndex(null); // Deselect after move/swap
+      setSelectedBuilderIndex(null); // Deselect after move
     } else {
       // No tile is selected, so select this empty slot as the target
       setSelectedBuilderIndex(index);
@@ -1327,7 +1332,7 @@ export default function GameClient({
             <div className="mt-4">
               {authenticatedPlayer && (
                 <PlayerRack
-                  rack={authenticatedPlayer.rack}
+                  rack={rackTiles}
                   originalRack={authenticatedPlayer.rack}
                   onTileClick={handleRackTileClick}
                   onRackClick={handleRackClick}
