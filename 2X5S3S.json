@@ -41,10 +41,26 @@
       "id": "p_1756918795717_zdc2q58",
       "name": "N",
       "code": "n",
-      "score": 0,
+      "score": 18,
       "rack": [
         {
-          "letter": "S",
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "B",
+          "points": 3
+        },
+        {
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "R",
           "points": 1
         },
         {
@@ -54,22 +70,6 @@
         {
           "letter": "D",
           "points": 2
-        },
-        {
-          "letter": "T",
-          "points": 1
-        },
-        {
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": " ",
-          "points": 0
-        },
-        {
-          "letter": "B",
-          "points": 3
         }
       ],
       "isComputer": true
@@ -112,26 +112,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
     {
       "letter": " ",
       "points": 0
@@ -1355,7 +1335,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1477,7 +1462,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 8,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1599,7 +1589,13 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Z",
+          "points": 0,
+          "x": 9,
+          "y": 8,
+          "originalLetter": " "
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1721,7 +1717,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 10,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1843,7 +1844,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 11,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2305,6 +2311,46 @@
       ],
       "score": 30,
       "timestamp": "2025-09-04T09:08:30.809Z"
+    },
+    {
+      "playerId": "p_1756918795717_zdc2q58",
+      "playerName": "N",
+      "word": "SIZED",
+      "tiles": [
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 8,
+          "y": 8
+        },
+        {
+          "letter": "Z",
+          "points": 0,
+          "x": 9,
+          "y": 8,
+          "originalLetter": " "
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 10,
+          "y": 8
+        },
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 11,
+          "y": 8
+        }
+      ],
+      "score": 18,
+      "timestamp": "2025-09-06T13:22:45.506Z"
     }
   ],
   "gamePhase": "playing"
