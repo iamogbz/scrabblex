@@ -108,7 +108,8 @@
           "letter": "E",
           "points": 1
         }
-      ]
+      ],
+      "isComputer": true
     }
   ],
   "tileBag": [
