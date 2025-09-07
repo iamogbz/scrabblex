@@ -5,18 +5,10 @@
       "id": "p_1756918786134_h3a45jf",
       "name": "E",
       "code": "e",
-      "score": 161,
+      "score": 174,
       "rack": [
         {
-          "letter": "I",
-          "points": 1
-        },
-        {
           "letter": "T",
-          "points": 1
-        },
-        {
-          "letter": "N",
           "points": 1
         },
         {
@@ -33,40 +25,15 @@
       "id": "p_1756918795717_zdc2q58",
       "name": "N",
       "code": "n",
-      "score": 289,
-      "rack": [
-        {
-          "letter": "N",
-          "points": 1
-        },
-        {
-          "letter": "L",
-          "points": 1
-        },
-        {
-          "letter": "G",
-          "points": 2
-        },
-        {
-          "letter": "A",
-          "points": 1
-        },
-        {
-          "letter": "R",
-          "points": 1
-        },
-        {
-          "letter": "I",
-          "points": 1
-        }
-      ],
+      "score": 329,
+      "rack": [],
       "isComputer": true
     },
     {
       "id": "p_1756918804961_gqe819a",
       "name": "U",
       "code": "u",
-      "score": 163,
+      "score": 155,
       "rack": [
         {
           "letter": " ",
@@ -934,7 +901,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 5,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1086,7 +1058,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 6,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1583,7 +1560,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 9,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1735,7 +1717,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 10,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1892,7 +1879,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "L",
+          "points": 1,
+          "x": 11,
+          "y": 14
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2044,7 +2036,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 12,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2191,7 +2188,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 13,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2338,7 +2340,12 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "G",
+          "points": 2,
+          "x": 14,
+          "y": 14
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -3074,7 +3081,74 @@
       ],
       "score": 24,
       "timestamp": "2025-09-07T16:24:52.611Z"
+    },
+    {
+      "playerId": "p_1756918786134_h3a45jf",
+      "playerName": "E",
+      "word": "NIM",
+      "tiles": [
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 5,
+          "y": 14
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 6,
+          "y": 14
+        }
+      ],
+      "score": 16,
+      "timestamp": "2025-09-07T16:28:48.566Z"
+    },
+    {
+      "playerId": "p_1756918795717_zdc2q58",
+      "playerName": "N",
+      "word": "ARLING",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 9,
+          "y": 14
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 10,
+          "y": 14
+        },
+        {
+          "letter": "L",
+          "points": 1,
+          "x": 11,
+          "y": 14
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 12,
+          "y": 14
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 13,
+          "y": 14
+        },
+        {
+          "letter": "G",
+          "points": 2,
+          "x": 14,
+          "y": 14
+        }
+      ],
+      "score": 29,
+      "timestamp": "2025-09-07T16:28:49.191Z"
     }
   ],
-  "gamePhase": "playing"
+  "gamePhase": "ended",
+  "endStatus": "N wins!"
 }
