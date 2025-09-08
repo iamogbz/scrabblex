@@ -108,7 +108,8 @@
           "letter": "C",
           "points": 3
         }
-      ]
+      ],
+      "isComputer": true
     }
   ],
   "tileBag": [
