@@ -5,23 +5,14 @@
       "id": "p_1757262551076_i49i9me",
       "name": "E",
       "code": "e",
-      "score": 195,
-      "rack": [
-        {
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": "R",
-          "points": 1
-        }
-      ]
+      "score": 209,
+      "rack": []
     },
     {
       "id": "p_1757262557011_qtixo98",
       "name": "N",
       "code": "n",
-      "score": 318,
+      "score": 314,
       "rack": [
         {
           "letter": "R",
@@ -46,7 +37,7 @@
       "id": "p_1757262562413_ct8tcol",
       "name": "I",
       "code": "i",
-      "score": 229,
+      "score": 228,
       "rack": [
         {
           "letter": "A",
@@ -900,7 +891,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 6,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -908,7 +904,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 6,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3186,7 +3187,29 @@
       "score": 0,
       "isPass": true,
       "timestamp": "2025-09-08T08:05:18.161Z"
+    },
+    {
+      "playerId": "p_1757262551076_i49i9me",
+      "playerName": "E",
+      "word": "RE",
+      "tiles": [
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 6,
+          "y": 4
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 6,
+          "y": 5
+        }
+      ],
+      "score": 9,
+      "timestamp": "2025-09-08T08:05:50.374Z"
     }
   ],
-  "gamePhase": "playing"
+  "gamePhase": "ended",
+  "endStatus": "N wins!"
 }
