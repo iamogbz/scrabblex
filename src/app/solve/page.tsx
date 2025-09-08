@@ -1,3 +1,4 @@
+
 "use client";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -7,11 +8,16 @@ import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { GameState, PlacedTile } from "@/types";
 import { GITHUB_BRANCH_GAMES, GITHUB_USER_REPO } from "@/lib/game-service";
+import { cn } from "@/lib/utils";
+
+type FilterType = "all" | "new" | "in-progress" | "completed";
 
 interface GameDetails extends GameState {
   updatedAt: string;
   totalWords: number;
   completedWords: number;
+  completionPercentage: number;
+  lastPlayed: number | null;
 }
 
 const getWordsFromGameState = (gameState: GameState) => {
@@ -87,17 +93,16 @@ const formatRelativeTime = (date: Date): string => {
 
 // A helper function to generate a status string for a game
 const getGameStatusText = (game: GameDetails): string => {
-  const percentage =
-    game.totalWords > 0
-      ? Math.round((game.completedWords / game.totalWords) * 100)
-      : 0;
+  const percentage = game.completionPercentage;
   const lastUpdated = formatRelativeTime(new Date(game.updatedAt));
   return `${percentage}% complete. ${game.totalWords} words. Uploaded ${lastUpdated}.`;
 };
 
 export default function SolvePage() {
-  const [completedGames, setCompletedGames] = useState<GameDetails[]>([]);
+  const [allGames, setAllGames] = useState<GameDetails[]>([]);
+  const [filteredGames, setFilteredGames] = useState<GameDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeFilter, setActiveFilter] = useState<FilterType>("all");
 
   useEffect(() => {
     const fetchCompletedGames = async () => {
@@ -134,6 +139,9 @@ export default function SolvePage() {
               const userInputs: Record<string, string> = JSON.parse(
                 localStorage.getItem(`crossword-${gameId}-inputs`) || "{}"
               );
+              const lastPlayed: string | null = localStorage.getItem(
+                `crossword-${gameId}-lastPlayed`
+              );
 
               let completedWords = 0;
               wordsInPuzzle.forEach((wordInfo) => {
@@ -161,9 +169,16 @@ export default function SolvePage() {
                 updatedAt:
                   gameState.history.length > 0
                     ? gameState.history[gameState.history.length - 1].timestamp
-                    : new Date(0).toISOString(), // Fallback for games with no history
+                    : new Date(0).toISOString(),
                 totalWords: wordsInPuzzle.length,
                 completedWords,
+                completionPercentage:
+                  wordsInPuzzle.length > 0
+                    ? Math.round(
+                        (completedWords / wordsInPuzzle.length) * 100
+                      )
+                    : 0,
+                lastPlayed: lastPlayed ? parseInt(lastPlayed, 10) : null,
               };
             }
             return null;
@@ -180,13 +195,7 @@ export default function SolvePage() {
           (game): game is GameDetails => game !== null
         );
 
-        // Sort games by last updated date, most recent first
-        fetchedGames.sort(
-          (a, b) =>
-            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-        );
-
-        setCompletedGames(fetchedGames);
+        setAllGames(fetchedGames);
       } catch (error) {
         console.error(
           "An error occurred while fetching completed games:",
@@ -199,6 +208,37 @@ export default function SolvePage() {
 
     fetchCompletedGames();
   }, []);
+
+  useEffect(() => {
+    const sorted = [...allGames].sort((a, b) => {
+      if (a.completionPercentage !== b.completionPercentage) {
+        return b.completionPercentage - a.completionPercentage;
+      }
+      if (a.lastPlayed && b.lastPlayed) {
+        return b.lastPlayed - a.lastPlayed;
+      }
+      if (a.lastPlayed) return -1;
+      if (b.lastPlayed) return 1;
+      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+    });
+
+    const filtered = sorted.filter((game) => {
+      switch (activeFilter) {
+        case "new":
+          return game.completionPercentage === 0;
+        case "in-progress":
+          return (
+            game.completionPercentage > 0 && game.completionPercentage < 100
+          );
+        case "completed":
+          return game.completionPercentage === 100;
+        case "all":
+        default:
+          return true;
+      }
+    });
+    setFilteredGames(filtered);
+  }, [allGames, activeFilter]);
 
   return (
     <main className="flex min-h-screen w-full flex-col items-center bg-grid-gray-100/[0.1] p-4">
@@ -225,7 +265,7 @@ export default function SolvePage() {
           </Link>
         </Button>
       </header>
-      <Card className="w-full text-center shadow-2xl z-10 border-primary/20 mt-20">
+      <Card className="w-full text-center shadow-2xl z-10 border-primary/20 mt-20 max-w-4xl">
         <CardContent className="pt-6">
           <div className="flex flex-col items-center mb-4">
             <Cross className="h-12 w-12 text-primary mb-2" />
@@ -237,6 +277,21 @@ export default function SolvePage() {
             </p>
           </div>
 
+          <div className="flex justify-center gap-2 mb-4">
+            {(["all", "new", "in-progress", "completed"] as FilterType[]).map(
+              (filter) => (
+                <Button
+                  key={filter}
+                  variant={activeFilter === filter ? "default" : "outline"}
+                  onClick={() => setActiveFilter(filter)}
+                  className="capitalize"
+                >
+                  {filter.replace("-", " ")}
+                </Button>
+              )
+            )}
+          </div>
+
           {isLoading && (
             <div className="mt-8">
               <p className="text-muted-foreground">
@@ -245,21 +300,24 @@ export default function SolvePage() {
             </div>
           )}
 
-          {!isLoading && completedGames.length === 0 && (
+          {!isLoading && filteredGames.length === 0 && (
             <div className="flex flex-col items-center mt-4 gap-4 text-center text-muted-foreground">
-              <p>No completed games found yet.</p>
-              <Button variant="outline">
-                <Link href="/play">
-                  <p>Go play a few rounds!</p>
-                </Link>
-              </Button>
+              <p>
+                No {activeFilter !== "all" ? activeFilter : ""}{" "}
+                puzzles found.
+              </p>
+              {activeFilter !== "all" && (
+                 <Button variant="link" onClick={() => setActiveFilter("all")}>
+                    Show all puzzles
+                </Button>
+              )}
             </div>
           )}
 
-          {!isLoading && completedGames.length > 0 && (
+          {!isLoading && filteredGames.length > 0 && (
             <div className="mt-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto p-2">
-                {completedGames.map((game) => (
+                {filteredGames.map((game) => (
                   <Link
                     href={`/solve/${game.gameId}`}
                     key={game.gameId}

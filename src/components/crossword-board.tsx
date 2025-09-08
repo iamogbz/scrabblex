@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { GameState, PlacedTile } from "@/types";
@@ -183,7 +184,9 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     }
     // Remove duplicates that might arise from single-letter intersections
     const uniqueWords = Array.from(
-      new Map(wordsList.map((w) => [`${w.word}-${w.x}-${w.y}-${w.direction}`, w])).values()
+      new Map(
+        wordsList.map((w) => [`${w.word}-${w.x}-${w.y}-${w.direction}`, w])
+      ).values()
     );
     uniqueWords.sort((a, b) => a.number - b.number);
     setWords(uniqueWords);
@@ -332,6 +335,11 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     const key = `${x},${y}`;
     const newInputs = { ...userInputs, [key]: value.toUpperCase() };
     setUserInputs(newInputs);
+    // Track last played time
+    localStorage.setItem(
+      `crossword-${gameState.gameId}-lastPlayed`,
+      Date.now().toString()
+    );
 
     if (value) {
       const activeWordNumber = activeWords[activeDirection];
@@ -512,6 +520,11 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
       }
     }
     setUserInputs(newInputs);
+    // Track last played time
+    localStorage.setItem(
+      `crossword-${gameState.gameId}-lastPlayed`,
+      Date.now().toString()
+    );
   };
 
   const handleRefreshClue = async (word: string) => {
