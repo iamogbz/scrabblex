@@ -5,7 +5,7 @@
       "id": "p_1757262551076_i49i9me",
       "name": "E",
       "code": "e",
-      "score": 145,
+      "score": 171,
       "rack": [
         {
           "letter": "O",
@@ -20,10 +20,6 @@
           "points": 1
         },
         {
-          "letter": "D",
-          "points": 2
-        },
-        {
           "letter": "G",
           "points": 2
         },
@@ -32,8 +28,12 @@
           "points": 1
         },
         {
-          "letter": "H",
-          "points": 4
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "A",
+          "points": 1
         }
       ]
     },
@@ -41,23 +41,15 @@
       "id": "p_1757262557011_qtixo98",
       "name": "N",
       "code": "n",
-      "score": 280,
+      "score": 299,
       "rack": [
         {
           "letter": "U",
           "points": 1
         },
         {
-          "letter": "E",
-          "points": 1
-        },
-        {
           "letter": "T",
           "points": 1
-        },
-        {
-          "letter": " ",
-          "points": 0
         },
         {
           "letter": "R",
@@ -68,8 +60,16 @@
           "points": 1
         },
         {
-          "letter": "B",
-          "points": 3
+          "letter": "F",
+          "points": 4
+        },
+        {
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "L",
+          "points": 1
         }
       ],
       "isComputer": true
@@ -78,18 +78,10 @@
       "id": "p_1757262562413_ct8tcol",
       "name": "I",
       "code": "i",
-      "score": 187,
+      "score": 213,
       "rack": [
         {
-          "letter": "R",
-          "points": 1
-        },
-        {
           "letter": "U",
-          "points": 1
-        },
-        {
-          "letter": "A",
           "points": 1
         },
         {
@@ -97,43 +89,14 @@
           "points": 1
         },
         {
-          "letter": "E",
-          "points": 1
-        },
-        {
           "letter": "A",
           "points": 1
-        },
-        {
-          "letter": "D",
-          "points": 2
         }
       ],
       "isComputer": true
     }
   ],
-  "tileBag": [
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "F",
-      "points": 4
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    }
-  ],
+  "tileBag": [],
   "board": [
     [
       {
@@ -575,7 +538,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "B",
+          "points": 3,
+          "x": 3,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -583,7 +551,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 3,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -591,7 +564,13 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "Z",
+          "points": 0,
+          "x": 3,
+          "y": 11,
+          "originalLetter": " "
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -1718,7 +1697,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 11,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1739,7 +1723,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "H",
+          "points": 4,
+          "x": 11,
+          "y": 3
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -2027,7 +2016,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 13,
+          "y": 1
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -2048,7 +2042,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 13,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2056,7 +2055,12 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 13,
+          "y": 4
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2064,7 +2068,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 13,
+          "y": 5
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2971,6 +2980,88 @@
       ],
       "score": 25,
       "timestamp": "2025-09-08T07:52:41.701Z"
+    },
+    {
+      "playerId": "p_1757262551076_i49i9me",
+      "playerName": "E",
+      "word": "DUH",
+      "tiles": [
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 11,
+          "y": 1
+        },
+        {
+          "letter": "H",
+          "points": 4,
+          "x": 11,
+          "y": 3
+        }
+      ],
+      "score": 26,
+      "timestamp": "2025-09-08T07:58:40.865Z"
+    },
+    {
+      "playerId": "p_1757262557011_qtixo98",
+      "playerName": "N",
+      "word": "BEZ",
+      "tiles": [
+        {
+          "letter": "B",
+          "points": 3,
+          "x": 3,
+          "y": 9
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 3,
+          "y": 10
+        },
+        {
+          "letter": "Z",
+          "points": 0,
+          "x": 3,
+          "y": 11,
+          "originalLetter": " "
+        }
+      ],
+      "score": 19,
+      "timestamp": "2025-09-08T07:58:49.445Z"
+    },
+    {
+      "playerId": "p_1757262562413_ct8tcol",
+      "playerName": "I",
+      "word": "AIRED",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 13,
+          "y": 1
+        },
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 13,
+          "y": 3
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 13,
+          "y": 4
+        },
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 13,
+          "y": 5
+        }
+      ],
+      "score": 26,
+      "timestamp": "2025-09-08T07:58:50.404Z"
     }
   ],
   "gamePhase": "playing"
