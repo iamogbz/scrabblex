@@ -5,22 +5,14 @@
       "id": "p_1757262551076_i49i9me",
       "name": "E",
       "code": "e",
-      "score": 189,
+      "score": 195,
       "rack": [
         {
           "letter": "E",
           "points": 1
         },
         {
-          "letter": "N",
-          "points": 1
-        },
-        {
           "letter": "R",
-          "points": 1
-        },
-        {
-          "letter": "A",
           "points": 1
         }
       ]
@@ -29,12 +21,8 @@
       "id": "p_1757262557011_qtixo98",
       "name": "N",
       "code": "n",
-      "score": 311,
+      "score": 318,
       "rack": [
-        {
-          "letter": "U",
-          "points": 1
-        },
         {
           "letter": "R",
           "points": 1
@@ -1450,7 +1438,12 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 9,
+          "y": 11
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1458,7 +1451,12 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 9,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1836,7 +1834,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "U",
+          "points": 1,
+          "x": 12,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3138,6 +3141,51 @@
       ],
       "score": 16,
       "timestamp": "2025-09-08T08:03:26.464Z"
+    },
+    {
+      "playerId": "p_1757262551076_i49i9me",
+      "playerName": "E",
+      "word": "NA",
+      "tiles": [
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 9,
+          "y": 11
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 9,
+          "y": 12
+        }
+      ],
+      "score": 6,
+      "timestamp": "2025-09-08T08:05:18.010Z"
+    },
+    {
+      "playerId": "p_1757262557011_qtixo98",
+      "playerName": "N",
+      "word": "UT",
+      "tiles": [
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 12,
+          "y": 1
+        }
+      ],
+      "score": 7,
+      "timestamp": "2025-09-08T08:05:18.151Z"
+    },
+    {
+      "playerId": "p_1757262562413_ct8tcol",
+      "playerName": "I",
+      "word": "[PASS]",
+      "tiles": [],
+      "score": 0,
+      "isPass": true,
+      "timestamp": "2025-09-08T08:05:18.161Z"
     }
   ],
   "gamePhase": "playing"
