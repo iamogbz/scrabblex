@@ -674,8 +674,6 @@ export default function GameClient({
     if (selectedBuilderIndex !== null) {
       const newStagedTiles = { ...stagedTiles };
       delete newStagedTiles[selectedBuilderIndex];
-      // Note: We are not re-keying/re-numbering the staged tiles.
-      // This preserves spaces between them.
       setStagedTiles(newStagedTiles);
       setSelectedBuilderIndex(null);
     }
@@ -703,14 +701,22 @@ export default function GameClient({
   const handleStagedTileClick = (index: number) => {
     if (selectedRackTileIndex !== null && authenticatedPlayer) {
       // A rack tile is selected, perform a swap with the builder tile
-      const rackTileToPlace = authenticatedPlayer.rack[selectedRackTileIndex];
+      const rackTileToPlace = authenticatedPlayer.rack.find((t, i) => i === selectedRackTileIndex);
+
       if (rackTileToPlace) {
-        const newStagedTiles = { ...stagedTiles };
-        newStagedTiles[index] = { ...rackTileToPlace, x: -1, y: -1 };
-        setStagedTiles(newStagedTiles);
+          const newStagedTiles = { ...stagedTiles };
+          if (rackTileToPlace.letter === " ") {
+            setBlankTileToStage(rackTileToPlace);
+            // We need to know where the blank tile will go after selection
+            setSelectedBuilderIndex(index);
+            setIsBlankTileDialogOpen(true);
+          } else {
+             newStagedTiles[index] = { ...rackTileToPlace, x: -1, y: -1 };
+             setStagedTiles(newStagedTiles);
+          }
       }
       setSelectedRackTileIndex(null); // Deselect rack tile after swap
-      return; // End the function here
+      return; 
     }
 
     if (stagedTiles[index]?.originalLetter === " ") {
@@ -749,7 +755,7 @@ export default function GameClient({
 
     if (selectedRackTileIndex !== null && authenticatedPlayer) {
       // A tile from the rack is selected, place it here
-      const tileToPlace = authenticatedPlayer.rack[selectedRackTileIndex];
+      const tileToPlace = rackTiles.find((t, i) => i === selectedRackTileIndex);
       if (tileToPlace) {
         if (tileToPlace.letter === " ") {
           setBlankTileToStage(tileToPlace);
@@ -1148,6 +1154,7 @@ export default function GameClient({
                 gameState.history[gameState.history.length - 1]?.timestamp
               }
               onShowHistory={() => setIsHistoryOpen(true)}
+              gameHistoryLength={gameState.history.length}
             />
             <Button asChild className="mt-4 w-full">
               <Link href="/play">Play Again</Link>
@@ -1293,6 +1300,7 @@ export default function GameClient({
               gameState.history[gameState.history.length - 1]?.timestamp
             }
             onShowHistory={() => setIsHistoryOpen(true)}
+            gameHistoryLength={gameState.history.length}
           />
         </div>
         {historyDialog}
@@ -1466,6 +1474,7 @@ export default function GameClient({
               gameState.history[gameState.history.length - 1]?.timestamp
             }
             onShowHistory={() => setIsHistoryOpen(true)}
+            gameHistoryLength={gameState.history.length}
           />
           <Card>
             <CardHeader>

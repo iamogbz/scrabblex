@@ -759,19 +759,19 @@ export async function replacePlayerWithComputer(
         return { success: false, error: "It is not this player's turn to be replaced." };
     }
 
-    const lastMoveTimestamp =
-        gameState.history.length > 0
-            ? new Date(gameState.history[gameState.history.length - 1].timestamp)
-            : new Date(0);
+    // If there's no history, assume inactivity threshold is met to allow replacement at game start.
+    if (gameState.history.length > 0) {
+        const lastMoveTimestamp = new Date(gameState.history[gameState.history.length - 1].timestamp);
+        const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
 
-    const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
-
-    if (lastMoveTimestamp > thirtyMinutesAgo && gameState.history.length > 0) {
-        return {
-            success: false,
-            error: "Player has not been inactive for 30 minutes.",
-        };
+        if (lastMoveTimestamp > thirtyMinutesAgo) {
+            return {
+                success: false,
+                error: "Player has not been inactive for 30 minutes.",
+            };
+        }
     }
+
 
     const newGameState = JSON.parse(JSON.stringify(gameState));
     const playerToReplace = newGameState.players[playerIndex];

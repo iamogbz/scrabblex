@@ -12,6 +12,7 @@ interface ScoreboardProps {
   onReplacePlayer: (playerId: string) => void;
   lastMoveTimestamp?: string;
   onShowHistory: () => void;
+  gameHistoryLength: number;
 }
 
 export default function Scoreboard({
@@ -22,6 +23,7 @@ export default function Scoreboard({
   onReplacePlayer,
   lastMoveTimestamp,
   onShowHistory,
+  gameHistoryLength,
 }: ScoreboardProps) {
   const winningScore = Math.max(...players.map((player) => player.score));
 
@@ -46,10 +48,10 @@ export default function Scoreboard({
             const isYou = player.id === authenticatedPlayerId;
             const isWinner = player.score === winningScore;
 
-            const isInactive =
-              !!lastMoveTimestamp &&
+            const isInactive = gameHistoryLength === 0 || // If no moves made, anyone can be replaced.
+              (!!lastMoveTimestamp &&
               new Date(lastMoveTimestamp) <
-                new Date(Date.now() - 30 * 60 * 1000);
+                new Date(Date.now() - 30 * 60 * 1000));
 
             return (
               <li
@@ -79,7 +81,7 @@ export default function Scoreboard({
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  {isInactive && !player.isComputer && !isYou && (
+                  {isInactive && isCurrentTurn && !player.isComputer && !isYou && (
                     <Button
                       size="sm"
                       variant="ghost"
