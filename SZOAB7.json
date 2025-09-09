@@ -5,7 +5,7 @@
       "id": "p_1757318805018_gwlz5jo",
       "name": "E",
       "code": "e",
-      "score": 164,
+      "score": 162,
       "rack": [
         {
           "letter": " ",
@@ -26,7 +26,7 @@
       "id": "p_1757318814702_r2fhryr",
       "name": "W",
       "code": "w",
-      "score": 260,
+      "score": 259,
       "rack": [
         {
           "letter": "N",
@@ -39,17 +39,8 @@
       "id": "p_1757318819729_i55ok2v",
       "name": "Q",
       "code": "q",
-      "score": 261,
-      "rack": [
-        {
-          "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "N",
-          "points": 1
-        }
-      ]
+      "score": 271,
+      "rack": []
     }
   ],
   "tileBag": [],
@@ -743,7 +734,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 5,
+          "y": 9
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -751,7 +747,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 5,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3209,7 +3210,29 @@
       ],
       "score": 9,
       "timestamp": "2025-09-09T23:27:03.231Z"
+    },
+    {
+      "playerId": "p_1757318819729_i55ok2v",
+      "playerName": "Q",
+      "word": "IN",
+      "tiles": [
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 5,
+          "y": 9
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 5,
+          "y": 10
+        }
+      ],
+      "score": 7,
+      "timestamp": "2025-09-09T23:29:15.089Z"
     }
   ],
-  "gamePhase": "playing"
+  "gamePhase": "ended",
+  "endStatus": "Q wins!"
 }
