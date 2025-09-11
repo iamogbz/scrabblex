@@ -826,11 +826,11 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
             </div>
           ) : (
             <div className="p-2">
-              <h3 className="font-bold text-lg mb-2 sticky top-0 bg-background py-2 border-b">
+              <h3 className="font-bold text-sm mb-2 sticky top-0 py-2 border-b bg-background z-10">
                 Across
               </h3>
               {renderClueList(acrossClues, "across")}
-              <h3 className="font-bold text-lg mt-4 mb-2 sticky top-0 bg-background py-2 border-b">
+              <h3 className="font-bold text-sm mt-4 mb-2 sticky top-0 py-2 border-b bg-background z-10">
                 Down
               </h3>
               {renderClueList(downClues, "down")}
