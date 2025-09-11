@@ -106,7 +106,10 @@ const CrosswordTile = forwardRef<HTMLInputElement, CrosswordTileProps>(
         onClick={handleClick}
       >
         {number && (
-          <span className="absolute top-0 left-1 text-[24cqw] font-bold pointer-events-none">
+          <span
+            className="absolute top-0 left-1 font-bold pointer-events-none"
+            style={{ fontSize: "24cqw" }}
+          >
             {number}
           </span>
         )}
@@ -137,7 +140,7 @@ const CrosswordTile = forwardRef<HTMLInputElement, CrosswordTileProps>(
             style={{
               borderWidth: 0,
               borderRadius: "0.3vmin",
-              fontSize: "clamp(12px, 0.8rem, 40px)",
+              fontSize: "clamp(16px, 0.8rem, 40px)",
               caretColor: "transparent",
             }}
             readOnly={isRevealed}

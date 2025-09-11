@@ -1,4 +1,3 @@
-
 "use client";
 
 import type { GameState, PlacedTile } from "@/types";
@@ -572,6 +571,10 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
         }
       }
 
+      const isRevealed = revealedCells.some(
+        (cell) => cell === `${word.x},${word.y}`
+      );
+
       return (
         <div
           key={word.number + word.direction}
@@ -582,6 +585,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
             isActive ? "bg-primary/10 text-primary" : ""
           )}
           style={{
+            textDecoration: isRevealed ? "line-through" : "none",
             opacity: isComplete ? 0.5 : 1,
           }}
         >

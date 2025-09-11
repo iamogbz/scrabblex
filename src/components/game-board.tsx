@@ -11,7 +11,7 @@ interface GameBoardProps {
   onSquareClick: (x: number, y: number) => void;
   selectedBoardPos: { x: number; y: number } | null;
   playDirection: "horizontal" | "vertical" | null;
-  playerColor?: string,
+  playerColor?: string;
 }
 
 export default function GameBoard({
@@ -25,7 +25,14 @@ export default function GameBoard({
   const getSquareContent = (square: BoardSquare, x: number, y: number) => {
     const tempTile = tempPlacedTiles.find((t) => t.x === x && t.y === y);
     if (tempTile) {
-      return <SingleTile tile={tempTile} isDraggable={false} isTemp={true} playerColor={playerColor} />;
+      return (
+        <SingleTile
+          tile={tempTile}
+          isDraggable={false}
+          isTemp={true}
+          playerColor={playerColor}
+        />
+      );
     }
     if (square.tile) {
       return <SingleTile tile={square.tile} isDraggable={false} />;
@@ -81,7 +88,10 @@ export default function GameBoard({
                 }}
               >
                 {content || (
-                  <span className="text-[40cqw] font-bold opacity-70 select-none">
+                  <span
+                    className="font-bold opacity-70 select-none"
+                    style={{ fontSize: "40cqw" }}
+                  >
                     {getMultiplierText(square)}
                   </span>
                 )}
