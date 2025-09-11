@@ -138,7 +138,8 @@ export function CrosswordGuessDialog({
                 readOnly={isRevealed}
                 style={{
                   caretColor: "transparent",
-                  fontSize: "clamp(12px, 0.8rem, 40px)",
+                  // 16px is used as minimum to avoid auto zoom on mobile
+                  fontSize: "clamp(16px, 0.8rem, 40px)",
                 }}
                 className={`w-10 h-10 md:w-12 md:h-12 text-center font-bold uppercase ${isRevealed ? "text-green-700 bg-green-200 border-green-400" : ""}`}
               />

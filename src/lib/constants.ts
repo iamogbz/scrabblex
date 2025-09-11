@@ -14,7 +14,7 @@ export const LocalStorageKey = {
   PLAYER_ID_: "scrabblex_player_id_",
 };
 
-export const UNDEFINED_WORD_VALID = "Valid Scrabble word.";
+export const UNDEFINED_WORD_VALID = "Unable to define this valid word.";
 export const UNDEFINED_WORD_ERROR = "Unable to define this word.";
-export const INVALID_WORD_ERROR = "Not a valid Scrabble word.";
+export const INVALID_WORD_ERROR = "Not a valid word.";
 export const NO_API_KEY_ERROR = "GEMINI_API_KEY not set.";

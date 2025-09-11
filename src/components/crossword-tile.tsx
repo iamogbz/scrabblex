@@ -140,6 +140,7 @@ const CrosswordTile = forwardRef<HTMLInputElement, CrosswordTileProps>(
             style={{
               borderWidth: 0,
               borderRadius: "0.3vmin",
+              // 16px is used as minimum to avoid auto zoom on mobile
               fontSize: "clamp(16px, 0.8rem, 40px)",
               caretColor: "transparent",
             }}

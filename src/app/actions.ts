@@ -94,6 +94,29 @@ const genAI = process.env.GEMINI_API_KEY
   ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
   : null;
 
+async function getDefinitionFromDictionaryAPI(word: string): Promise<string | null> {
+  try {
+    const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+    if (!response.ok) {
+      return null;
+    }
+    const data = await response.json();
+    const firstMeaning = data[0]?.meanings[0];
+    if (firstMeaning) {
+      const definition = firstMeaning.definitions[0]?.definition;
+      const partOfSpeech = firstMeaning.partOfSpeech;
+      if (definition) {
+        return `(${partOfSpeech}) ${definition}`;
+      }
+    }
+    return null;
+  } catch (error) {
+    console.log(`DictionaryAPI lookup failed for "${word}":`, error);
+    return null;
+  }
+}
+
+
 export async function getWordDefinition(
   word: string,
   forceRefresh = false
@@ -107,6 +130,7 @@ export async function getWordDefinition(
     definitionCache.delete(upperCaseWord);
   }
 
+  // 1. Check GitHub cache if not forcing a refresh
   if (!forceRefresh) {
     const cachedDefinition = await getDictionaryWord(upperCaseWord);
     if (cachedDefinition) {
@@ -115,17 +139,24 @@ export async function getWordDefinition(
     }
   }
 
-  if (!genAI) {
-    console.log("GEMINI_API_KEY not set, skipping definition lookup.");
-    return NO_API_KEY_ERROR;
-  }
-  if (word.length < 2) {
-    return null;
-  }
-
+  // 2. Before any API calls, verify it's a valid Scrabble word
   const { isValid } = await verifyWordAction(upperCaseWord);
   if (!isValid) {
     return INVALID_WORD_ERROR;
+  }
+
+  // 3. Try the fast, dedicated dictionary API first
+  const apiDefinition = await getDefinitionFromDictionaryAPI(upperCaseWord);
+  if (apiDefinition) {
+    definitionCache.set(upperCaseWord, apiDefinition);
+    await updateDictionaryWord(upperCaseWord, apiDefinition);
+    return apiDefinition;
+  }
+
+  // 4. Fallback to Gemini if the dictionary API fails
+  if (!genAI) {
+    console.log("GEMINI_API_KEY not set, skipping definition lookup.");
+    return NO_API_KEY_ERROR;
   }
 
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
@@ -134,21 +165,21 @@ export async function getWordDefinition(
   try {
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    const definition = response.text();
+    const geminiDefinition = response.text();
 
-    console.log(`Definition for "${upperCaseWord}":`, definition);
+    console.log(`Gemini definition for "${upperCaseWord}":`, geminiDefinition);
 
-    if (definition && !definition.includes(UNDEFINED_WORD_ERROR)) {
-      definitionCache.set(upperCaseWord, definition);
-      await updateDictionaryWord(upperCaseWord, definition);
-      return definition;
+    if (geminiDefinition && !geminiDefinition.includes(UNDEFINED_WORD_ERROR)) {
+      definitionCache.set(upperCaseWord, geminiDefinition);
+      await updateDictionaryWord(upperCaseWord, geminiDefinition);
+      return geminiDefinition;
     } else {
-      // It's a valid word, but the AI can't define it. Return the specific string.
+      // It's a valid word, but AI can't define it.
       return UNDEFINED_WORD_VALID;
     }
   } catch(error) {
-    console.error(`Error fetching definition for "${upperCaseWord}":`, error);
-    // It's a valid word, but there was an API error. Return the specific string.
+    console.error(`Error fetching Gemini definition for "${upperCaseWord}":`, error);
+    // It's a valid word, but there was an API error.
     return UNDEFINED_WORD_VALID;
   }
 }
@@ -158,47 +189,70 @@ export async function getWordDefinitions(
 ): Promise<Record<string, string | null>> {
   const upperCaseWords = words.map((w) => w.toUpperCase());
   const results: Record<string, string | null> = {};
-  let wordsToFetchFromApi: string[] = [];
+  const wordsToFetch: string[] = [];
 
-  const wordsNotInMemCache: string[] = [];
+  // 1. Check in-memory cache
   for (const word of upperCaseWords) {
     if (definitionCache.has(word)) {
       results[word] = definitionCache.get(word)!;
     } else {
-      wordsNotInMemCache.push(word);
+      wordsToFetch.push(word);
     }
   }
 
-  if (wordsNotInMemCache.length > 0) {
-    const githubCachedDefinitions = await getDictionaryWords(
-      wordsNotInMemCache
-    );
+  if (wordsToFetch.length === 0) return results;
 
-    for (const word of wordsNotInMemCache) {
-      if (githubCachedDefinitions[word]) {
-        results[word] = githubCachedDefinitions[word];
-        definitionCache.set(word, githubCachedDefinitions[word]);
-      } else {
-        wordsToFetchFromApi.push(word);
-      }
+  // 2. Check GitHub cache
+  const githubCachedDefinitions = await getDictionaryWords(wordsToFetch);
+  const wordsNotFoundInGithub: string[] = [];
+  for (const word of wordsToFetch) {
+    if (githubCachedDefinitions[word]) {
+      results[word] = githubCachedDefinitions[word];
+      definitionCache.set(word, githubCachedDefinitions[word]);
+    } else {
+      wordsNotFoundInGithub.push(word);
     }
   }
 
-  if (wordsToFetchFromApi.length === 0) {
-    console.log("All definitions found in cache.");
-    return results;
+  if (wordsNotFoundInGithub.length === 0) return results;
+  
+  // 3. Verify words and try DictionaryAPI for remaining
+  const wordsForGemini: string[] = [];
+  const definitionsToCache: Record<string, string> = {};
+
+  const dictionaryApiPromises = wordsNotFoundInGithub.map(async (word) => {
+    const { isValid } = await verifyWordAction(word);
+    if (!isValid) {
+      results[word] = INVALID_WORD_ERROR;
+      return;
+    }
+
+    const apiDefinition = await getDefinitionFromDictionaryAPI(word);
+    if (apiDefinition) {
+      results[word] = apiDefinition;
+      definitionCache.set(word, apiDefinition);
+      definitionsToCache[word] = apiDefinition;
+    } else {
+      wordsForGemini.push(word);
+    }
+  });
+  await Promise.all(dictionaryApiPromises);
+  
+  if (Object.keys(definitionsToCache).length > 0) {
+    await updateDictionaryWords(definitionsToCache);
   }
 
+  if (wordsForGemini.length === 0) return results;
+  
+  // 4. Fallback to Gemini for the rest
   if (!genAI) {
-    console.log("GEMINI_API_KEY not set, skipping definition lookup.");
-    for (const word of wordsToFetchFromApi) {
+    for (const word of wordsForGemini) {
       results[word] = NO_API_KEY_ERROR;
     }
     return results;
   }
-
+  
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-
   const prompt = `
     You are a dictionary expert. For each of the Scrabble words provided, give a concise, one-line definition, prepended with its language of origin in parentheses.
     Pay close attention to whether the word is singular or plural and phrase the definition accordingly.
@@ -209,7 +263,7 @@ export async function getWordDefinitions(
     Example Request: ["DOG", "CAT"]
     Example Response: {"DOG":"(Proto-Germanic) A domesticated carnivorous mammal.","CAT":"(Late Latin) A small domesticated carnivorous mammal with soft fur."}
 
-    Words: ${JSON.stringify(wordsToFetchFromApi)}
+    Words: ${JSON.stringify(wordsForGemini)}
   `;
 
   try {
@@ -217,30 +271,27 @@ export async function getWordDefinitions(
     const responseText = generationResult.response.text();
     const jsonString = responseText.replace(/```json|```/g, "").trim();
     const definitionsFromApi = JSON.parse(jsonString) as Record<string, string>;
-    const definitionsToCacheInGithub: Record<string, string> = {};
+    const geminiDefinitionsToCache: Record<string, string> = {};
 
-    for (const word of wordsToFetchFromApi) {
+    for (const word of wordsForGemini) {
       const definition = definitionsFromApi[word];
       if (definition && !definition.includes(UNDEFINED_WORD_ERROR)) {
         results[word] = definition;
         definitionCache.set(word, definition);
-        definitionsToCacheInGithub[word] = definition;
+        geminiDefinitionsToCache[word] = definition;
       } else {
-        // Even if the API returns an error for a word, we still need to check if it's valid.
-        const { isValid } = await verifyWordAction(word);
-        results[word] = isValid ? UNDEFINED_WORD_VALID : INVALID_WORD_ERROR;
+        // It's a valid word, but AI couldn't define it.
+        results[word] = UNDEFINED_WORD_VALID;
       }
     }
 
-    if (Object.keys(definitionsToCacheInGithub).length > 0) {
-      await updateDictionaryWords(definitionsToCacheInGithub);
+    if (Object.keys(geminiDefinitionsToCache).length > 0) {
+      await updateDictionaryWords(geminiDefinitionsToCache);
     }
   } catch (error) {
-    console.error("Failed to fetch or parse batch definitions:", error);
-    // If the entire API call fails, check each word individually.
-    for (const word of wordsToFetchFromApi) {
-       const { isValid } = await verifyWordAction(word);
-       results[word] = isValid ? UNDEFINED_WORD_VALID : INVALID_WORD_ERROR;
+    console.error("Failed to fetch or parse batch Gemini definitions:", error);
+    for (const word of wordsForGemini) {
+       results[word] = UNDEFINED_WORD_VALID; // It's a valid word, but the API failed
     }
   }
 
