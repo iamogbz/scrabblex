@@ -844,6 +844,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
         wordInfo={focusedWord}
         userInputs={userInputs}
         onGuess={handleGuessSubmit}
+        revealedCells={revealedCells}
       />
     </div>
   );

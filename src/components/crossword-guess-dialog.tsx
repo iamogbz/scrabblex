@@ -26,6 +26,7 @@ interface CrosswordGuessDialogProps {
   } | null;
   userInputs: Record<string, string>;
   onGuess: (guess: string) => void;
+  revealedCells: string[];
 }
 
 export function CrosswordGuessDialog({
@@ -34,6 +35,7 @@ export function CrosswordGuessDialog({
   wordInfo,
   userInputs,
   onGuess,
+  revealedCells,
 }: CrosswordGuessDialogProps) {
   const [guess, setGuess] = useState<string[]>([]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -116,22 +118,32 @@ export function CrosswordGuessDialog({
             containerType: "size",
           }}
         >
-          {Array.from({ length: wordInfo.length }).map((_, i) => (
-            <Input
-              key={i}
-              ref={(el) => void (inputRefs.current[i] = el)}
-              type="text"
-              maxLength={2}
-              value={guess[i] || ""}
-              onInput={(e) => handleInputChange(i, e)}
-              onKeyDown={(e) => handleKeyDown(i, e)}
-              style={{
-                caretColor: "transparent",
-                fontSize: "clamp(12px, 0.8rem, 40px)",
-              }}
-              className="w-10 h-10 md:w-12 md:h-12 text-center font-bold uppercase"
-            />
-          ))}
+          {Array.from({ length: wordInfo.length }).map((_, i) => {
+            const x =
+              wordInfo.direction === "down" ? wordInfo.x + i : wordInfo.x;
+            const y =
+              wordInfo.direction === "across" ? wordInfo.y + i : wordInfo.y;
+            const key = `${x},${y}`;
+            const isRevealed = revealedCells.includes(key);
+
+            return (
+              <Input
+                key={i}
+                ref={(el) => void (inputRefs.current[i] = el)}
+                type="text"
+                maxLength={2}
+                value={guess[i] || ""}
+                onInput={(e) => handleInputChange(i, e)}
+                onKeyDown={(e) => handleKeyDown(i, e)}
+                readOnly={isRevealed}
+                style={{
+                  caretColor: "transparent",
+                  fontSize: "clamp(12px, 0.8rem, 40px)",
+                }}
+                className={`w-10 h-10 md:w-12 md:h-12 text-center font-bold uppercase ${isRevealed ? "text-green-700 bg-green-200 border-green-400" : ""}`}
+              />
+            );
+          })}
         </div>
         <DialogFooter className="gap-2">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
