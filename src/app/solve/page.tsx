@@ -98,7 +98,7 @@ const getGameStatusText = (game: GameDetails): string => {
   return [
     `${percentage}% complete.`,
     `${game.totalWords} words`,
-    game.crosswordTitle ? `(${game.crosswordTitle})` : "",
+    game.crosswordTitle ? `(${game.crosswordTitle}).` : ".",
     `Uploaded ${lastUpdated}.`
   ].filter(Boolean).join(" ");
 };
@@ -219,19 +219,19 @@ export default function SolvePage() {
       // 1. Completed puzzles go to the bottom
       if (a.completionPercentage === 100 && b.completionPercentage !== 100) return 1;
       if (b.completionPercentage === 100 && a.completionPercentage !== 100) return -1;
-  
+
       // 2. Sort by completion percentage (descending)
       if (a.completionPercentage !== b.completionPercentage) {
         return b.completionPercentage - a.completionPercentage;
       }
-  
+
       // 3. For puzzles with same completion, sort by last played (most recent first)
       if (a.lastPlayed && b.lastPlayed) {
         return b.lastPlayed - a.lastPlayed;
       }
       if (a.lastPlayed) return -1; // a has been played, b has not
       if (b.lastPlayed) return 1;  // b has been played, a has not
-  
+
       // 4. Finally, sort by upload date (most recent first)
       return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
     });
