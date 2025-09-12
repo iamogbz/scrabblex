@@ -656,6 +656,7 @@ export default function GameClient({
 
   const handleRackTileClick = (tile: Tile) => {
     if (selectedBuilderIndex !== null) {
+      // If a builder slot is selected, place the tile there
       if (tile.letter === " ") {
         setBlankTileToStage(tile);
         setIsBlankTileDialogOpen(true);
@@ -667,7 +668,32 @@ export default function GameClient({
       setSelectedBuilderIndex(null);
       setSelectedRackTileId(null);
     } else {
-      setSelectedRackTileId(prevId => prevId === tile.id ? null : tile.id);
+       // If no builder slot is selected, find first empty slot and place it
+      const occupiedIndices = new Set(Object.keys(stagedTiles).map(Number));
+      let firstEmptyIndex = -1;
+      const totalSlots = wordBuilderSlots.filter(s => !s.tile).length;
+
+      for (let i = 0; i < totalSlots; i++) {
+        if (!occupiedIndices.has(i)) {
+          firstEmptyIndex = i;
+          break;
+        }
+      }
+
+      if (firstEmptyIndex !== -1) {
+        if (tile.letter === " ") {
+          setBlankTileToStage(tile);
+          setSelectedBuilderIndex(firstEmptyIndex);
+          setIsBlankTileDialogOpen(true);
+        } else {
+          const newStagedTiles = { ...stagedTiles };
+          newStagedTiles[firstEmptyIndex] = tile;
+          setStagedTiles(newStagedTiles);
+        }
+      } else {
+        // If no empty slot, just select the tile in the rack
+        setSelectedRackTileId(prevId => prevId === tile.id ? null : tile.id);
+      }
     }
   };
 
@@ -727,15 +753,17 @@ export default function GameClient({
       if (tileToPlace) {
         if (tileToPlace.letter === " ") {
           setBlankTileToStage(tileToPlace);
+          // Set the builder index so the dialog knows where to place the tile
           setSelectedBuilderIndex(index); 
           setIsBlankTileDialogOpen(true);
         } else {
           const newStagedTiles = { ...stagedTiles };
           newStagedTiles[index] = tileToPlace;
           setStagedTiles(newStagedTiles);
-          setSelectedRackTileId(null);
           setSelectedBuilderIndex(null);
         }
+         // Tile from rack has been used, so unselect it
+        setSelectedRackTileId(null);
       }
     } else if (selectedBuilderIndex !== null) {
       const tileToMove = stagedTiles[selectedBuilderIndex];
