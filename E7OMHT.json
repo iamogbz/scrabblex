@@ -41,12 +41,8 @@
       "id": "p_1757615799583_njfhn9u",
       "name": "K",
       "code": "k",
-      "score": 102,
+      "score": 116,
       "rack": [
-        {
-          "letter": "I",
-          "points": 1
-        },
         {
           "letter": "B",
           "points": 3
@@ -60,30 +56,26 @@
           "points": 1
         },
         {
-          "letter": "N",
-          "points": 1
-        },
-        {
           "letter": "E",
           "points": 1
         },
         {
           "letter": "I",
           "points": 1
+        },
+        {
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "D",
+          "points": 2
         }
       ],
       "isComputer": true
     }
   ],
   "tileBag": [
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "D",
-      "points": 2
-    },
     {
       "letter": "I",
       "points": 1
@@ -1038,7 +1030,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 5,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1046,7 +1043,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 5,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2539,6 +2541,36 @@
       ],
       "score": 22,
       "timestamp": "2025-09-12T15:18:02.931Z"
+    },
+    {
+      "playerId": "p_1757615749826_fk63nbi",
+      "playerName": "E",
+      "word": "[PASS]",
+      "tiles": [],
+      "score": 0,
+      "isPass": true,
+      "timestamp": "2025-09-12T15:19:22.136Z"
+    },
+    {
+      "playerId": "p_1757615799583_njfhn9u",
+      "playerName": "K",
+      "word": "IN",
+      "tiles": [
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 5,
+          "y": 7
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 5,
+          "y": 8
+        }
+      ],
+      "score": 14,
+      "timestamp": "2025-09-12T15:19:22.885Z"
     }
   ],
   "gamePhase": "playing"
