@@ -5,16 +5,8 @@
       "id": "p_1757615749826_fk63nbi",
       "name": "E",
       "code": "e",
-      "score": 145,
+      "score": 172,
       "rack": [
-        {
-          "letter": "O",
-          "points": 1
-        },
-        {
-          "letter": "E",
-          "points": 1
-        },
         {
           "letter": "I",
           "points": 1
@@ -22,10 +14,6 @@
         {
           "letter": "E",
           "points": 1
-        },
-        {
-          "letter": "W",
-          "points": 4
         },
         {
           "letter": "A",
@@ -34,6 +22,18 @@
         {
           "letter": "H",
           "points": 4
+        },
+        {
+          "letter": "U",
+          "points": 1
+        },
+        {
+          "letter": "L",
+          "points": 1
+        },
+        {
+          "letter": "R",
+          "points": 1
         }
       ]
     },
@@ -41,12 +41,8 @@
       "id": "p_1757615799583_njfhn9u",
       "name": "K",
       "code": "k",
-      "score": 127,
+      "score": 155,
       "rack": [
-        {
-          "letter": "I",
-          "points": 1
-        },
         {
           "letter": "R",
           "points": 1
@@ -68,34 +64,18 @@
           "points": 1
         },
         {
-          "letter": "J",
-          "points": 8
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "letter": "L",
+          "points": 1
         }
       ],
       "isComputer": true
     }
   ],
   "tileBag": [
-    {
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
     {
       "letter": "P",
       "points": 3
@@ -477,7 +457,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "J",
+          "points": 8,
+          "x": 1,
+          "y": 9
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -598,7 +583,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "O",
+          "points": 1,
+          "x": 2,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -606,7 +596,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "W",
+          "points": 4,
+          "x": 2,
+          "y": 8
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -614,7 +609,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 2,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -918,7 +918,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 4,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2652,6 +2657,54 @@
       ],
       "score": 11,
       "timestamp": "2025-09-12T15:20:08.088Z"
+    },
+    {
+      "playerId": "p_1757615749826_fk63nbi",
+      "playerName": "E",
+      "word": "LOWE",
+      "tiles": [
+        {
+          "letter": "O",
+          "points": 1,
+          "x": 2,
+          "y": 7
+        },
+        {
+          "letter": "W",
+          "points": 4,
+          "x": 2,
+          "y": 8
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 2,
+          "y": 9
+        }
+      ],
+      "score": 27,
+      "timestamp": "2025-09-12T15:21:16.120Z"
+    },
+    {
+      "playerId": "p_1757615799583_njfhn9u",
+      "playerName": "K",
+      "word": "JEDI",
+      "tiles": [
+        {
+          "letter": "J",
+          "points": 8,
+          "x": 1,
+          "y": 9
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 4,
+          "y": 9
+        }
+      ],
+      "score": 28,
+      "timestamp": "2025-09-12T15:21:16.963Z"
     }
   ],
   "gamePhase": "playing"
