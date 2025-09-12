@@ -92,15 +92,15 @@ export default function GameClient({
   const [copied, setCopied] = useState(false);
 
   const [stagedTiles, setStagedTiles] = useLocalStorage<
-    Record<number, PlacedTile>
+    Record<number, Tile>
   >(`scrabblex_staged_tiles_${gameId}`, {});
 
   const [selectedBuilderIndex, setSelectedBuilderIndex] = useState<
     number | null
   >(null);
-  const [selectedRackTileIndex, setSelectedRackTileIndex] = useState<
-    number | null
-  >(null);
+  const [selectedRackTileId, setSelectedRackTileId] = useState<string | null>(
+    null
+  );
   const [selectedBoardPos, setSelectedBoardPos] = useState<{
     x: number;
     y: number;
@@ -199,7 +199,7 @@ export default function GameClient({
     setSelectedBoardPos(null);
     setPlayDirection(null);
     setSelectedBuilderIndex(null);
-    setSelectedRackTileIndex(null);
+    setSelectedRackTileId(null);
   }, [setStagedTiles]);
 
   const handleLeaveGame = useCallback(() => {
@@ -315,20 +315,13 @@ export default function GameClient({
 
   useEffect(() => {
     if (authenticatedPlayer && Object.keys(stagedTiles).length > 0) {
-      const rackLetters = [...authenticatedPlayer.rack];
-      const validStagedTiles: Record<number, PlacedTile> = {};
+      const rackTileIds = new Set(authenticatedPlayer.rack.map(t => t.id));
+      const validStagedTiles: Record<number, Tile> = {};
       let somethingChanged = false;
 
       Object.entries(stagedTiles).forEach(([key, stagedTile]) => {
-        const letterToCheck = stagedTile.originalLetter ?? stagedTile.letter;
-        const indexInRack = rackLetters.findIndex(
-          (t) => t.letter === letterToCheck
-        );
-
-        if (indexInRack !== -1) {
+        if (rackTileIds.has(stagedTile.id)) {
           validStagedTiles[parseInt(key)] = stagedTile;
-          // Remove the tile from the available rack letters to handle duplicates
-          rackLetters.splice(indexInRack, 1);
         } else {
           somethingChanged = true;
         }
@@ -374,20 +367,8 @@ export default function GameClient({
 
   const rackTiles = useMemo(() => {
     if (!authenticatedPlayer) return [];
-    const stagedTileValues = Object.values(stagedTiles);
-    const stagedLettersCopy = stagedTileValues.map(
-      (t) => t.originalLetter ?? t.letter
-    );
-    const rackCopy = [...authenticatedPlayer.rack];
-    const availableTiles = rackCopy.filter((rackTile) => {
-      const index = stagedLettersCopy.indexOf(rackTile.letter);
-      if (index > -1) {
-        stagedLettersCopy.splice(index, 1);
-        return false;
-      }
-      return true;
-    });
-    return availableTiles;
+    const stagedTileIds = new Set(Object.values(stagedTiles).map(t => t.id));
+    return authenticatedPlayer.rack.filter(t => !stagedTileIds.has(t.id));
   }, [authenticatedPlayer, stagedTiles]);
 
   const wordBuilderSlots = useMemo((): readonly BoardSquare[] => {
@@ -434,11 +415,12 @@ export default function GameClient({
   }, [selectedBoardPos, playDirection, gameState]);
 
   const tempPlacedTiles = useMemo((): PlacedTile[] => {
+    const stagedTilesArray = Object.values(stagedTiles);
     if (
       !selectedBoardPos ||
       !playDirection ||
       !wordBuilderSlots.length ||
-      Object.keys(stagedTiles).length === 0
+      stagedTilesArray.length === 0
     ) {
       return [];
     }
@@ -446,7 +428,6 @@ export default function GameClient({
     const placed: PlacedTile[] = [];
     let { x: startX, y: startY } = selectedBoardPos;
 
-    // Find the actual start of the word on the board
     if (playDirection === "horizontal") {
       while (startY > 0 && gameState?.board[startX][startY - 1].tile) {
         startY--;
@@ -491,7 +472,7 @@ export default function GameClient({
     for (const tile of gameState.tileBag) {
       const key = tile.letter || "BLANK";
       if (!counts[key]) {
-        const displayTile = tile.letter ? tile : { letter: "", points: 0 };
+        const displayTile = tile.letter ? tile : { ...tile, letter: "" };
         counts[key] = { tile: displayTile, count: 0 };
       }
       counts[key].count++;
@@ -644,33 +625,27 @@ export default function GameClient({
 
   const handleSquareClick = (x: number, y: number) => {
     setSelectedBoardPos((prevPos) => {
-      // If clicking a different square, reset direction
       if (prevPos?.x !== x || prevPos?.y !== y) {
         setPlayDirection("horizontal");
         return { x, y };
       }
   
-      // If clicking the same square, cycle through directions
       if (playDirection === "horizontal") {
         setPlayDirection("vertical");
-        return prevPos; // Keep the same position
+        return prevPos; 
       }
   
       if (playDirection === "vertical") {
-        // This is the third click on the same square, so deselect it
         setPlayDirection(null);
         return null;
       }
   
-      // This case handles when a square is selected but direction is null (after deselection)
-      // It will restart the cycle by setting direction to horizontal
       setPlayDirection("horizontal");
       return prevPos;
     });
   };
 
   const handleRackClick = () => {
-    // If a builder tile is selected, clicking the rack should return it.
     if (selectedBuilderIndex !== null) {
       const newStagedTiles = { ...stagedTiles };
       delete newStagedTiles[selectedBuilderIndex];
@@ -679,57 +654,54 @@ export default function GameClient({
     }
   };
 
-  const handleRackTileClick = (tile: Tile, index: number) => {
+  const handleRackTileClick = (tile: Tile) => {
     if (selectedBuilderIndex !== null) {
-      // A builder slot is selected, place this tile there
       if (tile.letter === " ") {
         setBlankTileToStage(tile);
         setIsBlankTileDialogOpen(true);
       } else {
         const newStagedTiles = { ...stagedTiles };
-        newStagedTiles[selectedBuilderIndex] = { ...tile, x: -1, y: -1 };
+        newStagedTiles[selectedBuilderIndex] = tile;
         setStagedTiles(newStagedTiles);
       }
       setSelectedBuilderIndex(null);
-      setSelectedRackTileIndex(null);
+      setSelectedRackTileId(null);
     } else {
-      // Otherwise, just select/deselect this rack tile
-      setSelectedRackTileIndex(index === selectedRackTileIndex ? null : index);
+      setSelectedRackTileId(prevId => prevId === tile.id ? null : tile.id);
     }
   };
 
   const handleStagedTileClick = (index: number) => {
-    if (selectedRackTileIndex !== null && authenticatedPlayer) {
-      // A rack tile is selected, perform a swap with the builder tile
-      const rackTileToPlace = authenticatedPlayer.rack.find((t, i) => i === selectedRackTileIndex);
+    const clickedTile = stagedTiles[index];
+    if (!clickedTile) return;
+
+    if (selectedRackTileId !== null && authenticatedPlayer) {
+      const rackTileToPlace = authenticatedPlayer.rack.find(t => t.id === selectedRackTileId);
 
       if (rackTileToPlace) {
           const newStagedTiles = { ...stagedTiles };
           if (rackTileToPlace.letter === " ") {
             setBlankTileToStage(rackTileToPlace);
-            // We need to know where the blank tile will go after selection
             setSelectedBuilderIndex(index);
             setIsBlankTileDialogOpen(true);
           } else {
-             newStagedTiles[index] = { ...rackTileToPlace, x: -1, y: -1 };
+             newStagedTiles[index] = rackTileToPlace;
              setStagedTiles(newStagedTiles);
           }
       }
-      setSelectedRackTileIndex(null); // Deselect rack tile after swap
+      setSelectedRackTileId(null);
       return; 
     }
 
-    if (stagedTiles[index]?.originalLetter === " ") {
+    if (clickedTile.originalLetter === " ") {
       setStagedTileToReassign(index);
       setIsBlankTileDialogOpen(true);
       return;
     }
 
     if (selectedBuilderIndex === index) {
-      // Deselect if clicking the same selected tile
       setSelectedBuilderIndex(null);
     } else if (selectedBuilderIndex !== null) {
-      // Another staged tile is already selected, so swap them
       const newStagedTiles = { ...stagedTiles };
       const tileToMove = stagedTiles[selectedBuilderIndex];
       const targetTile = stagedTiles[index];
@@ -744,69 +716,69 @@ export default function GameClient({
       setStagedTiles(newStagedTiles);
       setSelectedBuilderIndex(null);
     } else {
-      // Select the tile to be moved
       setSelectedBuilderIndex(index);
-      setSelectedRackTileIndex(null); // Deselect any rack tile
+      setSelectedRackTileId(null);
     }
   };
 
   const handleBuilderSlotClick = (index: number) => {
-    const newStagedTiles = { ...stagedTiles };
-
-    if (selectedRackTileIndex !== null && authenticatedPlayer) {
-      // A tile from the rack is selected, place it here
-      const tileToPlace = rackTiles.find((t, i) => i === selectedRackTileIndex);
+    if (selectedRackTileId !== null && authenticatedPlayer) {
+      const tileToPlace = authenticatedPlayer.rack.find(t => t.id === selectedRackTileId);
       if (tileToPlace) {
         if (tileToPlace.letter === " ") {
           setBlankTileToStage(tileToPlace);
-          setSelectedBuilderIndex(index); // Set target for blank tile
+          setSelectedBuilderIndex(index); 
           setIsBlankTileDialogOpen(true);
         } else {
-          newStagedTiles[index] = { ...tileToPlace, x: -1, y: -1 };
+          const newStagedTiles = { ...stagedTiles };
+          newStagedTiles[index] = tileToPlace;
           setStagedTiles(newStagedTiles);
+          setSelectedRackTileId(null);
         }
       }
-      setSelectedRackTileIndex(null);
     } else if (selectedBuilderIndex !== null) {
-      // A tile from the builder is selected, move it to this empty slot
-      const tileToMove = newStagedTiles[selectedBuilderIndex];
+      const tileToMove = stagedTiles[selectedBuilderIndex];
       if (tileToMove) {
-        delete newStagedTiles[selectedBuilderIndex]; // Remove from old position
-        newStagedTiles[index] = tileToMove; // Add to new position
+        const newStagedTiles = { ...stagedTiles };
+        delete newStagedTiles[selectedBuilderIndex]; 
+        newStagedTiles[index] = tileToMove; 
         setStagedTiles(newStagedTiles);
       }
-      setSelectedBuilderIndex(null); // Deselect after move
+      setSelectedBuilderIndex(null);
     } else {
-      // No tile is selected, so select this empty slot as the target
       setSelectedBuilderIndex(index);
     }
   };
 
   const handleBlankTileSelect = (letter: string) => {
-    const newTileBase = blankTileToStage ||
-      (stagedTileToReassign !== null &&
-        stagedTiles[stagedTileToReassign]) || { letter: " ", points: 0 };
+    let newTileBase: Tile;
 
-    const newTile: PlacedTile = {
+    if (stagedTileToReassign !== null) {
+      newTileBase = stagedTiles[stagedTileToReassign];
+    } else if (blankTileToStage) {
+      newTileBase = blankTileToStage;
+    } else {
+      return; // Should not happen
+    }
+    
+    const newTile: Tile = {
       ...newTileBase,
       letter: letter,
       originalLetter: " ",
-      x: -1,
-      y: -1,
     };
 
-    if (stagedTileToReassign !== null) {
+    const targetIndex = stagedTileToReassign ?? selectedBuilderIndex;
+
+    if (targetIndex !== null) {
       const newStagedTiles = { ...stagedTiles };
-      newStagedTiles[stagedTileToReassign] = newTile;
+      newStagedTiles[targetIndex] = newTile;
       setStagedTiles(newStagedTiles);
-      setStagedTileToReassign(null);
-    } else if (selectedBuilderIndex !== null) {
-      const newStagedTiles = { ...stagedTiles };
-      newStagedTiles[selectedBuilderIndex] = newTile;
-      setStagedTiles(newStagedTiles);
-      setBlankTileToStage(null);
-      setSelectedBuilderIndex(null);
     }
+
+    setStagedTileToReassign(null);
+    setBlankTileToStage(null);
+    setSelectedBuilderIndex(null);
+    setSelectedRackTileId(null);
   };
 
   const handleReturnTileToRack = () => {
@@ -843,20 +815,11 @@ export default function GameClient({
 
   const handlePlayWord = async () => {
     if (!gameState || !authenticatedPlayer) return;
-    const placedTilesArray = Object.values(stagedTiles);
-
-    if (placedTilesArray.length === 0) {
-      toast({
-        title: "Cannot Play",
-        description: "You haven't placed any tiles.",
-        variant: "destructive",
-      });
-      return;
-    }
+    
     if (tempPlacedTiles.length === 0) {
       toast({
         title: "Cannot Play",
-        description: "Please select a starting position on the board.",
+        description: "You haven't placed any tiles on the board.",
         variant: "destructive",
       });
       return;
@@ -1024,8 +987,6 @@ export default function GameClient({
       return newGameState;
     };
 
-    // This needs to be a separate call as it modifies the player list
-    // The unified `playTurn` action is not suitable here.
     const gameData = await getGameState(gameId);
     if (gameData) {
       const { gameState: currentGameState, sha: currentSha } = gameData;
@@ -1155,6 +1116,7 @@ export default function GameClient({
               }
               onShowHistory={() => setIsHistoryOpen(true)}
               gameHistoryLength={gameState.history.length}
+              gameCreatedAt={gameState.createdAt}
             />
             <Button asChild className="mt-4 w-full">
               <Link href="/play">Play Again</Link>
@@ -1301,6 +1263,7 @@ export default function GameClient({
             }
             onShowHistory={() => setIsHistoryOpen(true)}
             gameHistoryLength={gameState.history.length}
+            gameCreatedAt={gameState.createdAt}
           />
         </div>
         {historyDialog}
@@ -1341,12 +1304,11 @@ export default function GameClient({
               {authenticatedPlayer && (
                 <PlayerRack
                   rack={rackTiles}
-                  originalRack={authenticatedPlayer.rack}
                   onTileClick={handleRackTileClick}
                   onRackClick={handleRackClick}
                   isMyTurn={false}
                   playerColor={playerColor}
-                  selectedRackTileIndex={selectedRackTileIndex}
+                  selectedRackTileId={selectedRackTileId}
                 />
               )}
             </div>
@@ -1374,12 +1336,11 @@ export default function GameClient({
             <div className="lg:sticky lg:top-4 space-y-4 z-10">
               <PlayerRack
                 rack={rackTiles}
-                originalRack={authenticatedPlayer.rack}
                 onTileClick={handleRackTileClick}
                 onRackClick={handleRackClick}
                 isMyTurn={isMyTurn}
                 playerColor={playerColor}
-                selectedRackTileIndex={selectedRackTileIndex}
+                selectedRackTileId={selectedRackTileId}
               />
               {gameState && (
                 <WordBuilder
@@ -1475,6 +1436,7 @@ export default function GameClient({
             }
             onShowHistory={() => setIsHistoryOpen(true)}
             gameHistoryLength={gameState.history.length}
+            gameCreatedAt={gameState.createdAt}
           />
           <Card>
             <CardHeader>
@@ -1593,7 +1555,7 @@ export default function GameClient({
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-x-2 gap-y-4 py-4 max-h-[60vh] overflow-y-auto">
             {tileBagContents.map(({ tile, count }) => (
               <div
-                key={tile.letter || "BLANK"}
+                key={tile.id || tile.letter}
                 className="flex items-center gap-2"
               >
                 <div className="w-10 h-10 flex-shrink-0">

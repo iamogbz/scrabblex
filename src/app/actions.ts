@@ -678,6 +678,7 @@ function extend(
       const newPlaced = [
         ...placed,
         {
+          id: `temp_${Math.random()}`,
           letter,
           points: TILE_BAG.find(t => t.letter === letter)?.points ?? 0,
           x,
@@ -810,17 +811,23 @@ export async function replacePlayerWithComputer(
         return { success: false, error: "It is not this player's turn to be replaced." };
     }
 
-    // If there's no history, assume inactivity threshold is met to allow replacement at game start.
-    if (gameState.history.length > 0) {
-        const lastMoveTimestamp = new Date(gameState.history[gameState.history.length - 1].timestamp);
-        const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
+    const lastActivityTimestamp = gameState.history.length > 0
+        ? new Date(gameState.history[gameState.history.length - 1].timestamp)
+        : (gameState.createdAt ? new Date(gameState.createdAt) : null);
 
-        if (lastMoveTimestamp > thirtyMinutesAgo) {
-            return {
-                success: false,
-                error: "Player has not been inactive for 30 minutes.",
-            };
-        }
+    if (!lastActivityTimestamp) {
+        return {
+            success: false,
+            error: "Cannot determine game start time for inactivity check.",
+        };
+    }
+
+    const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
+    if (lastActivityTimestamp > thirtyMinutesAgo && gameState.history.length > 0) {
+        return {
+            success: false,
+            error: "Player has not been inactive for 30 minutes.",
+        };
     }
 
 
@@ -1006,12 +1013,9 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
             const newTiles = newGameState.tileBag.splice(0, tilesToDrawCount);
 
             let rackAfterPlay = [...playerToUpdate.rack];
-            const playedLetters = m.tiles.map(t => t.originalLetter ?? t.letter);
+            const playedTileIds = new Set(m.tiles.map(t => t.id));
 
-            playedLetters.forEach(letter => {
-                const indexToRemove = rackAfterPlay.findIndex(t => t.letter === letter);
-                if (indexToRemove > -1) rackAfterPlay.splice(indexToRemove, 1);
-            });
+            rackAfterPlay = rackAfterPlay.filter(t => !playedTileIds.has(t.id));
 
             playerToUpdateInNewState.rack = [...rackAfterPlay, ...newTiles];
 
@@ -1027,13 +1031,16 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
         } else if (m.type === 'swap') {
             message = `feat: ${p.name} swapped ${m.tiles.length} tiles in game ${gameId}`;
             const tileBag = newGameState.tileBag;
-            const lettersToSwap = m.tiles.map(t => t.letter);
-            const rackAfterSwap = [...playerToUpdate.rack];
+            const tileIdsToSwap = new Set(m.tiles.map(t => t.id));
+            let rackAfterSwap = [...playerToUpdate.rack];
             const swappedOutTiles: Tile[] = [];
 
-            lettersToSwap.forEach(letter => {
-                const index = rackAfterSwap.findIndex(t => t.letter === letter);
-                if (index > -1) swappedOutTiles.push(rackAfterSwap.splice(index, 1)[0]);
+            rackAfterSwap = rackAfterSwap.filter(t => {
+                if (tileIdsToSwap.has(t.id)) {
+                    swappedOutTiles.push(t);
+                    return false;
+                }
+                return true;
             });
 
             const newTiles = tileBag.splice(0, swappedOutTiles.length);

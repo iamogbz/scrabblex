@@ -1,33 +1,45 @@
 import type { Tile, BoardSquare } from "@/types";
 
+const generateTileId = () => {
+  return Math.random().toString(36).substring(2, 6).toUpperCase();
+};
+
+const createTiles = (letter: string, points: number, count: number): Tile[] => {
+  return Array.from({ length: count }, () => ({
+    id: generateTileId(),
+    letter,
+    points,
+  }));
+};
+
 export const TILE_BAG: Tile[] = [
-  { letter: "A", points: 1 }, { letter: "A", points: 1 }, { letter: "A", points: 1 }, { letter: "A", points: 1 }, { letter: "A", points: 1 }, { letter: "A", points: 1 }, { letter: "A", points: 1 }, { letter: "A", points: 1 }, { letter: "A", points: 1 },
-  { letter: "B", points: 3 }, { letter: "B", points: 3 },
-  { letter: "C", points: 3 }, { letter: "C", points: 3 },
-  { letter: "D", points: 2 }, { letter: "D", points: 2 }, { letter: "D", points: 2 }, { letter: "D", points: 2 },
-  { letter: "E", points: 1 }, { letter: "E", points: 1 }, { letter: "E", points: 1 }, { letter: "E", points: 1 }, { letter: "E", points: 1 }, { letter: "E", points: 1 }, { letter: "E", points: 1 }, { letter: "E", points: 1 }, { letter: "E", points: 1 }, { letter: "E", points: 1 }, { letter: "E", points: 1 }, { letter: "E", points: 1 },
-  { letter: "F", points: 4 }, { letter: "F", points: 4 },
-  { letter: "G", points: 2 }, { letter: "G", points: 2 }, { letter: "G", points: 2 },
-  { letter: "H", points: 4 }, { letter: "H", points: 4 },
-  { letter: "I", points: 1 }, { letter: "I", points: 1 }, { letter: "I", points: 1 }, { letter: "I", points: 1 }, { letter: "I", points: 1 }, { letter: "I", points: 1 }, { letter: "I", points: 1 }, { letter: "I", points: 1 }, { letter: "I", points: 1 },
-  { letter: "J", points: 8 },
-  { letter: "K", points: 5 },
-  { letter: "L", points: 1 }, { letter: "L", points: 1 }, { letter: "L", points: 1 }, { letter: "L", points: 1 },
-  { letter: "M", points: 3 }, { letter: "M", points: 3 },
-  { letter: "N", points: 1 }, { letter: "N", points: 1 }, { letter: "N", points: 1 }, { letter: "N", points: 1 }, { letter: "N", points: 1 }, { letter: "N", points: 1 },
-  { letter: "O", points: 1 }, { letter: "O", points: 1 }, { letter: "O", points: 1 }, { letter: "O", points: 1 }, { letter: "O", points: 1 }, { letter: "O", points: 1 }, { letter: "O", points: 1 }, { letter: "O", points: 1 },
-  { letter: "P", points: 3 }, { letter: "P", points: 3 },
-  { letter: "Q", points: 10 },
-  { letter: "R", points: 1 }, { letter: "R", points: 1 }, { letter: "R", points: 1 }, { letter: "R", points: 1 }, { letter: "R", points: 1 }, { letter: "R", points: 1 },
-  { letter: "S", points: 1 }, { letter: "S", points: 1 }, { letter: "S", points: 1 }, { letter: "S", points: 1 },
-  { letter: "T", points: 1 }, { letter: "T", points: 1 }, { letter: "T", points: 1 }, { letter: "T", points: 1 }, { letter: "T", points: 1 }, { letter: "T", points: 1 },
-  { letter: "U", points: 1 }, { letter: "U", points: 1 }, { letter: "U", points: 1 }, { letter: "U", points: 1 },
-  { letter: "V", points: 4 }, { letter: "V", points: 4 },
-  { letter: "W", points: 4 }, { letter: "W", points: 4 },
-  { letter: "X", points: 8 },
-  { letter: "Y", points: 4 }, { letter: "Y", points: 4 },
-  { letter: "Z", points: 10 },
-  { letter: " ", points: 0 }, { letter: " ", points: 0 },
+  ...createTiles("A", 1, 9),
+  ...createTiles("B", 3, 2),
+  ...createTiles("C", 3, 2),
+  ...createTiles("D", 2, 4),
+  ...createTiles("E", 1, 12),
+  ...createTiles("F", 4, 2),
+  ...createTiles("G", 2, 3),
+  ...createTiles("H", 4, 2),
+  ...createTiles("I", 1, 9),
+  ...createTiles("J", 8, 1),
+  ...createTiles("K", 5, 1),
+  ...createTiles("L", 1, 4),
+  ...createTiles("M", 3, 2),
+  ...createTiles("N", 1, 6),
+  ...createTiles("O", 1, 8),
+  ...createTiles("P", 3, 2),
+  ...createTiles("Q", 10, 1),
+  ...createTiles("R", 1, 6),
+  ...createTiles("S", 1, 4),
+  ...createTiles("T", 1, 6),
+  ...createTiles("U", 1, 4),
+  ...createTiles("V", 4, 2),
+  ...createTiles("W", 4, 2),
+  ...createTiles("X", 8, 1),
+  ...createTiles("Y", 4, 2),
+  ...createTiles("Z", 10, 1),
+  ...createTiles(" ", 0, 2),
 ];
 
 const BOARD_SIZE = 15;

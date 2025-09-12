@@ -1,4 +1,5 @@
 export interface Tile {
+  id: string;
   letter: string;
   points: number;
   originalLetter?: string;
@@ -51,4 +52,5 @@ export interface GameState {
   history: PlayedWord[];
   gamePhase: GamePhase;
   endStatus?: string;
+  createdAt?: string;
 }

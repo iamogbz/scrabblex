@@ -1,7 +1,7 @@
 
 "use client";
 
-import type { PlacedTile, Board, BoardSquare } from "@/types";
+import type { PlacedTile, Board, BoardSquare, Tile } from "@/types";
 import {
   Card,
   CardContent,
@@ -19,7 +19,7 @@ import { INVALID_WORD_ERROR, NO_API_KEY_ERROR, UNDEFINED_WORD_VALID } from "@/li
 
 interface WordBuilderProps {
   slots: readonly BoardSquare[];
-  stagedTiles: Record<number, PlacedTile>;
+  stagedTiles: Record<number, Tile>;
   onStagedTileClick: (index: number) => void;
   onBuilderSlotClick: (index: number) => void;
   selectedBuilderIndex: number | null;
@@ -50,7 +50,7 @@ export default function WordBuilder({
       return { word: "", score: 0 };
     }
 
-    const currentWordTiles: (PlacedTile | BoardSquare)[] = [];
+    const currentWordTiles: (BoardSquare | Tile)[] = [];
     let currentWord = "";
     let emptySlotCounter = 0;
 
@@ -156,7 +156,7 @@ export default function WordBuilder({
         if (tile) {
           rendered.push(
             <div
-              key={`staged-${currentIndex}`}
+              key={`staged-${tile.id}`}
               className="aspect-square"
               onClick={() => {
                 if (tile.originalLetter === ' ') {

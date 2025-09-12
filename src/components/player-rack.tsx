@@ -12,27 +12,21 @@ import { Hand } from "lucide-react";
 
 interface PlayerRackProps {
   rack: Tile[]; // This should be the filtered list of available (un-staged) tiles
-  originalRack: Tile[]; // This is the full, original rack of the player
-  onTileClick: (tile: Tile, originalIndex: number) => void;
+  onTileClick: (tile: Tile) => void;
   onRackClick: () => void;
   isMyTurn: boolean;
-  selectedRackTileIndex: number | null;
+  selectedRackTileId: string | null;
   playerColor?: string;
 }
 
 export default function PlayerRack({
   rack,
-  originalRack,
   onTileClick,
   onRackClick,
   isMyTurn,
-  selectedRackTileIndex,
+  selectedRackTileId,
   playerColor,
 }: PlayerRackProps) {
-  // Create a copy of the original rack to safely find and "remove" tiles
-  // as we match them to the display rack. This prevents re-selecting the same
-  // tile if there are duplicates (e.g. two 'A' tiles).
-  const originalRackCopy = [...originalRack];
 
   return (
     <Card
@@ -52,29 +46,17 @@ export default function PlayerRack({
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-7 gap-1 md:gap-2">
-          {rack.map((tile, displayIndex) => {
-            // Find the index of this tile instance in our mutable copy of the original rack.
-            const originalIndex = originalRackCopy.findIndex(
-              (t) =>
-                t && t.letter === tile.letter && t.points === tile.points
-            );
-            
-            if (originalIndex !== -1) {
-              // "Remove" the found tile from the copy so it's not found again.
-              originalRackCopy.splice(originalIndex, 1, null as any);
-            }
-
+          {rack.map((tile) => {
             return (
               <SingleTile
-                key={`${tile.letter}-${displayIndex}`}
+                key={tile.id}
                 tile={tile}
                 onSelect={(e) => {
                   e.stopPropagation(); // Prevent onRackClick from firing
-                  // We must use the original index from the full rack for the click handler.
-                  onTileClick(tile, originalIndex);
+                  onTileClick(tile);
                 }}
                 isDraggable={isMyTurn}
-                isSelected={selectedRackTileIndex === originalIndex}
+                isSelected={selectedRackTileId === tile.id}
                 playerColor={playerColor}
               />
             );

@@ -42,6 +42,18 @@ const shuffle = <T>(array: T[]): T[] => {
   return newArray;
 };
 
+const generateTileId = () => {
+  return Math.random().toString(36).substring(2, 6).toUpperCase();
+};
+
+const ensureTileId = (tile: Tile): Tile => {
+  if (!tile.id) {
+    return { ...tile, id: generateTileId() };
+  }
+  return tile;
+};
+
+
 const countTiles = (tiles: Tile[]) => {
   return tiles.reduce((acc, tile) => {
     const letterToCount = tile.originalLetter
@@ -74,10 +86,33 @@ export async function getGame(
 
     const data = await response.json();
     let gameState: GameState = JSON.parse(fromBase64(data.content));
-    gameState.players = gameState.players.map((player) => ({
-      ...player,
-      name: player.name.toUpperCase(),
-    }));
+    let stateWasModifiedByBackcompat = false;
+
+    // --- Backward Compatibility: Ensure all tiles have IDs ---
+    gameState.tileBag = gameState.tileBag.map(tile => {
+        if (!tile.id) stateWasModifiedByBackcompat = true;
+        return ensureTileId(tile);
+    });
+
+    gameState.players = gameState.players.map((player) => {
+      const newPlayer = { ...player, name: player.name.toUpperCase() };
+      newPlayer.rack = newPlayer.rack.map(tile => {
+        if (!tile.id) stateWasModifiedByBackcompat = true;
+        return ensureTileId(tile);
+      });
+      return newPlayer;
+    });
+
+    gameState.history = gameState.history.map(playedWord => {
+      if (playedWord.tiles) {
+        playedWord.tiles = playedWord.tiles.map(tile => {
+            if (!tile.id) stateWasModifiedByBackcompat = true;
+            return ensureTileId(tile);
+        });
+      }
+      return playedWord;
+    });
+
 
     let sha: string = data.sha;
     let stateWasModified = false;
@@ -106,6 +141,7 @@ export async function getGame(
       const tilesInRacks = gameState.players.flatMap((p) => p.rack);
       const tilesOnBoard = gameState.history.flatMap((h) =>
         h.tiles ? h.tiles.map((t) => ({
+          ...ensureTileId(t), // Ensure ID for comparison
           letter: t.originalLetter || t.letter,
           points: t.points,
         })) : []
@@ -121,7 +157,8 @@ export async function getGame(
         const expectedCountInBag = initialCount - inPlayCount;
         const tileInfo = TILE_BAG.find((t) => t.letter === letter)!;
         for (let i = 0; i < expectedCountInBag; i++) {
-          expectedTileBag.push(tileInfo);
+           // We create a new tile with new ID to avoid duplicates from the master TILE_BAG
+          expectedTileBag.push({ ...tileInfo, id: generateTileId() });
         }
       }
 
@@ -157,22 +194,24 @@ export async function getGame(
         return player;
       });
 
-      if (stateWasModified) {
+      if (stateWasModified || stateWasModifiedByBackcompat) {
         const updatedGameState: GameState = {
           ...gameState,
           players: updatedPlayers,
           tileBag: newTileBag,
         };
 
-        // The state was changed, so we must commit it back to GitHub.
+        const message = stateWasModifiedByBackcompat
+          ? `SYSTEM: Add unique IDs to tiles for game ${gameId}`
+          : `SYSTEM: Corrected tile bag and player racks for game ${gameId}`;
+
         const updatedData = await updateGame(
           gameId,
           updatedGameState,
           sha,
-          `SYSTEM: Corrected tile bag and player racks for game ${gameId}`
+          message
         );
 
-        // Return the fresh state and the new SHA.
         return { gameState: updatedGameState, sha: updatedData.content.sha };
       }
     }
@@ -188,10 +227,11 @@ export async function createNewGame(gameId: string): Promise<GameState> {
   const initialGameState: GameState = {
     gameId,
     players: [],
-    tileBag: shuffle(TILE_BAG),
+    tileBag: shuffle(TILE_BAG.map(t => ({...t, id: generateTileId()}))), // Ensure fresh IDs
     board: createInitialBoard(),
     history: [],
     gamePhase: "playing",
+    createdAt: new Date().toISOString(),
   };
 
   if (!GITHUB_TOKEN) {
@@ -231,6 +271,11 @@ export async function updateGame(
 ): Promise<any> {
   if (!GITHUB_TOKEN) return;
   try {
+    // Ensure all tiles have IDs before saving
+    gameState.tileBag.forEach(ensureTileId);
+    gameState.players.forEach(p => p.rack.forEach(ensureTileId));
+    gameState.history.forEach(h => h.tiles?.forEach(ensureTileId));
+
     const content = toBase64(JSON.stringify(gameState, null, 2));
 
     const response = await fetch(`${GITHUB_API_URL}${gameId}.json`, {

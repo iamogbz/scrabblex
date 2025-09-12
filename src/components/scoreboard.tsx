@@ -13,6 +13,7 @@ interface ScoreboardProps {
   lastMoveTimestamp?: string;
   onShowHistory: () => void;
   gameHistoryLength: number;
+  gameCreatedAt?: string;
 }
 
 export default function Scoreboard({
@@ -24,6 +25,7 @@ export default function Scoreboard({
   lastMoveTimestamp,
   onShowHistory,
   gameHistoryLength,
+  gameCreatedAt,
 }: ScoreboardProps) {
   const winningScore = Math.max(...players.map((player) => player.score));
 
@@ -43,14 +45,15 @@ export default function Scoreboard({
       </CardHeader>
       <CardContent>
         <ul className="space-y-2">
-          {players.map((player) => {
+          {players.map((player, index) => {
             const isCurrentTurn = player.id === currentPlayerId;
             const isYou = player.id === authenticatedPlayerId;
             const isWinner = player.score === winningScore;
 
-            const isInactive = gameHistoryLength === 0 || // If no moves made, anyone can be replaced.
-              (!!lastMoveTimestamp &&
-              new Date(lastMoveTimestamp) <
+            const referenceTimestamp = lastMoveTimestamp || gameCreatedAt;
+            
+            const isInactive = (!!referenceTimestamp &&
+              new Date(referenceTimestamp) <
                 new Date(Date.now() - 30 * 60 * 1000));
 
             return (
@@ -86,6 +89,7 @@ export default function Scoreboard({
                       size="sm"
                       variant="ghost"
                       onClick={() => onReplacePlayer(player.id)}
+                      title={`Replace ${player.name} with AI`}
                     >
                       <Bot className="h-4 w-4" />
                     </Button>
