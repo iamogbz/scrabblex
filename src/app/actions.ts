@@ -21,7 +21,7 @@ import { Octokit } from "@octokit/rest";
 import { Board, BoardSquare, GameState, PlacedTile, Player, Tile, PlayedWord } from "@/types";
 import { calculateMoveScore } from "@/lib/scoring";
 import { createInitialBoard, TILE_BAG } from "@/lib/game-data";
-import { shuffle } from "@/lib/utils";
+import { capitalize, shuffle } from "@/lib/utils";
 import { INVALID_WORD_ERROR, NO_API_KEY_ERROR, UNDEFINED_WORD_ERROR, UNDEFINED_WORD_VALID } from "@/lib/constants";
 
 let wordSet: Set<string>;
@@ -106,7 +106,7 @@ async function getDefinitionFromDictionaryAPI(word: string): Promise<string | nu
       const definition = firstMeaning.definitions[0]?.definition;
       const partOfSpeech = firstMeaning.partOfSpeech;
       if (definition) {
-        return `(${partOfSpeech}) ${definition}`;
+        return `(${capitalize(partOfSpeech)}) ${capitalize(definition)}`;
       }
     }
     return null;
@@ -215,7 +215,7 @@ export async function getWordDefinitions(
   }
 
   if (wordsNotFoundInGithub.length === 0) return results;
-  
+
   // 3. Verify words and try DictionaryAPI for remaining
   const wordsForGemini: string[] = [];
   const definitionsToCache: Record<string, string> = {};
@@ -237,13 +237,13 @@ export async function getWordDefinitions(
     }
   });
   await Promise.all(dictionaryApiPromises);
-  
+
   if (Object.keys(definitionsToCache).length > 0) {
     await updateDictionaryWords(definitionsToCache);
   }
 
   if (wordsForGemini.length === 0) return results;
-  
+
   // 4. Fallback to Gemini for the rest
   if (!genAI) {
     for (const word of wordsForGemini) {
@@ -251,7 +251,7 @@ export async function getWordDefinitions(
     }
     return results;
   }
-  
+
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
   const prompt = `
     You are a dictionary expert. For each of the Scrabble words provided, give a concise, one-line definition, prepended with its language of origin in parentheses.
@@ -1082,10 +1082,10 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
                 const { words: allFormedWords } = calculateMoveScore(suggestion.tiles, tempBoard);
                 const validationPromises = allFormedWords.map(w => verifyWordAction(w.word));
                 const validationResults = await Promise.all(validationPromises);
-                
+
                 if (validationResults.every(r => r.isValid)) {
                     computerMove = { type: 'play', tiles: suggestion.tiles };
-                    break; 
+                    break;
                 }
             }
 

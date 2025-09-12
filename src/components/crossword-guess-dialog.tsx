@@ -113,7 +113,7 @@ export function CrosswordGuessDialog({
           <DialogDescription>{wordInfo.clue}</DialogDescription>
         </DialogHeader>
         <div
-          className="flex justify-center items-center gap-1 md:gap-2 my-4"
+          className="flex justify-center items-center gap-2 mt-4 mb-8"
           style={{
             containerType: "size",
           }}
@@ -141,7 +141,7 @@ export function CrosswordGuessDialog({
                   // 16px is used as minimum to avoid auto zoom on mobile
                   fontSize: "clamp(16px, 0.8rem, 40px)",
                 }}
-                className={`w-14 h-14 text-center font-bold uppercase ${
+                className={`w-12 h-12 text-center font-bold uppercase ${
                   isRevealed
                     ? "text-green-700 bg-green-200 border-green-400"
                     : ""
