@@ -585,7 +585,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
             isActive ? "bg-primary/10 text-primary" : ""
           )}
           style={{
-            textDecoration: isRevealed ? "line-through" : "none",
+            textDecoration: isComplete && isRevealed ? "line-through" : "none",
             opacity: isComplete ? 0.5 : 1,
           }}
         >

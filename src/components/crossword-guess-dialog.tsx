@@ -141,7 +141,11 @@ export function CrosswordGuessDialog({
                   // 16px is used as minimum to avoid auto zoom on mobile
                   fontSize: "clamp(16px, 0.8rem, 40px)",
                 }}
-                className={`w-10 h-10 md:w-12 md:h-12 text-center font-bold uppercase ${isRevealed ? "text-green-700 bg-green-200 border-green-400" : ""}`}
+                className={`w-14 h-14 text-center font-bold uppercase ${
+                  isRevealed
+                    ? "text-green-700 bg-green-200 border-green-400"
+                    : ""
+                }`}
               />
             );
           })}
