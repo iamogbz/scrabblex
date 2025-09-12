@@ -152,8 +152,10 @@ export default function SolveGamePage({
 
         {gameState && (
           <>
+            <h1 className="text-2xl font-headline tracking-wider mb-2">
+              {gameState.crosswordTitle || `Puzzle ${gameId.toUpperCase()}`}
+            </h1>
             <p className="text-muted-foreground mb-4 text-sm">
-              Game <span>{gameId.toUpperCase()}</span> -{" "}
               {completionDate
                 ? `Uploaded ${completionDate}`
                 : "A generated puzzle."}

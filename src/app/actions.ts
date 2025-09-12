@@ -23,6 +23,7 @@ import { calculateMoveScore } from "@/lib/scoring";
 import { createInitialBoard, TILE_BAG } from "@/lib/game-data";
 import { capitalize, shuffle } from "@/lib/utils";
 import { INVALID_WORD_ERROR, NO_API_KEY_ERROR, UNDEFINED_WORD_ERROR, UNDEFINED_WORD_VALID } from "@/lib/constants";
+import { generateCrosswordTitle } from "@/ai/flows/title-flow";
 
 let wordSet: Set<string>;
 const definitionCache = new Map<string, string | null>();
@@ -815,7 +816,7 @@ export async function replacePlayerWithComputer(
         ? new Date(gameState.history[gameState.history.length - 1].timestamp)
         : (gameState.createdAt ? new Date(gameState.createdAt) : null);
 
-    if (!lastActivityTimestamp) {
+    if (!lastActivityTimestamp && gameState.history.length > 0) {
         return {
             success: false,
             error: "Cannot determine game start time for inactivity check.",
@@ -823,7 +824,7 @@ export async function replacePlayerWithComputer(
     }
 
     const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
-    if (lastActivityTimestamp > thirtyMinutesAgo && gameState.history.length > 0) {
+    if (lastActivityTimestamp && lastActivityTimestamp > thirtyMinutesAgo && gameState.history.length > 0) {
         return {
             success: false,
             error: "Player has not been inactive for 30 minutes.",
@@ -862,16 +863,50 @@ export async function replacePlayerWithComputer(
     }
 }
 
+const getWordsFromBoard = (board: Board): string[] => {
+  const words = new Set<string>();
+  for (let i = 0; i < 15; i++) {
+    let currentHorizontalWord = "";
+    let currentVerticalWord = "";
+    for (let j = 0; j < 15; j++) {
+      // Horizontal
+      if (board[i][j].tile) {
+        currentHorizontalWord += board[i][j].tile!.letter;
+      } else {
+        if (currentHorizontalWord.length > 1) {
+          words.add(currentHorizontalWord);
+        }
+        currentHorizontalWord = "";
+      }
+      // Vertical
+      if (board[j][i].tile) {
+        currentVerticalWord += board[j][i].tile!.letter;
+      } else {
+        if (currentVerticalWord.length > 1) {
+          words.add(currentVerticalWord);
+        }
+        currentVerticalWord = "";
+      }
+    }
+    if (currentHorizontalWord.length > 1) words.add(currentHorizontalWord);
+    if (currentVerticalWord.length > 1) words.add(currentVerticalWord);
+  }
+  return Array.from(words);
+};
 
-const checkAndEndGame = (gameState: GameState): GameState => {
-    const { players, history, tileBag } = gameState;
+
+const checkAndEndGame = async (gameState: GameState): Promise<GameState> => {
+    const { players, history, tileBag, board } = gameState;
     const numPlayers = players.length;
 
     if (numPlayers === 0 || gameState.gamePhase === "ended") return gameState;
 
+    let newGameState = JSON.parse(JSON.stringify(gameState)) as GameState;
+    let gameEnded = false;
+
     const playerWithEmptyRack = players.find((p) => p.rack.length === 0);
     if (tileBag.length === 0 && playerWithEmptyRack) {
-      const newGameState = JSON.parse(JSON.stringify(gameState)) as GameState;
+      gameEnded = true;
       newGameState.gamePhase = "ended";
 
       let pointsFromRacks = 0;
@@ -891,13 +926,10 @@ const checkAndEndGame = (gameState: GameState): GameState => {
         (p: Player) => p.score === Math.max(...newGameState.players.map((p: Player) => p.score))
       );
       newGameState.endStatus = `${winners.map(w => w.name).join(' & ')} wins!`;
-      return newGameState;
-    }
-
-    if (history.length >= numPlayers * 2) {
+    } else if (history.length >= numPlayers * 2) {
       const lastMoves = history.slice(-numPlayers * 2);
       if (lastMoves.every((move) => move.isPass)) {
-        const newGameState: GameState = JSON.parse(JSON.stringify(gameState));
+        gameEnded = true;
         newGameState.gamePhase = "ended";
         newGameState.players.forEach((p: Player) => {
           const rackValue = p.rack.reduce((sum, tile) => sum + tile.points, 0);
@@ -907,11 +939,23 @@ const checkAndEndGame = (gameState: GameState): GameState => {
           (p: Player) => p.score === Math.max(...newGameState.players.map((p: Player) => p.score))
         );
         newGameState.endStatus = `Game ended after 2 rounds of passes. ${winners.map(w => w.name).join(' & ')} wins!`;
-        return newGameState;
       }
     }
 
-    return gameState;
+    if (gameEnded) {
+      try {
+        const wordsOnBoard = getWordsFromBoard(board);
+        if (wordsOnBoard.length > 0) {
+          const { title } = await generateCrosswordTitle({ words: wordsOnBoard });
+          newGameState.crosswordTitle = title;
+        }
+      } catch (error) {
+        console.error("Failed to generate crossword title:", error);
+        // Don't block game end if title generation fails
+      }
+    }
+
+    return newGameState;
 };
 
 const getCurrentPlayer = (gameState: GameState): Player | null => {
@@ -986,12 +1030,12 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
     let { gameState, sha } = gameData;
     let message = "";
 
-    const applyMove = (gs: GameState, p: Player, m: PlayTurnOptions['move']): GameState | { error: string } => {
+    const applyMove = async (gs: GameState, p: Player, m: PlayTurnOptions['move']): Promise<GameState | { error: string }> => {
         const playerIndex = gs.players.findIndex(pl => pl.id === p.id);
         if (playerIndex === -1) return { error: "Player not found" };
 
         const playerToUpdate = gs.players[playerIndex];
-        const newGameState: GameState = JSON.parse(JSON.stringify(gs));
+        let newGameState: GameState = JSON.parse(JSON.stringify(gs));
         const playerToUpdateInNewState = newGameState.players[playerIndex];
 
         if (m.type === 'play') {
@@ -1059,12 +1103,12 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
             newGameState.history.push(passEvent);
         }
 
-        return checkAndEndGame(newGameState);
+        return await checkAndEndGame(newGameState);
     }
 
     // Only apply human move if it's not a pass from an AI replacement scenario
     if (!(player.isComputer && move.type === 'pass')) {
-      let humanMoveResult = applyMove(gameState, player, move);
+      let humanMoveResult = await applyMove(gameState, player, move);
       if ("error" in humanMoveResult) {
           return { success: false, error: humanMoveResult.error };
       }
@@ -1107,7 +1151,7 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
             }
 
 
-            let result = applyMove(gameState, computer, computerMove);
+            let result = await applyMove(gameState, computer, computerMove);
             if ("error" in result) {
                  console.error("AI move failed:", result.error);
                  break;

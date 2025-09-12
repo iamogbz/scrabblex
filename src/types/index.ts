@@ -53,4 +53,5 @@ export interface GameState {
   gamePhase: GamePhase;
   endStatus?: string;
   createdAt?: string;
+  crosswordTitle?: string;
 }
