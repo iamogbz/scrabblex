@@ -102,7 +102,10 @@ export default function GamePage({
         </TooltipProvider>
       </header>
       <main className="pt-20 pb-4">
-        <GameClient gameId={gameId} setLeaveGameHandler={setLeaveGameHandler} />
+        <GameClient
+          gameId={gameId.toUpperCase()}
+          setLeaveGameHandler={setLeaveGameHandler}
+        />
       </main>
     </div>
   );
