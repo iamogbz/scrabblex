@@ -46,7 +46,7 @@ const generateTileId = () => {
   return Math.random().toString(36).substring(2, 6).toUpperCase();
 };
 
-const ensureTileId = (tile: Tile): Tile => {
+const ensureTileId = <T extends Tile>(tile: T): T => {
   if (!tile.id) {
     return { ...tile, id: generateTileId() };
   }

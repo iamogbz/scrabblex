@@ -734,6 +734,7 @@ export default function GameClient({
           newStagedTiles[index] = tileToPlace;
           setStagedTiles(newStagedTiles);
           setSelectedRackTileId(null);
+          setSelectedBuilderIndex(null);
         }
       }
     } else if (selectedBuilderIndex !== null) {
@@ -1117,6 +1118,7 @@ export default function GameClient({
               onShowHistory={() => setIsHistoryOpen(true)}
               gameHistoryLength={gameState.history.length}
               gameCreatedAt={gameState.createdAt}
+              tileBagCount={gameState.tileBag.length}
             />
             <Button asChild className="mt-4 w-full">
               <Link href="/play">Play Again</Link>
@@ -1264,6 +1266,7 @@ export default function GameClient({
             onShowHistory={() => setIsHistoryOpen(true)}
             gameHistoryLength={gameState.history.length}
             gameCreatedAt={gameState.createdAt}
+            tileBagCount={gameState.tileBag.length}
           />
         </div>
         {historyDialog}
@@ -1437,6 +1440,7 @@ export default function GameClient({
             onShowHistory={() => setIsHistoryOpen(true)}
             gameHistoryLength={gameState.history.length}
             gameCreatedAt={gameState.createdAt}
+            tileBagCount={gameState.tileBag.length}
           />
           <Card>
             <CardHeader>

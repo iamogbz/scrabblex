@@ -14,6 +14,7 @@ interface ScoreboardProps {
   onShowHistory: () => void;
   gameHistoryLength: number;
   gameCreatedAt?: string;
+  tileBagCount: number;
 }
 
 export default function Scoreboard({
@@ -26,6 +27,7 @@ export default function Scoreboard({
   onShowHistory,
   gameHistoryLength,
   gameCreatedAt,
+  tileBagCount,
 }: ScoreboardProps) {
   const winningScore = Math.max(...players.map((player) => player.score));
 
@@ -80,6 +82,11 @@ export default function Scoreboard({
                       <span className="text-xs text-muted-foreground ml-1">
                         (AI)
                       </span>
+                    )}
+                    {tileBagCount === 0 && !isYou && (
+                       <span className="text-xs text-muted-foreground ml-1">
+                         ({player.rack.length} tiles)
+                       </span>
                     )}
                   </span>
                 </div>
