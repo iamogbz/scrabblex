@@ -1286,6 +1286,7 @@ export async function playTurn({
       currentPlayer = getCurrentPlayer(gameState);
     }
 
+
     await updateGame(gameId, gameState, sha, message);
     return { success: true };
   } catch (e: any) {
