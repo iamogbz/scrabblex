@@ -5,20 +5,14 @@
       "id": "p_1757615749826_fk63nbi",
       "name": "E",
       "code": "e",
-      "score": 404,
-      "rack": [
-        {
-          "letter": "B",
-          "points": 3,
-          "id": "FQNI"
-        }
-      ]
+      "score": 415,
+      "rack": []
     },
     {
       "id": "p_1757615799583_njfhn9u",
       "name": "K",
       "code": "k",
-      "score": 333,
+      "score": 325,
       "rack": [
         {
           "letter": "R",
@@ -1497,7 +1491,13 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "B",
+          "points": 3,
+          "id": "FQNI",
+          "x": 8,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -3471,7 +3471,25 @@
       ],
       "score": 22,
       "timestamp": "2025-09-12T16:41:36.805Z"
+    },
+    {
+      "playerId": "p_1757615749826_fk63nbi",
+      "playerName": "E",
+      "word": "BI",
+      "tiles": [
+        {
+          "letter": "B",
+          "points": 3,
+          "id": "FQNI",
+          "x": 8,
+          "y": 13
+        }
+      ],
+      "score": 3,
+      "timestamp": "2025-09-12T17:13:28.665Z"
     }
   ],
-  "gamePhase": "playing"
+  "gamePhase": "ended",
+  "endStatus": "E wins!",
+  "crosswordTitle": "Shorts"
 }
