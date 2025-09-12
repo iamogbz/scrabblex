@@ -41,57 +41,41 @@
       "id": "p_1757615799583_njfhn9u",
       "name": "K",
       "code": "k",
-      "score": 0,
+      "score": 8,
       "rack": [
         {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "letter": "B",
+          "points": 3
+        },
+        {
           "letter": "A",
           "points": 1
         },
         {
-          "letter": "N",
-          "points": 1
-        },
-        {
-          "letter": "A",
-          "points": 1
-        },
-        {
-          "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "S",
-          "points": 1
-        },
-        {
-          "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "I",
-          "points": 1
+          "letter": "K",
+          "points": 5
         }
       ],
       "isComputer": true
     }
   ],
   "tileBag": [
-    {
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "letter": "B",
-      "points": 3
-    },
-    {
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "letter": "K",
-      "points": 5
-    },
     {
       "letter": "E",
       "points": 1
@@ -1334,7 +1318,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 7,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": true,
@@ -1342,7 +1331,12 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "N",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1350,7 +1344,12 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 7,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1358,7 +1357,12 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "S",
+          "points": 1,
+          "x": 7,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2262,6 +2266,39 @@
       "score": 0,
       "isPass": true,
       "timestamp": "2025-09-12T09:29:01.916Z"
+    },
+    {
+      "playerId": "p_1757615799583_njfhn9u",
+      "playerName": "K",
+      "word": "ANAS",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 7,
+          "y": 7
+        },
+        {
+          "letter": "N",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 7,
+          "y": 9
+        },
+        {
+          "letter": "S",
+          "points": 1,
+          "x": 7,
+          "y": 10
+        }
+      ],
+      "score": 8,
+      "timestamp": "2025-09-12T15:06:17.665Z"
     }
   ],
   "gamePhase": "playing"
