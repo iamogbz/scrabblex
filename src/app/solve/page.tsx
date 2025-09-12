@@ -95,7 +95,12 @@ const formatRelativeTime = (date: Date): string => {
 const getGameStatusText = (game: GameDetails): string => {
   const percentage = game.completionPercentage;
   const lastUpdated = formatRelativeTime(new Date(game.updatedAt));
-  return `${percentage}% complete. ${game.totalWords} words. Uploaded ${lastUpdated}.`;
+  return [
+    `${percentage}% complete.`,
+    `${game.totalWords} words`,
+    game.crosswordTitle ? `(${game.crosswordTitle})` : "",
+    `Uploaded ${lastUpdated}.`
+  ].filter(Boolean).join(" ");
 };
 
 export default function SolvePage() {

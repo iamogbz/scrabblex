@@ -942,7 +942,7 @@ const checkAndEndGame = async (gameState: GameState): Promise<GameState> => {
       }
     }
 
-    if (gameEnded) {
+    if (gameEnded && !newGameState.crosswordTitle) {
       try {
         const wordsOnBoard = getWordsFromBoard(board);
         if (wordsOnBoard.length > 0) {
@@ -957,6 +957,33 @@ const checkAndEndGame = async (gameState: GameState): Promise<GameState> => {
 
     return newGameState;
 };
+
+export async function generateAndSaveCrosswordTitle(gameId: string): Promise<string | null> {
+    const gameData = await getGameState(gameId);
+    if (!gameData || gameData.gameState.crosswordTitle) {
+        return gameData?.gameState.crosswordTitle || null;
+    }
+
+    const { gameState, sha } = gameData;
+    const wordsOnBoard = getWordsFromBoard(gameState.board);
+
+    if (wordsOnBoard.length === 0) {
+        return null;
+    }
+
+    try {
+        const { title } = await generateCrosswordTitle({ words: wordsOnBoard });
+        if (title) {
+            const newGameState = { ...gameState, crosswordTitle: title };
+            await updateGame(gameId, newGameState, sha, `SYSTEM: Added crossword title for game ${gameId}`);
+            return title;
+        }
+    } catch (error) {
+        console.error("Failed to generate and save crossword title:", error);
+    }
+
+    return null;
+}
 
 const getCurrentPlayer = (gameState: GameState): Player | null => {
     if (!gameState || gameState.players.length === 0) return null;
@@ -1166,3 +1193,5 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
         return { success: false, error: e.message };
     }
 }
+
+    

@@ -1,7 +1,8 @@
+
 "use client";
 
 import { use, useState, useEffect } from "react";
-import { getGameState } from "@/app/actions";
+import { generateAndSaveCrosswordTitle, getGameState } from "@/app/actions";
 import { GameState } from "@/types";
 import { CrosswordBoard } from "@/components/crossword-board";
 import { Logo } from "@/components/logo";
@@ -50,6 +51,20 @@ export default function SolveGamePage({
                   addSuffix: true,
                 })
               );
+            }
+             // Backfill title if missing
+            if (!gameData.gameState.crosswordTitle) {
+              generateAndSaveCrosswordTitle(gameId)
+                .then((newTitle) => {
+                  if (newTitle) {
+                    setGameState((prev) =>
+                      prev ? { ...prev, crosswordTitle: newTitle } : null
+                    );
+                  }
+                })
+                .catch((e) =>
+                  console.error("Failed to backfill title:", e)
+                );
             }
           }
         } else {
@@ -156,9 +171,10 @@ export default function SolveGamePage({
               {gameState.crosswordTitle || `Puzzle ${gameId.toUpperCase()}`}
             </h1>
             <p className="text-muted-foreground mb-4 text-sm">
-              {completionDate
-                ? `Uploaded ${completionDate}`
-                : "A generated puzzle."}
+              {[
+                gameState.crosswordTitle ? `Puzzle ${gameId.toUpperCase()}` : "",
+                completionDate ? `Uploaded ${completionDate}` : "",
+              ].filter(Boolean).join(" | ")}
             </p>
             <CrosswordBoard gameState={gameState} />
           </>
@@ -167,3 +183,5 @@ export default function SolveGamePage({
     </main>
   );
 }
+
+    
