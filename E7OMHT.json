@@ -5,16 +5,8 @@
       "id": "p_1757615749826_fk63nbi",
       "name": "E",
       "code": "e",
-      "score": 266,
+      "score": 283,
       "rack": [
-        {
-          "letter": "R",
-          "points": 1
-        },
-        {
-          "letter": "C",
-          "points": 3
-        },
         {
           "letter": "R",
           "points": 1
@@ -24,16 +16,24 @@
           "points": 4
         },
         {
-          "letter": "U",
-          "points": 1
-        },
-        {
           "letter": "C",
           "points": 3
         },
         {
           "letter": "I",
           "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "G",
+          "points": 2
         }
       ]
     },
@@ -41,7 +41,7 @@
       "id": "p_1757615799583_njfhn9u",
       "name": "K",
       "code": "k",
-      "score": 257,
+      "score": 277,
       "rack": [
         {
           "letter": "R",
@@ -60,15 +60,15 @@
           "points": 1
         },
         {
-          "letter": "F",
-          "points": 4
-        },
-        {
-          "letter": "D",
-          "points": 2
-        },
-        {
           "letter": "A",
+          "points": 1
+        },
+        {
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "letter": "T",
           "points": 1
         }
       ],
@@ -76,26 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "G",
-      "points": 2
-    },
-    {
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "letter": "T",
-      "points": 1
-    },
     {
       "letter": "T",
       "points": 1
@@ -1917,7 +1897,12 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 12,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1938,7 +1923,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "F",
+          "points": 4,
+          "x": 12,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2243,7 +2233,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "R",
+          "points": 1,
+          "x": 14,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2251,7 +2246,12 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "U",
+          "points": 1,
+          "x": 14,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2259,7 +2259,12 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "C",
+          "points": 3,
+          "x": 14,
+          "y": 7
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -2966,6 +2971,54 @@
       ],
       "score": 23,
       "timestamp": "2025-09-12T15:30:23.390Z"
+    },
+    {
+      "playerId": "p_1757615749826_fk63nbi",
+      "playerName": "E",
+      "word": "RUC",
+      "tiles": [
+        {
+          "letter": "R",
+          "points": 1,
+          "x": 14,
+          "y": 5
+        },
+        {
+          "letter": "U",
+          "points": 1,
+          "x": 14,
+          "y": 6
+        },
+        {
+          "letter": "C",
+          "points": 3,
+          "x": 14,
+          "y": 7
+        }
+      ],
+      "score": 17,
+      "timestamp": "2025-09-12T15:31:14.511Z"
+    },
+    {
+      "playerId": "p_1757615799583_njfhn9u",
+      "playerName": "K",
+      "word": "DIF",
+      "tiles": [
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 12,
+          "y": 1
+        },
+        {
+          "letter": "F",
+          "points": 4,
+          "x": 12,
+          "y": 3
+        }
+      ],
+      "score": 20,
+      "timestamp": "2025-09-12T15:31:16.190Z"
     }
   ],
   "gamePhase": "playing"
