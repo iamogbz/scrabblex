@@ -5,16 +5,8 @@
       "id": "p_1757615749826_fk63nbi",
       "name": "E",
       "code": "e",
-      "score": 185,
+      "score": 202,
       "rack": [
-        {
-          "letter": "I",
-          "points": 1
-        },
-        {
-          "letter": "H",
-          "points": 4
-        },
         {
           "letter": "U",
           "points": 1
@@ -28,12 +20,20 @@
           "points": 1
         },
         {
-          "letter": "P",
+          "letter": "C",
           "points": 3
         },
         {
-          "letter": "C",
-          "points": 3
+          "letter": "N",
+          "points": 1
+        },
+        {
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "letter": "Q",
+          "points": 10
         }
       ]
     },
@@ -41,16 +41,8 @@
       "id": "p_1757615799583_njfhn9u",
       "name": "K",
       "code": "k",
-      "score": 173,
+      "score": 211,
       "rack": [
-        {
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "letter": "A",
-          "points": 1
-        },
         {
           "letter": "R",
           "points": 1
@@ -60,15 +52,23 @@
           "points": 1
         },
         {
-          "letter": "D",
-          "points": 2
+          "letter": "N",
+          "points": 1
         },
         {
-          "letter": "H",
+          "letter": "Y",
           "points": 4
         },
         {
-          "letter": "N",
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "letter": "L",
           "points": 1
         }
       ],
@@ -76,34 +76,6 @@
     }
   ],
   "tileBag": [
-    {
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "letter": "Q",
-      "points": 10
-    },
-    {
-      "letter": "Y",
-      "points": 4
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "letter": "L",
-      "points": 1
-    },
     {
       "letter": "R",
       "points": 1
@@ -1446,7 +1418,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "P",
+          "points": 3,
+          "x": 8,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1467,7 +1444,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "A",
+          "points": 1,
+          "x": 8,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1593,7 +1575,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "H",
+          "points": 4,
+          "x": 9,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1614,7 +1601,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "H",
+          "points": 4,
+          "x": 9,
+          "y": 5
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1720,7 +1712,12 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "I",
+          "points": 1,
+          "x": 10,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1736,7 +1733,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "E",
+          "points": 1,
+          "x": 10,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1858,7 +1860,12 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "letter": "D",
+          "points": 2,
+          "x": 11,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2779,6 +2786,66 @@
       ],
       "score": 18,
       "timestamp": "2025-09-12T15:24:59.589Z"
+    },
+    {
+      "playerId": "p_1757615749826_fk63nbi",
+      "playerName": "E",
+      "word": "PHI",
+      "tiles": [
+        {
+          "letter": "P",
+          "points": 3,
+          "x": 8,
+          "y": 3
+        },
+        {
+          "letter": "H",
+          "points": 4,
+          "x": 9,
+          "y": 3
+        },
+        {
+          "letter": "I",
+          "points": 1,
+          "x": 10,
+          "y": 3
+        }
+      ],
+      "score": 17,
+      "timestamp": "2025-09-12T15:29:18.261Z"
+    },
+    {
+      "playerId": "p_1757615799583_njfhn9u",
+      "playerName": "K",
+      "word": "AHED",
+      "tiles": [
+        {
+          "letter": "A",
+          "points": 1,
+          "x": 8,
+          "y": 5
+        },
+        {
+          "letter": "H",
+          "points": 4,
+          "x": 9,
+          "y": 5
+        },
+        {
+          "letter": "E",
+          "points": 1,
+          "x": 10,
+          "y": 5
+        },
+        {
+          "letter": "D",
+          "points": 2,
+          "x": 11,
+          "y": 5
+        }
+      ],
+      "score": 38,
+      "timestamp": "2025-09-12T15:29:20.322Z"
     }
   ],
   "gamePhase": "playing"
