@@ -16,19 +16,23 @@
       "rack": [
         {
           "letter": "R",
-          "points": 1
+          "points": 1,
+          "id": "0W2I"
         },
         {
           "letter": "T",
-          "points": 1
+          "points": 1,
+          "id": "IHQ5"
         },
         {
           "letter": "A",
-          "points": 1
+          "points": 1,
+          "id": "R3M6"
         },
         {
           "letter": "L",
-          "points": 1
+          "points": 1,
+          "id": "GBJ3"
         }
       ],
       "isComputer": true
@@ -41,7 +45,8 @@
       "rack": [
         {
           "letter": "A",
-          "points": 1
+          "points": 1,
+          "id": "SEKI"
         }
       ],
       "isComputer": true
@@ -493,7 +498,8 @@
           "letter": "B",
           "points": 3,
           "x": 3,
-          "y": 9
+          "y": 9,
+          "id": "O4P5"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -506,7 +512,8 @@
           "letter": "E",
           "points": 1,
           "x": 3,
-          "y": 10
+          "y": 10,
+          "id": "85HJ"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -520,7 +527,8 @@
           "points": 0,
           "x": 3,
           "y": 11,
-          "originalLetter": " "
+          "originalLetter": " ",
+          "id": "7QK6"
         },
         "multiplier": 2,
         "multiplierType": "word",
@@ -549,7 +557,8 @@
           "letter": "Q",
           "points": 10,
           "x": 3,
-          "y": 14
+          "y": 14,
+          "id": "OM7R"
         },
         "multiplier": 2,
         "multiplierType": "letter",
@@ -628,7 +637,8 @@
           "letter": "M",
           "points": 3,
           "x": 4,
-          "y": 8
+          "y": 8,
+          "id": "7EOO"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -641,7 +651,8 @@
           "letter": "O",
           "points": 1,
           "x": 4,
-          "y": 9
+          "y": 9,
+          "id": "1G5V"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -654,7 +665,8 @@
           "letter": "L",
           "points": 1,
           "x": 4,
-          "y": 10
+          "y": 10,
+          "id": "AFW9"
         },
         "multiplier": 2,
         "multiplierType": "word",
@@ -691,7 +703,8 @@
           "letter": "I",
           "points": 1,
           "x": 4,
-          "y": 14
+          "y": 14,
+          "id": "10OJ"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -762,7 +775,8 @@
           "letter": "F",
           "points": 4,
           "x": 5,
-          "y": 7
+          "y": 7,
+          "id": "8MWK"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -775,7 +789,8 @@
           "letter": "O",
           "points": 1,
           "x": 5,
-          "y": 8
+          "y": 8,
+          "id": "FAYX"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -788,7 +803,8 @@
           "letter": "H",
           "points": 4,
           "x": 5,
-          "y": 9
+          "y": 9,
+          "id": "W4QT"
         },
         "multiplier": 3,
         "multiplierType": "letter",
@@ -809,7 +825,8 @@
           "letter": "L",
           "points": 1,
           "x": 5,
-          "y": 11
+          "y": 11,
+          "id": "ABVB"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -822,7 +839,8 @@
           "letter": "A",
           "points": 1,
           "x": 5,
-          "y": 12
+          "y": 12,
+          "id": "L7HZ"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -835,7 +853,8 @@
           "letter": "B",
           "points": 3,
           "x": 5,
-          "y": 13
+          "y": 13,
+          "id": "LMWZ"
         },
         "multiplier": 3,
         "multiplierType": "letter",
@@ -848,7 +867,8 @@
           "letter": "S",
           "points": 1,
           "x": 5,
-          "y": 14
+          "y": 14,
+          "id": "V2PR"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -895,7 +915,8 @@
           "letter": "R",
           "points": 1,
           "x": 6,
-          "y": 4
+          "y": 4,
+          "id": "ZOZB"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -908,7 +929,8 @@
           "letter": "E",
           "points": 1,
           "x": 6,
-          "y": 5
+          "y": 5,
+          "id": "18PD"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -929,7 +951,8 @@
           "letter": "I",
           "points": 1,
           "x": 6,
-          "y": 7
+          "y": 7,
+          "id": "MC41"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -942,7 +965,8 @@
           "letter": "N",
           "points": 1,
           "x": 6,
-          "y": 8
+          "y": 8,
+          "id": "9G2I"
         },
         "multiplier": 2,
         "multiplierType": "letter",
@@ -955,7 +979,8 @@
           "letter": "O",
           "points": 1,
           "x": 6,
-          "y": 9
+          "y": 9,
+          "id": "WKLN"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -968,7 +993,8 @@
           "letter": "S",
           "points": 1,
           "x": 6,
-          "y": 10
+          "y": 10,
+          "id": "XVH3"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -981,7 +1007,8 @@
           "letter": "I",
           "points": 1,
           "x": 6,
-          "y": 11
+          "y": 11,
+          "id": "G9CD"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -994,7 +1021,8 @@
           "letter": "T",
           "points": 1,
           "x": 6,
-          "y": 12
+          "y": 12,
+          "id": "K9OJ"
         },
         "multiplier": 2,
         "multiplierType": "letter",
@@ -1007,7 +1035,8 @@
           "letter": "E",
           "points": 1,
           "x": 6,
-          "y": 13
+          "y": 13,
+          "id": "59XA"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1070,7 +1099,8 @@
           "letter": "T",
           "points": 1,
           "x": 7,
-          "y": 5
+          "y": 5,
+          "id": "JT2Q"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1083,7 +1113,8 @@
           "letter": "O",
           "points": 1,
           "x": 7,
-          "y": 6
+          "y": 6,
+          "id": "5HDO"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1096,7 +1127,8 @@
           "letter": "N",
           "points": 1,
           "x": 7,
-          "y": 7
+          "y": 7,
+          "id": "9HF2"
         },
         "multiplier": 2,
         "multiplierType": "word",
@@ -1109,7 +1141,8 @@
           "letter": "Y",
           "points": 4,
           "x": 7,
-          "y": 8
+          "y": 8,
+          "id": "QV0Y"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1154,7 +1187,8 @@
           "letter": "Z",
           "points": 10,
           "x": 7,
-          "y": 13
+          "y": 13,
+          "id": "0K9X"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1167,7 +1201,8 @@
           "letter": "A",
           "points": 1,
           "x": 7,
-          "y": 14
+          "y": 14,
+          "id": "SAAA"
         },
         "multiplier": 3,
         "multiplierType": "word",
@@ -1214,7 +1249,8 @@
           "letter": "W",
           "points": 4,
           "x": 8,
-          "y": 4
+          "y": 4,
+          "id": "7TSC"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1227,7 +1263,8 @@
           "letter": "A",
           "points": 1,
           "x": 8,
-          "y": 5
+          "y": 5,
+          "id": "K3LM"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1240,7 +1277,8 @@
           "letter": "K",
           "points": 5,
           "x": 8,
-          "y": 6
+          "y": 6,
+          "id": "0Z04"
         },
         "multiplier": 2,
         "multiplierType": "letter",
@@ -1253,7 +1291,8 @@
           "letter": "E",
           "points": 1,
           "x": 8,
-          "y": 7
+          "y": 7,
+          "id": "QM5L"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1348,7 +1387,8 @@
           "letter": "N",
           "points": 1,
           "x": 9,
-          "y": 3
+          "y": 3,
+          "id": "D8OV"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1361,7 +1401,8 @@
           "letter": "E",
           "points": 1,
           "x": 9,
-          "y": 4
+          "y": 4,
+          "id": "JBSD"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1374,7 +1415,8 @@
           "letter": "P",
           "points": 3,
           "x": 9,
-          "y": 5
+          "y": 5,
+          "id": "N004"
         },
         "multiplier": 3,
         "multiplierType": "letter",
@@ -1395,7 +1437,8 @@
           "letter": "R",
           "points": 1,
           "x": 9,
-          "y": 7
+          "y": 7,
+          "id": "V83F"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1408,7 +1451,8 @@
           "letter": "E",
           "points": 1,
           "x": 9,
-          "y": 8
+          "y": 8,
+          "id": "T0HZ"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1422,7 +1466,8 @@
           "points": 0,
           "x": 9,
           "y": 9,
-          "originalLetter": " "
+          "originalLetter": " ",
+          "id": "5TFT"
         },
         "multiplier": 3,
         "multiplierType": "letter",
@@ -1443,7 +1488,8 @@
           "letter": "N",
           "points": 1,
           "x": 9,
-          "y": 11
+          "y": 11,
+          "id": "GDSU"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1456,7 +1502,8 @@
           "letter": "A",
           "points": 1,
           "x": 9,
-          "y": 12
+          "y": 12,
+          "id": "5SRE"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1477,7 +1524,8 @@
           "letter": "W",
           "points": 4,
           "x": 9,
-          "y": 14
+          "y": 14,
+          "id": "OGQ1"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1508,7 +1556,8 @@
           "letter": "C",
           "points": 3,
           "x": 10,
-          "y": 2
+          "y": 2,
+          "id": "JYTE"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1521,7 +1570,8 @@
           "letter": "O",
           "points": 1,
           "x": 10,
-          "y": 3
+          "y": 3,
+          "id": "S3AO"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1534,7 +1584,8 @@
           "letter": "X",
           "points": 8,
           "x": 10,
-          "y": 4
+          "y": 4,
+          "id": "408C"
         },
         "multiplier": 2,
         "multiplierType": "word",
@@ -1547,7 +1598,8 @@
           "letter": "E",
           "points": 1,
           "x": 10,
-          "y": 5
+          "y": 5,
+          "id": "BRDI"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1560,7 +1612,8 @@
           "letter": "S",
           "points": 1,
           "x": 10,
-          "y": 6
+          "y": 6,
+          "id": "GRLD"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1597,7 +1650,8 @@
           "letter": "P",
           "points": 3,
           "x": 10,
-          "y": 10
+          "y": 10,
+          "id": "WHU7"
         },
         "multiplier": 2,
         "multiplierType": "word",
@@ -1610,7 +1664,8 @@
           "letter": "U",
           "points": 1,
           "x": 10,
-          "y": 11
+          "y": 11,
+          "id": "RRL5"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1623,7 +1678,8 @@
           "letter": "N",
           "points": 1,
           "x": 10,
-          "y": 12
+          "y": 12,
+          "id": "6ULJ"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1636,7 +1692,8 @@
           "letter": "J",
           "points": 8,
           "x": 10,
-          "y": 13
+          "y": 13,
+          "id": "OVMS"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1649,7 +1706,8 @@
           "letter": "I",
           "points": 1,
           "x": 10,
-          "y": 14
+          "y": 14,
+          "id": "QJZG"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1672,7 +1730,8 @@
           "letter": "D",
           "points": 2,
           "x": 11,
-          "y": 1
+          "y": 1,
+          "id": "K1I8"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1685,7 +1744,8 @@
           "letter": "U",
           "points": 1,
           "x": 11,
-          "y": 2
+          "y": 2,
+          "id": "E7Y2"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1698,7 +1758,8 @@
           "letter": "H",
           "points": 4,
           "x": 11,
-          "y": 3
+          "y": 3,
+          "id": "Y0RC"
         },
         "multiplier": 2,
         "multiplierType": "word",
@@ -1727,7 +1788,8 @@
           "letter": "O",
           "points": 1,
           "x": 11,
-          "y": 6
+          "y": 6,
+          "id": "NC77"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1740,7 +1802,8 @@
           "letter": "V",
           "points": 4,
           "x": 11,
-          "y": 7
+          "y": 7,
+          "id": "D1EQ"
         },
         "multiplier": 2,
         "multiplierType": "letter",
@@ -1753,7 +1816,8 @@
           "letter": "O",
           "points": 1,
           "x": 11,
-          "y": 8
+          "y": 8,
+          "id": "N6FI"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1766,7 +1830,8 @@
           "letter": "L",
           "points": 1,
           "x": 11,
-          "y": 9
+          "y": 9,
+          "id": "NXQK"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1779,7 +1844,8 @@
           "letter": "I",
           "points": 1,
           "x": 11,
-          "y": 10
+          "y": 10,
+          "id": "LDMT"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1816,7 +1882,8 @@
           "letter": "T",
           "points": 1,
           "x": 11,
-          "y": 14
+          "y": 14,
+          "id": "QQG3"
         },
         "multiplier": 2,
         "multiplierType": "letter",
@@ -1839,7 +1906,8 @@
           "letter": "U",
           "points": 1,
           "x": 12,
-          "y": 1
+          "y": 1,
+          "id": "KXMM"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1852,7 +1920,8 @@
           "letter": "T",
           "points": 1,
           "x": 12,
-          "y": 2
+          "y": 2,
+          "id": "YVCE"
         },
         "multiplier": 2,
         "multiplierType": "word",
@@ -1873,7 +1942,8 @@
           "letter": "F",
           "points": 4,
           "x": 12,
-          "y": 4
+          "y": 4,
+          "id": "W5KT"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1894,7 +1964,8 @@
           "letter": "C",
           "points": 3,
           "x": 12,
-          "y": 6
+          "y": 6,
+          "id": "M3MA"
         },
         "multiplier": 2,
         "multiplierType": "letter",
@@ -1907,7 +1978,8 @@
           "letter": "A",
           "points": 1,
           "x": 12,
-          "y": 7
+          "y": 7,
+          "id": "WHRK"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1920,7 +1992,8 @@
           "letter": "D",
           "points": 2,
           "x": 12,
-          "y": 8
+          "y": 8,
+          "id": "IPFQ"
         },
         "multiplier": 2,
         "multiplierType": "letter",
@@ -1933,7 +2006,8 @@
           "letter": "I",
           "points": 1,
           "x": 12,
-          "y": 9
+          "y": 9,
+          "id": "4VCW"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1954,7 +2028,8 @@
           "letter": "U",
           "points": 1,
           "x": 12,
-          "y": 11
+          "y": 11,
+          "id": "BQ46"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1975,7 +2050,8 @@
           "letter": "G",
           "points": 2,
           "x": 12,
-          "y": 13
+          "y": 13,
+          "id": "AZLA"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -1988,7 +2064,8 @@
           "letter": "I",
           "points": 1,
           "x": 12,
-          "y": 14
+          "y": 14,
+          "id": "X2NC"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -2011,7 +2088,8 @@
           "letter": "A",
           "points": 1,
           "x": 13,
-          "y": 1
+          "y": 1,
+          "id": "KSPI"
         },
         "multiplier": 2,
         "multiplierType": "word",
@@ -2024,7 +2102,8 @@
           "letter": "I",
           "points": 1,
           "x": 13,
-          "y": 2
+          "y": 2,
+          "id": "F7P3"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -2037,7 +2116,8 @@
           "letter": "R",
           "points": 1,
           "x": 13,
-          "y": 3
+          "y": 3,
+          "id": "IPGE"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -2050,7 +2130,8 @@
           "letter": "E",
           "points": 1,
           "x": 13,
-          "y": 4
+          "y": 4,
+          "id": "89OQ"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -2063,7 +2144,8 @@
           "letter": "D",
           "points": 2,
           "x": 13,
-          "y": 5
+          "y": 5,
+          "id": "XF77"
         },
         "multiplier": 3,
         "multiplierType": "letter",
@@ -2084,7 +2166,8 @@
           "letter": "R",
           "points": 1,
           "x": 13,
-          "y": 7
+          "y": 7,
+          "id": "NXV0"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -2105,7 +2188,8 @@
           "letter": "V",
           "points": 4,
           "x": 13,
-          "y": 9
+          "y": 9,
+          "id": "ZYNR"
         },
         "multiplier": 3,
         "multiplierType": "letter",
@@ -2118,7 +2202,8 @@
           "letter": "I",
           "points": 1,
           "x": 13,
-          "y": 10
+          "y": 10,
+          "id": "BYD7"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -2131,7 +2216,8 @@
           "letter": "M",
           "points": 3,
           "x": 13,
-          "y": 11
+          "y": 11,
+          "id": "E5IN"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -2152,7 +2238,8 @@
           "letter": "O",
           "points": 1,
           "x": 13,
-          "y": 13
+          "y": 13,
+          "id": "KNFR"
         },
         "multiplier": 2,
         "multiplierType": "word",
@@ -2165,7 +2252,8 @@
           "letter": "N",
           "points": 1,
           "x": 13,
-          "y": 14
+          "y": 14,
+          "id": "2R8M"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -2180,7 +2268,8 @@
           "letter": "G",
           "points": 2,
           "x": 14,
-          "y": 0
+          "y": 0,
+          "id": "H4V6"
         },
         "multiplier": 3,
         "multiplierType": "word",
@@ -2193,7 +2282,8 @@
           "letter": "R",
           "points": 1,
           "x": 14,
-          "y": 1
+          "y": 1,
+          "id": "U85T"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -2206,7 +2296,8 @@
           "letter": "E",
           "points": 1,
           "x": 14,
-          "y": 2
+          "y": 2,
+          "id": "7D2F"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -2219,7 +2310,8 @@
           "letter": "E",
           "points": 1,
           "x": 14,
-          "y": 3
+          "y": 3,
+          "id": "ZEZA"
         },
         "multiplier": 2,
         "multiplierType": "letter",
@@ -2232,7 +2324,8 @@
           "letter": "T",
           "points": 1,
           "x": 14,
-          "y": 4
+          "y": 4,
+          "id": "BFXY"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -2261,7 +2354,8 @@
           "letter": "Y",
           "points": 4,
           "x": 14,
-          "y": 7
+          "y": 7,
+          "id": "YVL5"
         },
         "multiplier": 3,
         "multiplierType": "word",
@@ -2274,7 +2368,8 @@
           "letter": "E",
           "points": 1,
           "x": 14,
-          "y": 8
+          "y": 8,
+          "id": "O6IZ"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -2287,7 +2382,8 @@
           "letter": "E",
           "points": 1,
           "x": 14,
-          "y": 9
+          "y": 9,
+          "id": "JL6T"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -2300,7 +2396,8 @@
           "letter": "D",
           "points": 2,
           "x": 14,
-          "y": 10
+          "y": 10,
+          "id": "XZ99"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -2313,7 +2410,8 @@
           "letter": "S",
           "points": 1,
           "x": 14,
-          "y": 11
+          "y": 11,
+          "id": "LJPN"
         },
         "multiplier": 2,
         "multiplierType": "letter",
@@ -2334,7 +2432,8 @@
           "letter": "A",
           "points": 1,
           "x": 14,
-          "y": 13
+          "y": 13,
+          "id": "UW12"
         },
         "multiplier": 1,
         "multiplierType": null,
@@ -2347,7 +2446,8 @@
           "letter": "G",
           "points": 2,
           "x": 14,
-          "y": 14
+          "y": 14,
+          "id": "07IL"
         },
         "multiplier": 3,
         "multiplierType": "word",
@@ -2367,25 +2467,29 @@
           "letter": "T",
           "points": 1,
           "x": 7,
-          "y": 5
+          "y": 5,
+          "id": "JT2Q"
         },
         {
           "letter": "O",
           "points": 1,
           "x": 7,
-          "y": 6
+          "y": 6,
+          "id": "5HDO"
         },
         {
           "letter": "N",
           "points": 1,
           "x": 7,
-          "y": 7
+          "y": 7,
+          "id": "9HF2"
         },
         {
           "letter": "Y",
           "points": 4,
           "x": 7,
-          "y": 8
+          "y": 8,
+          "id": "QV0Y"
         }
       ],
       "score": 14,
@@ -2400,43 +2504,50 @@
           "letter": "I",
           "points": 1,
           "x": 6,
-          "y": 7
+          "y": 7,
+          "id": "MC41"
         },
         {
           "letter": "N",
           "points": 1,
           "x": 6,
-          "y": 8
+          "y": 8,
+          "id": "9G2I"
         },
         {
           "letter": "O",
           "points": 1,
           "x": 6,
-          "y": 9
+          "y": 9,
+          "id": "WKLN"
         },
         {
           "letter": "S",
           "points": 1,
           "x": 6,
-          "y": 10
+          "y": 10,
+          "id": "XVH3"
         },
         {
           "letter": "I",
           "points": 1,
           "x": 6,
-          "y": 11
+          "y": 11,
+          "id": "G9CD"
         },
         {
           "letter": "T",
           "points": 1,
           "x": 6,
-          "y": 12
+          "y": 12,
+          "id": "K9OJ"
         },
         {
           "letter": "E",
           "points": 1,
           "x": 6,
-          "y": 13
+          "y": 13,
+          "id": "59XA"
         }
       ],
       "score": 67,
@@ -2451,19 +2562,22 @@
           "letter": "F",
           "points": 4,
           "x": 5,
-          "y": 7
+          "y": 7,
+          "id": "8MWK"
         },
         {
           "letter": "O",
           "points": 1,
           "x": 5,
-          "y": 8
+          "y": 8,
+          "id": "FAYX"
         },
         {
           "letter": "H",
           "points": 4,
           "x": 5,
-          "y": 9
+          "y": 9,
+          "id": "W4QT"
         }
       ],
       "score": 42,
@@ -2478,19 +2592,22 @@
           "letter": "L",
           "points": 1,
           "x": 5,
-          "y": 11
+          "y": 11,
+          "id": "ABVB"
         },
         {
           "letter": "A",
           "points": 1,
           "x": 5,
-          "y": 12
+          "y": 12,
+          "id": "L7HZ"
         },
         {
           "letter": "B",
           "points": 3,
           "x": 5,
-          "y": 13
+          "y": 13,
+          "id": "LMWZ"
         }
       ],
       "score": 25,
@@ -2505,13 +2622,15 @@
           "letter": "Z",
           "points": 10,
           "x": 7,
-          "y": 13
+          "y": 13,
+          "id": "0K9X"
         },
         {
           "letter": "A",
           "points": 1,
           "x": 7,
-          "y": 14
+          "y": 14,
+          "id": "SAAA"
         }
       ],
       "score": 47,
@@ -2526,19 +2645,22 @@
           "letter": "A",
           "points": 1,
           "x": 8,
-          "y": 5
+          "y": 5,
+          "id": "K3LM"
         },
         {
           "letter": "K",
           "points": 5,
           "x": 8,
-          "y": 6
+          "y": 6,
+          "id": "0Z04"
         },
         {
           "letter": "E",
           "points": 1,
           "x": 8,
-          "y": 7
+          "y": 7,
+          "id": "QM5L"
         }
       ],
       "score": 32,
@@ -2553,19 +2675,22 @@
           "letter": "N",
           "points": 1,
           "x": 9,
-          "y": 3
+          "y": 3,
+          "id": "D8OV"
         },
         {
           "letter": "E",
           "points": 1,
           "x": 9,
-          "y": 4
+          "y": 4,
+          "id": "JBSD"
         },
         {
           "letter": "P",
           "points": 3,
           "x": 9,
-          "y": 5
+          "y": 5,
+          "id": "N004"
         }
       ],
       "score": 22,
@@ -2580,25 +2705,29 @@
           "letter": "O",
           "points": 1,
           "x": 10,
-          "y": 3
+          "y": 3,
+          "id": "S3AO"
         },
         {
           "letter": "X",
           "points": 8,
           "x": 10,
-          "y": 4
+          "y": 4,
+          "id": "408C"
         },
         {
           "letter": "E",
           "points": 1,
           "x": 10,
-          "y": 5
+          "y": 5,
+          "id": "BRDI"
         },
         {
           "letter": "S",
           "points": 1,
           "x": 10,
-          "y": 6
+          "y": 6,
+          "id": "GRLD"
         }
       ],
       "score": 48,
@@ -2613,31 +2742,36 @@
           "letter": "C",
           "points": 3,
           "x": 10,
-          "y": 2
+          "y": 2,
+          "id": "JYTE"
         },
         {
           "letter": "U",
           "points": 1,
           "x": 11,
-          "y": 2
+          "y": 2,
+          "id": "E7Y2"
         },
         {
           "letter": "T",
           "points": 1,
           "x": 12,
-          "y": 2
+          "y": 2,
+          "id": "YVCE"
         },
         {
           "letter": "I",
           "points": 1,
           "x": 13,
-          "y": 2
+          "y": 2,
+          "id": "F7P3"
         },
         {
           "letter": "E",
           "points": 1,
           "x": 14,
-          "y": 2
+          "y": 2,
+          "id": "7D2F"
         }
       ],
       "score": 28,
@@ -2652,19 +2786,22 @@
           "letter": "G",
           "points": 2,
           "x": 14,
-          "y": 0
+          "y": 0,
+          "id": "H4V6"
         },
         {
           "letter": "R",
           "points": 1,
           "x": 14,
-          "y": 1
+          "y": 1,
+          "id": "U85T"
         },
         {
           "letter": "E",
           "points": 1,
           "x": 14,
-          "y": 3
+          "y": 3,
+          "id": "ZEZA"
         }
       ],
       "score": 18,
@@ -2679,7 +2816,8 @@
           "letter": "W",
           "points": 4,
           "x": 8,
-          "y": 4
+          "y": 4,
+          "id": "7TSC"
         }
       ],
       "score": 24,
@@ -2694,31 +2832,36 @@
           "letter": "O",
           "points": 1,
           "x": 11,
-          "y": 6
+          "y": 6,
+          "id": "NC77"
         },
         {
           "letter": "V",
           "points": 4,
           "x": 11,
-          "y": 7
+          "y": 7,
+          "id": "D1EQ"
         },
         {
           "letter": "O",
           "points": 1,
           "x": 11,
-          "y": 8
+          "y": 8,
+          "id": "N6FI"
         },
         {
           "letter": "L",
           "points": 1,
           "x": 11,
-          "y": 9
+          "y": 9,
+          "id": "NXQK"
         },
         {
           "letter": "I",
           "points": 1,
           "x": 11,
-          "y": 10
+          "y": 10,
+          "id": "LDMT"
         }
       ],
       "score": 14,
@@ -2733,19 +2876,22 @@
           "letter": "A",
           "points": 1,
           "x": 12,
-          "y": 7
+          "y": 7,
+          "id": "WHRK"
         },
         {
           "letter": "R",
           "points": 1,
           "x": 13,
-          "y": 7
+          "y": 7,
+          "id": "NXV0"
         },
         {
           "letter": "Y",
           "points": 4,
           "x": 14,
-          "y": 7
+          "y": 7,
+          "id": "YVL5"
         }
       ],
       "score": 30,
@@ -2760,19 +2906,22 @@
           "letter": "C",
           "points": 3,
           "x": 12,
-          "y": 6
+          "y": 6,
+          "id": "M3MA"
         },
         {
           "letter": "D",
           "points": 2,
           "x": 12,
-          "y": 8
+          "y": 8,
+          "id": "IPFQ"
         },
         {
           "letter": "I",
           "points": 1,
           "x": 12,
-          "y": 9
+          "y": 9,
+          "id": "4VCW"
         }
       ],
       "score": 27,
@@ -2787,20 +2936,23 @@
           "letter": "R",
           "points": 1,
           "x": 9,
-          "y": 7
+          "y": 7,
+          "id": "V83F"
         },
         {
           "letter": "E",
           "points": 1,
           "x": 9,
-          "y": 8
+          "y": 8,
+          "id": "T0HZ"
         },
         {
           "letter": "Z",
           "points": 0,
           "x": 9,
           "y": 9,
-          "originalLetter": " "
+          "originalLetter": " ",
+          "id": "5TFT"
         }
       ],
       "score": 10,
@@ -2815,19 +2967,22 @@
           "letter": "E",
           "points": 1,
           "x": 14,
-          "y": 8
+          "y": 8,
+          "id": "O6IZ"
         },
         {
           "letter": "E",
           "points": 1,
           "x": 14,
-          "y": 9
+          "y": 9,
+          "id": "JL6T"
         },
         {
           "letter": "D",
           "points": 2,
           "x": 14,
-          "y": 10
+          "y": 10,
+          "id": "XZ99"
         }
       ],
       "score": 8,
@@ -2842,19 +2997,22 @@
           "letter": "V",
           "points": 4,
           "x": 13,
-          "y": 9
+          "y": 9,
+          "id": "ZYNR"
         },
         {
           "letter": "I",
           "points": 1,
           "x": 13,
-          "y": 10
+          "y": 10,
+          "id": "BYD7"
         },
         {
           "letter": "M",
           "points": 3,
           "x": 13,
-          "y": 11
+          "y": 11,
+          "id": "E5IN"
         }
       ],
       "score": 34,
@@ -2869,31 +3027,36 @@
           "letter": "P",
           "points": 3,
           "x": 10,
-          "y": 10
+          "y": 10,
+          "id": "WHU7"
         },
         {
           "letter": "U",
           "points": 1,
           "x": 10,
-          "y": 11
+          "y": 11,
+          "id": "RRL5"
         },
         {
           "letter": "N",
           "points": 1,
           "x": 10,
-          "y": 12
+          "y": 12,
+          "id": "6ULJ"
         },
         {
           "letter": "J",
           "points": 8,
           "x": 10,
-          "y": 13
+          "y": 13,
+          "id": "OVMS"
         },
         {
           "letter": "I",
           "points": 1,
           "x": 10,
-          "y": 14
+          "y": 14,
+          "id": "QJZG"
         }
       ],
       "score": 36,
@@ -2908,19 +3071,22 @@
           "letter": "Q",
           "points": 10,
           "x": 3,
-          "y": 14
+          "y": 14,
+          "id": "OM7R"
         },
         {
           "letter": "I",
           "points": 1,
           "x": 4,
-          "y": 14
+          "y": 14,
+          "id": "10OJ"
         },
         {
           "letter": "S",
           "points": 1,
           "x": 5,
-          "y": 14
+          "y": 14,
+          "id": "V2PR"
         }
       ],
       "score": 28,
@@ -2935,31 +3101,36 @@
           "letter": "W",
           "points": 4,
           "x": 9,
-          "y": 14
+          "y": 14,
+          "id": "OGQ1"
         },
         {
           "letter": "T",
           "points": 1,
           "x": 11,
-          "y": 14
+          "y": 14,
+          "id": "QQG3"
         },
         {
           "letter": "I",
           "points": 1,
           "x": 12,
-          "y": 14
+          "y": 14,
+          "id": "X2NC"
         },
         {
           "letter": "N",
           "points": 1,
           "x": 13,
-          "y": 14
+          "y": 14,
+          "id": "2R8M"
         },
         {
           "letter": "G",
           "points": 2,
           "x": 14,
-          "y": 14
+          "y": 14,
+          "id": "07IL"
         }
       ],
       "score": 33,
@@ -2974,19 +3145,22 @@
           "letter": "M",
           "points": 3,
           "x": 4,
-          "y": 8
+          "y": 8,
+          "id": "7EOO"
         },
         {
           "letter": "O",
           "points": 1,
           "x": 4,
-          "y": 9
+          "y": 9,
+          "id": "1G5V"
         },
         {
           "letter": "L",
           "points": 1,
           "x": 4,
-          "y": 10
+          "y": 10,
+          "id": "AFW9"
         }
       ],
       "score": 25,
@@ -3001,13 +3175,15 @@
           "letter": "D",
           "points": 2,
           "x": 11,
-          "y": 1
+          "y": 1,
+          "id": "K1I8"
         },
         {
           "letter": "H",
           "points": 4,
           "x": 11,
-          "y": 3
+          "y": 3,
+          "id": "Y0RC"
         }
       ],
       "score": 26,
@@ -3022,20 +3198,23 @@
           "letter": "B",
           "points": 3,
           "x": 3,
-          "y": 9
+          "y": 9,
+          "id": "O4P5"
         },
         {
           "letter": "E",
           "points": 1,
           "x": 3,
-          "y": 10
+          "y": 10,
+          "id": "85HJ"
         },
         {
           "letter": "Z",
           "points": 0,
           "x": 3,
           "y": 11,
-          "originalLetter": " "
+          "originalLetter": " ",
+          "id": "7QK6"
         }
       ],
       "score": 19,
@@ -3050,25 +3229,29 @@
           "letter": "A",
           "points": 1,
           "x": 13,
-          "y": 1
+          "y": 1,
+          "id": "KSPI"
         },
         {
           "letter": "R",
           "points": 1,
           "x": 13,
-          "y": 3
+          "y": 3,
+          "id": "IPGE"
         },
         {
           "letter": "E",
           "points": 1,
           "x": 13,
-          "y": 4
+          "y": 4,
+          "id": "89OQ"
         },
         {
           "letter": "D",
           "points": 2,
           "x": 13,
-          "y": 5
+          "y": 5,
+          "id": "XF77"
         }
       ],
       "score": 26,
@@ -3083,19 +3266,22 @@
           "letter": "G",
           "points": 2,
           "x": 12,
-          "y": 13
+          "y": 13,
+          "id": "AZLA"
         },
         {
           "letter": "O",
           "points": 1,
           "x": 13,
-          "y": 13
+          "y": 13,
+          "id": "KNFR"
         },
         {
           "letter": "A",
           "points": 1,
           "x": 14,
-          "y": 13
+          "y": 13,
+          "id": "UW12"
         }
       ],
       "score": 18,
@@ -3110,13 +3296,15 @@
           "letter": "F",
           "points": 4,
           "x": 12,
-          "y": 4
+          "y": 4,
+          "id": "W5KT"
         },
         {
           "letter": "T",
           "points": 1,
           "x": 14,
-          "y": 4
+          "y": 4,
+          "id": "BFXY"
         }
       ],
       "score": 12,
@@ -3131,13 +3319,15 @@
           "letter": "U",
           "points": 1,
           "x": 12,
-          "y": 11
+          "y": 11,
+          "id": "BQ46"
         },
         {
           "letter": "S",
           "points": 1,
           "x": 14,
-          "y": 11
+          "y": 11,
+          "id": "LJPN"
         }
       ],
       "score": 16,
@@ -3152,13 +3342,15 @@
           "letter": "N",
           "points": 1,
           "x": 9,
-          "y": 11
+          "y": 11,
+          "id": "GDSU"
         },
         {
           "letter": "A",
           "points": 1,
           "x": 9,
-          "y": 12
+          "y": 12,
+          "id": "5SRE"
         }
       ],
       "score": 6,
@@ -3173,7 +3365,8 @@
           "letter": "U",
           "points": 1,
           "x": 12,
-          "y": 1
+          "y": 1,
+          "id": "KXMM"
         }
       ],
       "score": 7,
@@ -3197,13 +3390,15 @@
           "letter": "R",
           "points": 1,
           "x": 6,
-          "y": 4
+          "y": 4,
+          "id": "ZOZB"
         },
         {
           "letter": "E",
           "points": 1,
           "x": 6,
-          "y": 5
+          "y": 5,
+          "id": "18PD"
         }
       ],
       "score": 9,
@@ -3211,5 +3406,6 @@
     }
   ],
   "gamePhase": "ended",
-  "endStatus": "N wins!"
+  "endStatus": "N wins!",
+  "crosswordTitle": "Odds"
 }
