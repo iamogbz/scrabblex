@@ -554,6 +554,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
       const isReloading = reloadingClues.includes(word.word);
 
       let isComplete = true;
+      let isRevealed = true;
       const wordCells: { x: number; y: number }[] = [];
 
       for (let i = 0; i < word.length; i++) {
@@ -567,13 +568,17 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
 
         if (!userInput || !correctTile) {
           isComplete = false;
+        }
+        if (
+          userInput !== correctTile?.letter ||
+          !revealedCells.includes(cellKey)
+        ) {
+          isRevealed = false;
+        }
+        if (!isComplete && !isRevealed) {
           break;
         }
       }
-
-      const isRevealed = revealedCells.some(
-        (cell) => cell === `${word.x},${word.y}`
-      );
 
       return (
         <div
