@@ -12,8 +12,9 @@ interface CrosswordTileProps {
   isRevealed: boolean;
   value: string;
   onChange: (value: string) => void;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onFocus: (e: React.FocusEvent<HTMLInputElement>) => void;
   isActive: boolean;
   isPartiallyActive: boolean;
 }
@@ -29,6 +30,7 @@ const CrosswordTile = forwardRef<HTMLInputElement, CrosswordTileProps>(
       onChange,
       onClick,
       onKeyDown,
+      onFocus,
       isActive,
       isPartiallyActive,
     },
@@ -66,14 +68,21 @@ const CrosswordTile = forwardRef<HTMLInputElement, CrosswordTileProps>(
       // We stop propagation to prevent the input click from firing,
       // which could cause a double-fire of the onClick handler
       e.stopPropagation();
-      onClick?.();
+      onClick?.(e);
     };
 
     const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
       // When the input itself is clicked, also fire the main onClick
       // so board logic (like changing direction) still works.
       e.stopPropagation();
-      onClick?.();
+      onClick?.(e);
+    };
+
+    const handleInputFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+      // We stop propagation to prevent the input click from firing,
+      // which could cause a double-fire of the onClick handler
+      e.stopPropagation();
+      onFocus?.(e);
     };
 
     useEffect(() => {
@@ -129,6 +138,7 @@ const CrosswordTile = forwardRef<HTMLInputElement, CrosswordTileProps>(
             onChange={handleInputChange}
             onKeyDown={onKeyDown}
             onClick={handleInputClick}
+            onFocus={handleInputFocus}
             maxLength={1}
             className={cn(
               "w-full h-full bg-transparent border-0 text-center p-0 font-bold font-headline focus-visible:ring-primary focus-visible:ring-offset-0 rounded-0",

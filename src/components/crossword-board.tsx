@@ -223,7 +223,7 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     []
   );
 
-  const handleTileClick = (x: number, y: number) => {
+  const handleTileClick = (x: number, y: number, canChangeDirection = true) => {
     const isSameCell = activeCell?.x === x && activeCell?.y === y;
     const wordNums = wordsByCell.get(`${x},${y}`);
 
@@ -259,7 +259,9 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
       }
     }
 
-    setActiveDirection(newDirection);
+    if (canChangeDirection) {
+      setActiveDirection(newDirection);
+    }
     scrollClueIntoView(wordNums?.[newDirection] || null, newDirection);
   };
 
@@ -738,6 +740,8 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
                       onChange={(val) => handleInputChange(x, y, val)}
                       onKeyDown={(e) => handleKeyDown(e, x, y)}
                       onClick={() => handleTileClick(x, y)}
+                      // Tab focus should not change direction
+                      onFocus={() => handleTileClick(x, y, false)}
                       isActive={isActive}
                       isPartiallyActive={
                         activeCell?.x === x && activeCell?.y === y
