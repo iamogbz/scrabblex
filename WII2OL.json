@@ -5,41 +5,41 @@
       "id": "p_1762469729244_56uniue",
       "name": "E",
       "code": "e",
-      "score": 0,
+      "score": 14,
       "rack": [
-        {
-          "id": "PI9P",
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "id": "SZW2",
-          "letter": "N",
-          "points": 1
-        },
         {
           "id": "BWHL",
           "letter": "O",
           "points": 1
         },
         {
-          "id": "ISS0",
-          "letter": "I",
+          "id": "EZZL",
+          "letter": "B",
+          "points": 3
+        },
+        {
+          "id": "LWMZ",
+          "letter": "A",
           "points": 1
         },
         {
-          "id": "F4RL",
-          "letter": "E",
+          "id": "ARVI",
+          "letter": "N",
           "points": 1
         },
         {
-          "id": "L0BW",
+          "id": "7HN3",
+          "letter": "N",
+          "points": 1
+        },
+        {
+          "id": "4Y3G",
           "letter": "T",
           "points": 1
         },
         {
-          "id": "TV5D",
-          "letter": "R",
+          "id": "NTHI",
+          "letter": "U",
           "points": 1
         }
       ]
@@ -89,36 +89,6 @@
     }
   ],
   "tileBag": [
-    {
-      "id": "EZZL",
-      "letter": "B",
-      "points": 3
-    },
-    {
-      "id": "LWMZ",
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "id": "ARVI",
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "id": "7HN3",
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "id": "4Y3G",
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "id": "NTHI",
-      "letter": "U",
-      "points": 1
-    },
     {
       "id": "UTGM",
       "letter": "T",
@@ -1433,7 +1403,13 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "PI9P",
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": true,
@@ -1441,7 +1417,13 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "SZW2",
+          "letter": "N",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1449,7 +1431,13 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "L0BW",
+          "letter": "T",
+          "points": 1,
+          "x": 7,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1457,7 +1445,13 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "ISS0",
+          "letter": "I",
+          "points": 1,
+          "x": 7,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1465,7 +1459,13 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "TV5D",
+          "letter": "R",
+          "points": 1,
+          "x": 7,
+          "y": 11
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1473,7 +1473,13 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "F4RL",
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2352,7 +2358,59 @@
       }
     ]
   ],
-  "history": [],
+  "history": [
+    {
+      "playerId": "p_1762469729244_56uniue",
+      "playerName": "E",
+      "word": "ENTIRE",
+      "tiles": [
+        {
+          "id": "PI9P",
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 7
+        },
+        {
+          "id": "SZW2",
+          "letter": "N",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
+        {
+          "id": "L0BW",
+          "letter": "T",
+          "points": 1,
+          "x": 7,
+          "y": 9
+        },
+        {
+          "id": "ISS0",
+          "letter": "I",
+          "points": 1,
+          "x": 7,
+          "y": 10
+        },
+        {
+          "id": "TV5D",
+          "letter": "R",
+          "points": 1,
+          "x": 7,
+          "y": 11
+        },
+        {
+          "id": "F4RL",
+          "letter": "E",
+          "points": 1,
+          "x": 7,
+          "y": 12
+        }
+      ],
+      "score": 14,
+      "timestamp": "2025-11-06T22:57:42.714Z"
+    }
+  ],
   "gamePhase": "playing",
   "createdAt": "2025-11-06T22:55:20.052Z"
 }
