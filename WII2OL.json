@@ -85,7 +85,8 @@
           "letter": "A",
           "points": 1
         }
-      ]
+      ],
+      "isComputer": true
     }
   ],
   "tileBag": [
