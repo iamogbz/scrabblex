@@ -48,7 +48,7 @@
       "id": "p_1762469736160_be5134f",
       "name": "Q",
       "code": "q",
-      "score": 0,
+      "score": 27,
       "rack": [
         {
           "id": "OW4O",
@@ -84,37 +84,37 @@
           "id": "DF0G",
           "letter": "A",
           "points": 1
+        },
+        {
+          "id": "UTGM",
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "id": "R1BH",
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "id": "6DO2",
+          "letter": "S",
+          "points": 1
+        },
+        {
+          "id": "BRP8",
+          "letter": "C",
+          "points": 3
+        },
+        {
+          "id": "W3FU",
+          "letter": "F",
+          "points": 4
         }
       ],
       "isComputer": true
     }
   ],
   "tileBag": [
-    {
-      "id": "UTGM",
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "id": "R1BH",
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "id": "6DO2",
-      "letter": "S",
-      "points": 1
-    },
-    {
-      "id": "BRP8",
-      "letter": "C",
-      "points": 3
-    },
-    {
-      "id": "W3FU",
-      "letter": "F",
-      "points": 4
-    },
     {
       "id": "MKZT",
       "letter": "O",
@@ -1298,7 +1298,13 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "temp_0.5603017700713173",
+          "letter": "A",
+          "points": 1,
+          "x": 6,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1306,7 +1312,13 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "temp_0.38519943107551957",
+          "letter": "L",
+          "points": 1,
+          "x": 6,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1314,7 +1326,13 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "temp_0.9622156275453377",
+          "letter": "E",
+          "points": 1,
+          "x": 6,
+          "y": 11
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1322,7 +1340,13 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "temp_0.13746282655967956",
+          "letter": "W",
+          "points": 4,
+          "x": 6,
+          "y": 12
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1330,7 +1354,13 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "temp_0.7023546946272687",
+          "letter": "S",
+          "points": 1,
+          "x": 6,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2410,6 +2440,50 @@
       ],
       "score": 14,
       "timestamp": "2025-11-06T22:57:42.714Z"
+    },
+    {
+      "playerId": "p_1762469736160_be5134f",
+      "playerName": "Q",
+      "word": "ALEWS",
+      "tiles": [
+        {
+          "id": "temp_0.5603017700713173",
+          "letter": "A",
+          "points": 1,
+          "x": 6,
+          "y": 9
+        },
+        {
+          "id": "temp_0.38519943107551957",
+          "letter": "L",
+          "points": 1,
+          "x": 6,
+          "y": 10
+        },
+        {
+          "id": "temp_0.9622156275453377",
+          "letter": "E",
+          "points": 1,
+          "x": 6,
+          "y": 11
+        },
+        {
+          "id": "temp_0.13746282655967956",
+          "letter": "W",
+          "points": 4,
+          "x": 6,
+          "y": 12
+        },
+        {
+          "id": "temp_0.7023546946272687",
+          "letter": "S",
+          "points": 1,
+          "x": 6,
+          "y": 13
+        }
+      ],
+      "score": 27,
+      "timestamp": "2025-11-17T08:00:54.914Z"
     }
   ],
   "gamePhase": "playing",
