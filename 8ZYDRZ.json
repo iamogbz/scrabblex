@@ -5,7 +5,7 @@
       "id": "p_1763507755200_yvjsef2",
       "name": "E",
       "code": "e",
-      "score": 0,
+      "score": 16,
       "rack": [
         {
           "id": "5DX7",
@@ -40,6 +40,31 @@
         {
           "id": "B720",
           "letter": "I",
+          "points": 1
+        },
+        {
+          "id": "XZG2",
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "id": "6NCD",
+          "letter": "G",
+          "points": 2
+        },
+        {
+          "id": "T0T6",
+          "letter": "U",
+          "points": 1
+        },
+        {
+          "id": "4DEM",
+          "letter": "O",
+          "points": 1
+        },
+        {
+          "id": "RPUD",
+          "letter": "A",
           "points": 1
         }
       ],
@@ -90,31 +115,6 @@
     }
   ],
   "tileBag": [
-    {
-      "id": "XZG2",
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "id": "6NCD",
-      "letter": "G",
-      "points": 2
-    },
-    {
-      "id": "T0T6",
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "id": "4DEM",
-      "letter": "O",
-      "points": 1
-    },
-    {
-      "id": "RPUD",
-      "letter": "A",
-      "points": 1
-    },
     {
       "id": "JRDY",
       "letter": "I",
@@ -1434,7 +1434,13 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "temp_0.7815164276463243",
+          "letter": "D",
+          "points": 2,
+          "x": 7,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": true,
@@ -1442,7 +1448,13 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "temp_0.36585542651196445",
+          "letter": "I",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1450,7 +1462,13 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "temp_0.2802368618162778",
+          "letter": "G",
+          "points": 2,
+          "x": 7,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1458,7 +1476,13 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "temp_0.14433088405135042",
+          "letter": "I",
+          "points": 1,
+          "x": 7,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1466,7 +1490,13 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "temp_0.821654802270154",
+          "letter": "T",
+          "points": 1,
+          "x": 7,
+          "y": 11
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2353,7 +2383,52 @@
       }
     ]
   ],
-  "history": [],
+  "history": [
+    {
+      "playerId": "p_1763507755200_yvjsef2",
+      "playerName": "E",
+      "word": "DIGIT",
+      "tiles": [
+        {
+          "id": "temp_0.7815164276463243",
+          "letter": "D",
+          "points": 2,
+          "x": 7,
+          "y": 7
+        },
+        {
+          "id": "temp_0.36585542651196445",
+          "letter": "I",
+          "points": 1,
+          "x": 7,
+          "y": 8
+        },
+        {
+          "id": "temp_0.2802368618162778",
+          "letter": "G",
+          "points": 2,
+          "x": 7,
+          "y": 9
+        },
+        {
+          "id": "temp_0.14433088405135042",
+          "letter": "I",
+          "points": 1,
+          "x": 7,
+          "y": 10
+        },
+        {
+          "id": "temp_0.821654802270154",
+          "letter": "T",
+          "points": 1,
+          "x": 7,
+          "y": 11
+        }
+      ],
+      "score": 16,
+      "timestamp": "2025-11-19T16:26:10.426Z"
+    }
+  ],
   "gamePhase": "playing",
   "createdAt": "2025-11-18T23:15:46.336Z"
 }
