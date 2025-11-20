@@ -161,94 +161,79 @@
   ],
   "tileBag": [
     {
-      "id": "RMB6",
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "id": "NGB1",
-      "letter": "C",
-      "points": 3
-    },
-    {
-      "id": "300P",
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "id": "SZO8",
-      "letter": "Z",
-      "points": 10
-    },
-    {
-      "id": "FULL",
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "id": "GPKG",
-      "letter": "H",
-      "points": 4
-    },
-    {
-      "id": "LITO",
-      "letter": " ",
-      "points": 0
-    },
-    {
-      "id": "W478",
-      "letter": "U",
-      "points": 1
-    },
-    {
-      "id": "ZUYY",
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "id": "4Y6H",
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "id": "KWJA",
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "id": "ZJGY",
-      "letter": "X",
-      "points": 8
-    },
-    {
-      "id": "GYVU",
+      "id": "S0QZ",
       "letter": "L",
       "points": 1
     },
     {
-      "id": "NXSB",
+      "id": "QTSA",
+      "letter": "X",
+      "points": 8
+    },
+    {
+      "id": "R2NL",
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "id": "WMYB",
+      "letter": "H",
+      "points": 4
+    },
+    {
+      "id": "0H67",
+      "letter": "C",
+      "points": 3
+    },
+    {
+      "id": "K96R",
       "letter": "U",
       "points": 1
     },
     {
-      "id": "G1BE",
+      "id": "LQP7",
+      "letter": "R",
+      "points": 1
+    },
+    {
+      "id": "880U",
       "letter": "Y",
       "points": 4
     },
     {
-      "id": "TILZ",
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "id": "94PF",
+      "id": "IJJQ",
       "letter": "A",
       "points": 1
     },
     {
-      "id": "I6IM",
+      "id": "IBEH",
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "id": "A8Y6",
+      "letter": "Z",
+      "points": 10
+    },
+    {
+      "id": "GJRH",
       "letter": "R",
       "points": 1
+    },
+    {
+      "id": "ACFG",
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "id": "4USA",
+      "letter": "U",
+      "points": 1
+    },
+    {
+      "id": "RH7R",
+      "letter": " ",
+      "points": 0
     }
   ],
   "board": [
