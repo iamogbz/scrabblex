@@ -1,3 +1,4 @@
+
 "use server";
 
 import {
@@ -527,21 +528,19 @@ export async function getWordSuggestions(
   const rackLetters = rack.map((t) => t.letter);
 
   for (const anchor of anchors) {
-    if (
-      anchor.y === 0 ||
-      !board[anchor.x]?.[anchor.y - 1] ||
-      !board[anchor.x][anchor.y - 1].tile
-    ) {
-      let prefix = "";
-      for (let i = anchor.y - 1; i >= 0; i--) {
-        const tile = board[anchor.x]?.[i]?.tile;
-        if (tile) {
-          prefix = tile.letter + prefix;
-        } else {
-          break;
-        }
+    if (suggestions.length >= 100) break;
+    // Horizontal
+    let leftPart = "";
+    for (let i = anchor.y - 1; i >= 0; i--) {
+      const tile = board[anchor.x]?.[i]?.tile;
+      if (tile) {
+        leftPart = tile.letter + leftPart;
+      } else {
+        break;
       }
-      generateMoves(
+    }
+    if (leftPart) {
+      extend(
         board,
         rackLetters,
         anchor.x,
@@ -549,24 +548,40 @@ export async function getWordSuggestions(
         "horizontal",
         dictionary,
         suggestions,
-        prefix
+        leftPart,
+        [],
+        anchor.x,
+        anchor.y - leftPart.length
+      );
+    } else {
+      extend(
+        board,
+        rackLetters,
+        anchor.x,
+        anchor.y,
+        "horizontal",
+        dictionary,
+        suggestions,
+        "",
+        [],
+        anchor.x,
+        anchor.y
       );
     }
-    if (
-      anchor.x === 0 ||
-      !board[anchor.x - 1]?.[anchor.y] ||
-      !board[anchor.x - 1][anchor.y].tile
-    ) {
-      let prefix = "";
-      for (let i = anchor.x - 1; i >= 0; i--) {
-        const tile = board[i]?.[anchor.y]?.tile;
-        if (tile) {
-          prefix = tile.letter + prefix;
-        } else {
-          break;
-        }
+
+    if (suggestions.length >= 100) break;
+    // Vertical
+    let topPart = "";
+    for (let i = anchor.x - 1; i >= 0; i--) {
+      const tile = board[i]?.[anchor.y]?.tile;
+      if (tile) {
+        topPart = tile.letter + topPart;
+      } else {
+        break;
       }
-      generateMoves(
+    }
+    if (topPart) {
+      extend(
         board,
         rackLetters,
         anchor.x,
@@ -574,7 +589,24 @@ export async function getWordSuggestions(
         "vertical",
         dictionary,
         suggestions,
-        prefix
+        topPart,
+        [],
+        anchor.x - topPart.length,
+        anchor.y
+      );
+    } else {
+      extend(
+        board,
+        rackLetters,
+        anchor.x,
+        anchor.y,
+        "vertical",
+        dictionary,
+        suggestions,
+        "",
+        [],
+        anchor.x,
+        anchor.y
       );
     }
   }
@@ -620,31 +652,6 @@ function findAnchors(board: BoardSquare[][]): { x: number; y: number }[] {
   });
 }
 
-function generateMoves(
-  board: Board,
-  rack: string[],
-  x: number,
-  y: number,
-  direction: "horizontal" | "vertical",
-  dictionary: Set<string>,
-  suggestions: WordSuggestion[],
-  prefix: string
-) {
-  extend(
-    board,
-    rack,
-    x,
-    y,
-    direction,
-    dictionary,
-    suggestions,
-    prefix,
-    [],
-    x,
-    y
-  );
-}
-
 function extend(
   board: Board,
   rack: string[],
@@ -658,6 +665,8 @@ function extend(
   startX: number,
   startY: number
 ) {
+  if (suggestions.length >= 100) return;
+
   if (direction === "horizontal" ? y >= 15 : x >= 15) {
     validateAndAdd(
       board,
@@ -690,21 +699,24 @@ function extend(
       startY
     );
   } else {
-    validateAndAdd(
-      board,
-      dictionary,
-      suggestions,
-      currentWord,
-      placed,
-      startX,
-      startY,
-      direction
-    );
-
+    if (placed.length > 0) {
+       validateAndAdd(
+        board,
+        dictionary,
+        suggestions,
+        currentWord,
+        placed,
+        startX,
+        startY,
+        direction
+      );
+    }
+    
     for (let i = 0; i < rack.length; i++) {
+       if (suggestions.length >= 100) return;
       const letter = rack[i];
       const remainingRack = [...rack.slice(0, i), ...rack.slice(i + 1)];
-      const newPlaced = [
+      const newPlaced: PlacedTile[] = [
         ...placed,
         {
           id: `temp_${Math.random()}`,
@@ -720,6 +732,7 @@ function extend(
 
       if (letter === " ") {
         for (let charCode = 65; charCode <= 90; charCode++) {
+          if (suggestions.length >= 100) return;
           const char = String.fromCharCode(charCode);
           newPlaced[newPlaced.length - 1].letter = char;
           newPlaced[newPlaced.length - 1].points = 0;
@@ -766,12 +779,13 @@ function validateAndAdd(
   startY: number,
   direction: "horizontal" | "vertical"
 ) {
+  if (suggestions.length >= 100) return;
   if (placedTiles.length === 0 || !dictionary.has(word.toUpperCase())) {
     return;
   }
 
   const isConnected =
-    board.flat().some((square) => square.tile) === false || // First move
+    board.flat().every((square) => !square.tile) || // First move on empty board
     placedTiles.some((tile) => {
       const { x, y } = tile;
       return (
@@ -786,7 +800,7 @@ function validateAndAdd(
     return;
   }
 
-  const tempBoard = JSON.parse(JSON.stringify(board));
+  const tempBoard: Board = JSON.parse(JSON.stringify(board));
   placedTiles.forEach((tile) => {
     if (tempBoard[tile.x]?.[tile.y]) {
       tempBoard[tile.x][tile.y].tile = tile;
@@ -803,25 +817,14 @@ function validateAndAdd(
     allFormedWords.every((w) => dictionary.has(w.word.toUpperCase()));
 
   if (areAllWordsValid) {
-    const mainWordInfo = allFormedWords.find(
-      (w) => w.word.toUpperCase() === word.toUpperCase()
-    );
-
-    if (mainWordInfo) {
-      const firstTile = mainWordInfo.tiles.sort(
-        (a, b) =>
-          ("y" in a ? a.y : Infinity) - ("y" in b ? b.y : Infinity) ||
-          ("x" in a ? a.x : Infinity) - ("x" in b ? b.x : Infinity)
-      )[0] as PlacedTile;
-      suggestions.push({
-        word: mainWordInfo.word,
-        tiles: placedTiles,
-        score,
-        direction: mainWordInfo.direction,
-        x: firstTile.x,
-        y: firstTile.y,
-      });
-    }
+    suggestions.push({
+      word: word,
+      tiles: placedTiles,
+      score,
+      direction,
+      x: startX,
+      y: startY,
+    });
   }
 }
 
@@ -1040,7 +1043,7 @@ export async function generateAndSaveCrosswordTitle(
 
 const getCurrentPlayer = (gameState: GameState): Player | null => {
   if (!gameState || gameState.players.length === 0) return null;
-  const turnsPlayed = gameState.history.length;
+  const turnsPlayed = gameState.history.filter(h => h.playerId).length;
   if (turnsPlayed < gameState.players.length) {
     const playedPlayerIds = new Set(gameState.history.map((h) => h.playerId));
     const waitingPlayers = gameState.players.filter(
@@ -1136,6 +1139,14 @@ export async function playTurn({
     const playerToUpdateInNewState = newGameState.players[playerIndex];
 
     if (m.type === "play") {
+      // Create a temporary board for validation that reflects the current state
+      const tempBoardForValidation = JSON.parse(JSON.stringify(gs.board));
+      m.tiles.forEach(tile => {
+        if (tempBoardForValidation[tile.x]?.[tile.y]) {
+          tempBoardForValidation[tile.x][tile.y].tile = tile;
+        }
+      });
+
       const { score, words, isBingo } = calculateMoveScore(m.tiles, gs.board);
       const mainWord =
         words.find((w) =>
@@ -1241,28 +1252,8 @@ export async function playTurn({
       );
 
       let computerMove: PlayTurnOptions["move"] | null = null;
-
-      for (const suggestion of suggestions) {
-        const tempBoard = createInitialBoard();
-        gameState.history.forEach((h) =>
-          h.tiles.forEach((t) => {
-            if (tempBoard[t.x]?.[t.y]) tempBoard[t.x][t.y].tile = t;
-          })
-        );
-
-        const { words: allFormedWords } = calculateMoveScore(
-          suggestion.tiles,
-          tempBoard
-        );
-        const validationPromises = allFormedWords.map((w) =>
-          verifyWordAction(w.word)
-        );
-        const validationResults = await Promise.all(validationPromises);
-
-        if (validationResults.every((r) => r.isValid)) {
-          computerMove = { type: "play", tiles: suggestion.tiles };
-          break;
-        }
+      if (suggestions.length > 0) {
+        computerMove = { type: "play", tiles: suggestions[0].tiles };
       }
 
       if (!computerMove) {
@@ -1280,15 +1271,24 @@ export async function playTurn({
       let result = await applyMove(gameState, computer, computerMove);
       if ("error" in result) {
         console.error("AI move failed:", result.error);
-        break;
+        // If AI fails, make it pass to avoid infinite loop
+        result = await applyMove(gameState, computer, { type: "pass" });
+        if ("error" in result) {
+            console.error("AI pass after fail also failed:", result.error);
+            break; // Break the loop if even passing fails
+        }
       }
       gameState = result;
       currentPlayer = getCurrentPlayer(gameState);
     }
 
-    await updateGame(gameId, gameState, sha, message);
+    // After all moves (human and possibly AI), get the latest game state to get the correct SHA
+    const finalGameData = await getGameState(gameId);
+    await updateGame(gameId, gameState, finalGameData?.sha || sha, message);
     return { success: true };
   } catch (e: any) {
     return { success: false, error: e.message };
   }
 }
+
+    
