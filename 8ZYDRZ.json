@@ -48,13 +48,8 @@
       "id": "p_1763507760504_cf2q8ic",
       "name": "Q",
       "code": "q",
-      "score": 0,
+      "score": 24,
       "rack": [
-        {
-          "id": "3CBO",
-          "letter": "H",
-          "points": 4
-        },
         {
           "id": "90F4",
           "letter": "R",
@@ -66,49 +61,34 @@
           "points": 1
         },
         {
-          "id": "1FSL",
-          "letter": "V",
-          "points": 4
-        },
-        {
           "id": "RA8E",
           "letter": "O",
           "points": 1
         },
         {
-          "id": "4Y62",
-          "letter": "E",
+          "id": "JRDY",
+          "letter": "I",
           "points": 1
         },
         {
-          "id": "RFPQ",
-          "letter": "O",
+          "id": "QTZ4",
+          "letter": "P",
+          "points": 3
+        },
+        {
+          "id": "D22C",
+          "letter": "I",
           "points": 1
+        },
+        {
+          "id": "7I3U",
+          "letter": "Y",
+          "points": 4
         }
       ]
     }
   ],
   "tileBag": [
-    {
-      "id": "JRDY",
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "id": "QTZ4",
-      "letter": "P",
-      "points": 3
-    },
-    {
-      "id": "D22C",
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "id": "7I3U",
-      "letter": "Y",
-      "points": 4
-    },
     {
       "id": "F17C",
       "letter": "X",
@@ -888,7 +868,13 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "3CBO",
+          "letter": "H",
+          "points": 4,
+          "x": 3,
+          "y": 3
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -1010,7 +996,13 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "RFPQ",
+          "letter": "O",
+          "points": 1,
+          "x": 4,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1132,7 +1124,13 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "1FSL",
+          "letter": "V",
+          "points": 4,
+          "x": 5,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1254,7 +1252,13 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "4Y62",
+          "letter": "E",
+          "points": 1,
+          "x": 6,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2401,6 +2405,43 @@
       ],
       "score": 18,
       "timestamp": "2025-12-03T09:46:09.315Z"
+    },
+    {
+      "playerId": "p_1763507760504_cf2q8ic",
+      "playerName": "Q",
+      "word": "HOVED",
+      "tiles": [
+        {
+          "id": "3CBO",
+          "letter": "H",
+          "points": 4,
+          "x": 3,
+          "y": 3
+        },
+        {
+          "id": "RFPQ",
+          "letter": "O",
+          "points": 1,
+          "x": 4,
+          "y": 3
+        },
+        {
+          "id": "1FSL",
+          "letter": "V",
+          "points": 4,
+          "x": 5,
+          "y": 3
+        },
+        {
+          "id": "4Y62",
+          "letter": "E",
+          "points": 1,
+          "x": 6,
+          "y": 3
+        }
+      ],
+      "score": 24,
+      "timestamp": "2025-12-03T09:47:29.359Z"
     }
   ],
   "gamePhase": "playing",
