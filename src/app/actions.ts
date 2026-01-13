@@ -1,3 +1,4 @@
+
 "use server";
 
 import {
@@ -512,318 +513,176 @@ type WordSuggestion = {
   word: string;
   tiles: PlacedTile[];
   score: number;
-  direction: "horizontal" | "vertical";
-  x: number;
-  y: number;
 };
 
+// Helper function to check if a word can be formed from the letters in the rack
+const canMakeWord = (word: string, rackLetters: string[]) => {
+  const rackCounts = rackLetters.reduce((acc, letter) => {
+    acc[letter] = (acc[letter] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  for (const letter of word) {
+    if (!rackCounts[letter] || rackCounts[letter] === 0) {
+      if (rackCounts[" "]) {
+        rackCounts[" "]--;
+      } else {
+        return false;
+      }
+    } else {
+      rackCounts[letter]--;
+    }
+  }
+  return true;
+};
+
+// Main function to get word suggestions
 export async function getWordSuggestions(
   board: BoardSquare[][],
   rack: Tile[]
 ): Promise<WordSuggestion[]> {
   const dictionary = await getWordSet();
   const suggestions: WordSuggestion[] = [];
-  const anchors = findAnchors(board);
   const rackLetters = rack.map((t) => t.letter);
 
-  for (const anchor of anchors) {
-    if (
-      anchor.y === 0 ||
-      !board[anchor.x]?.[anchor.y - 1] ||
-      !board[anchor.x][anchor.y - 1].tile
-    ) {
-      let prefix = "";
-      for (let i = anchor.y - 1; i >= 0; i--) {
-        const tile = board[anchor.x]?.[i]?.tile;
-        if (tile) {
-          prefix = tile.letter + prefix;
-        } else {
-          break;
-        }
-      }
-      generateMoves(
-        board,
-        rackLetters,
-        anchor.x,
-        anchor.y,
-        "horizontal",
-        dictionary,
-        suggestions,
-        prefix
-      );
-    }
-    if (
-      anchor.x === 0 ||
-      !board[anchor.x - 1]?.[anchor.y] ||
-      !board[anchor.x - 1][anchor.y].tile
-    ) {
-      let prefix = "";
-      for (let i = anchor.x - 1; i >= 0; i--) {
-        const tile = board[i]?.[anchor.y]?.tile;
-        if (tile) {
-          prefix = tile.letter + prefix;
-        } else {
-          break;
-        }
-      }
-      generateMoves(
-        board,
-        rackLetters,
-        anchor.x,
-        anchor.y,
-        "vertical",
-        dictionary,
-        suggestions,
-        prefix
-      );
+  const possibleWords: string[] = [];
+  for (const word of dictionary) {
+    if (canMakeWord(word, rackLetters)) {
+      possibleWords.push(word);
     }
   }
 
-  const uniqueSuggestions = Array.from(
-    new Map(
-      suggestions.map((s) => [`${s.word}-${s.x}-${s.y}-${s.direction}`, s])
-    ).values()
-  );
+  // Prioritize longer words
+  possibleWords.sort((a, b) => b.length - a.length);
 
-  return uniqueSuggestions.sort((a, b) => b.score - a.score);
-}
+  const boardIsEmpty = board.flat().every((sq) => !sq.tile);
 
-function findAnchors(board: BoardSquare[][]): { x: number; y: number }[] {
-  if (!board || board.length === 0) return [];
-  const anchors = new Set<string>();
-  let hasTiles = false;
-
-  for (let r = 0; r < 15; r++) {
-    for (let c = 0; c < 15; c++) {
-      if (board[r]?.[c]?.tile) {
-        hasTiles = true;
-      } else {
-        if (
-          (r > 0 && board[r - 1]?.[c]?.tile) ||
-          (r < 14 && board[r + 1]?.[c]?.tile) ||
-          (c > 0 && board[r]?.[c - 1]?.tile) ||
-          (c < 14 && board[r]?.[c + 1]?.tile)
-        ) {
-          anchors.add(`${r},${c}`);
-        }
-      }
-    }
-  }
-
-  if (!hasTiles) {
-    return [{ x: 7, y: 7 }];
-  }
-
-  return Array.from(anchors).map((s) => {
-    const [x, y] = s.split(",").map(Number);
-    return { x, y };
-  });
-}
-
-function generateMoves(
-  board: Board,
-  rack: string[],
-  x: number,
-  y: number,
-  direction: "horizontal" | "vertical",
-  dictionary: Set<string>,
-  suggestions: WordSuggestion[],
-  prefix: string
-) {
-  extend(
-    board,
-    rack,
-    x,
-    y,
-    direction,
-    dictionary,
-    suggestions,
-    prefix,
-    [],
-    x,
-    y
-  );
-}
-
-function extend(
-  board: Board,
-  rack: string[],
-  x: number,
-  y: number,
-  direction: "horizontal" | "vertical",
-  dictionary: Set<string>,
-  suggestions: WordSuggestion[],
-  currentWord: string,
-  placed: PlacedTile[],
-  startX: number,
-  startY: number
-) {
-  if (direction === "horizontal" ? y >= 15 : x >= 15) {
-    validateAndAdd(
-      board,
-      dictionary,
-      suggestions,
-      currentWord,
-      placed,
-      startX,
-      startY,
-      direction
-    );
-    return;
-  }
-
-  const square = board[x]?.[y];
-  if (square?.tile) {
-    const nextX = direction === "vertical" ? x + 1 : x;
-    const nextY = direction === "horizontal" ? y + 1 : y;
-    extend(
-      board,
-      rack,
-      nextX,
-      nextY,
-      direction,
-      dictionary,
-      suggestions,
-      currentWord + square.tile.letter,
-      placed,
-      startX,
-      startY
-    );
-  } else {
-    validateAndAdd(
-      board,
-      dictionary,
-      suggestions,
-      currentWord,
-      placed,
-      startX,
-      startY,
-      direction
-    );
-
-    for (let i = 0; i < rack.length; i++) {
-      const letter = rack[i];
-      const remainingRack = [...rack.slice(0, i), ...rack.slice(i + 1)];
-      const newPlaced = [
-        ...placed,
-        {
-          id: `temp_${Math.random()}`,
-          letter,
-          points: TILE_BAG.find((t) => t.letter === letter)?.points ?? 0,
-          x,
-          y,
-          originalLetter: letter === " " ? " " : undefined,
-        },
-      ];
-      const nextX = direction === "vertical" ? x + 1 : x;
-      const nextY = direction === "horizontal" ? y + 1 : y;
-
-      if (letter === " ") {
-        for (let charCode = 65; charCode <= 90; charCode++) {
-          const char = String.fromCharCode(charCode);
-          newPlaced[newPlaced.length - 1].letter = char;
-          newPlaced[newPlaced.length - 1].points = 0;
-          extend(
-            board,
-            remainingRack,
-            nextX,
-            nextY,
-            direction,
-            dictionary,
-            suggestions,
-            currentWord + char,
-            newPlaced,
-            startX,
-            startY
+  for (const word of possibleWords) {
+    // Check horizontal placements
+    for (let r = 0; r < 15; r++) {
+      for (let c = 0; c <= 15 - word.length; c++) {
+        const placement = checkPlacement(board, rack, word, r, c, "horizontal");
+        if (placement) {
+          if (boardIsEmpty && (r !== 7 || c > 7 || c + word.length <= 7)) {
+            continue; // First move must cross the center
+          }
+          const { score, words: allFormedWords } = calculateMoveScore(
+            placement.tiles,
+            placement.tempBoard
           );
+          if (
+            allFormedWords.length > 0 &&
+            allFormedWords.every((w) => dictionary.has(w.word.toUpperCase()))
+          ) {
+            suggestions.push({ word, tiles: placement.tiles, score });
+          }
         }
-      } else {
-        extend(
-          board,
-          remainingRack,
-          nextX,
-          nextY,
-          direction,
-          dictionary,
-          suggestions,
-          currentWord + letter,
-          newPlaced,
-          startX,
-          startY
-        );
+      }
+    }
+
+    // Check vertical placements
+    for (let r = 0; r <= 15 - word.length; r++) {
+      for (let c = 0; c < 15; c++) {
+        const placement = checkPlacement(board, rack, word, r, c, "vertical");
+        if (placement) {
+           if (boardIsEmpty && (c !== 7 || r > 7 || r + word.length <= 7)) {
+            continue; // First move must cross the center
+          }
+          const { score, words: allFormedWords } = calculateMoveScore(
+            placement.tiles,
+            placement.tempBoard
+          );
+          if (
+            allFormedWords.length > 0 &&
+            allFormedWords.every((w) => dictionary.has(w.word.toUpperCase()))
+          ) {
+            suggestions.push({ word, tiles: placement.tiles, score });
+          }
+        }
       }
     }
   }
+
+  return suggestions.sort((a, b) => b.score - a.score);
 }
 
-function validateAndAdd(
+// Helper to check if a word can be placed at a specific location
+const checkPlacement = (
   board: Board,
-  dictionary: Set<string>,
-  suggestions: WordSuggestion[],
+  rack: Tile[],
   word: string,
-  placedTiles: PlacedTile[],
-  startX: number,
-  startY: number,
+  row: number,
+  col: number,
   direction: "horizontal" | "vertical"
-) {
-  if (placedTiles.length === 0 || !dictionary.has(word.toUpperCase())) {
-    return;
+) => {
+  let tempRack = [...rack];
+  const placedTiles: PlacedTile[] = [];
+  let isConnected = false;
+
+  for (let i = 0; i < word.length; i++) {
+    const r = direction === "vertical" ? row + i : row;
+    const c = direction === "horizontal" ? col + i : col;
+    const boardSquare = board[r]?.[c];
+    if (!boardSquare) return null; // Off board
+
+    const boardTile = boardSquare.tile;
+    const wordChar = word[i];
+
+    if (boardTile) {
+      if (boardTile.letter !== wordChar) {
+        return null; // Mismatch with existing tile
+      }
+      isConnected = true;
+    } else {
+      // Check for adjacent tiles to confirm connection
+      if (
+        (r > 0 && board[r - 1]?.[c]?.tile) ||
+        (r < 14 && board[r + 1]?.[c]?.tile) ||
+        (c > 0 && board[r]?.[c - 1]?.tile) ||
+        (c < 14 && board[r]?.[c + 1]?.tile)
+      ) {
+        isConnected = true;
+      }
+      
+      const rackIndex = tempRack.findIndex((t) => t.letter === wordChar);
+      let tileToPlace: Tile;
+
+      if (rackIndex !== -1) {
+        tileToPlace = tempRack.splice(rackIndex, 1)[0];
+      } else {
+        const blankIndex = tempRack.findIndex((t) => t.letter === " ");
+        if (blankIndex !== -1) {
+          tileToPlace = {
+            ...tempRack.splice(blankIndex, 1)[0],
+            letter: wordChar,
+            originalLetter: " ",
+          };
+        } else {
+          return null; // Letter not available in rack
+        }
+      }
+      placedTiles.push({ ...tileToPlace, x: r, y: c });
+    }
   }
 
-  const isConnected =
-    board.flat().some((square) => square.tile) === false || // First move
-    placedTiles.some((tile) => {
-      const { x, y } = tile;
-      return (
-        (x > 0 && board[x - 1]?.[y]?.tile) ||
-        (x < 14 && board[x + 1]?.[y]?.tile) ||
-        (y > 0 && board[x]?.[y - 1]?.tile) ||
-        (y < 14 && board[x]?.[y + 1]?.tile)
-      );
-    });
+  if (placedTiles.length === 0) return null; // Word must use at least one rack tile
+  
+  const boardIsEmpty = board.flat().every(sq => !sq.tile);
+  if (!isConnected && !boardIsEmpty) return null; // Must connect to existing tiles if board is not empty
 
-  if (!isConnected) {
-    return;
+  if (boardIsEmpty) {
+      const centerCrossed = placedTiles.some(t => t.x === 7 && t.y === 7);
+      if (!centerCrossed) return null;
   }
+
 
   const tempBoard = JSON.parse(JSON.stringify(board));
   placedTiles.forEach((tile) => {
-    if (tempBoard[tile.x]?.[tile.y]) {
-      tempBoard[tile.x][tile.y].tile = tile;
-    }
+    tempBoard[tile.x][tile.y].tile = tile;
   });
 
-  const { score, words: allFormedWords } = calculateMoveScore(
-    placedTiles,
-    tempBoard
-  );
-
-  const areAllWordsValid =
-    allFormedWords.length > 0 &&
-    allFormedWords.every((w) => dictionary.has(w.word.toUpperCase()));
-
-  if (areAllWordsValid) {
-    const mainWordInfo = allFormedWords.find(
-      (w) => w.word.toUpperCase() === word.toUpperCase()
-    );
-
-    if (mainWordInfo) {
-      const firstTile = mainWordInfo.tiles.sort(
-        (a, b) =>
-          ("y" in a ? a.y : Infinity) - ("y" in b ? b.y : Infinity) ||
-          ("x" in a ? a.x : Infinity) - ("x" in b ? b.x : Infinity)
-      )[0] as PlacedTile;
-      suggestions.push({
-        word: mainWordInfo.word,
-        tiles: placedTiles,
-        score,
-        direction: mainWordInfo.direction,
-        x: firstTile.x,
-        y: firstTile.y,
-      });
-    }
-  }
-}
+  return { tiles: placedTiles, tempBoard };
+};
 
 export async function replacePlayerWithComputer(
   gameId: string,
@@ -1136,7 +995,16 @@ export async function playTurn({
     const playerToUpdateInNewState = newGameState.players[playerIndex];
 
     if (m.type === "play") {
-      const { score, words, isBingo } = calculateMoveScore(m.tiles, gs.board);
+      const tempBoard = createInitialBoard();
+      // Reconstruct board state from history for accurate scoring
+      newGameState.history.forEach((h) =>
+        h.tiles.forEach((t) => {
+          if (tempBoard[t.x]?.[t.y]) tempBoard[t.x][t.y].tile = t;
+        })
+      );
+
+      const { score, words, isBingo } = calculateMoveScore(m.tiles, tempBoard);
+
       const mainWord =
         words.find((w) =>
           w.tiles.some(
@@ -1242,27 +1110,9 @@ export async function playTurn({
 
       let computerMove: PlayTurnOptions["move"] | null = null;
 
-      for (const suggestion of suggestions) {
-        const tempBoard = createInitialBoard();
-        gameState.history.forEach((h) =>
-          h.tiles.forEach((t) => {
-            if (tempBoard[t.x]?.[t.y]) tempBoard[t.x][t.y].tile = t;
-          })
-        );
-
-        const { words: allFormedWords } = calculateMoveScore(
-          suggestion.tiles,
-          tempBoard
-        );
-        const validationPromises = allFormedWords.map((w) =>
-          verifyWordAction(w.word)
-        );
-        const validationResults = await Promise.all(validationPromises);
-
-        if (validationResults.every((r) => r.isValid)) {
-          computerMove = { type: "play", tiles: suggestion.tiles };
-          break;
-        }
+      if (suggestions.length > 0) {
+        // AI plays the highest scoring move
+        computerMove = { type: "play", tiles: suggestions[0].tiles };
       }
 
       if (!computerMove) {
@@ -1292,3 +1142,5 @@ export async function playTurn({
     return { success: false, error: e.message };
   }
 }
+
+    
