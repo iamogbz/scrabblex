@@ -27,7 +27,6 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -230,16 +229,18 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     let newDirection = activeDirection;
 
     if (isSameCell) {
-      // Toggle direction if clicking the same cell
-      newDirection = activeDirection === "across" ? "down" : "across";
-      // Only toggle if there's a word in that new direction
-      if (
-        !(
-          (newDirection === "across" && wordNums?.across) ||
-          (newDirection === "down" && wordNums?.down)
-        )
-      ) {
-        newDirection = activeDirection; // Revert if no word in new direction
+      if (canChangeDirection) {
+        // Toggle direction if clicking the same cell
+        newDirection = activeDirection === "across" ? "down" : "across";
+        // Only toggle if there's a word in that new direction
+        if (
+          !(
+            (newDirection === "across" && wordNums?.across) ||
+            (newDirection === "down" && wordNums?.down)
+          )
+        ) {
+          newDirection = activeDirection; // Revert if no word in new direction
+        }
       }
     } else {
       // New cell selected
@@ -247,11 +248,8 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
 
       // Prefer current direction if possible, otherwise switch to the available one.
       if (wordNums?.across && wordNums?.down) {
-        // If both directions are available, default to across or stick to current if it's an option.
-        newDirection =
-          activeDirection === "down" && !wordNums.down
-            ? "across"
-            : activeDirection;
+        // If both directions are available, stick with the current one.
+        newDirection = activeDirection;
       } else if (wordNums?.across) {
         newDirection = "across";
       } else if (wordNums?.down) {
@@ -262,7 +260,12 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     if (canChangeDirection) {
       setActiveDirection(newDirection);
     }
-    scrollClueIntoView(wordNums?.[newDirection] || null, newDirection);
+    
+    // Use the settled direction for scrolling. 
+    // If we're coming from a programmatic focus (canChangeDirection = false),
+    // we use activeDirection (which was just set correctly by handleClueClick).
+    const settledDirection = canChangeDirection ? newDirection : activeDirection;
+    scrollClueIntoView(wordNums?.[settledDirection] || null, settledDirection);
   };
 
   useEffect(() => {
