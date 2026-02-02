@@ -27,6 +27,7 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -191,7 +192,6 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     };
   }, [gameState.history]);
 
-  // Derived state for active words based on active cell
   const activeWordNums = useMemo(() => {
     if (!activeCell) return { across: null, down: null };
     return wordsByCell.get(`${activeCell.x},${activeCell.y}`) || { across: null, down: null };
@@ -222,7 +222,6 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     []
   );
 
-  // Effect to sync focus when active cell changes
   useEffect(() => {
     if (activeCell) {
       const cellKey = `${activeCell.x},${activeCell.y}`;
@@ -231,7 +230,6 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     }
   }, [activeCell]);
 
-  // Effect to scroll clue into view whenever the active word changes
   useEffect(() => {
     const currentWordNumber = activeDirection === 'across' ? activeWordNums.across : activeWordNums.down;
     if (currentWordNumber) {
