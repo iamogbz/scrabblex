@@ -56,6 +56,41 @@ export default function RootLayout({
           <p>Scrabblex &copy; {new Date().getFullYear()}</p>
           <p>
             <a
+              href="https://wordsync.ogbizi.com/"
+              target="_blank"
+              className="inline-block mr-2"
+            >
+              <img
+                alt="Word Sync"
+                width="24"
+                src="https://wordsync.ogbizi.com/favicon.ico"
+              />
+            </a>
+            <a
+              href="https://chaos-chess.ogbizi.com/"
+              target="_blank"
+              className="inline-block mr-2"
+            >
+              <img
+                width="24"
+                src="https://chaos-chess.ogbizi.com/favicon.ico"
+                alt="Chaos Chess"
+              />
+            </a>
+            <a
+              href="https://disnumber.com/"
+              target="_blank"
+              className="inline-block mr-2"
+            >
+              <img
+                alt="Disnumber"
+                width="24"
+                src="https://raw.githubusercontent.com/iamogbz/disnumber/main/static/assets/images/favicon.png"
+              />
+            </a>
+          </p>
+          <p>
+            <a
               href="https://quantumbrackets.com/contact#:~:text=%2B1-,How%20Can%20We%20Help"
               target="_blank"
               rel="noopener noreferrer"
