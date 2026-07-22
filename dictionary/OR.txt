@@ -1,0 +1,1 @@
+(Conjunction) Connects at least two alternative words, phrases, clauses, sentences, etc. each of which could make a passage true. In English, this is the "inclusive or." The "exclusive or" is formed by "either [...] or".
