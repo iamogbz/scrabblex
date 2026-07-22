@@ -23,10 +23,8 @@ import {
   PlacedTile,
   Player,
   Tile,
-  PlayedWord,
 } from "@/types";
 import { calculateMoveScore } from "@/lib/scoring";
-import { createInitialBoard, TILE_BAG } from "@/lib/game-data";
 import { capitalize, shuffle } from "@/lib/utils";
 import {
   INVALID_WORD_ERROR,
@@ -107,6 +105,34 @@ const genAI = process.env.GEMINI_API_KEY
   ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
   : null;
 
+/**
+ * Basic plural handling because attempting to get definitions for plural words sometimes fails.
+ * This function first checks the submitted version of the word.
+ * If that fails then it attempts to check the singular version of the word (by removing a trailing 's').
+ * This is a simple heuristic and may not work for all plural forms (e.g., "children" -> "child", "mice" -> "mouse").
+ * @param word
+ * @returns
+ */
+async function getDefinitionFromDictionaryAPIAccountForPlurals(
+  word: string
+): Promise<string | null> {
+  let definition = await getDefinitionFromDictionaryAPI(word);
+  if (definition) {
+    return definition;
+  }
+
+  // If the lookup failed and the word ends with 's', try a possible singular form
+  if (word.toLocaleLowerCase().endsWith("s")) {
+    const singularWord = word.slice(0, -1);
+    definition = await getDefinitionFromDictionaryAPI(singularWord);
+    if (definition) {
+      return definition;
+    }
+  }
+
+  return null;
+}
+
 async function getDefinitionFromDictionaryAPI(
   word: string
 ): Promise<string | null> {
@@ -123,10 +149,7 @@ async function getDefinitionFromDictionaryAPI(
       partOfSpeech: string;
     } = data[0]?.meanings[0];
     if (firstMeaning) {
-      const { definition } =
-        firstMeaning.definitions.find(
-          (def) => !def.definition.toLowerCase().includes(word.toLowerCase())
-        ) || {};
+      const { definition } = firstMeaning.definitions[0];
       const partOfSpeech = firstMeaning.partOfSpeech;
       if (definition) {
         return `(${capitalize(partOfSpeech)}) ${capitalize(definition)}`;
@@ -165,8 +188,10 @@ export async function getWordDefinition(
     return INVALID_WORD_ERROR;
   }
 
-  const apiDefinition = await getDefinitionFromDictionaryAPI(upperCaseWord);
-  if (apiDefinition && !apiDefinition.toUpperCase().includes(upperCaseWord)) {
+  const apiDefinition = await getDefinitionFromDictionaryAPIAccountForPlurals(
+    upperCaseWord
+  );
+  if (apiDefinition) {
     definitionCache.set(upperCaseWord, apiDefinition);
     await updateDictionaryWord(upperCaseWord, apiDefinition);
     return apiDefinition;
@@ -190,14 +215,14 @@ export async function getWordDefinition(
       await updateDictionaryWord(upperCaseWord, geminiDefinition);
       return geminiDefinition;
     } else {
-      return UNDEFINED_WORD_VALID;
+      return null;
     }
   } catch (error) {
     console.error(
       `Error fetching Gemini definition for "${upperCaseWord}":`,
       error
     );
-    return UNDEFINED_WORD_VALID;
+    return null;
   }
 }
 
@@ -241,7 +266,9 @@ export async function getWordDefinitions(
       return;
     }
 
-    const apiDefinition = await getDefinitionFromDictionaryAPI(word);
+    const apiDefinition = await getDefinitionFromDictionaryAPIAccountForPlurals(
+      word
+    );
     if (apiDefinition) {
       results[word] = apiDefinition;
       definitionCache.set(word, apiDefinition);
@@ -507,17 +534,17 @@ export async function getWordSuggestions(
 ): Promise<WordSuggestion[]> {
   const dictionary = await getWordSet();
   const suggestions: WordSuggestion[] = [];
-  
+
   const boardLetters = new Set<string>();
-  board.flat().forEach(s => {
+  board.flat().forEach((s) => {
     if (s.tile) boardLetters.add(s.tile.letter);
   });
-  const rackLetters = rack.map(t => t.letter);
+  const rackLetters = rack.map((t) => t.letter);
   const rackCounts = getCharCounts(rackLetters);
   const hasBlank = rackLetters.includes(" ");
 
   const possibleWords = Array.from(dictionary)
-    .filter(word => {
+    .filter((word) => {
       const wordCounts = getCharCounts(word.split(""));
       let blanksNeeded = 0;
       for (const char in wordCounts) {
@@ -525,7 +552,7 @@ export async function getWordSuggestions(
         const available = rackCounts[char] || 0;
         if (needed > available) {
           if (!hasBlank) return false;
-          blanksNeeded += (needed - available);
+          blanksNeeded += needed - available;
         }
       }
       const totalBlanks = rackCounts[" "] || 0;
@@ -541,7 +568,10 @@ export async function getWordSuggestions(
     for (const anchor of anchors) {
       if (suggestions.length >= 100) break;
 
-      const directions: ("horizontal" | "vertical")[] = ["horizontal", "vertical"];
+      const directions: ("horizontal" | "vertical")[] = [
+        "horizontal",
+        "vertical",
+      ];
       for (const direction of directions) {
         if (suggestions.length >= 100) break;
 
@@ -549,15 +579,28 @@ export async function getWordSuggestions(
           const startX = direction === "horizontal" ? anchor.x : anchor.x - i;
           const startY = direction === "horizontal" ? anchor.y - i : anchor.y;
 
-          const placement = checkPlacement(board, word, startX, startY, direction, rack);
+          const placement = checkPlacement(
+            board,
+            word,
+            startX,
+            startY,
+            direction,
+            rack
+          );
           if (placement) {
             const tempBoard = JSON.parse(JSON.stringify(board));
-            placement.forEach(tile => {
-              if (tempBoard[tile.x]?.[tile.y]) tempBoard[tile.x][tile.y].tile = tile;
+            placement.forEach((tile) => {
+              if (tempBoard[tile.x]?.[tile.y])
+                tempBoard[tile.x][tile.y].tile = tile;
             });
 
-            const { score, words: formedWords } = calculateMoveScore(placement, board);
-            const allWordsValid = formedWords.every(w => dictionary.has(w.word.toUpperCase()));
+            const { score, words: formedWords } = calculateMoveScore(
+              placement,
+              board
+            );
+            const allWordsValid = formedWords.every((w) =>
+              dictionary.has(w.word.toUpperCase())
+            );
 
             if (allWordsValid) {
               suggestions.push({
@@ -566,7 +609,7 @@ export async function getWordSuggestions(
                 score,
                 direction,
                 x: startX,
-                y: startY
+                y: startY,
               });
               if (suggestions.length >= 100) break;
             }
@@ -594,10 +637,15 @@ function findAnchors(board: BoardSquare[][]): { x: number; y: number }[] {
     for (let c = 0; c < 15; c++) {
       if (board[r][c].tile) {
         boardEmpty = false;
-        const neighbors = [[r-1, c], [r+1, c], [r, c-1], [r, c+1]];
+        const neighbors = [
+          [r - 1, c],
+          [r + 1, c],
+          [r, c - 1],
+          [r, c + 1],
+        ];
         for (const [nr, nc] of neighbors) {
           if (nr >= 0 && nr < 15 && nc >= 0 && nc < 15 && !board[nr][nc].tile) {
-            if (!anchors.some(a => a.x === nr && a.y === nc)) {
+            if (!anchors.some((a) => a.x === nr && a.y === nc)) {
               anchors.push({ x: nr, y: nc });
             }
           }
@@ -642,11 +690,21 @@ function checkPlacement(
     if (square.tile) {
       if (square.tile.letter !== char) return null;
     } else {
-      let rackTile = rack.find(t => t.letter === char && !usedRackTileIds.has(t.id));
+      let rackTile = rack.find(
+        (t) => t.letter === char && !usedRackTileIds.has(t.id)
+      );
       if (!rackTile) {
-        rackTile = rack.find(t => t.letter === " " && !usedRackTileIds.has(t.id));
+        rackTile = rack.find(
+          (t) => t.letter === " " && !usedRackTileIds.has(t.id)
+        );
         if (!rackTile) return null;
-        placedTiles.push({ ...rackTile, letter: char, originalLetter: " ", x, y });
+        placedTiles.push({
+          ...rackTile,
+          letter: char,
+          originalLetter: " ",
+          x,
+          y,
+        });
       } else {
         placedTiles.push({ ...rackTile, x, y });
       }
@@ -670,7 +728,8 @@ export async function replacePlayerWithComputer(
   if (playerIndex === -1) return { success: false, error: "Player not found." };
 
   const isCurrentTurn = getCurrentPlayer(gameState)?.id === playerId;
-  if (!isCurrentTurn) return { success: false, error: "It is not this player's turn." };
+  if (!isCurrentTurn)
+    return { success: false, error: "It is not this player's turn." };
 
   const lastActivityTimestamp =
     gameState.history.length > 0
@@ -680,7 +739,11 @@ export async function replacePlayerWithComputer(
       : null;
 
   const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
-  if (lastActivityTimestamp && lastActivityTimestamp > thirtyMinutesAgo && gameState.history.length > 0) {
+  if (
+    lastActivityTimestamp &&
+    lastActivityTimestamp > thirtyMinutesAgo &&
+    gameState.history.length > 0
+  ) {
     return { success: false, error: "Player not inactive long enough." };
   }
 
@@ -751,10 +814,16 @@ const checkAndEndGame = async (gameState: GameState): Promise<GameState> => {
         pointsFromRacks += rackValue;
       }
     });
-    const finishingPlayer = newGameState.players.find((p: Player) => p.id === playerWithEmptyRack.id)!;
+    const finishingPlayer = newGameState.players.find(
+      (p: Player) => p.id === playerWithEmptyRack.id
+    )!;
     finishingPlayer.score += pointsFromRacks;
-    const maxScore = Math.max(...newGameState.players.map((p: Player) => p.score));
-    const winners = newGameState.players.filter((p: Player) => p.score === maxScore);
+    const maxScore = Math.max(
+      ...newGameState.players.map((p: Player) => p.score)
+    );
+    const winners = newGameState.players.filter(
+      (p: Player) => p.score === maxScore
+    );
     newGameState.endStatus = `${winners.map((w) => w.name).join(" & ")} wins!`;
   } else if (history.length >= numPlayers * 2) {
     const lastMoves = history.slice(-numPlayers * 2);
@@ -765,9 +834,15 @@ const checkAndEndGame = async (gameState: GameState): Promise<GameState> => {
         const rackValue = p.rack.reduce((sum, tile) => sum + tile.points, 0);
         p.score -= rackValue;
       });
-      const maxScore = Math.max(...newGameState.players.map((p: Player) => p.score));
-      const winners = newGameState.players.filter((p: Player) => p.score === maxScore);
-      newGameState.endStatus = `Game ended by consecutive passes. ${winners.map((w) => w.name).join(" & ")} wins!`;
+      const maxScore = Math.max(
+        ...newGameState.players.map((p: Player) => p.score)
+      );
+      const winners = newGameState.players.filter(
+        (p: Player) => p.score === maxScore
+      );
+      newGameState.endStatus = `Game ended by consecutive passes. ${winners
+        .map((w) => w.name)
+        .join(" & ")} wins!`;
     }
   }
 
@@ -786,9 +861,12 @@ const checkAndEndGame = async (gameState: GameState): Promise<GameState> => {
   return newGameState;
 };
 
-export async function generateAndSaveCrosswordTitle(gameId: string): Promise<string | null> {
+export async function generateAndSaveCrosswordTitle(
+  gameId: string
+): Promise<string | null> {
   const gameData = await getGameState(gameId);
-  if (!gameData || gameData.gameState.crosswordTitle) return gameData?.gameState.crosswordTitle || null;
+  if (!gameData || gameData.gameState.crosswordTitle)
+    return gameData?.gameState.crosswordTitle || null;
   const { gameState, sha } = gameData;
   const wordsOnBoard = getWordsFromBoard(gameState.board);
   if (wordsOnBoard.length === 0) return null;
@@ -796,7 +874,12 @@ export async function generateAndSaveCrosswordTitle(gameId: string): Promise<str
     const { title } = await generateCrosswordTitle({ words: wordsOnBoard });
     if (title) {
       const newGameState = { ...gameState, crosswordTitle: title };
-      await updateGame(gameId, newGameState, sha, `SYSTEM: Added title for ${gameId}`);
+      await updateGame(
+        gameId,
+        newGameState,
+        sha,
+        `SYSTEM: Added title for ${gameId}`
+      );
       return title;
     }
   } catch (error) {
@@ -807,10 +890,12 @@ export async function generateAndSaveCrosswordTitle(gameId: string): Promise<str
 
 const getCurrentPlayer = (gameState: GameState): Player | null => {
   if (!gameState || gameState.players.length === 0) return null;
-  const turnsPlayed = gameState.history.filter(h => h.playerId).length;
+  const turnsPlayed = gameState.history.filter((h) => h.playerId).length;
   if (turnsPlayed < gameState.players.length) {
     const playedPlayerIds = new Set(gameState.history.map((h) => h.playerId));
-    const waitingPlayers = gameState.players.filter((p) => !playedPlayerIds.has(p.id));
+    const waitingPlayers = gameState.players.filter(
+      (p) => !playedPlayerIds.has(p.id)
+    );
     if (waitingPlayers.length > 0) return waitingPlayers[0];
   }
   return gameState.players[turnsPlayed % gameState.players.length];
@@ -819,10 +904,17 @@ const getCurrentPlayer = (gameState: GameState): Player | null => {
 type PlayTurnOptions = {
   gameId: string;
   player: Player;
-  move: { type: "play"; tiles: PlacedTile[] } | { type: "swap"; tiles: Tile[] } | { type: "pass" };
+  move:
+    | { type: "play"; tiles: PlacedTile[] }
+    | { type: "swap"; tiles: Tile[] }
+    | { type: "pass" };
 };
 
-export async function addPlayer(gameId: string, playerName: string, playerCode: string): Promise<{ success: boolean; error?: string; player?: Player }> {
+export async function addPlayer(
+  gameId: string,
+  playerName: string,
+  playerCode: string
+): Promise<{ success: boolean; error?: string; player?: Player }> {
   const gameData = await getGameState(gameId);
   if (!gameData) return { success: false, error: "Game not found." };
   const { gameState, sha } = gameData;
@@ -843,20 +935,33 @@ export async function addPlayer(gameId: string, playerName: string, playerCode: 
     tileBag: shuffle(newTileBag),
   };
   try {
-    await updateGame(gameId, newGameState, sha, `feat: Player ${playerName} joined`);
+    await updateGame(
+      gameId,
+      newGameState,
+      sha,
+      `feat: Player ${playerName} joined`
+    );
     return { success: true, player: newPlayer };
   } catch (e: any) {
     return { success: false, error: e.message || "Failed to add player." };
   }
 }
 
-export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promise<{ success: boolean; error?: string }> {
+export async function playTurn({
+  gameId,
+  player,
+  move,
+}: PlayTurnOptions): Promise<{ success: boolean; error?: string }> {
   const gameData = await getGameState(gameId);
   if (!gameData) return { success: false, error: "Game not found." };
   let { gameState, sha } = gameData;
   let message = "";
 
-  const applyMove = async (gs: GameState, p: Player, m: PlayTurnOptions["move"]): Promise<GameState | { error: string }> => {
+  const applyMove = async (
+    gs: GameState,
+    p: Player,
+    m: PlayTurnOptions["move"]
+  ): Promise<GameState | { error: string }> => {
     const playerIndex = gs.players.findIndex((pl) => pl.id === p.id);
     if (playerIndex === -1) return { error: "Player not found" };
     const playerToUpdateInNewState = gs.players[playerIndex];
@@ -865,16 +970,25 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
 
     if (m.type === "play") {
       const { score, words, isBingo } = calculateMoveScore(m.tiles, gs.board);
-      const mainWord = words.find((w) => w.tiles.some((t) => m.tiles.find((mt) => mt.x === t.x && mt.y === t.y))) || words[0];
+      const mainWord =
+        words.find((w) =>
+          w.tiles.some((t) =>
+            m.tiles.find((mt) => mt.x === t.x && mt.y === t.y)
+          )
+        ) || words[0];
       if (!mainWord) return { error: "Invalid move." };
       message = `feat: ${p.name} played ${mainWord.word} for ${score}`;
       updatedPlayer.score += score;
       m.tiles.forEach((tile) => {
-        if (newGameState.board[tile.x]?.[tile.y]) newGameState.board[tile.x][tile.y].tile = tile;
+        if (newGameState.board[tile.x]?.[tile.y])
+          newGameState.board[tile.x][tile.y].tile = tile;
       });
       const newTiles = newGameState.tileBag.splice(0, m.tiles.length);
-      const playedIds = new Set(m.tiles.map(t => t.id));
-      updatedPlayer.rack = [...updatedPlayer.rack.filter(t => !playedIds.has(t.id)), ...newTiles];
+      const playedIds = new Set(m.tiles.map((t) => t.id));
+      updatedPlayer.rack = [
+        ...updatedPlayer.rack.filter((t) => !playedIds.has(t.id)),
+        ...newTiles,
+      ];
       newGameState.history.push({
         playerId: p.id,
         playerName: p.name,
@@ -885,10 +999,13 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
       });
     } else if (m.type === "swap") {
       message = `feat: ${p.name} swapped ${m.tiles.length} tiles`;
-      const swappedIds = new Set(m.tiles.map(t => t.id));
-      const swappedOut = updatedPlayer.rack.filter(t => swappedIds.has(t.id));
+      const swappedIds = new Set(m.tiles.map((t) => t.id));
+      const swappedOut = updatedPlayer.rack.filter((t) => swappedIds.has(t.id));
       const newTiles = newGameState.tileBag.splice(0, swappedOut.length);
-      updatedPlayer.rack = [...updatedPlayer.rack.filter(t => !swappedIds.has(t.id)), ...newTiles];
+      updatedPlayer.rack = [
+        ...updatedPlayer.rack.filter((t) => !swappedIds.has(t.id)),
+        ...newTiles,
+      ];
       newGameState.tileBag = shuffle([...newGameState.tileBag, ...swappedOut]);
       newGameState.history.push({
         playerId: p.id,
@@ -923,10 +1040,25 @@ export async function playTurn({ gameId, player, move }: PlayTurnOptions): Promi
   try {
     let currentPlayer = getCurrentPlayer(gameState);
     while (currentPlayer?.isComputer && gameState.gamePhase === "playing") {
-      const suggestions = await getWordSuggestions(gameState.board, currentPlayer.rack);
-      let aiMove: PlayTurnOptions["move"] = suggestions.length > 0 ? { type: "play", tiles: suggestions[0].tiles } : (gameState.tileBag.length > 0 ? { type: "swap", tiles: currentPlayer.rack.slice(0, Math.min(7, gameState.tileBag.length)) } : { type: "pass" });
+      const suggestions = await getWordSuggestions(
+        gameState.board,
+        currentPlayer.rack
+      );
+      let aiMove: PlayTurnOptions["move"] =
+        suggestions.length > 0
+          ? { type: "play", tiles: suggestions[0].tiles }
+          : gameState.tileBag.length > 0
+          ? {
+              type: "swap",
+              tiles: currentPlayer.rack.slice(
+                0,
+                Math.min(7, gameState.tileBag.length)
+              ),
+            }
+          : { type: "pass" };
       let result = await applyMove(gameState, currentPlayer, aiMove);
-      if ("error" in result) result = await applyMove(gameState, currentPlayer, { type: "pass" });
+      if ("error" in result)
+        result = await applyMove(gameState, currentPlayer, { type: "pass" });
       if ("error" in result) break;
       gameState = result;
       currentPlayer = getCurrentPlayer(gameState);

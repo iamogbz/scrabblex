@@ -194,7 +194,12 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
 
   const activeWordNums = useMemo(() => {
     if (!activeCell) return { across: null, down: null };
-    return wordsByCell.get(`${activeCell.x},${activeCell.y}`) || { across: null, down: null };
+    return (
+      wordsByCell.get(`${activeCell.x},${activeCell.y}`) || {
+        across: null,
+        down: null,
+      }
+    );
   }, [activeCell, wordsByCell]);
 
   const allCellsFilled = useMemo(() => {
@@ -231,7 +236,10 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
   }, [activeCell]);
 
   useEffect(() => {
-    const currentWordNumber = activeDirection === 'across' ? activeWordNums.across : activeWordNums.down;
+    const currentWordNumber =
+      activeDirection === "across"
+        ? activeWordNums.across
+        : activeWordNums.down;
     if (currentWordNumber) {
       scrollClueIntoView(currentWordNumber, activeDirection);
     }
@@ -251,7 +259,12 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
     let newDirection = activeDirection;
     if (isSameCell) {
       newDirection = activeDirection === "across" ? "down" : "across";
-      if (!((newDirection === "across" && wordNums?.across) || (newDirection === "down" && wordNums?.down))) {
+      if (
+        !(
+          (newDirection === "across" && wordNums?.across) ||
+          (newDirection === "down" && wordNums?.down)
+        )
+      ) {
         newDirection = activeDirection;
       }
     } else {
@@ -291,7 +304,9 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
       console.error("Failed to fetch clues", e);
       const errorClues: Record<string, string> = {};
       wordsToFetch.forEach((word) => {
-        errorClues[word] = `Could not load clue for this ${word.length}-letter word.`;
+        errorClues[
+          word
+        ] = `Could not load clue for this ${word.length}-letter word.`;
       });
       setClues((prev) => ({ ...prev, ...errorClues }));
     } finally {
@@ -684,7 +699,10 @@ export function CrosswordBoard({ gameState }: CrosswordBoardProps) {
                   if (activeCell && activeCell.x === x && activeCell.y === y) {
                     isActive = true;
                   } else {
-                    const activeWordNumber = activeDirection === "across" ? activeWordNums.across : activeWordNums.down;
+                    const activeWordNumber =
+                      activeDirection === "across"
+                        ? activeWordNums.across
+                        : activeWordNums.down;
                     const activeWordInfo = words.find(
                       (w) =>
                         w.number === activeWordNumber &&

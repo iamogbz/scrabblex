@@ -1,4 +1,3 @@
-
 "use client";
 
 import type { PlacedTile, Board, BoardSquare, Tile } from "@/types";
@@ -14,8 +13,8 @@ import { WholeWord } from "lucide-react";
 import { useMemo, useState, useEffect } from "react";
 import { calculateMoveScore } from "@/lib/scoring";
 import { getWordDefinition } from "@/app/actions";
-import { cn } from "@/lib/utils";
-import { INVALID_WORD_ERROR, NO_API_KEY_ERROR, UNDEFINED_WORD_VALID } from "@/lib/constants";
+import { cn, isValidDefinition } from "@/lib/utils";
+import { UNDEFINED_WORD_VALID } from "@/lib/constants";
 
 interface WordBuilderProps {
   slots: readonly BoardSquare[];
@@ -70,7 +69,7 @@ export default function WordBuilder({
         emptySlotCounter++;
       }
     }
-    
+
     if (tempPlacedTiles.length > 0) {
       const { score: calculatedScore, words } = calculateMoveScore(
         tempPlacedTiles,
@@ -79,12 +78,16 @@ export default function WordBuilder({
 
       if (words.length > 0) {
         // Try to find the main word based on the play direction
-        let mainWordInfo = words.find(w => w.direction === playDirection);
+        let mainWordInfo = words.find((w) => w.direction === playDirection);
         // If no word matches the play direction (e.g. single tile play), find the longest word.
         if (!mainWordInfo) {
-          mainWordInfo = words.reduce((longest, current) => current.word.length > longest.word.length ? current : longest, words[0]);
+          mainWordInfo = words.reduce(
+            (longest, current) =>
+              current.word.length > longest.word.length ? current : longest,
+            words[0]
+          );
         }
-         return { word: mainWordInfo?.word || "", score: calculatedScore };
+        return { word: mainWordInfo?.word || "", score: calculatedScore };
       }
     }
 
@@ -92,7 +95,6 @@ export default function WordBuilder({
     // This allows definition lookup while planning.
     return { word: currentWord, score: 0 };
   }, [stagedTiles, slots, tempPlacedTiles, board, playDirection]);
-
 
   useEffect(() => {
     if (word && word.length >= 2) {
@@ -125,15 +127,18 @@ export default function WordBuilder({
       return "Looking up word...";
     }
     if (definition) {
-       if (definition === UNDEFINED_WORD_VALID || ![INVALID_WORD_ERROR, NO_API_KEY_ERROR].includes(definition)) {
-          return definition;
-       }
+      if (
+        definition === UNDEFINED_WORD_VALID ||
+        isValidDefinition(definition)
+      ) {
+        return definition;
+      }
     }
     if (selectedBuilderIndex !== null && stagedTiles[selectedBuilderIndex]) {
-       return "Click an empty slot to move, or another tile to swap.";
+      return "Click an empty slot to move, or another tile to swap.";
     }
     if (selectedBuilderIndex !== null) {
-        return "Now select a tile from your rack to place it here.";
+      return "Now select a tile from your rack to place it here.";
     }
     return "Select a slot below to begin building a word.";
   };
@@ -159,7 +164,7 @@ export default function WordBuilder({
               key={`staged-${tile.id}`}
               className="aspect-square"
               onClick={() => {
-                if (tile.originalLetter === ' ') {
+                if (tile.originalLetter === " ") {
                   onBlankTileReassign(currentIndex);
                 } else {
                   onStagedTileClick(currentIndex);
