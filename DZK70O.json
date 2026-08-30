@@ -85,7 +85,8 @@
           "letter": "D",
           "points": 2
         }
-      ]
+      ],
+      "isComputer": true
     }
   ],
   "tileBag": [
