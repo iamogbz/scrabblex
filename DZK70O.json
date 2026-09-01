@@ -5,7 +5,7 @@
       "id": "p_1788032408002_qr23e1z",
       "name": "E",
       "code": "e",
-      "score": 22,
+      "score": 40,
       "rack": [
         {
           "id": "6ZOO",
@@ -23,23 +23,23 @@
           "points": 1
         },
         {
-          "id": "P16J",
-          "letter": "F",
-          "points": 4
-        },
-        {
           "id": "RDRK",
           "letter": "Y",
           "points": 4
         },
         {
-          "id": "A224",
-          "letter": "Y",
-          "points": 4
+          "id": "P70G",
+          "letter": "A",
+          "points": 1
         },
         {
-          "id": "NZZ4",
-          "letter": "T",
+          "id": "LURM",
+          "letter": "S",
+          "points": 1
+        },
+        {
+          "id": "55QN",
+          "letter": "E",
           "points": 1
         }
       ]
@@ -48,33 +48,8 @@
       "id": "p_1788032441470_i3badh3",
       "name": "BOT",
       "code": "bot",
-      "score": 27,
+      "score": 90,
       "rack": [
-        {
-          "id": "T8VR",
-          "letter": "O",
-          "points": 1
-        },
-        {
-          "id": "4J1G",
-          "letter": "Z",
-          "points": 10
-        },
-        {
-          "id": "GNGQ",
-          "letter": "O",
-          "points": 1
-        },
-        {
-          "id": "CD7J",
-          "letter": "W",
-          "points": 4
-        },
-        {
-          "id": "NVY2",
-          "letter": "T",
-          "points": 1
-        },
         {
           "id": "GQ45",
           "letter": "R",
@@ -84,52 +59,37 @@
           "id": "NYHS",
           "letter": "E",
           "points": 1
+        },
+        {
+          "id": "U93S",
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "id": "SRBW",
+          "letter": "C",
+          "points": 3
+        },
+        {
+          "id": "G4MI",
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "id": "QVMA",
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "id": "STZI",
+          "letter": "R",
+          "points": 1
         }
       ],
       "isComputer": true
     }
   ],
   "tileBag": [
-    {
-      "id": "P70G",
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "id": "LURM",
-      "letter": "S",
-      "points": 1
-    },
-    {
-      "id": "55QN",
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "id": "U93S",
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "id": "SRBW",
-      "letter": "C",
-      "points": 3
-    },
-    {
-      "id": "G4MI",
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "id": "QVMA",
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "id": "STZI",
-      "letter": "R",
-      "points": 1
-    },
     {
       "id": "HBJV",
       "letter": "I",
@@ -1469,7 +1429,13 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "CD7J",
+          "letter": "W",
+          "points": 4,
+          "x": 7,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1477,7 +1443,13 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "T8VR",
+          "letter": "O",
+          "points": 1,
+          "x": 7,
+          "y": 11
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1485,7 +1457,13 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "GNGQ",
+          "letter": "O",
+          "points": 1,
+          "x": 7,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1493,7 +1471,13 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "NVY2",
+          "letter": "T",
+          "points": 1,
+          "x": 7,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1501,7 +1485,13 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "4J1G",
+          "letter": "Z",
+          "points": 10,
+          "x": 7,
+          "y": 14
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -1559,7 +1549,13 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "P16J",
+          "letter": "F",
+          "points": 4,
+          "x": 8,
+          "y": 6
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1681,7 +1677,13 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "NZZ4",
+          "letter": "T",
+          "points": 1,
+          "x": 9,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1803,7 +1805,13 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "A224",
+          "letter": "Y",
+          "points": 4,
+          "x": 10,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2459,6 +2467,80 @@
       ],
       "score": 27,
       "timestamp": "2026-08-30T20:04:51.902Z"
+    },
+    {
+      "playerId": "p_1788032408002_qr23e1z",
+      "playerName": "E",
+      "word": "HEFTY",
+      "tiles": [
+        {
+          "id": "P16J",
+          "letter": "F",
+          "points": 4,
+          "x": 8,
+          "y": 6
+        },
+        {
+          "id": "NZZ4",
+          "letter": "T",
+          "points": 1,
+          "x": 9,
+          "y": 6
+        },
+        {
+          "id": "A224",
+          "letter": "Y",
+          "points": 4,
+          "x": 10,
+          "y": 6
+        }
+      ],
+      "score": 18,
+      "timestamp": "2026-09-01T23:53:57.373Z"
+    },
+    {
+      "playerId": "p_1788032441470_i3badh3",
+      "playerName": "BOT",
+      "word": "WOOTZ",
+      "tiles": [
+        {
+          "id": "CD7J",
+          "letter": "W",
+          "points": 4,
+          "x": 7,
+          "y": 10
+        },
+        {
+          "id": "T8VR",
+          "letter": "O",
+          "points": 1,
+          "x": 7,
+          "y": 11
+        },
+        {
+          "id": "GNGQ",
+          "letter": "O",
+          "points": 1,
+          "x": 7,
+          "y": 12
+        },
+        {
+          "id": "NVY2",
+          "letter": "T",
+          "points": 1,
+          "x": 7,
+          "y": 13
+        },
+        {
+          "id": "4J1G",
+          "letter": "Z",
+          "points": 10,
+          "x": 7,
+          "y": 14
+        }
+      ],
+      "score": 63,
+      "timestamp": "2026-09-01T23:53:57.652Z"
     }
   ],
   "gamePhase": "playing",
