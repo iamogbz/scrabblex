@@ -46,7 +46,8 @@ export default function WordBuilder({
 
   const { word, score } = useMemo(() => {
     if (Object.keys(stagedTiles).length === 0 && tempPlacedTiles.length === 0) {
-      return { word: "", score: 0 };
+      const wordFromSlots = slots.map(v => v.tile?.letter).filter(Boolean).join("")
+      return { word: wordFromSlots, score: 0 };
     }
 
     const currentWordTiles: (BoardSquare | Tile)[] = [];
