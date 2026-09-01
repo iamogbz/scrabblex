@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
-import { Coffee } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Scrabblex",
@@ -33,6 +32,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
         <link rel="apple-touch-icon" href="/favicon.ico" />
+        <Script src="https://ogbizi.com/components/GamesFooter.js" />
       </head>
       {/* Google tag (gtag.js) */}
       <Script
@@ -51,70 +51,7 @@ export default function RootLayout({
       <body className="font-body antialiased">
         {children}
         <Toaster />
-        {/* App footer */}
-        <footer className="m-8 pt-6 gap-2 flex flex-col items-center justify-center text-center text-sm text-muted-foreground">
-          <p>Scrabblex &copy; {new Date().getFullYear()}</p>
-          <p>
-            <a
-              href="https://wordsync.ogbizi.com/"
-              target="_blank"
-              className="inline-block mr-2"
-            >
-              <img
-                alt="Word Sync"
-                width="24"
-                src="https://wordsync.ogbizi.com/favicon.ico"
-              />
-            </a>
-            <a
-              href="https://chaos-chess.ogbizi.com/"
-              target="_blank"
-              className="inline-block mr-2"
-            >
-              <img
-                width="24"
-                src="https://chaos-chess.ogbizi.com/favicon.ico"
-                alt="Chaos Chess"
-              />
-            </a>
-            <a
-              href="https://disnumber.com/"
-              target="_blank"
-              className="inline-block mr-2"
-            >
-              <img
-                alt="Disnumber"
-                width="24"
-                src="https://raw.githubusercontent.com/iamogbz/disnumber/main/static/assets/images/favicon.png"
-              />
-            </a>
-          </p>
-          <p>
-            <a
-              href="https://quantumbrackets.com/contact#:~:text=%2B1-,How%20Can%20We%20Help"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block mr-2"
-              aria-label="Quantum Brackets"
-            >
-              <img
-                src="https://images.squarespace-cdn.com/content/v1/5bfbd1ad9d5abb4375832c87/1543230554854-YU54RXE45P4AAMT5G8RD/icon_512.png?format=2500w"
-                alt="Quantum Brackets Logo"
-                width={16}
-                height={16}
-              />
-            </a>
-            <a
-              href="https://buymeacoffee.com/juju_bard"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center text-muted-foreground hover:text-primary"
-              aria-label="Buy Me A Coffee"
-            >
-              <Coffee className="h-4 w-4" data-ai-hint="coffee donation" />
-            </a>
-          </p>
-        </footer>
+        <games-footer />
       </body>
     </html>
   );
