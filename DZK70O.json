@@ -5,7 +5,7 @@
       "id": "p_1788032408002_qr23e1z",
       "name": "E",
       "code": "e",
-      "score": 72,
+      "score": 104,
       "rack": [
         {
           "id": "6ZOO",
@@ -41,6 +41,21 @@
           "id": "04JI",
           "letter": "P",
           "points": 3
+        },
+        {
+          "id": "FYGP",
+          "letter": "E",
+          "points": 1
+        },
+        {
+          "id": "LH60",
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "id": "IVJB",
+          "letter": "L",
+          "points": 1
         }
       ]
     },
@@ -48,7 +63,7 @@
       "id": "p_1788032441470_i3badh3",
       "name": "BOT",
       "code": "bot",
-      "score": 119,
+      "score": 150,
       "rack": [
         {
           "id": "G4MI",
@@ -66,65 +81,30 @@
           "points": 1
         },
         {
-          "id": "6SWY",
-          "letter": "A",
+          "id": "NGE4",
+          "letter": " ",
+          "points": 0
+        },
+        {
+          "id": "I3N1",
+          "letter": "S",
           "points": 1
         },
         {
-          "id": "A96M",
-          "letter": "A",
+          "id": "3CNP",
+          "letter": "T",
           "points": 1
         },
         {
-          "id": "2GQ0",
-          "letter": "H",
-          "points": 4
-        },
-        {
-          "id": "ZSOZ",
-          "letter": "F",
-          "points": 4
+          "id": "BS34",
+          "letter": "R",
+          "points": 1
         }
       ],
       "isComputer": true
     }
   ],
   "tileBag": [
-    {
-      "id": "FYGP",
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "id": "LH60",
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "id": "IVJB",
-      "letter": "L",
-      "points": 1
-    },
-    {
-      "id": "NGE4",
-      "letter": " ",
-      "points": 0
-    },
-    {
-      "id": "I3N1",
-      "letter": "S",
-      "points": 1
-    },
-    {
-      "id": "3CNP",
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "id": "BS34",
-      "letter": "R",
-      "points": 1
-    },
     {
       "id": "WKOD",
       "letter": "W",
@@ -1079,7 +1059,13 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "2GQ0",
+          "letter": "H",
+          "points": 4,
+          "x": 5,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1087,7 +1073,13 @@
         "y": 10
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "6SWY",
+          "letter": "A",
+          "points": 1,
+          "x": 5,
+          "y": 11
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1095,7 +1087,13 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "A96M",
+          "letter": "A",
+          "points": 1,
+          "x": 5,
+          "y": 12
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1103,7 +1101,13 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "ZSOZ",
+          "letter": "F",
+          "points": 4,
+          "x": 5,
+          "y": 13
+        },
         "multiplier": 3,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2623,6 +2627,73 @@
       ],
       "score": 29,
       "timestamp": "2026-09-02T00:12:12.684Z"
+    },
+    {
+      "playerId": "p_1788032408002_qr23e1z",
+      "playerName": "E",
+      "word": "YEA",
+      "tiles": [
+        {
+          "id": "RDRK",
+          "letter": "Y",
+          "points": 4,
+          "x": 8,
+          "y": 12
+        },
+        {
+          "id": "55QN",
+          "letter": "E",
+          "points": 1,
+          "x": 8,
+          "y": 13
+        },
+        {
+          "id": "P70G",
+          "letter": "A",
+          "points": 1,
+          "x": 8,
+          "y": 14
+        }
+      ],
+      "score": 32,
+      "timestamp": "2026-09-02T00:12:16.700Z"
+    },
+    {
+      "playerId": "p_1788032441470_i3badh3",
+      "playerName": "BOT",
+      "word": "HAAF",
+      "tiles": [
+        {
+          "id": "2GQ0",
+          "letter": "H",
+          "points": 4,
+          "x": 5,
+          "y": 10
+        },
+        {
+          "id": "6SWY",
+          "letter": "A",
+          "points": 1,
+          "x": 5,
+          "y": 11
+        },
+        {
+          "id": "A96M",
+          "letter": "A",
+          "points": 1,
+          "x": 5,
+          "y": 12
+        },
+        {
+          "id": "ZSOZ",
+          "letter": "F",
+          "points": 4,
+          "x": 5,
+          "y": 13
+        }
+      ],
+      "score": 31,
+      "timestamp": "2026-09-02T00:12:19.065Z"
     }
   ],
   "gamePhase": "playing",
