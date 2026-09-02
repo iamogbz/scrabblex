@@ -5,7 +5,7 @@
       "id": "p_1788032408002_qr23e1z",
       "name": "E",
       "code": "e",
-      "score": 40,
+      "score": 72,
       "rack": [
         {
           "id": "6ZOO",
@@ -23,24 +23,24 @@
           "points": 1
         },
         {
-          "id": "RDRK",
-          "letter": "Y",
-          "points": 4
-        },
-        {
-          "id": "P70G",
-          "letter": "A",
-          "points": 1
-        },
-        {
           "id": "LURM",
           "letter": "S",
           "points": 1
         },
         {
-          "id": "55QN",
-          "letter": "E",
+          "id": "HBJV",
+          "letter": "I",
           "points": 1
+        },
+        {
+          "id": "25Q5",
+          "letter": "D",
+          "points": 2
+        },
+        {
+          "id": "04JI",
+          "letter": "P",
+          "points": 3
         }
       ]
     },
@@ -48,88 +48,48 @@
       "id": "p_1788032441470_i3badh3",
       "name": "BOT",
       "code": "bot",
-      "score": 90,
+      "score": 119,
       "rack": [
-        {
-          "id": "GQ45",
-          "letter": "R",
-          "points": 1
-        },
-        {
-          "id": "NYHS",
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "id": "U93S",
-          "letter": "E",
-          "points": 1
-        },
-        {
-          "id": "SRBW",
-          "letter": "C",
-          "points": 3
-        },
         {
           "id": "G4MI",
           "letter": "E",
           "points": 1
         },
         {
-          "id": "QVMA",
-          "letter": "T",
-          "points": 1
-        },
-        {
           "id": "STZI",
           "letter": "R",
           "points": 1
+        },
+        {
+          "id": "WRLG",
+          "letter": "N",
+          "points": 1
+        },
+        {
+          "id": "6SWY",
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "id": "A96M",
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "id": "2GQ0",
+          "letter": "H",
+          "points": 4
+        },
+        {
+          "id": "ZSOZ",
+          "letter": "F",
+          "points": 4
         }
       ],
       "isComputer": true
     }
   ],
   "tileBag": [
-    {
-      "id": "HBJV",
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "id": "25Q5",
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "id": "04JI",
-      "letter": "P",
-      "points": 3
-    },
-    {
-      "id": "WRLG",
-      "letter": "N",
-      "points": 1
-    },
-    {
-      "id": "6SWY",
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "id": "A96M",
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "id": "2GQ0",
-      "letter": "H",
-      "points": 4
-    },
-    {
-      "id": "ZSOZ",
-      "letter": "F",
-      "points": 4
-    },
     {
       "id": "FYGP",
       "letter": "E",
@@ -1603,7 +1563,13 @@
         "y": 11
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "RDRK",
+          "letter": "Y",
+          "points": 4,
+          "x": 8,
+          "y": 12
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -1611,7 +1577,13 @@
         "y": 12
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "55QN",
+          "letter": "E",
+          "points": 1,
+          "x": 8,
+          "y": 13
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1619,7 +1591,13 @@
         "y": 13
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "P70G",
+          "letter": "A",
+          "points": 1,
+          "x": 8,
+          "y": 14
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1819,7 +1797,13 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "NYHS",
+          "letter": "E",
+          "points": 1,
+          "x": 10,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1941,7 +1925,13 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "GQ45",
+          "letter": "R",
+          "points": 1,
+          "x": 11,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "letter",
         "isCenter": false,
@@ -2063,7 +2053,13 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "U93S",
+          "letter": "E",
+          "points": 1,
+          "x": 12,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2185,7 +2181,13 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "SRBW",
+          "letter": "C",
+          "points": 3,
+          "x": 13,
+          "y": 7
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2307,7 +2309,13 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "QVMA",
+          "letter": "T",
+          "points": 1,
+          "x": 14,
+          "y": 7
+        },
         "multiplier": 3,
         "multiplierType": "word",
         "isCenter": false,
@@ -2541,6 +2549,80 @@
       ],
       "score": 63,
       "timestamp": "2026-09-01T23:53:57.652Z"
+    },
+    {
+      "playerId": "p_1788032408002_qr23e1z",
+      "playerName": "E",
+      "word": "YEA",
+      "tiles": [
+        {
+          "id": "RDRK",
+          "letter": "Y",
+          "points": 4,
+          "x": 8,
+          "y": 12
+        },
+        {
+          "id": "55QN",
+          "letter": "E",
+          "points": 1,
+          "x": 8,
+          "y": 13
+        },
+        {
+          "id": "P70G",
+          "letter": "A",
+          "points": 1,
+          "x": 8,
+          "y": 14
+        }
+      ],
+      "score": 32,
+      "timestamp": "2026-09-02T00:12:10.231Z"
+    },
+    {
+      "playerId": "p_1788032441470_i3badh3",
+      "playerName": "BOT",
+      "word": "ERECT",
+      "tiles": [
+        {
+          "id": "NYHS",
+          "letter": "E",
+          "points": 1,
+          "x": 10,
+          "y": 7
+        },
+        {
+          "id": "GQ45",
+          "letter": "R",
+          "points": 1,
+          "x": 11,
+          "y": 7
+        },
+        {
+          "id": "U93S",
+          "letter": "E",
+          "points": 1,
+          "x": 12,
+          "y": 7
+        },
+        {
+          "id": "SRBW",
+          "letter": "C",
+          "points": 3,
+          "x": 13,
+          "y": 7
+        },
+        {
+          "id": "QVMA",
+          "letter": "T",
+          "points": 1,
+          "x": 14,
+          "y": 7
+        }
+      ],
+      "score": 29,
+      "timestamp": "2026-09-02T00:12:12.684Z"
     }
   ],
   "gamePhase": "playing",
