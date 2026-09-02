@@ -5,16 +5,11 @@
       "id": "p_1788308276144_lzprsfw",
       "name": "E",
       "code": "e",
-      "score": 0,
+      "score": 34,
       "rack": [
         {
           "id": "RQPQ",
           "letter": "S",
-          "points": 1
-        },
-        {
-          "id": "7TYZ",
-          "letter": "N",
           "points": 1
         },
         {
@@ -23,24 +18,29 @@
           "points": 3
         },
         {
-          "id": "6GL3",
-          "letter": "J",
-          "points": 8
-        },
-        {
-          "id": "3CMN",
-          "letter": "X",
-          "points": 8
-        },
-        {
-          "id": "YYBF",
-          "letter": " ",
-          "points": 0
-        },
-        {
           "id": "SPTE",
           "letter": "P",
           "points": 3
+        },
+        {
+          "id": "D9T3",
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "id": "0044",
+          "letter": "R",
+          "points": 1
+        },
+        {
+          "id": "YM31",
+          "letter": "D",
+          "points": 2
+        },
+        {
+          "id": "T694",
+          "letter": "T",
+          "points": 1
         }
       ]
     },
@@ -89,26 +89,6 @@
     }
   ],
   "tileBag": [
-    {
-      "id": "D9T3",
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "id": "0044",
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "id": "YM31",
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "id": "T694",
-      "letter": "T",
-      "points": 1
-    },
     {
       "id": "ZAGP",
       "letter": "D",
@@ -1433,7 +1413,13 @@
         "y": 6
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "6GL3",
+          "letter": "J",
+          "points": 8,
+          "x": 7,
+          "y": 7
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": true,
@@ -1441,7 +1427,14 @@
         "y": 7
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "YYBF",
+          "letter": "I",
+          "points": 0,
+          "originalLetter": " ",
+          "x": 7,
+          "y": 8
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1449,7 +1442,13 @@
         "y": 8
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "7TYZ",
+          "letter": "N",
+          "points": 1,
+          "x": 7,
+          "y": 9
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1457,7 +1456,13 @@
         "y": 9
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "3CMN",
+          "letter": "X",
+          "points": 8,
+          "x": 7,
+          "y": 10
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2352,7 +2357,46 @@
       }
     ]
   ],
-  "history": [],
+  "history": [
+    {
+      "playerId": "p_1788308276144_lzprsfw",
+      "playerName": "E",
+      "word": "JINX",
+      "tiles": [
+        {
+          "id": "6GL3",
+          "letter": "J",
+          "points": 8,
+          "x": 7,
+          "y": 7
+        },
+        {
+          "id": "YYBF",
+          "letter": "I",
+          "points": 0,
+          "originalLetter": " ",
+          "x": 7,
+          "y": 8
+        },
+        {
+          "id": "7TYZ",
+          "letter": "N",
+          "points": 1,
+          "x": 7,
+          "y": 9
+        },
+        {
+          "id": "3CMN",
+          "letter": "X",
+          "points": 8,
+          "x": 7,
+          "y": 10
+        }
+      ],
+      "score": 34,
+      "timestamp": "2026-09-02T00:18:52.025Z"
+    }
+  ],
   "gamePhase": "playing",
   "createdAt": "2026-08-20T11:09:43.640Z"
 }
