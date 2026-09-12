@@ -5,7 +5,7 @@
       "id": "p_1789227906423_bnafx0m",
       "name": "E",
       "code": "e",
-      "score": 103,
+      "score": 180,
       "rack": [
         {
           "id": "3DHR",
@@ -41,6 +41,41 @@
           "id": "OF2J",
           "letter": "E",
           "points": 1
+        },
+        {
+          "id": "0IJ3",
+          "letter": "T",
+          "points": 1
+        },
+        {
+          "id": "SUIA",
+          "letter": "D",
+          "points": 2
+        },
+        {
+          "id": "AXFJ",
+          "letter": "K",
+          "points": 5
+        },
+        {
+          "id": "VCND",
+          "letter": "P",
+          "points": 3
+        },
+        {
+          "id": "FKPY",
+          "letter": "Z",
+          "points": 10
+        },
+        {
+          "id": "4TOK",
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "id": "FO6J",
+          "letter": "R",
+          "points": 1
         }
       ]
     },
@@ -48,41 +83,41 @@
       "id": "p_1789227920333_1lj5fja",
       "name": "R",
       "code": "r",
-      "score": 54,
+      "score": 126,
       "rack": [
         {
-          "id": "WWJX",
+          "id": "6YAD",
+          "letter": "I",
+          "points": 1
+        },
+        {
+          "id": "2QED",
+          "letter": "Y",
+          "points": 4
+        },
+        {
+          "id": "G54U",
+          "letter": "M",
+          "points": 3
+        },
+        {
+          "id": "Y9SM",
+          "letter": "D",
+          "points": 2
+        },
+        {
+          "id": "I6M6",
+          "letter": "A",
+          "points": 1
+        },
+        {
+          "id": "I0OH",
           "letter": "E",
           "points": 1
         },
         {
-          "id": "9CFQ",
-          "letter": "P",
-          "points": 3
-        },
-        {
-          "id": "JCIW",
-          "letter": "N",
-          "points": 1
-        },
-        {
-          "id": "J1MP",
-          "letter": "T",
-          "points": 1
-        },
-        {
-          "id": "0E9T",
-          "letter": "O",
-          "points": 1
-        },
-        {
-          "id": "22BR",
-          "letter": "O",
-          "points": 1
-        },
-        {
-          "id": "D5SW",
-          "letter": "L",
+          "id": "AUZE",
+          "letter": "U",
           "points": 1
         }
       ],
@@ -90,76 +125,6 @@
     }
   ],
   "tileBag": [
-    {
-      "id": "0IJ3",
-      "letter": "T",
-      "points": 1
-    },
-    {
-      "id": "SUIA",
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "id": "AXFJ",
-      "letter": "K",
-      "points": 5
-    },
-    {
-      "id": "VCND",
-      "letter": "P",
-      "points": 3
-    },
-    {
-      "id": "FKPY",
-      "letter": "Z",
-      "points": 10
-    },
-    {
-      "id": "4TOK",
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "id": "FO6J",
-      "letter": "R",
-      "points": 1
-    },
-    {
-      "id": "6YAD",
-      "letter": "I",
-      "points": 1
-    },
-    {
-      "id": "2QED",
-      "letter": "Y",
-      "points": 4
-    },
-    {
-      "id": "G54U",
-      "letter": "M",
-      "points": 3
-    },
-    {
-      "id": "Y9SM",
-      "letter": "D",
-      "points": 2
-    },
-    {
-      "id": "I6M6",
-      "letter": "A",
-      "points": 1
-    },
-    {
-      "id": "I0OH",
-      "letter": "E",
-      "points": 1
-    },
-    {
-      "id": "AUZE",
-      "letter": "U",
-      "points": 1
-    },
     {
       "id": "DIYM",
       "letter": "A",
@@ -1767,7 +1732,13 @@
     ],
     [
       {
-        "tile": null,
+        "tile": {
+          "id": "9CFQ",
+          "letter": "P",
+          "points": 3,
+          "x": 10,
+          "y": 0
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1775,7 +1746,13 @@
         "y": 0
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "WWJX",
+          "letter": "E",
+          "points": 1,
+          "x": 10,
+          "y": 1
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1783,7 +1760,13 @@
         "y": 1
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "D5SW",
+          "letter": "L",
+          "points": 1,
+          "x": 10,
+          "y": 2
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1791,7 +1774,13 @@
         "y": 2
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "0E9T",
+          "letter": "O",
+          "points": 1,
+          "x": 10,
+          "y": 3
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1799,7 +1788,13 @@
         "y": 3
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "J1MP",
+          "letter": "T",
+          "points": 1,
+          "x": 10,
+          "y": 4
+        },
         "multiplier": 2,
         "multiplierType": "word",
         "isCenter": false,
@@ -1807,7 +1802,13 @@
         "y": 4
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "22BR",
+          "letter": "O",
+          "points": 1,
+          "x": 10,
+          "y": 5
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -1815,7 +1816,13 @@
         "y": 5
       },
       {
-        "tile": null,
+        "tile": {
+          "id": "JCIW",
+          "letter": "N",
+          "points": 1,
+          "x": 10,
+          "y": 6
+        },
         "multiplier": 1,
         "multiplierType": null,
         "isCenter": false,
@@ -2573,6 +2580,122 @@
       ],
       "score": 28,
       "timestamp": "2026-09-12T19:38:15.120Z"
+    },
+    {
+      "playerId": "p_1789227906423_bnafx0m",
+      "playerName": "E",
+      "word": "INERTIAL",
+      "tiles": [
+        {
+          "id": "HUHW",
+          "letter": "I",
+          "points": 1,
+          "x": 0,
+          "y": 7
+        },
+        {
+          "id": "C6OA",
+          "letter": "N",
+          "points": 1,
+          "x": 1,
+          "y": 7
+        },
+        {
+          "id": "NPHA",
+          "letter": "E",
+          "points": 1,
+          "x": 2,
+          "y": 7
+        },
+        {
+          "id": "9HBO",
+          "letter": "R",
+          "points": 1,
+          "x": 3,
+          "y": 7
+        },
+        {
+          "id": "ED5Z",
+          "letter": "T",
+          "points": 1,
+          "x": 4,
+          "y": 7
+        },
+        {
+          "id": "8JFF",
+          "letter": "I",
+          "points": 1,
+          "x": 5,
+          "y": 7
+        },
+        {
+          "id": "249X",
+          "letter": "A",
+          "points": 1,
+          "x": 6,
+          "y": 7
+        }
+      ],
+      "score": 77,
+      "timestamp": "2026-09-12T19:38:19.097Z"
+    },
+    {
+      "playerId": "p_1789227920333_1lj5fja",
+      "playerName": "R",
+      "word": "PELOTON",
+      "tiles": [
+        {
+          "id": "9CFQ",
+          "letter": "P",
+          "points": 3,
+          "x": 10,
+          "y": 0
+        },
+        {
+          "id": "WWJX",
+          "letter": "E",
+          "points": 1,
+          "x": 10,
+          "y": 1
+        },
+        {
+          "id": "D5SW",
+          "letter": "L",
+          "points": 1,
+          "x": 10,
+          "y": 2
+        },
+        {
+          "id": "0E9T",
+          "letter": "O",
+          "points": 1,
+          "x": 10,
+          "y": 3
+        },
+        {
+          "id": "J1MP",
+          "letter": "T",
+          "points": 1,
+          "x": 10,
+          "y": 4
+        },
+        {
+          "id": "22BR",
+          "letter": "O",
+          "points": 1,
+          "x": 10,
+          "y": 5
+        },
+        {
+          "id": "JCIW",
+          "letter": "N",
+          "points": 1,
+          "x": 10,
+          "y": 6
+        }
+      ],
+      "score": 72,
+      "timestamp": "2026-09-12T19:38:21.201Z"
     }
   ],
   "gamePhase": "playing",
