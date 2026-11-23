@@ -1,0 +1,2341 @@
+{
+  "gameId": "6LNAFT",
+  "players": [],
+  "tileBag": [
+    {
+      "id": "OCS3",
+      "letter": "Y",
+      "points": 4
+    },
+    {
+      "id": "UWFU",
+      "letter": "G",
+      "points": 2
+    },
+    {
+      "id": "ZC8I",
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "id": "K81U",
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "id": "8VJA",
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "id": "6MRU",
+      "letter": "P",
+      "points": 3
+    },
+    {
+      "id": "JOTM",
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "id": "MWAN",
+      "letter": "Y",
+      "points": 4
+    },
+    {
+      "id": "OO15",
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "id": "0VPP",
+      "letter": "T",
+      "points": 1
+    },
+    {
+      "id": "72RL",
+      "letter": "Z",
+      "points": 10
+    },
+    {
+      "id": "7HUY",
+      "letter": "M",
+      "points": 3
+    },
+    {
+      "id": "XC39",
+      "letter": "D",
+      "points": 2
+    },
+    {
+      "id": "TYIZ",
+      "letter": "M",
+      "points": 3
+    },
+    {
+      "id": "9B7O",
+      "letter": "Q",
+      "points": 10
+    },
+    {
+      "id": "Y5MU",
+      "letter": "T",
+      "points": 1
+    },
+    {
+      "id": "CIDA",
+      "letter": " ",
+      "points": 0
+    },
+    {
+      "id": "9YB4",
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "id": "93DM",
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "id": "2JFG",
+      "letter": "L",
+      "points": 1
+    },
+    {
+      "id": "7F2N",
+      "letter": "N",
+      "points": 1
+    },
+    {
+      "id": "EJR0",
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "id": "H4XM",
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "id": "OGQU",
+      "letter": "S",
+      "points": 1
+    },
+    {
+      "id": "7TKK",
+      "letter": "C",
+      "points": 3
+    },
+    {
+      "id": "SKYJ",
+      "letter": "D",
+      "points": 2
+    },
+    {
+      "id": "EDGM",
+      "letter": "V",
+      "points": 4
+    },
+    {
+      "id": "9FML",
+      "letter": "L",
+      "points": 1
+    },
+    {
+      "id": "9MK3",
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "id": "OA4A",
+      "letter": "N",
+      "points": 1
+    },
+    {
+      "id": "W07F",
+      "letter": "J",
+      "points": 8
+    },
+    {
+      "id": "PSBB",
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "id": "D3WO",
+      "letter": "B",
+      "points": 3
+    },
+    {
+      "id": "TA4C",
+      "letter": "U",
+      "points": 1
+    },
+    {
+      "id": "AF5I",
+      "letter": "H",
+      "points": 4
+    },
+    {
+      "id": "63JA",
+      "letter": "X",
+      "points": 8
+    },
+    {
+      "id": "OQQI",
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "id": "DNTH",
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "id": "04IQ",
+      "letter": "T",
+      "points": 1
+    },
+    {
+      "id": "TYMO",
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "id": "5COK",
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "id": "OQ38",
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "id": "6XN8",
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "id": "CZ1O",
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "id": "JEDC",
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "id": "259V",
+      "letter": "N",
+      "points": 1
+    },
+    {
+      "id": "UP1K",
+      "letter": "S",
+      "points": 1
+    },
+    {
+      "id": "2IWE",
+      "letter": "L",
+      "points": 1
+    },
+    {
+      "id": "P49L",
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "id": "5XPS",
+      "letter": "T",
+      "points": 1
+    },
+    {
+      "id": "06B7",
+      "letter": "G",
+      "points": 2
+    },
+    {
+      "id": "VF8P",
+      "letter": "R",
+      "points": 1
+    },
+    {
+      "id": "74LM",
+      "letter": " ",
+      "points": 0
+    },
+    {
+      "id": "72Z4",
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "id": "IOEJ",
+      "letter": "U",
+      "points": 1
+    },
+    {
+      "id": "5GQQ",
+      "letter": "V",
+      "points": 4
+    },
+    {
+      "id": "OXEQ",
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "id": "U3JB",
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "id": "XG3C",
+      "letter": "D",
+      "points": 2
+    },
+    {
+      "id": "UM3Y",
+      "letter": "T",
+      "points": 1
+    },
+    {
+      "id": "54KH",
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "id": "DZB4",
+      "letter": "R",
+      "points": 1
+    },
+    {
+      "id": "BBI0",
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "id": "S668",
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "id": "JP82",
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "id": "ZYT0",
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "id": "UKTY",
+      "letter": "U",
+      "points": 1
+    },
+    {
+      "id": "F914",
+      "letter": "R",
+      "points": 1
+    },
+    {
+      "id": "03DG",
+      "letter": "F",
+      "points": 4
+    },
+    {
+      "id": "MMJL",
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "id": "WPKT",
+      "letter": "T",
+      "points": 1
+    },
+    {
+      "id": "DGFS",
+      "letter": "K",
+      "points": 5
+    },
+    {
+      "id": "DRE2",
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "id": "AJ4N",
+      "letter": "B",
+      "points": 3
+    },
+    {
+      "id": "4J5T",
+      "letter": "H",
+      "points": 4
+    },
+    {
+      "id": "IX22",
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "id": "7S2O",
+      "letter": "R",
+      "points": 1
+    },
+    {
+      "id": "5480",
+      "letter": "W",
+      "points": 4
+    },
+    {
+      "id": "OZMU",
+      "letter": "R",
+      "points": 1
+    },
+    {
+      "id": "ETY3",
+      "letter": "N",
+      "points": 1
+    },
+    {
+      "id": "IES1",
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "id": "3OIA",
+      "letter": "P",
+      "points": 3
+    },
+    {
+      "id": "VYP6",
+      "letter": "F",
+      "points": 4
+    },
+    {
+      "id": "B9G7",
+      "letter": "C",
+      "points": 3
+    },
+    {
+      "id": "RF8Q",
+      "letter": "U",
+      "points": 1
+    },
+    {
+      "id": "0GHT",
+      "letter": "E",
+      "points": 1
+    },
+    {
+      "id": "RHF2",
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "id": "WWEO",
+      "letter": "N",
+      "points": 1
+    },
+    {
+      "id": "2DYR",
+      "letter": "N",
+      "points": 1
+    },
+    {
+      "id": "GQZP",
+      "letter": "G",
+      "points": 2
+    },
+    {
+      "id": "T6N6",
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "id": "RI9R",
+      "letter": "D",
+      "points": 2
+    },
+    {
+      "id": "6GTI",
+      "letter": "I",
+      "points": 1
+    },
+    {
+      "id": "QA8H",
+      "letter": "W",
+      "points": 4
+    },
+    {
+      "id": "68WK",
+      "letter": "S",
+      "points": 1
+    },
+    {
+      "id": "7Y72",
+      "letter": "S",
+      "points": 1
+    },
+    {
+      "id": "2R2I",
+      "letter": "R",
+      "points": 1
+    },
+    {
+      "id": "RDIF",
+      "letter": "O",
+      "points": 1
+    },
+    {
+      "id": "081L",
+      "letter": "A",
+      "points": 1
+    },
+    {
+      "id": "OO8C",
+      "letter": "L",
+      "points": 1
+    }
+  ],
+  "board": [
+    [
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 0,
+        "y": 0
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 0,
+        "y": 1
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 0,
+        "y": 2
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 0,
+        "y": 3
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 0,
+        "y": 4
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 0,
+        "y": 5
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 0,
+        "y": 6
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 0,
+        "y": 7
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 0,
+        "y": 8
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 0,
+        "y": 9
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 0,
+        "y": 10
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 0,
+        "y": 11
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 0,
+        "y": 12
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 0,
+        "y": 13
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 0,
+        "y": 14
+      }
+    ],
+    [
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 1,
+        "y": 0
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 1,
+        "y": 1
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 1,
+        "y": 2
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 1,
+        "y": 3
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 1,
+        "y": 4
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 1,
+        "y": 5
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 1,
+        "y": 6
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 1,
+        "y": 7
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 1,
+        "y": 8
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 1,
+        "y": 9
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 1,
+        "y": 10
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 1,
+        "y": 11
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 1,
+        "y": 12
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 1,
+        "y": 13
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 1,
+        "y": 14
+      }
+    ],
+    [
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 2,
+        "y": 0
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 2,
+        "y": 1
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 2,
+        "y": 2
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 2,
+        "y": 3
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 2,
+        "y": 4
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 2,
+        "y": 5
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 2,
+        "y": 6
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 2,
+        "y": 7
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 2,
+        "y": 8
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 2,
+        "y": 9
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 2,
+        "y": 10
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 2,
+        "y": 11
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 2,
+        "y": 12
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 2,
+        "y": 13
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 2,
+        "y": 14
+      }
+    ],
+    [
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 3,
+        "y": 0
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 3,
+        "y": 1
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 3,
+        "y": 2
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 3,
+        "y": 3
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 3,
+        "y": 4
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 3,
+        "y": 5
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 3,
+        "y": 6
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 3,
+        "y": 7
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 3,
+        "y": 8
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 3,
+        "y": 9
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 3,
+        "y": 10
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 3,
+        "y": 11
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 3,
+        "y": 12
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 3,
+        "y": 13
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 3,
+        "y": 14
+      }
+    ],
+    [
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 4,
+        "y": 0
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 4,
+        "y": 1
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 4,
+        "y": 2
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 4,
+        "y": 3
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 4,
+        "y": 4
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 4,
+        "y": 5
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 4,
+        "y": 6
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 4,
+        "y": 7
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 4,
+        "y": 8
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 4,
+        "y": 9
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 4,
+        "y": 10
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 4,
+        "y": 11
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 4,
+        "y": 12
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 4,
+        "y": 13
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 4,
+        "y": 14
+      }
+    ],
+    [
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 5,
+        "y": 0
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 5,
+        "y": 1
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 5,
+        "y": 2
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 5,
+        "y": 3
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 5,
+        "y": 4
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 5,
+        "y": 5
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 5,
+        "y": 6
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 5,
+        "y": 7
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 5,
+        "y": 8
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 5,
+        "y": 9
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 5,
+        "y": 10
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 5,
+        "y": 11
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 5,
+        "y": 12
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 5,
+        "y": 13
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 5,
+        "y": 14
+      }
+    ],
+    [
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 6,
+        "y": 0
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 6,
+        "y": 1
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 6,
+        "y": 2
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 6,
+        "y": 3
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 6,
+        "y": 4
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 6,
+        "y": 5
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 6,
+        "y": 6
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 6,
+        "y": 7
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 6,
+        "y": 8
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 6,
+        "y": 9
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 6,
+        "y": 10
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 6,
+        "y": 11
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 6,
+        "y": 12
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 6,
+        "y": 13
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 6,
+        "y": 14
+      }
+    ],
+    [
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 7,
+        "y": 0
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 7,
+        "y": 1
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 7,
+        "y": 2
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 7,
+        "y": 3
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 7,
+        "y": 4
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 7,
+        "y": 5
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 7,
+        "y": 6
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": true,
+        "x": 7,
+        "y": 7
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 7,
+        "y": 8
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 7,
+        "y": 9
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 7,
+        "y": 10
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 7,
+        "y": 11
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 7,
+        "y": 12
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 7,
+        "y": 13
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 7,
+        "y": 14
+      }
+    ],
+    [
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 8,
+        "y": 0
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 8,
+        "y": 1
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 8,
+        "y": 2
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 8,
+        "y": 3
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 8,
+        "y": 4
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 8,
+        "y": 5
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 8,
+        "y": 6
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 8,
+        "y": 7
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 8,
+        "y": 8
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 8,
+        "y": 9
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 8,
+        "y": 10
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 8,
+        "y": 11
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 8,
+        "y": 12
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 8,
+        "y": 13
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 8,
+        "y": 14
+      }
+    ],
+    [
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 9,
+        "y": 0
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 9,
+        "y": 1
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 9,
+        "y": 2
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 9,
+        "y": 3
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 9,
+        "y": 4
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 9,
+        "y": 5
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 9,
+        "y": 6
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 9,
+        "y": 7
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 9,
+        "y": 8
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 9,
+        "y": 9
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 9,
+        "y": 10
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 9,
+        "y": 11
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 9,
+        "y": 12
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 9,
+        "y": 13
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 9,
+        "y": 14
+      }
+    ],
+    [
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 10,
+        "y": 0
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 10,
+        "y": 1
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 10,
+        "y": 2
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 10,
+        "y": 3
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 10,
+        "y": 4
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 10,
+        "y": 5
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 10,
+        "y": 6
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 10,
+        "y": 7
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 10,
+        "y": 8
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 10,
+        "y": 9
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 10,
+        "y": 10
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 10,
+        "y": 11
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 10,
+        "y": 12
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 10,
+        "y": 13
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 10,
+        "y": 14
+      }
+    ],
+    [
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 11,
+        "y": 0
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 11,
+        "y": 1
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 11,
+        "y": 2
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 11,
+        "y": 3
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 11,
+        "y": 4
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 11,
+        "y": 5
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 11,
+        "y": 6
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 11,
+        "y": 7
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 11,
+        "y": 8
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 11,
+        "y": 9
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 11,
+        "y": 10
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 11,
+        "y": 11
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 11,
+        "y": 12
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 11,
+        "y": 13
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 11,
+        "y": 14
+      }
+    ],
+    [
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 12,
+        "y": 0
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 12,
+        "y": 1
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 12,
+        "y": 2
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 12,
+        "y": 3
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 12,
+        "y": 4
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 12,
+        "y": 5
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 12,
+        "y": 6
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 12,
+        "y": 7
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 12,
+        "y": 8
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 12,
+        "y": 9
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 12,
+        "y": 10
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 12,
+        "y": 11
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 12,
+        "y": 12
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 12,
+        "y": 13
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 12,
+        "y": 14
+      }
+    ],
+    [
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 13,
+        "y": 0
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 13,
+        "y": 1
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 13,
+        "y": 2
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 13,
+        "y": 3
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 13,
+        "y": 4
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 13,
+        "y": 5
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 13,
+        "y": 6
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 13,
+        "y": 7
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 13,
+        "y": 8
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 13,
+        "y": 9
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 13,
+        "y": 10
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 13,
+        "y": 11
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 13,
+        "y": 12
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 13,
+        "y": 13
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 13,
+        "y": 14
+      }
+    ],
+    [
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 14,
+        "y": 0
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 14,
+        "y": 1
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 14,
+        "y": 2
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 14,
+        "y": 3
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 14,
+        "y": 4
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 14,
+        "y": 5
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 14,
+        "y": 6
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 14,
+        "y": 7
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 14,
+        "y": 8
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 14,
+        "y": 9
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 14,
+        "y": 10
+      },
+      {
+        "tile": null,
+        "multiplier": 2,
+        "multiplierType": "letter",
+        "isCenter": false,
+        "x": 14,
+        "y": 11
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 14,
+        "y": 12
+      },
+      {
+        "tile": null,
+        "multiplier": 1,
+        "multiplierType": null,
+        "isCenter": false,
+        "x": 14,
+        "y": 13
+      },
+      {
+        "tile": null,
+        "multiplier": 3,
+        "multiplierType": "word",
+        "isCenter": false,
+        "x": 14,
+        "y": 14
+      }
+    ]
+  ],
+  "history": [],
+  "gamePhase": "playing",
+  "createdAt": "2026-11-23T06:26:26.146Z"
+}
